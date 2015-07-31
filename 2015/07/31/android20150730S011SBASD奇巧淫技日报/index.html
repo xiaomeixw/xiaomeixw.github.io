@@ -37,16 +37,22 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
 
 
-<meta name="description" content="为什么是我的博客这是个诡异的问题，为什么要有这个博客，作者本人不想解释态度，总之鄙视阿里！">
+<meta name="description" content="PTR的几种主流实现方式继承ListView
+继承LinearLayout
+继承ViewGroup">
 <meta property="og:type" content="article">
-<meta property="og:title" content="为什么是我的博客">
-<meta property="og:url" content="http://yoursite.com/2015/07/31/为什么是我的博客/index.html">
+<meta property="og:title" content="android20150730S011SBASD奇巧淫技日报">
+<meta property="og:url" content="http://yoursite.com/2015/07/31/android20150730S011SBASD奇巧淫技日报/index.html">
 <meta property="og:site_name" content="sabria">
-<meta property="og:description" content="为什么是我的博客这是个诡异的问题，为什么要有这个博客，作者本人不想解释态度，总之鄙视阿里！">
-<meta property="og:updated_time" content="2015-07-31T04:44:02.020Z">
+<meta property="og:description" content="PTR的几种主流实现方式继承ListView
+继承LinearLayout
+继承ViewGroup">
+<meta property="og:updated_time" content="2015-07-31T08:37:18.818Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="为什么是我的博客">
-<meta name="twitter:description" content="为什么是我的博客这是个诡异的问题，为什么要有这个博客，作者本人不想解释态度，总之鄙视阿里！">
+<meta name="twitter:title" content="android20150730S011SBASD奇巧淫技日报">
+<meta name="twitter:description" content="PTR的几种主流实现方式继承ListView
+继承LinearLayout
+继承ViewGroup">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -56,7 +62,7 @@
   };
 </script>
 
-    <title> 为什么是我的博客 // sabria </title>
+    <title> android20150730S011SBASD奇巧淫技日报 // sabria </title>
 </head>
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 <!--[if lte IE 8]>
@@ -151,7 +157,7 @@
           
           
             
-              为什么是我的博客
+              android20150730S011SBASD奇巧淫技日报
             
           
         </h1>
@@ -160,7 +166,7 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2015-07-31T12:05:17+08:00" content="2015-07-31">
+          <time itemprop="dateCreated" datetime="2015-07-31T16:31:06+08:00" content="2015-07-31">
             2015-07-31
           </time>
         </span>
@@ -179,36 +185,169 @@
       
 
       
-        <span itemprop="articleBody"><h1 id="为什么是我的博客">为什么是我的博客</h1><p>这是个诡异的问题，为什么要有这个博客，作者本人不想解释态度，总之鄙视阿里！</p>
+        <span itemprop="articleBody"><h1 id="PTR的几种主流实现方式">PTR的几种主流实现方式</h1><p>继承ListView</p>
+<p>继承LinearLayout</p>
+<p>继承ViewGroup</p>
 <a id="more"></a>
-<h1 id="博客发展计划">博客发展计划</h1><p>含有如下内容：</p>
-<blockquote>
-<p>1.奇巧淫技日报-UI</p>
-<p>2.奇巧淫技日报-Data</p>
-<p>3.奇巧淫技周刊<br>    主要是讲本周的日报汇总，编辑成册，并涵盖其他信息推荐</p>
+<h2 id="判断ListView、webview、gridview等是否滑动到顶或者底部">判断ListView、webview、gridview等是否滑动到顶或者底部</h2><p>规定：</p>
+<pre><code>public interface Pullable {
+    /<span class="keyword">*</span><span class="keyword">*</span>
+     <span class="keyword">*</span> 判断是否可以下拉，如果不需要下拉功能可以直接return false
+     <span class="keyword">*</span> 
+     <span class="keyword">*</span> <span class="comment">@return true如果可以下拉否则返回false</span>
+     <span class="keyword">*</span>/
+    boolean canPullDown();
+
+    /<span class="keyword">*</span><span class="keyword">*</span>
+     <span class="keyword">*</span> 判断是否可以上拉，如果不需要上拉功能可以直接return false
+     <span class="keyword">*</span> 
+     <span class="keyword">*</span> <span class="comment">@return true如果可以上拉否则返回false</span>
+     <span class="keyword">*</span>/
+    boolean canPullUp();
+}
+</code></pre><blockquote>
+<p>ListView</p>
 </blockquote>
-<p>post标题取名：</p>
-<pre><code>UI-编号：<span class="number">011</span>
-    基本UI BA <span class="comment">(basic)</span>
-    自定义UI CU <span class="comment">(xustome)</span>
-    开源   OP  <span class="comment">(open)</span>
-Data-编号 <span class="number">022</span>
-    基础  BA <span class="comment">(basic)</span>
-    自定义 CU <span class="comment">(xustome)</span>
-    开源   OP <span class="comment">(open)</span>
+<pre><code>public boolean canPullDown<span class="params">()</span>{
+    <span class="keyword">if</span> <span class="params">(getCount<span class="params">()</span> == <span class="number">0</span>)</span>{
+        <span class="comment">// 没有item的时候也可以下拉刷新</span>
+        return <span class="literal">true</span>;
+    } <span class="keyword">else</span> <span class="keyword">if</span> <span class="params">(getFirstVisiblePosition<span class="params">()</span> == <span class="number">0</span>&amp;&amp; getChildAt<span class="params">(<span class="number">0</span>)</span>.getTop<span class="params">()</span> &gt;= <span class="number">0</span>)</span>{
+        <span class="comment">// 滑到ListView的顶部了</span>
+        return <span class="literal">true</span>;
+    } <span class="keyword">else</span>
+        return <span class="literal">false</span>;
+}
 
-其他-编号 <span class="number">033</span> 暂定义,等待后续补充完整
-    基础  BA <span class="comment">(basic)</span>
-    自定义 CU <span class="comment">(xustome)</span>
-    开源   OP <span class="comment">(open)</span>
-</code></pre><p>后末尾使用D代表推出晚了，I表示推出日就是本日不存在延迟</p>
-<p>所谓基础就是指android系统公开的UI或者逻辑Data代码<br>所谓自定义就是指自己自定义View或者自定义逻辑Data代码<br>所谓开源就是指github上开源的控件和逻辑框架</p>
-<p>因此最终的post格式如下：</p>
-<pre><code>android奇巧淫技日报<span class="number">20150731</span>-<span class="number">011</span>-BA-D
 
-android奇巧淫技日报<span class="number">20150731</span>-<span class="number">022</span>-BA-O
+@Override
+public boolean canPullUp<span class="params">()</span> {
+    <span class="keyword">if</span> <span class="params">(getCount<span class="params">()</span> == <span class="number">0</span>)</span> {<span class="comment">// 没有item的时候也可以上拉加载</span>
+        return <span class="literal">true</span>;
+    } <span class="keyword">else</span> <span class="keyword">if</span> <span class="params">(getLastVisiblePosition<span class="params">()</span> == <span class="params">(getCount<span class="params">()</span> - <span class="number">1</span>)</span>)</span> {<span class="comment">// 滑到底部了</span>
+        <span class="keyword">if</span> <span class="params">(getChildAt<span class="params">(getLastVisiblePosition<span class="params">()</span> - getFirstVisiblePosition<span class="params">()</span>)</span> != null
+                &amp;&amp; getChildAt<span class="params">(getLastVisiblePosition<span class="params">()</span> - getFirstVisiblePosition<span class="params">()</span>)</span>.getBottom<span class="params">()</span> &lt;= getMeasuredHeight<span class="params">()</span>)</span>
+            return <span class="literal">true</span>;
+    }
+    return <span class="literal">false</span>;
+}
+</code></pre><blockquote>
+<p>GridView</p>
+</blockquote>
+<pre><code>@Override
+public boolean canPullDown<span class="params">()</span> {
+    <span class="keyword">if</span> <span class="params">(getCount<span class="params">()</span> == <span class="number">0</span>)</span> {
+        <span class="comment">// 没有item的时候也可以下拉刷新</span>
+        return <span class="literal">true</span>;
+    } <span class="keyword">else</span> <span class="keyword">if</span> <span class="params">(getFirstVisiblePosition<span class="params">()</span> == <span class="number">0</span> &amp;&amp; getChildAt<span class="params">(<span class="number">0</span>)</span>.getTop<span class="params">()</span> &gt;= <span class="number">0</span>)</span> {
+        <span class="comment">// 滑到顶部了</span>
+        return <span class="literal">true</span>;
+    } <span class="keyword">else</span>
+        return <span class="literal">false</span>;
+}
 
-android奇巧淫技周刊第一期
+
+@Override
+public boolean canPullUp<span class="params">()</span> {
+    <span class="keyword">if</span> <span class="params">(getCount<span class="params">()</span> == <span class="number">0</span>)</span> {
+        <span class="comment">// 没有item的时候也可以上拉加载</span>
+        return <span class="literal">true</span>;
+    } <span class="keyword">else</span> <span class="keyword">if</span> <span class="params">(getLastVisiblePosition<span class="params">()</span> == <span class="params">(getCount<span class="params">()</span> - <span class="number">1</span>)</span>)</span> {
+        <span class="comment">// 滑到底部了</span>
+        <span class="keyword">if</span> <span class="params">(getChildAt<span class="params">(getLastVisiblePosition<span class="params">()</span> - getFirstVisiblePosition<span class="params">()</span>)</span> != null
+                &amp;&amp; getChildAt<span class="params">(getLastVisiblePosition<span class="params">()</span> - getFirstVisiblePosition<span class="params">()</span>)</span>.getBottom<span class="params">()</span> &lt;= getMeasuredHeight<span class="params">()</span>)</span>
+            return <span class="literal">true</span>;
+    }
+    return <span class="literal">false</span>;
+}
+</code></pre><blockquote>
+<p>ScrollView</p>
+</blockquote>
+<pre><code><span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">canPullDown</span><span class="params">()</span> </span>{
+    <span class="keyword">if</span> (getScrollY() == <span class="number">0</span>)
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+}
+
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">canPullUp</span><span class="params">()</span> </span>{
+    <span class="keyword">if</span> (getScrollY() &gt;= (getChildAt(<span class="number">0</span>).getHeight() - getMeasuredHeight()))
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+}
+</code></pre><blockquote>
+<p>WebView</p>
+</blockquote>
+<pre><code><span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">canPullDown</span><span class="params">()</span> </span>{
+    <span class="keyword">if</span> (getScrollY() == <span class="number">0</span>)
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+}
+
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">canPullUp</span><span class="params">()</span> </span>{
+    <span class="keyword">if</span> (getScrollY() &gt;= getContentHeight() * getScale() - getMeasuredHeight())
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+}
+</code></pre><blockquote>
+<p>ImageView</p>
+</blockquote>
+<pre><code><span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">canPullDown</span><span class="params">()</span> </span>{
+    <span class="keyword">return</span> <span class="keyword">true</span>;
+}
+
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">canPullUp</span><span class="params">()</span> </span>{
+    <span class="keyword">return</span> <span class="keyword">true</span>;
+}
+</code></pre><blockquote>
+<p>TextView</p>
+</blockquote>
+<pre><code><span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">canPullDown</span><span class="params">()</span> </span>{
+    <span class="keyword">return</span> <span class="keyword">true</span>;
+}
+
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">canPullUp</span><span class="params">()</span> </span>{
+    <span class="keyword">return</span> <span class="keyword">true</span>;
+}
+</code></pre><blockquote>
+<p>ExpandableListView</p>
+</blockquote>
+<pre><code>@Override
+public boolean canPullDown<span class="params">()</span> {
+    <span class="keyword">if</span> <span class="params">(getCount<span class="params">()</span> == <span class="number">0</span>)</span> {
+        <span class="comment">// 没有item的时候也可以下拉刷新</span>
+        return <span class="literal">true</span>;
+    } <span class="keyword">else</span> <span class="keyword">if</span> <span class="params">(getFirstVisiblePosition<span class="params">()</span> == <span class="number">0</span> &amp;&amp; getChildAt<span class="params">(<span class="number">0</span>)</span>.getTop<span class="params">()</span> &gt;= <span class="number">0</span>)</span> {
+        <span class="comment">// 滑到顶部了</span>
+        return <span class="literal">true</span>;
+    } <span class="keyword">else</span>
+        return <span class="literal">false</span>;
+}
+
+@Override
+public boolean canPullUp<span class="params">()</span> {
+    <span class="keyword">if</span> <span class="params">(getCount<span class="params">()</span> == <span class="number">0</span>)</span> {
+        <span class="comment">// 没有item的时候也可以上拉加载</span>
+        return <span class="literal">true</span>;
+    } <span class="keyword">else</span> <span class="keyword">if</span> <span class="params">(getLastVisiblePosition<span class="params">()</span> == <span class="params">(getCount<span class="params">()</span> - <span class="number">1</span>)</span>)</span> {
+        <span class="comment">// 滑到底部了</span>
+        <span class="keyword">if</span> <span class="params">(getChildAt<span class="params">(getLastVisiblePosition<span class="params">()</span> - getFirstVisiblePosition<span class="params">()</span>)</span> != null
+                &amp;&amp; getChildAt<span class="params">(getLastVisiblePosition<span class="params">()</span> - getFirstVisiblePosition<span class="params">()</span>)</span>.getBottom<span class="params">()</span> &lt;= getMeasuredHeight<span class="params">()</span>)</span>
+            return <span class="literal">true</span>;
+    }
+    return <span class="literal">false</span>;
+}
 </code></pre></span>
       
     </div>
@@ -220,11 +359,11 @@ android奇巧淫技周刊第一期
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/07/31/android20150731S011SBASO奇巧淫技日报/" rel="prev">android20150731S011SBASO奇巧淫技日报</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/31/android20150731S011SBASO奇巧淫技日报/" rel="next">android20150731S011SBASO奇巧淫技日报</a>
             
           </div>
         </div>
@@ -343,7 +482,7 @@ android奇巧淫技周刊第一期
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么是我的博客"><span class="nav-number">1.</span> <span class="nav-text">为什么是我的博客</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#博客发展计划"><span class="nav-number">2.</span> <span class="nav-text">博客发展计划</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PTR的几种主流实现方式"><span class="nav-number">1.</span> <span class="nav-text">PTR的几种主流实现方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#判断ListView、webview、gridview等是否滑动到顶或者底部"><span class="nav-number">1.1.</span> <span class="nav-text">判断ListView、webview、gridview等是否滑动到顶或者底部</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
