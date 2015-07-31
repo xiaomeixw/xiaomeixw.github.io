@@ -37,19 +37,16 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
 
 
-<meta name="description" content="#解决在onCreate()过程中获取View的width和Height为0的4种方法 #
-1、监听Draw/Layout事件：ViewTreeObserverViewTreeObserver监听很多不同的界面绘制事件。一般来说OnGlobalLayoutListener就是可以让我们获得到view的width和height的地方.下面onGlobalLayout内的代码会在View完成Layou">
+<meta name="description" content="解决在onCreate()过程中获取View的width和Height为0的4种方法1、监听Draw/Layout事件：ViewTreeObserverViewTreeObserver监听很多不同的界面绘制事件。一般来说OnGlobalLayoutListener就是可以让我们获得到view的width和height的地方.下面onGlobalLayout内的代码会在View完成Layout过程后">
 <meta property="og:type" content="article">
 <meta property="og:title" content="android奇巧淫技日报201507_011_BA_O">
 <meta property="og:url" content="http://yoursite.com/2015/07/31/android奇巧淫技日报201507-011-BA-O/index.html">
 <meta property="og:site_name" content="sabria">
-<meta property="og:description" content="#解决在onCreate()过程中获取View的width和Height为0的4种方法 #
-1、监听Draw/Layout事件：ViewTreeObserverViewTreeObserver监听很多不同的界面绘制事件。一般来说OnGlobalLayoutListener就是可以让我们获得到view的width和height的地方.下面onGlobalLayout内的代码会在View完成Layou">
-<meta property="og:updated_time" content="2015-07-31T04:33:59.285Z">
+<meta property="og:description" content="解决在onCreate()过程中获取View的width和Height为0的4种方法1、监听Draw/Layout事件：ViewTreeObserverViewTreeObserver监听很多不同的界面绘制事件。一般来说OnGlobalLayoutListener就是可以让我们获得到view的width和height的地方.下面onGlobalLayout内的代码会在View完成Layout过程后">
+<meta property="og:updated_time" content="2015-07-31T04:36:46.273Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="android奇巧淫技日报201507_011_BA_O">
-<meta name="twitter:description" content="#解决在onCreate()过程中获取View的width和Height为0的4种方法 #
-1、监听Draw/Layout事件：ViewTreeObserverViewTreeObserver监听很多不同的界面绘制事件。一般来说OnGlobalLayoutListener就是可以让我们获得到view的width和height的地方.下面onGlobalLayout内的代码会在View完成Layou">
+<meta name="twitter:description" content="解决在onCreate()过程中获取View的width和Height为0的4种方法1、监听Draw/Layout事件：ViewTreeObserverViewTreeObserver监听很多不同的界面绘制事件。一般来说OnGlobalLayoutListener就是可以让我们获得到view的width和height的地方.下面onGlobalLayout内的代码会在View完成Layout过程后">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -182,8 +179,7 @@
       
 
       
-        <span itemprop="articleBody"><p>#解决在onCreate()过程中获取View的width和Height为0的4种方法 #</p>
-<h2 id="1、监听Draw/Layout事件：ViewTreeObserver">1、监听Draw/Layout事件：ViewTreeObserver</h2><p>ViewTreeObserver监听很多不同的界面绘制事件。一般来说OnGlobalLayoutListener就是可以让我们获得到view的width和height的地方.下面onGlobalLayout内的代码会在View完成Layout过程后调用。</p>
+        <span itemprop="articleBody"><h1 id="解决在onCreate()过程中获取View的width和Height为0的4种方法">解决在onCreate()过程中获取View的width和Height为0的4种方法</h1><h2 id="1、监听Draw/Layout事件：ViewTreeObserver">1、监听Draw/Layout事件：ViewTreeObserver</h2><p>ViewTreeObserver监听很多不同的界面绘制事件。一般来说OnGlobalLayoutListener就是可以让我们获得到view的width和height的地方.下面onGlobalLayout内的代码会在View完成Layout过程后调用。</p>
 <p>复制代码</p>
 <pre><code>view.getViewTreeObserver().addOnGlobalLayoutListener(<span class="keyword">new</span>     ViewTreeObserver.OnGlobalLayoutListener() {
      <span class="annotation">@Override</span>
@@ -362,7 +358,7 @@ View.<span class="function"><span class="title">getMeasureHeight</span><span cla
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、监听Draw/Layout事件：ViewTreeObserver"><span class="nav-number">1.</span> <span class="nav-text">1、监听Draw/Layout事件：ViewTreeObserver</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、将一个runnable添加到Layout队列中"><span class="nav-number">2.</span> <span class="nav-text">2、将一个runnable添加到Layout队列中</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、重写View的onLayout方法"><span class="nav-number">3.</span> <span class="nav-text">3、重写View的onLayout方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-获取固定宽高"><span class="nav-number">4.</span> <span class="nav-text">4.获取固定宽高</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#解决在onCreate()过程中获取View的width和Height为0的4种方法"><span class="nav-number">1.</span> <span class="nav-text">解决在onCreate()过程中获取View的width和Height为0的4种方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、监听Draw/Layout事件：ViewTreeObserver"><span class="nav-number">1.1.</span> <span class="nav-text">1、监听Draw/Layout事件：ViewTreeObserver</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、将一个runnable添加到Layout队列中"><span class="nav-number">1.2.</span> <span class="nav-text">2、将一个runnable添加到Layout队列中</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、重写View的onLayout方法"><span class="nav-number">1.3.</span> <span class="nav-text">3、重写View的onLayout方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-获取固定宽高"><span class="nav-number">1.4.</span> <span class="nav-text">4.获取固定宽高</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
