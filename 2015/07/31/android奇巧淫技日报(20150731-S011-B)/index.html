@@ -37,16 +37,40 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
 
 
-<meta name="description" content="为什么是我的博客这是个诡异的问题，为什么要有这个博客，作者本人不想解释态度，总之鄙视阿里！">
+<meta name="description" content="解决在onCreate()过程中获取View的width和Height为0的4种方法问题出现原因：setContentView(layout)的加载时异步的,因此获取到的getHeight为0;
+解决方法：
+
+ViewTreeObserver
+Runnable
+onLayout
+getMeasureHeight         
+
+推荐：ViewTreeObserver方法…">
 <meta property="og:type" content="article">
-<meta property="og:title" content="为什么是我的博客">
-<meta property="og:url" content="http://yoursite.com/2015/07/31/为什么是我的博客/index.html">
+<meta property="og:title" content="android奇巧淫技日报(20150731-S011-B)">
+<meta property="og:url" content="http://yoursite.com/2015/07/31/android奇巧淫技日报(20150731-S011-B)/index.html">
 <meta property="og:site_name" content="sabria">
-<meta property="og:description" content="为什么是我的博客这是个诡异的问题，为什么要有这个博客，作者本人不想解释态度，总之鄙视阿里！">
-<meta property="og:updated_time" content="2015-07-31T04:44:02.020Z">
+<meta property="og:description" content="解决在onCreate()过程中获取View的width和Height为0的4种方法问题出现原因：setContentView(layout)的加载时异步的,因此获取到的getHeight为0;
+解决方法：
+
+ViewTreeObserver
+Runnable
+onLayout
+getMeasureHeight         
+
+推荐：ViewTreeObserver方法…">
+<meta property="og:updated_time" content="2015-08-01T01:30:06.111Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="为什么是我的博客">
-<meta name="twitter:description" content="为什么是我的博客这是个诡异的问题，为什么要有这个博客，作者本人不想解释态度，总之鄙视阿里！">
+<meta name="twitter:title" content="android奇巧淫技日报(20150731-S011-B)">
+<meta name="twitter:description" content="解决在onCreate()过程中获取View的width和Height为0的4种方法问题出现原因：setContentView(layout)的加载时异步的,因此获取到的getHeight为0;
+解决方法：
+
+ViewTreeObserver
+Runnable
+onLayout
+getMeasureHeight         
+
+推荐：ViewTreeObserver方法…">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -56,7 +80,7 @@
   };
 </script>
 
-    <title> 为什么是我的博客 // sabria </title>
+    <title> android奇巧淫技日报(20150731-S011-B) // sabria </title>
 </head>
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 <!--[if lte IE 8]>
@@ -151,7 +175,7 @@
           
           
             
-              为什么是我的博客
+              android奇巧淫技日报(20150731-S011-B)
             
           
         </h1>
@@ -160,7 +184,7 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2015-07-31T12:05:17+08:00" content="2015-07-31">
+          <time itemprop="dateCreated" datetime="2015-07-31T12:33:06+08:00" content="2015-07-31">
             2015-07-31
           </time>
         </span>
@@ -179,36 +203,62 @@
       
 
       
-        <span itemprop="articleBody"><h1 id="为什么是我的博客">为什么是我的博客</h1><p>这是个诡异的问题，为什么要有这个博客，作者本人不想解释态度，总之鄙视阿里！</p>
+        <span itemprop="articleBody"><h1 id="解决在onCreate()过程中获取View的width和Height为0的4种方法">解决在onCreate()过程中获取View的width和Height为0的4种方法</h1><p>问题出现原因：setContentView(layout)的加载时异步的,因此获取到的getHeight为0;</p>
+<p>解决方法：</p>
+<ol>
+<li>ViewTreeObserver</li>
+<li>Runnable</li>
+<li>onLayout</li>
+<li>getMeasureHeight         </li>
+</ol>
+<p>推荐：ViewTreeObserver方法…</p>
 <a id="more"></a>
-<h1 id="博客发展计划">博客发展计划</h1><p>含有如下内容：</p>
-<blockquote>
-<p>1.奇巧淫技日报-UI</p>
-<p>2.奇巧淫技日报-Data</p>
-<p>3.奇巧淫技周刊<br>    主要是讲本周的日报汇总，编辑成册，并涵盖其他信息推荐</p>
-</blockquote>
-<p>post标题取名：</p>
-<pre><code>UI-编号：<span class="number">011</span>
-    基本UI BA <span class="comment">(basic)</span>
-    自定义UI CU <span class="comment">(xustome)</span>
-    开源   OP  <span class="comment">(open)</span>
-Data-编号 <span class="number">022</span>
-    基础  BA <span class="comment">(basic)</span>
-    自定义 CU <span class="comment">(xustome)</span>
-    开源   OP <span class="comment">(open)</span>
-
-其他-编号 <span class="number">033</span> 暂定义,等待后续补充完整
-    基础  BA <span class="comment">(basic)</span>
-    自定义 CU <span class="comment">(xustome)</span>
-    开源   OP <span class="comment">(open)</span>
-</code></pre><p>后末尾使用D代表推出晚了，I表示推出日就是本日不存在延迟</p>
-<p>所谓基础就是指android系统公开的UI或者逻辑Data代码<br>所谓自定义就是指自己自定义View或者自定义逻辑Data代码<br>所谓开源就是指github上开源的控件和逻辑框架</p>
-<p>因此最终的post格式如下：</p>
-<pre><code>android奇巧淫技日报<span class="number">20150731</span>-<span class="number">011</span>-BA-D
-
-android奇巧淫技日报<span class="number">20150731</span>-<span class="number">022</span>-BA-O
-
-android奇巧淫技周刊第一期
+<h2 id="1、监听Draw/Layout事件：ViewTreeObserver">1、监听Draw/Layout事件：ViewTreeObserver</h2><p>ViewTreeObserver监听很多不同的界面绘制事件。一般来说OnGlobalLayoutListener就是可以让我们获得到view的width和height的地方.下面onGlobalLayout内的代码会在View完成Layout过程后调用。</p>
+<p>复制代码</p>
+<pre><code>view.getViewTreeObserver().addOnGlobalLayoutListener(<span class="keyword">new</span>     ViewTreeObserver.OnGlobalLayoutListener() {
+     <span class="annotation">@Override</span>
+     <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onGlobalLayout</span><span class="params">()</span> </span>{
+         mScrollView.post(<span class="keyword">new</span> Runnable() {
+             <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
+                 view.getHeight(); <span class="comment">//height is ready</span>
+                 remove操作;
+             }
+         });
+     }
+});
+</code></pre><p>复制代码<br>但是要注意这个方法在每次有些view的Layout发生变化的时候被调用（比如某个View被设置为Invisible）,所以在得到你想要的宽高后，记得移除onGlobleLayoutListener：</p>
+<p>在 SDK Lvl &lt; 16时使用</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">void</span> removeGlobalOnLayoutListener (ViewTreeObserver.OnGlobalLayoutListener victim)
+</code></pre><p>在 SDK Lvl &gt;= 16时使用</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">void</span> removeOnGlobalLayoutListener (ViewTreeObserver.OnGlobalLayoutListener victim)
+</code></pre><h2 id="2、将一个runnable添加到Layout队列中">2、将一个runnable添加到Layout队列中</h2><pre><code>View.<span class="function"><span class="title">post</span><span class="params">()</span></span>
+</code></pre><p>只要用View.post()一个runnable就可以了。runnable对象中的方法会在View的measure、layout等事件后触发。</p>
+<p>UI事件队列会按顺序处理事件。在setContentView()被调用后，事件队列中会包含一个要求重新layout的message，所以任何你post到队列中的东西都会在Layout发生变化后执行。</p>
+<pre><code> view.post(<span class="keyword">new</span> Runnable() {
+      <span class="annotation">@Override</span>
+      <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
+           view.getHeight(); <span class="comment">//height is ready</span>
+      }
+});
+</code></pre><p>这个方法比ViewTreeObserver好：你的代码只会执行一次，而且你不用在在每次执行后将Observer禁用，省心多了。</p>
+<h2 id="3、重写View的onLayout方法">3、重写View的onLayout方法</h2><p>这个方法只在某些场景中实用，比如当你所要执行的东西应该作为他的内在逻辑被内聚、模块化在view中，否者这个解决方案就显得十分冗长和笨重。</p>
+<pre><code>view = <span class="keyword">new</span> View(<span class="keyword">this</span>) {
+    <span class="annotation">@Override</span>
+    <span class="keyword">protected</span> <span class="function"><span class="keyword">void</span> <span class="title">onLayout</span><span class="params">(<span class="keyword">boolean</span> changed, <span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> r, <span class="keyword">int</span> b)</span> </span>{
+        <span class="keyword">super</span>.onLayout(changed, l, t, r, b);
+        view.getHeight(); <span class="comment">//height is ready</span>
+}
+};
+</code></pre><p>需要注意的是onLayout方法会调用很多次，所以要考虑好在这个方法中要做什么，或者在第一次执行后禁用掉你的代码。</p>
+<h2 id="4-获取固定宽高">4.获取固定宽高</h2><p>如果你要获取的view的width和height是固定的，那么你可以直接使用：</p>
+<pre><code>View.<span class="function"><span class="title">getMeasureWidth</span><span class="params">()</span></span>
+View.<span class="function"><span class="title">getMeasureHeight</span><span class="params">()</span></span>
+</code></pre><p>但是要注意，这两个方法所获取的width和height可能跟实际draw后的不一样。官方文档解释了不同的原因：</p>
+<p>View的大小由width和height决定。一个View实际上同时有两种width和height值。</p>
+<p>第一种是measure width和measure height。他们定义了view想要在父View中占用多少width和height（详情见Layout）。measured height和width可以通过getMeasuredWidth() 和 getMeasuredHeight()获得。</p>
+<p>第二种是width和height，有时候也叫做drawing width和drawing height。这些值定义了view在屏幕上绘制和Layout完成后的实际大小。这些值有可能跟measure width和height不同。width和height可以通过getWidth()和getHeight获得。</p>
+<p>说的更简单点就是：</p>
+<pre><code>getMeasureHeight是控件本身的高度  getHeight是控件在界面最终显示的高度
 </code></pre></span>
       
     </div>
@@ -220,11 +270,13 @@ android奇巧淫技周刊第一期
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/07/31/android20150731S011SBASO奇巧淫技日报/" rel="prev">android20150731S011SBASO奇巧淫技日报</a>
+              <a href="/2888/07/31/为什么是我的博客/" rel="prev">为什么是我的博客</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/30/android奇巧淫技日报(20150730-S011-B)/" rel="next">android奇巧淫技日报(20150730-S011-B)</a>
             
           </div>
         </div>
@@ -301,7 +353,7 @@ android奇巧淫技周刊第一期
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-count">0</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -343,7 +395,7 @@ android奇巧淫技周刊第一期
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么是我的博客"><span class="nav-number">1.</span> <span class="nav-text">为什么是我的博客</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#博客发展计划"><span class="nav-number">2.</span> <span class="nav-text">博客发展计划</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#解决在onCreate()过程中获取View的width和Height为0的4种方法"><span class="nav-number">1.</span> <span class="nav-text">解决在onCreate()过程中获取View的width和Height为0的4种方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、监听Draw/Layout事件：ViewTreeObserver"><span class="nav-number">1.1.</span> <span class="nav-text">1、监听Draw/Layout事件：ViewTreeObserver</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、将一个runnable添加到Layout队列中"><span class="nav-number">1.2.</span> <span class="nav-text">2、将一个runnable添加到Layout队列中</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、重写View的onLayout方法"><span class="nav-number">1.3.</span> <span class="nav-text">3、重写View的onLayout方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-获取固定宽高"><span class="nav-number">1.4.</span> <span class="nav-text">4.获取固定宽高</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
