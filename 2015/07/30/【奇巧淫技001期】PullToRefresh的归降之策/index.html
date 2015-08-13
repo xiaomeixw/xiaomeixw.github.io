@@ -37,24 +37,22 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
 
 
-<meta name="description" content="这篇奇巧淫技是关于android studio的使用，也许你很奇怪，这样的文章或者博客多了去了，为什么我还要弄成奇巧淫技，不是自己打自己脸嘛？博主的解释：1.网上的一坨AS的教程都是粘贴复制出来的，很多配置属性界面已经更改；我这里的AS配置都是自己在实际使用中记录的。2.所谓的奇巧淫技不应该只是代码上的吧，我们更宽泛的去理解，工具也是奇巧一块的。">
+<meta name="description" content="PTR的几种主流实现方式继承ListView
+继承LinearLayout
+继承ViewGroup">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android奇巧淫技日报【20150802-S022-C】">
-<meta property="og:url" content="http://yoursite.com/2015/08/02/Android奇巧淫技日报【20150802-S022-C】/index.html">
+<meta property="og:title" content="【奇巧淫技001期】PullToRefresh的归降之策">
+<meta property="og:url" content="http://yoursite.com/2015/07/30/【奇巧淫技001期】PullToRefresh的归降之策/index.html">
 <meta property="og:site_name" content="sabria">
-<meta property="og:description" content="这篇奇巧淫技是关于android studio的使用，也许你很奇怪，这样的文章或者博客多了去了，为什么我还要弄成奇巧淫技，不是自己打自己脸嘛？博主的解释：1.网上的一坨AS的教程都是粘贴复制出来的，很多配置属性界面已经更改；我这里的AS配置都是自己在实际使用中记录的。2.所谓的奇巧淫技不应该只是代码上的吧，我们更宽泛的去理解，工具也是奇巧一块的。">
-<meta property="og:image" content="http://i.imgur.com/BGutp4n.png">
-<meta property="og:image" content="http://i.imgur.com/3bd8cEY.png">
-<meta property="og:image" content="http://i.imgur.com/iBOb5eF.png">
-<meta property="og:image" content="http://i.imgur.com/4Lw7fO4.png">
-<meta property="og:image" content="http://i.imgur.com/TCcH9hb.png">
-<meta property="og:image" content="http://i.imgur.com/rQVNLEl.png">
-<meta property="og:image" content="http://i.imgur.com/Dl80qQ6.png">
-<meta property="og:image" content="http://i.imgur.com/mrqCgmz.png">
-<meta property="og:updated_time" content="2015-08-03T02:40:58.749Z">
+<meta property="og:description" content="PTR的几种主流实现方式继承ListView
+继承LinearLayout
+继承ViewGroup">
+<meta property="og:updated_time" content="2015-08-13T03:24:02.045Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android奇巧淫技日报【20150802-S022-C】">
-<meta name="twitter:description" content="这篇奇巧淫技是关于android studio的使用，也许你很奇怪，这样的文章或者博客多了去了，为什么我还要弄成奇巧淫技，不是自己打自己脸嘛？博主的解释：1.网上的一坨AS的教程都是粘贴复制出来的，很多配置属性界面已经更改；我这里的AS配置都是自己在实际使用中记录的。2.所谓的奇巧淫技不应该只是代码上的吧，我们更宽泛的去理解，工具也是奇巧一块的。">
+<meta name="twitter:title" content="【奇巧淫技001期】PullToRefresh的归降之策">
+<meta name="twitter:description" content="PTR的几种主流实现方式继承ListView
+继承LinearLayout
+继承ViewGroup">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -64,7 +62,7 @@
   };
 </script>
 
-    <title> Android奇巧淫技日报【20150802-S022-C】 // sabria </title>
+    <title> 【奇巧淫技001期】PullToRefresh的归降之策 // sabria </title>
 </head>
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 <!--[if lte IE 8]>
@@ -159,7 +157,7 @@
           
           
             
-              Android奇巧淫技日报【20150802-S022-C】
+              【奇巧淫技001期】PullToRefresh的归降之策
             
           
         </h1>
@@ -168,8 +166,8 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2015-08-02T20:13:48+08:00" content="2015-08-02">
-            2015-08-02
+          <time itemprop="dateCreated" datetime="2015-07-30T16:31:06+08:00" content="2015-07-30">
+            2015-07-30
           </time>
         </span>
 
@@ -187,31 +185,170 @@
       
 
       
-        <span itemprop="articleBody"><p>这篇奇巧淫技是关于android studio的使用，也许你很奇怪，这样的文章或者博客多了去了，为什么我还要弄成奇巧淫技，不是自己打自己脸嘛？<br>博主的解释：<br>1.网上的一坨AS的教程都是粘贴复制出来的，很多配置属性界面已经更改；我这里的AS配置都是自己在实际使用中记录的。<br>2.所谓的奇巧淫技不应该只是代码上的吧，我们更宽泛的去理解，工具也是奇巧一块的。</p>
+        <span itemprop="articleBody"><h1 id="PTR的几种主流实现方式">PTR的几种主流实现方式</h1><p>继承ListView</p>
+<p>继承LinearLayout</p>
+<p>继承ViewGroup</p>
 <a id="more"></a>
-<p>声明：本AS是最新版本，即2015年8月2日升级的1.3版本，请按照新版本的使用方式来对照。</p>
-<p>需要了解：AS的一个work中只能放一个项目，多个modules和库…</p>
-<h4 id="1-关闭每次打开更新检查android_studio：">1.关闭每次打开更新检查android studio：</h4><p>打开：C:\Android\Android Studio\bin\idea.properties<br>最后一行追加：disable.android.first.run=true</p>
-<h4 id="2-最简单导入eclipse项目或者库的方法：">2.最简单导入eclipse项目或者库的方法：</h4><p>网上有很多种导入方法,其实最简单的方法是，将eclipse的项目直接Import Module的方式导入，就可以了。这是最快速且简单的。</p>
-<h4 id="3-eclipse中的build_automatiocally_自动编译">3.eclipse中的build automatiocally 自动编译</h4><p><img src="http://i.imgur.com/BGutp4n.png" alt=""><br>在android studio中是settings—compiler–make project automatically前打勾</p>
-<h4 id="4-设置编码">4.设置编码</h4><p><img src="http://i.imgur.com/3bd8cEY.png" alt=""><br>搜索关键词：File Encodings，并设置为通用的 UTF-8</p>
-<h4 id="5-Gradle设置">5.Gradle设置</h4><p><img src="http://i.imgur.com/iBOb5eF.png" alt=""><br>设置为AS目录下的本地gradle，同时选择offline避免反复的下载</p>
-<h4 id="6-模拟器的超时时间设置">6.模拟器的超时时间设置</h4><p><img src="http://i.imgur.com/4Lw7fO4.png" alt=""><br>搜索关键词：tasks，设置connection timeout （默认是5000ms）</p>
-<h4 id="7-版本控制工具">7.版本控制工具</h4><p><img src="http://i.imgur.com/TCcH9hb.png" alt=""><br>搜索关键词：version control<br>git要配置路径 path to git executable<br>svn as自己有集成</p>
-<h4 id="8-代码注释自动提示">8.代码注释自动提示</h4><p><img src="http://i.imgur.com/rQVNLEl.png" alt=""><br>搜索关键字： general<br>勾选show quick doc on mouse move delay 500ms</p>
-<h4 id="9-显示行号">9.显示行号</h4><p>Setting中：editor–general–appearance – show line numbers</p>
-<h4 id="10-改变java文件的文字大小">10.改变java文件的文字大小</h4><p>Setting中：Editor–general–colors&amp;fonts–general 建立一个新的scheme<br>colors&amp;fonts – font 修改字体大小</p>
-<h4 id="11-代码提示">11.代码提示</h4><p><img src="http://i.imgur.com/Dl80qQ6.png" alt=""><br>eclipse直接alt+/就可以出来，在As中搜索关键词：code completion —》case sensitive completion 选择为none(表示代码提示不区分大小写，模糊匹配) 勾选Basic Completion(ctrl+空格)</p>
-<h4 id="12-自动导包">12.自动导包</h4><p><img src="http://i.imgur.com/mrqCgmz.png" alt=""><br>Auto import</p>
-<p>13.设置头部说明注释<br>File and code Templates–》Includes–》File Header 创建属于你自己的头部注释</p>
-<p>14.快捷键的选择：keymap 选择eclipse<br>建议使用default</p>
-<p>15.设置sdk或者jdk<br>File—》project structure—》SDK Location</p>
-<p>16.删除一个modules<br>project structure–》Modules 选择 module名然后点击删除按钮-。注意这只是表面删除。如果要磁盘都删除，可以直接进到磁盘删除，或者切换为project目录模式，点击右键delete删除</p>
-<p>17.加载关联lib包方法：<br>project structure —》 Dependencies —》+ 符号 —》library dependency   选择这里就会从jcenter中心下载lib包直接关联好；<br>                —-》选择 File dependency  就能够从本地的lib包里面关联<br>             —-&gt;选择Mo    dule dependency 直接关联同work中导入的module-lib</p>
-<p>是否关联成功了，到你的主module中的build.gradle中去看</p>
-<p>18.eclipse中的clean操作，在as中Build—》clean project</p>
-<p>19.签名打包：ad中Build—》Generate signed APK</p>
-</span>
+<h2 id="判断ListView、webview、gridview等是否滑动到顶或者底部">判断ListView、webview、gridview等是否滑动到顶或者底部</h2><p>规定：</p>
+<pre><code>public interface Pullable {
+    /<span class="keyword">*</span><span class="keyword">*</span>
+     <span class="keyword">*</span> 判断是否可以下拉，如果不需要下拉功能可以直接return false
+     <span class="keyword">*</span> 
+     <span class="keyword">*</span> <span class="comment">@return true如果可以下拉否则返回false</span>
+     <span class="keyword">*</span>/
+    boolean canPullDown();
+
+    /<span class="keyword">*</span><span class="keyword">*</span>
+     <span class="keyword">*</span> 判断是否可以上拉，如果不需要上拉功能可以直接return false
+     <span class="keyword">*</span> 
+     <span class="keyword">*</span> <span class="comment">@return true如果可以上拉否则返回false</span>
+     <span class="keyword">*</span>/
+    boolean canPullUp();
+}
+</code></pre><blockquote>
+<p>ListView</p>
+</blockquote>
+<pre><code>public boolean canPullDown<span class="params">()</span>{
+    <span class="keyword">if</span> <span class="params">(getCount<span class="params">()</span> == <span class="number">0</span>)</span>{
+        <span class="comment">// 没有item的时候也可以下拉刷新</span>
+        return <span class="literal">true</span>;
+    } <span class="keyword">else</span> <span class="keyword">if</span> <span class="params">(getFirstVisiblePosition<span class="params">()</span> == <span class="number">0</span>&amp;&amp; getChildAt<span class="params">(<span class="number">0</span>)</span>.getTop<span class="params">()</span> &gt;= <span class="number">0</span>)</span>{
+        <span class="comment">// 滑到ListView的顶部了</span>
+        return <span class="literal">true</span>;
+    } <span class="keyword">else</span>
+        return <span class="literal">false</span>;
+}
+
+
+@Override
+public boolean canPullUp<span class="params">()</span> {
+    <span class="keyword">if</span> <span class="params">(getCount<span class="params">()</span> == <span class="number">0</span>)</span> {<span class="comment">// 没有item的时候也可以上拉加载</span>
+        return <span class="literal">true</span>;
+    } <span class="keyword">else</span> <span class="keyword">if</span> <span class="params">(getLastVisiblePosition<span class="params">()</span> == <span class="params">(getCount<span class="params">()</span> - <span class="number">1</span>)</span>)</span> {<span class="comment">// 滑到底部了</span>
+        <span class="keyword">if</span> <span class="params">(getChildAt<span class="params">(getLastVisiblePosition<span class="params">()</span> - getFirstVisiblePosition<span class="params">()</span>)</span> != null
+                &amp;&amp; getChildAt<span class="params">(getLastVisiblePosition<span class="params">()</span> - getFirstVisiblePosition<span class="params">()</span>)</span>.getBottom<span class="params">()</span> &lt;= getMeasuredHeight<span class="params">()</span>)</span>
+            return <span class="literal">true</span>;
+    }
+    return <span class="literal">false</span>;
+}
+</code></pre><blockquote>
+<p>GridView</p>
+</blockquote>
+<pre><code>@Override
+public boolean canPullDown<span class="params">()</span> {
+    <span class="keyword">if</span> <span class="params">(getCount<span class="params">()</span> == <span class="number">0</span>)</span> {
+        <span class="comment">// 没有item的时候也可以下拉刷新</span>
+        return <span class="literal">true</span>;
+    } <span class="keyword">else</span> <span class="keyword">if</span> <span class="params">(getFirstVisiblePosition<span class="params">()</span> == <span class="number">0</span> &amp;&amp; getChildAt<span class="params">(<span class="number">0</span>)</span>.getTop<span class="params">()</span> &gt;= <span class="number">0</span>)</span> {
+        <span class="comment">// 滑到顶部了</span>
+        return <span class="literal">true</span>;
+    } <span class="keyword">else</span>
+        return <span class="literal">false</span>;
+}
+
+
+@Override
+public boolean canPullUp<span class="params">()</span> {
+    <span class="keyword">if</span> <span class="params">(getCount<span class="params">()</span> == <span class="number">0</span>)</span> {
+        <span class="comment">// 没有item的时候也可以上拉加载</span>
+        return <span class="literal">true</span>;
+    } <span class="keyword">else</span> <span class="keyword">if</span> <span class="params">(getLastVisiblePosition<span class="params">()</span> == <span class="params">(getCount<span class="params">()</span> - <span class="number">1</span>)</span>)</span> {
+        <span class="comment">// 滑到底部了</span>
+        <span class="keyword">if</span> <span class="params">(getChildAt<span class="params">(getLastVisiblePosition<span class="params">()</span> - getFirstVisiblePosition<span class="params">()</span>)</span> != null
+                &amp;&amp; getChildAt<span class="params">(getLastVisiblePosition<span class="params">()</span> - getFirstVisiblePosition<span class="params">()</span>)</span>.getBottom<span class="params">()</span> &lt;= getMeasuredHeight<span class="params">()</span>)</span>
+            return <span class="literal">true</span>;
+    }
+    return <span class="literal">false</span>;
+}
+</code></pre><blockquote>
+<p>ScrollView</p>
+</blockquote>
+<pre><code><span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">canPullDown</span><span class="params">()</span> </span>{
+    <span class="keyword">if</span> (getScrollY() == <span class="number">0</span>)
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+}
+
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">canPullUp</span><span class="params">()</span> </span>{
+    <span class="keyword">if</span> (getScrollY() &gt;= (getChildAt(<span class="number">0</span>).getHeight() - getMeasuredHeight()))
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+}
+</code></pre><blockquote>
+<p>WebView</p>
+</blockquote>
+<pre><code><span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">canPullDown</span><span class="params">()</span> </span>{
+    <span class="keyword">if</span> (getScrollY() == <span class="number">0</span>)
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+}
+
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">canPullUp</span><span class="params">()</span> </span>{
+    <span class="keyword">if</span> (getScrollY() &gt;= getContentHeight() * getScale() - getMeasuredHeight())
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+}
+</code></pre><blockquote>
+<p>ImageView</p>
+</blockquote>
+<pre><code><span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">canPullDown</span><span class="params">()</span> </span>{
+    <span class="keyword">return</span> <span class="keyword">true</span>;
+}
+
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">canPullUp</span><span class="params">()</span> </span>{
+    <span class="keyword">return</span> <span class="keyword">true</span>;
+}
+</code></pre><blockquote>
+<p>TextView</p>
+</blockquote>
+<pre><code><span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">canPullDown</span><span class="params">()</span> </span>{
+    <span class="keyword">return</span> <span class="keyword">true</span>;
+}
+
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">canPullUp</span><span class="params">()</span> </span>{
+    <span class="keyword">return</span> <span class="keyword">true</span>;
+}
+</code></pre><blockquote>
+<p>ExpandableListView</p>
+</blockquote>
+<pre><code>@Override
+public boolean canPullDown<span class="params">()</span> {
+    <span class="keyword">if</span> <span class="params">(getCount<span class="params">()</span> == <span class="number">0</span>)</span> {
+        <span class="comment">// 没有item的时候也可以下拉刷新</span>
+        return <span class="literal">true</span>;
+    } <span class="keyword">else</span> <span class="keyword">if</span> <span class="params">(getFirstVisiblePosition<span class="params">()</span> == <span class="number">0</span> &amp;&amp; getChildAt<span class="params">(<span class="number">0</span>)</span>.getTop<span class="params">()</span> &gt;= <span class="number">0</span>)</span> {
+        <span class="comment">// 滑到顶部了</span>
+        return <span class="literal">true</span>;
+    } <span class="keyword">else</span>
+        return <span class="literal">false</span>;
+}
+
+@Override
+public boolean canPullUp<span class="params">()</span> {
+    <span class="keyword">if</span> <span class="params">(getCount<span class="params">()</span> == <span class="number">0</span>)</span> {
+        <span class="comment">// 没有item的时候也可以上拉加载</span>
+        return <span class="literal">true</span>;
+    } <span class="keyword">else</span> <span class="keyword">if</span> <span class="params">(getLastVisiblePosition<span class="params">()</span> == <span class="params">(getCount<span class="params">()</span> - <span class="number">1</span>)</span>)</span> {
+        <span class="comment">// 滑到底部了</span>
+        <span class="keyword">if</span> <span class="params">(getChildAt<span class="params">(getLastVisiblePosition<span class="params">()</span> - getFirstVisiblePosition<span class="params">()</span>)</span> != null
+                &amp;&amp; getChildAt<span class="params">(getLastVisiblePosition<span class="params">()</span> - getFirstVisiblePosition<span class="params">()</span>)</span>.getBottom<span class="params">()</span> &lt;= getMeasuredHeight<span class="params">()</span>)</span>
+            return <span class="literal">true</span>;
+    }
+    return <span class="literal">false</span>;
+}
+</code></pre></span>
       
     </div>
 
@@ -222,13 +359,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2888/07/31/为什么是我的博客/" rel="prev">为什么是我的博客</a>
+              <a href="/2015/07/31/【奇巧淫技002期】onCreate()过程中获取View的width和Height为0的海阔之策/" rel="prev">【奇巧淫技002期】onCreate()过程中获取View的width和Height为0的海阔之策</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/08/01/Android奇巧淫技日报【20150801-S011-O】/" rel="next">Android奇巧淫技日报【20150801-S011-O】</a>
+              <a href="/1979/01/01/为什么是我的博客/" rel="next">为什么是我的博客</a>
             
           </div>
         </div>
@@ -347,7 +484,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-关闭每次打开更新检查android_studio："><span class="nav-number">1.</span> <span class="nav-text">1.关闭每次打开更新检查android studio：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-最简单导入eclipse项目或者库的方法："><span class="nav-number">2.</span> <span class="nav-text">2.最简单导入eclipse项目或者库的方法：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-eclipse中的build_automatiocally_自动编译"><span class="nav-number">3.</span> <span class="nav-text">3.eclipse中的build automatiocally 自动编译</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-设置编码"><span class="nav-number">4.</span> <span class="nav-text">4.设置编码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-Gradle设置"><span class="nav-number">5.</span> <span class="nav-text">5.Gradle设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-模拟器的超时时间设置"><span class="nav-number">6.</span> <span class="nav-text">6.模拟器的超时时间设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-版本控制工具"><span class="nav-number">7.</span> <span class="nav-text">7.版本控制工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-代码注释自动提示"><span class="nav-number">8.</span> <span class="nav-text">8.代码注释自动提示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-显示行号"><span class="nav-number">9.</span> <span class="nav-text">9.显示行号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-改变java文件的文字大小"><span class="nav-number">10.</span> <span class="nav-text">10.改变java文件的文字大小</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11-代码提示"><span class="nav-number">11.</span> <span class="nav-text">11.代码提示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#12-自动导包"><span class="nav-number">12.</span> <span class="nav-text">12.自动导包</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PTR的几种主流实现方式"><span class="nav-number">1.</span> <span class="nav-text">PTR的几种主流实现方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#判断ListView、webview、gridview等是否滑动到顶或者底部"><span class="nav-number">1.1.</span> <span class="nav-text">判断ListView、webview、gridview等是否滑动到顶或者底部</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

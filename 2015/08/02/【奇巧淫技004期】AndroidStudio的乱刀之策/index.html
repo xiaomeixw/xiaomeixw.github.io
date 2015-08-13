@@ -37,40 +37,34 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
 
 
-<meta name="description" content="解决在onCreate()过程中获取View的width和Height为0的4种方法问题出现原因：setContentView(layout)的加载时异步的,因此获取到的getHeight为0;
-解决方法：
-
-ViewTreeObserver
-Runnable
-onLayout
-getMeasureHeight         
-
-推荐：ViewTreeObserver方法…">
+<meta name="description" content="这篇奇巧淫技是关于android studio的使用，也许你很奇怪，这样的文章或者博客多了去了，为什么我还要弄成奇巧淫技，不是自己打自己脸嘛？博主的解释：1.网上的一坨AS的教程都是粘贴复制出来的，很多配置属性界面已经更改；我这里的AS配置都是自己在实际使用中记录的。2.所谓的奇巧淫技不应该只是代码上的吧，我们更宽泛的去理解，工具也是奇巧一块的。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android奇巧淫技日报【20150731-S011-B】">
-<meta property="og:url" content="http://yoursite.com/2015/07/31/Android奇巧淫技日报【20150731-S011-B】/index.html">
+<meta property="og:title" content="【奇巧淫技004期】AndroidStudio的乱刀之策">
+<meta property="og:url" content="http://yoursite.com/2015/08/02/【奇巧淫技004期】AndroidStudio的乱刀之策/index.html">
 <meta property="og:site_name" content="sabria">
-<meta property="og:description" content="解决在onCreate()过程中获取View的width和Height为0的4种方法问题出现原因：setContentView(layout)的加载时异步的,因此获取到的getHeight为0;
-解决方法：
-
-ViewTreeObserver
-Runnable
-onLayout
-getMeasureHeight         
-
-推荐：ViewTreeObserver方法…">
-<meta property="og:updated_time" content="2015-08-02T04:09:38.169Z">
+<meta property="og:description" content="这篇奇巧淫技是关于android studio的使用，也许你很奇怪，这样的文章或者博客多了去了，为什么我还要弄成奇巧淫技，不是自己打自己脸嘛？博主的解释：1.网上的一坨AS的教程都是粘贴复制出来的，很多配置属性界面已经更改；我这里的AS配置都是自己在实际使用中记录的。2.所谓的奇巧淫技不应该只是代码上的吧，我们更宽泛的去理解，工具也是奇巧一块的。">
+<meta property="og:image" content="http://i.imgur.com/BGutp4n.png">
+<meta property="og:image" content="http://i.imgur.com/3bd8cEY.png">
+<meta property="og:image" content="http://i.imgur.com/iBOb5eF.png">
+<meta property="og:image" content="http://i.imgur.com/4Lw7fO4.png">
+<meta property="og:image" content="http://i.imgur.com/TCcH9hb.png">
+<meta property="og:image" content="http://i.imgur.com/rQVNLEl.png">
+<meta property="og:image" content="http://i.imgur.com/Dl80qQ6.png">
+<meta property="og:image" content="http://i.imgur.com/mrqCgmz.png">
+<meta property="og:image" content="http://i.imgur.com/HE1ovxC.png">
+<meta property="og:image" content="http://i.imgur.com/4837BkD.png">
+<meta property="og:image" content="http://i.imgur.com/Fn21tBq.png">
+<meta property="og:image" content="http://i.imgur.com/NSUMVRF.png">
+<meta property="og:image" content="http://i.imgur.com/N00ziRQ.png">
+<meta property="og:image" content="http://i.imgur.com/L7JMUuT.png">
+<meta property="og:image" content="http://i.imgur.com/UhqIvk7.png">
+<meta property="og:image" content="http://i.imgur.com/nfFvxBP.png">
+<meta property="og:image" content="http://i.imgur.com/G8Lnz9S.png">
+<meta property="og:image" content="http://i.imgur.com/DrYi9EP.png">
+<meta property="og:updated_time" content="2015-08-13T03:24:22.057Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android奇巧淫技日报【20150731-S011-B】">
-<meta name="twitter:description" content="解决在onCreate()过程中获取View的width和Height为0的4种方法问题出现原因：setContentView(layout)的加载时异步的,因此获取到的getHeight为0;
-解决方法：
-
-ViewTreeObserver
-Runnable
-onLayout
-getMeasureHeight         
-
-推荐：ViewTreeObserver方法…">
+<meta name="twitter:title" content="【奇巧淫技004期】AndroidStudio的乱刀之策">
+<meta name="twitter:description" content="这篇奇巧淫技是关于android studio的使用，也许你很奇怪，这样的文章或者博客多了去了，为什么我还要弄成奇巧淫技，不是自己打自己脸嘛？博主的解释：1.网上的一坨AS的教程都是粘贴复制出来的，很多配置属性界面已经更改；我这里的AS配置都是自己在实际使用中记录的。2.所谓的奇巧淫技不应该只是代码上的吧，我们更宽泛的去理解，工具也是奇巧一块的。">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -80,7 +74,7 @@ getMeasureHeight
   };
 </script>
 
-    <title> Android奇巧淫技日报【20150731-S011-B】 // sabria </title>
+    <title> 【奇巧淫技004期】AndroidStudio的乱刀之策 // sabria </title>
 </head>
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 <!--[if lte IE 8]>
@@ -175,7 +169,7 @@ getMeasureHeight
           
           
             
-              Android奇巧淫技日报【20150731-S011-B】
+              【奇巧淫技004期】AndroidStudio的乱刀之策
             
           
         </h1>
@@ -184,8 +178,8 @@ getMeasureHeight
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2015-07-31T12:33:06+08:00" content="2015-07-31">
-            2015-07-31
+          <time itemprop="dateCreated" datetime="2015-08-02T20:13:48+08:00" content="2015-08-02">
+            2015-08-02
           </time>
         </span>
 
@@ -203,63 +197,57 @@ getMeasureHeight
       
 
       
-        <span itemprop="articleBody"><h1 id="解决在onCreate()过程中获取View的width和Height为0的4种方法">解决在onCreate()过程中获取View的width和Height为0的4种方法</h1><p>问题出现原因：setContentView(layout)的加载时异步的,因此获取到的getHeight为0;</p>
-<p>解决方法：</p>
-<ol>
-<li>ViewTreeObserver</li>
-<li>Runnable</li>
-<li>onLayout</li>
-<li>getMeasureHeight         </li>
-</ol>
-<p>推荐：ViewTreeObserver方法…</p>
+        <span itemprop="articleBody"><p>这篇奇巧淫技是关于android studio的使用，也许你很奇怪，这样的文章或者博客多了去了，为什么我还要弄成奇巧淫技，不是自己打自己脸嘛？<br>博主的解释：<br>1.网上的一坨AS的教程都是粘贴复制出来的，很多配置属性界面已经更改；我这里的AS配置都是自己在实际使用中记录的。<br>2.所谓的奇巧淫技不应该只是代码上的吧，我们更宽泛的去理解，工具也是奇巧一块的。</p>
 <a id="more"></a>
-<h2 id="1、监听Draw/Layout事件：ViewTreeObserver">1、监听Draw/Layout事件：ViewTreeObserver</h2><p>ViewTreeObserver监听很多不同的界面绘制事件。一般来说OnGlobalLayoutListener就是可以让我们获得到view的width和height的地方.下面onGlobalLayout内的代码会在View完成Layout过程后调用。</p>
-<p>复制代码</p>
-<pre><code>view.getViewTreeObserver().addOnGlobalLayoutListener(<span class="keyword">new</span>     ViewTreeObserver.OnGlobalLayoutListener() {
-     <span class="annotation">@Override</span>
-     <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onGlobalLayout</span><span class="params">()</span> </span>{
-         mScrollView.post(<span class="keyword">new</span> Runnable() {
-             <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
-                 view.getHeight(); <span class="comment">//height is ready</span>
-                 remove操作;
-             }
-         });
-     }
-});
-</code></pre><p>复制代码<br>但是要注意这个方法在每次有些view的Layout发生变化的时候被调用（比如某个View被设置为Invisible）,所以在得到你想要的宽高后，记得移除onGlobleLayoutListener：</p>
-<p>在 SDK Lvl &lt; 16时使用</p>
-<pre><code><span class="keyword">public</span> <span class="keyword">void</span> removeGlobalOnLayoutListener (ViewTreeObserver.OnGlobalLayoutListener victim)
-</code></pre><p>在 SDK Lvl &gt;= 16时使用</p>
-<pre><code><span class="keyword">public</span> <span class="keyword">void</span> removeOnGlobalLayoutListener (ViewTreeObserver.OnGlobalLayoutListener victim)
-</code></pre><h2 id="2、将一个runnable添加到Layout队列中">2、将一个runnable添加到Layout队列中</h2><pre><code>View.<span class="function"><span class="title">post</span><span class="params">()</span></span>
-</code></pre><p>只要用View.post()一个runnable就可以了。runnable对象中的方法会在View的measure、layout等事件后触发。</p>
-<p>UI事件队列会按顺序处理事件。在setContentView()被调用后，事件队列中会包含一个要求重新layout的message，所以任何你post到队列中的东西都会在Layout发生变化后执行。</p>
-<pre><code> view.post(<span class="keyword">new</span> Runnable() {
-      <span class="annotation">@Override</span>
-      <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
-           view.getHeight(); <span class="comment">//height is ready</span>
-      }
-});
-</code></pre><p>这个方法比ViewTreeObserver好：你的代码只会执行一次，而且你不用在在每次执行后将Observer禁用，省心多了。</p>
-<h2 id="3、重写View的onLayout方法">3、重写View的onLayout方法</h2><p>这个方法只在某些场景中实用，比如当你所要执行的东西应该作为他的内在逻辑被内聚、模块化在view中，否者这个解决方案就显得十分冗长和笨重。</p>
-<pre><code>view = <span class="keyword">new</span> View(<span class="keyword">this</span>) {
-    <span class="annotation">@Override</span>
-    <span class="keyword">protected</span> <span class="function"><span class="keyword">void</span> <span class="title">onLayout</span><span class="params">(<span class="keyword">boolean</span> changed, <span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> r, <span class="keyword">int</span> b)</span> </span>{
-        <span class="keyword">super</span>.onLayout(changed, l, t, r, b);
-        view.getHeight(); <span class="comment">//height is ready</span>
-}
-};
-</code></pre><p>需要注意的是onLayout方法会调用很多次，所以要考虑好在这个方法中要做什么，或者在第一次执行后禁用掉你的代码。</p>
-<h2 id="4-获取固定宽高">4.获取固定宽高</h2><p>如果你要获取的view的width和height是固定的，那么你可以直接使用：</p>
-<pre><code>View.<span class="function"><span class="title">getMeasureWidth</span><span class="params">()</span></span>
-View.<span class="function"><span class="title">getMeasureHeight</span><span class="params">()</span></span>
-</code></pre><p>但是要注意，这两个方法所获取的width和height可能跟实际draw后的不一样。官方文档解释了不同的原因：</p>
-<p>View的大小由width和height决定。一个View实际上同时有两种width和height值。</p>
-<p>第一种是measure width和measure height。他们定义了view想要在父View中占用多少width和height（详情见Layout）。measured height和width可以通过getMeasuredWidth() 和 getMeasuredHeight()获得。</p>
-<p>第二种是width和height，有时候也叫做drawing width和drawing height。这些值定义了view在屏幕上绘制和Layout完成后的实际大小。这些值有可能跟measure width和height不同。width和height可以通过getWidth()和getHeight获得。</p>
-<p>说的更简单点就是：</p>
-<pre><code>getMeasureHeight是控件本身的高度  getHeight是控件在界面最终显示的高度
-</code></pre></span>
+<p>声明：本AS是最新版本，即2015年8月2日升级的1.3版本，请按照新版本的使用方式来对照。</p>
+<p>需要了解：AS的一个work中只能放一个项目project，多个modules和库…</p>
+<h4 id="！！！重要的东西一定要放最前面">！！！重要的东西一定要放最前面</h4><ol>
+<li>自动补全左边代码： alt+回车</li>
+<li>代码提示 ： ctrl+p</li>
+<li>自动提示 ： ctrl+alt+空格  类似eclispe中：alt+/</li>
+<li>删除当前行：ctrl+y</li>
+<li>负责当前行：ctrl+d</li>
+<li>导包：ctrl+alt+o </li>
+<li>实现方法：alt+回车</li>
+<li>get/set构造方法 alt+insert</li>
+<li>sout 控制台输出</li>
+<li>调试不断的下一步F8</li>
+</ol>
+<h4 id="1-关闭每次打开更新检查android_studio：">1.关闭每次打开更新检查android studio：</h4><p>打开：C:\Android\Android Studio\bin\idea.properties<br>最后一行追加：disable.android.first.run=true</p>
+<h4 id="2-最简单导入eclipse项目或者库的方法：">2.最简单导入eclipse项目或者库的方法：</h4><p>网上有很多种导入方法,其实最简单的方法是，将eclipse的项目直接Import Module的方式导入，就可以了。这是最快速且简单的。</p>
+<h4 id="3-eclipse中的build_automatiocally_自动编译">3.eclipse中的build automatiocally 自动编译</h4><p><img src="http://i.imgur.com/BGutp4n.png" alt=""><br>在android studio中是settings—compiler–make project automatically前打勾</p>
+<h4 id="4-设置编码">4.设置编码</h4><p><img src="http://i.imgur.com/3bd8cEY.png" alt=""><br>搜索关键词：File Encodings，并设置为通用的 UTF-8</p>
+<h4 id="5-Gradle设置">5.Gradle设置</h4><p><img src="http://i.imgur.com/iBOb5eF.png" alt=""><br>设置为AS目录下的本地gradle，同时选择offline避免反复的下载</p>
+<h4 id="6-模拟器的超时时间设置">6.模拟器的超时时间设置</h4><p><img src="http://i.imgur.com/4Lw7fO4.png" alt=""><br>搜索关键词：tasks，设置connection timeout （默认是5000ms）</p>
+<h4 id="7-版本控制工具">7.版本控制工具</h4><p><img src="http://i.imgur.com/TCcH9hb.png" alt=""><br>搜索关键词：version control<br>git要配置路径 path to git executable<br>svn as自己有集成</p>
+<h4 id="8-代码注释自动提示">8.代码注释自动提示</h4><p><img src="http://i.imgur.com/rQVNLEl.png" alt=""><br>搜索关键字： general<br>勾选show quick doc on mouse move delay 500ms</p>
+<h4 id="9-显示行号">9.显示行号</h4><p>Setting中：editor–general–appearance – show line numbers</p>
+<h4 id="10-改变java文件的文字大小">10.改变java文件的文字大小</h4><p>Setting中：Editor–general–colors&amp;fonts–general 建立一个新的scheme<br>colors&amp;fonts – font 修改字体大小</p>
+<h4 id="11-代码提示">11.代码提示</h4><p><img src="http://i.imgur.com/Dl80qQ6.png" alt=""><br>eclipse直接alt+/就可以出来，在As中搜索关键词：code completion —》case sensitive completion 选择为none(表示代码提示不区分大小写，模糊匹配) 勾选Basic Completion(ctrl+空格)</p>
+<h4 id="12-自动导包">12.自动导包</h4><p><img src="http://i.imgur.com/mrqCgmz.png" alt=""><br>Auto import</p>
+<h4 id="13-设置头部说明注释">13.设置头部说明注释</h4><p>File and code Templates–》Includes–》File Header 创建属于你自己的头部注释<br><img src="http://i.imgur.com/HE1ovxC.png" alt=""></p>
+<h4 id="14-快捷键的选择：keymap_选择eclipse">14.快捷键的选择：keymap 选择eclipse</h4><p>建议使用default<br><img src="http://i.imgur.com/4837BkD.png" alt=""></p>
+<h4 id="15-设置sdk或者jdk">15.设置sdk或者jdk</h4><p>File—》project structure—》SDK Location<br><img src="http://i.imgur.com/Fn21tBq.png" alt=""><br>一般而言点击Title栏上的图标，可以快速进入配置</p>
+<h4 id="16-删除一个modules">16.删除一个modules</h4><p>project structure–》Modules 选择 module名然后点击删除按钮-。注意这只是表面删除。如果要磁盘都删除，可以直接进到磁盘删除，或者切换为project目录模式，点击右键delete删除<br><img src="http://i.imgur.com/NSUMVRF.png" alt=""></p>
+<h4 id="17-加载关联lib包方法">17.加载关联lib包方法</h4><p><img src="http://i.imgur.com/N00ziRQ.png" alt=""></p>
+<p>project structure —》 Dependencies —》+ 符号 </p>
+<ul>
+<li>—-&gt;library dependency   选择这里就会从jcenter中心下载lib包直接关联好；</li>
+<li>—-&gt;选择 File dependency  就能够从本地的lib包里面关联</li>
+<li>—-&gt;选择Mo    dule dependency 直接关联同work中导入的module-lib</li>
+</ul>
+<p>是否关联成功了，到你的主module中的build.gradle中去看</p>
+<h4 id="18-eclipse中的clean操作">18.eclipse中的clean操作</h4><p>在as中Build—》clean project</p>
+<p><img src="http://i.imgur.com/L7JMUuT.png" alt=""></p>
+<h4 id="19-签名打包">19.签名打包</h4><p>ad中Build—》Generate signed APK</p>
+<p><img src="http://i.imgur.com/UhqIvk7.png" alt=""></p>
+<p><img src="http://i.imgur.com/nfFvxBP.png" alt=""></p>
+<h4 id="20-新建lib库文件">20.新建lib库文件</h4><p>在elipse中是直接勾选，而在As中是在new module –》android library然后再下一步</p>
+<p><img src="http://i.imgur.com/G8Lnz9S.png" alt=""></p>
+<p>或者直接在该module的修改build.gradle的apply plugin为：</p>
+<pre><code><span class="tag">apply</span> <span class="rule"><span class="attribute">plugin</span>:<span class="value"> <span class="string">'com.android.library'</span></span></span>
+</code></pre><p><img src="http://i.imgur.com/DrYi9EP.png" alt=""></p>
+</span>
       
     </div>
 
@@ -270,13 +258,13 @@ View.<span class="function"><span class="title">getMeasureHeight</span><span cla
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/08/01/Android奇巧淫技日报【20150801-S011-O】/" rel="prev">Android奇巧淫技日报【20150801-S011-O】</a>
+              <a href="/3000/01/01/Android长袖善舞【不断更新】/" rel="prev">Android长袖善舞【不断更新】</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/07/30/Android奇巧淫技日报【20150730-S011-B】/" rel="next">Android奇巧淫技日报【20150730-S011-B】</a>
+              <a href="/2015/08/01/【奇巧淫技003期】ViewTreeObserver的深究之策/" rel="next">【奇巧淫技003期】ViewTreeObserver的深究之策</a>
             
           </div>
         </div>
@@ -395,7 +383,7 @@ View.<span class="function"><span class="title">getMeasureHeight</span><span cla
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#解决在onCreate()过程中获取View的width和Height为0的4种方法"><span class="nav-number">1.</span> <span class="nav-text">解决在onCreate()过程中获取View的width和Height为0的4种方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、监听Draw/Layout事件：ViewTreeObserver"><span class="nav-number">1.1.</span> <span class="nav-text">1、监听Draw/Layout事件：ViewTreeObserver</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、将一个runnable添加到Layout队列中"><span class="nav-number">1.2.</span> <span class="nav-text">2、将一个runnable添加到Layout队列中</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、重写View的onLayout方法"><span class="nav-number">1.3.</span> <span class="nav-text">3、重写View的onLayout方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-获取固定宽高"><span class="nav-number">1.4.</span> <span class="nav-text">4.获取固定宽高</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#！！！重要的东西一定要放最前面"><span class="nav-number">1.</span> <span class="nav-text">！！！重要的东西一定要放最前面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-关闭每次打开更新检查android_studio："><span class="nav-number">2.</span> <span class="nav-text">1.关闭每次打开更新检查android studio：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-最简单导入eclipse项目或者库的方法："><span class="nav-number">3.</span> <span class="nav-text">2.最简单导入eclipse项目或者库的方法：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-eclipse中的build_automatiocally_自动编译"><span class="nav-number">4.</span> <span class="nav-text">3.eclipse中的build automatiocally 自动编译</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-设置编码"><span class="nav-number">5.</span> <span class="nav-text">4.设置编码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-Gradle设置"><span class="nav-number">6.</span> <span class="nav-text">5.Gradle设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-模拟器的超时时间设置"><span class="nav-number">7.</span> <span class="nav-text">6.模拟器的超时时间设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-版本控制工具"><span class="nav-number">8.</span> <span class="nav-text">7.版本控制工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-代码注释自动提示"><span class="nav-number">9.</span> <span class="nav-text">8.代码注释自动提示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-显示行号"><span class="nav-number">10.</span> <span class="nav-text">9.显示行号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-改变java文件的文字大小"><span class="nav-number">11.</span> <span class="nav-text">10.改变java文件的文字大小</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11-代码提示"><span class="nav-number">12.</span> <span class="nav-text">11.代码提示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#12-自动导包"><span class="nav-number">13.</span> <span class="nav-text">12.自动导包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#13-设置头部说明注释"><span class="nav-number">14.</span> <span class="nav-text">13.设置头部说明注释</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#14-快捷键的选择：keymap_选择eclipse"><span class="nav-number">15.</span> <span class="nav-text">14.快捷键的选择：keymap 选择eclipse</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#15-设置sdk或者jdk"><span class="nav-number">16.</span> <span class="nav-text">15.设置sdk或者jdk</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#16-删除一个modules"><span class="nav-number">17.</span> <span class="nav-text">16.删除一个modules</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#17-加载关联lib包方法"><span class="nav-number">18.</span> <span class="nav-text">17.加载关联lib包方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#18-eclipse中的clean操作"><span class="nav-number">19.</span> <span class="nav-text">18.eclipse中的clean操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#19-签名打包"><span class="nav-number">20.</span> <span class="nav-text">19.签名打包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#20-新建lib库文件"><span class="nav-number">21.</span> <span class="nav-text">20.新建lib库文件</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
