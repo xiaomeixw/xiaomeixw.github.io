@@ -40,7 +40,7 @@
 <meta name="description" content="何为长袖善舞将所有Android开发中平时的总结汇聚于此，这些小知识点非常的琐屑，但却在开发中经常碰到，它简单到对于我而言已经了然入心，但人的记忆是很诡异的，因为一旦你不用，你就会很容易健忘。
 它不是奇巧淫技，因为奇巧淫技是可以在工作中被总结出来的，而这里的一些知识简直细到不能忍受…
 成语中的长袖善舞是指：喻有所凭借，事情容易成功。我想这是非常好的解释…
-这个篇章会一直处于置顶，一旦有就会在原有的">
+这个篇章会一直处于置顶，我会将这3年and">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android长袖善舞【不断更新】">
 <meta property="og:url" content="http://yoursite.com/3000/01/01/Android长袖善舞【不断更新】/index.html">
@@ -48,14 +48,15 @@
 <meta property="og:description" content="何为长袖善舞将所有Android开发中平时的总结汇聚于此，这些小知识点非常的琐屑，但却在开发中经常碰到，它简单到对于我而言已经了然入心，但人的记忆是很诡异的，因为一旦你不用，你就会很容易健忘。
 它不是奇巧淫技，因为奇巧淫技是可以在工作中被总结出来的，而这里的一些知识简直细到不能忍受…
 成语中的长袖善舞是指：喻有所凭借，事情容易成功。我想这是非常好的解释…
-这个篇章会一直处于置顶，一旦有就会在原有的">
-<meta property="og:updated_time" content="2015-08-02T04:07:45.204Z">
+这个篇章会一直处于置顶，我会将这3年and">
+<meta property="og:image" content="http://i.imgur.com/eac52qV.png">
+<meta property="og:updated_time" content="2015-08-13T05:05:32.271Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android长袖善舞【不断更新】">
 <meta name="twitter:description" content="何为长袖善舞将所有Android开发中平时的总结汇聚于此，这些小知识点非常的琐屑，但却在开发中经常碰到，它简单到对于我而言已经了然入心，但人的记忆是很诡异的，因为一旦你不用，你就会很容易健忘。
 它不是奇巧淫技，因为奇巧淫技是可以在工作中被总结出来的，而这里的一些知识简直细到不能忍受…
 成语中的长袖善舞是指：喻有所凭借，事情容易成功。我想这是非常好的解释…
-这个篇章会一直处于置顶，一旦有就会在原有的">
+这个篇章会一直处于置顶，我会将这3年and">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -191,9 +192,85 @@
         <span itemprop="articleBody"><h1 id="何为长袖善舞">何为长袖善舞</h1><p>将所有Android开发中平时的总结汇聚于此，这些小知识点非常的琐屑，但却在开发中经常碰到，它简单到对于我而言已经了然入心，但人的记忆是很诡异的，因为一旦你不用，你就会很容易健忘。</p>
 <p>它不是奇巧淫技，因为奇巧淫技是可以在工作中被总结出来的，而这里的一些知识简直细到不能忍受…</p>
 <p>成语中的长袖善舞是指：喻有所凭借，事情容易成功。<br>我想这是非常好的解释…</p>
-<p>这个篇章会一直处于置顶，一旦有就会在原有的基础上不断的更新。</p>
+<p>这个篇章会一直处于置顶，我会将这3年android开发中的所有总结的文档内容都公开，所以你会看到一些在我自己现在看来简直就是小儿科的玩意，不过对于当时的我而言，确实是宝贵的理解和技术升华。一边回忆一边追索曾经不断的成长。</p>
+<p>人只要在一个事物或者爱好上花上7年时间，都可以成为这个事物或爱好的精通之人。所以一旦有就会在原有的基础上不断的更新。</p>
 <p>说实话，它只是我大脑容量不能存储太多MB后，溢出的移动硬盘。</p>
 <a id="more"></a>
+<h3 id="1-一年前e居社区APP开发时,服务端是C#(web-service),如何上传图片到服务器">1.一年前e居社区APP开发时,服务端是C#(web-service),如何上传图片到服务器</h3><p>调用服务器的webservice接口，实现从Android上传图片到服务器，然后从服务器下载图片到Android客户端：</p>
+<pre><code>从<span class="keyword">Android端用io流读取到要上传的图片，用Base64编码成字节流的字符串，通过调用webservice把该字符串作为参数传到服务器端，服务端解码该字符串，最后保存到相应的路径下。整个上传过程的关键就是 </span>以 字节流的字符串 进行数据传递。下载过程，与上传过程相反，把服务器端和客户端的代码相应的调换
+</code></pre><h3 id="2-Android触摸事件的传递">2.Android触摸事件的传递</h3><pre><code>点击事件到底层View（一般是一个ViewGroup）以后，会调用ViewGroup的dispatchTouchEvent方法，然后的逻辑是这样的：如果底层ViewGroup拦截事件即<span class="keyword">on</span>InterceptTouchEvent返回true，则事件由ViewGroup处理，这个时候，如果ViewGroup的mOnTouchListener被设置，则会<span class="keyword">on</span>Touch会被调用，否则，<span class="keyword">on</span>TouchEvent会被调用，也就是说，如果都提供的话，<span class="keyword">on</span>Touch会屏蔽掉<span class="keyword">on</span>TouchEvent。在<span class="keyword">on</span>TouchEvent中，如果设置了mOnClickListener，则<span class="keyword">on</span>Click会被调用。如果顶层ViewGroup不拦截事件，则事件会传递给它的在点击事件链上的子View，这个时候，子View的dispatchTouchEvent会被调用，到此为止，事件已经从最底层View传递给了上一层View，接下来的行为和其底层View一致，如此循环，完成整个事件派发。另外要说明的是，ViewGroup默认是不拦截点击事件的，其<span class="keyword">on</span>InterceptTouchEvent返回false。
+
+如果一个点击事件，子View的<span class="keyword">on</span>TouchEvent返回了false，则父View的<span class="keyword">on</span>TouchEvent会被直接调用，以此类推。如果所有的View都不处理，则最终会由Activity来处理，这个时候，Activity的<span class="keyword">on</span>TouchEvent会被调用.
+
+<span class="number">1</span>，dispatchTouchEvent最先接受到事件，他是负责把事件分发给子View的；
+<span class="number">2</span>、如果dispatchTouchEvent  返回值是super.dispatchTouchEvent()那么<span class="keyword">on</span>InterceptTouchEvent 开始起拦截作用；
+<span class="number">3</span>、<span class="keyword">on</span>InterceptTouchEvent 返回true表示当前ViewGroup开始消费事件， 返回false表示事件将继续分发到子View；
+</code></pre><h3 id="3-百度地图问题">3.百度地图问题</h3><pre><code><span class="comment">1</span><span class="string">.</span>    <span class="comment">注意导入jar包和so包，并且在javabuild中配置</span>
+</code></pre><p> <img src="http://i.imgur.com/eac52qV.png" alt=""></p>
+<pre><code><span class="number">2.</span>注意新应用必须在百度创建：SHAR1+包名
+<span class="number">3.</span>权限啊！！特别是百度的service要在清单文件中配置
+<span class="number">4.</span>代码混淆后会生成新的shar1，这时要重新注册一个key！！！！
+</code></pre><p>（注意:这个是很久之前开发e居社区时，百度地图的SDK还是很老的版本，貌似新版本5.2已经很多东西都变了…）</p>
+<h3 id="4-ImageLoader_fitXY">4.ImageLoader fitXY</h3><p>ImageLoader加载图片时不因为服务端图片本身的大小问题导致的图片显示异常：在ImageView中android:scaleType是控制图片如何resized/moved来匹对ImageView的size</p>
+<pre><code><span class="string">android:</span>scaleType=<span class="string">"fitXY"</span>  或者     <span class="string">android:</span>scaleType=<span class="string">"centerCrop"</span>
+</code></pre><p>（注意：很久之前的总结…现在看起来真是小儿科的东西。）</p>
+<h3 id="5-对于ActivityGroup/FragmentActivity导致的BUG：Can_not_perform_this_action_after_onSaveInstanc_解决方案：">5.对于ActivityGroup/FragmentActivity导致的BUG：Can not perform this action after onSaveInstanc 解决方案：</h3><ol>
+<li><p>FrammentManager把commit（）方法替换成 commitAllowingStateLoss()就行</p>
+</li>
+<li><p>父容器Activity与子Activity里加了个‘onSaveInstanceState()’方法内未加内容。可以解决问题</p>
+</li>
+</ol>
+<p>3.(最有效的解决方案)<br>在tab上面的子activity监听BACK键的事件，响应并拦截，再通过广播方式通知父容器TabActivity主动销毁自己，达到原来响应onBackPressed退出App的效果。</p>
+<p>（注意：在e居社区实际开发中，我用的是方法3来解决的，所以也推荐你用方法3.）</p>
+<h3 id="6-双击离开APP">6.双击离开APP</h3><pre><code>@Override
+    public boolean onKeyDown<span class="params">(int keyCode, KeyEvent event)</span> {
+        <span class="keyword">if</span> <span class="params">(keyCode == KeyEvent.KEYCODE_BACK &amp;&amp; event.getAction<span class="params">()</span> == KeyEvent.ACTION_DOWN)</span> {
+            <span class="keyword">if</span> <span class="params">(<span class="params">(System.currentTimeMillis<span class="params">()</span> - exitTime)</span> &gt; <span class="number">2000</span>)</span> {
+                Toast.makeText<span class="params">(getApplicationContext<span class="params">()</span>, <span class="string">"再按一次退出宜居社区"</span>, Toast.LENGTH_SHORT)</span>.show<span class="params">()</span>;
+                exitTime = System.currentTimeMillis<span class="params">()</span>;
+            } <span class="keyword">else</span> {            
+                <span class="comment">// 500毫秒后关闭自己</span>
+                finish<span class="params">()</span>;
+                System.exit<span class="params">(<span class="number">0</span>)</span>;
+            }
+            return <span class="literal">true</span>;
+        }
+        return super.onKeyDown<span class="params">(keyCode, event)</span>;
+    }
+</code></pre><h3 id="7-获取屏幕宽度">7.获取屏幕宽度</h3><p>方法一：</p>
+<pre><code>DisplayMetrics metric = <span class="keyword">new</span> DisplayMetrics();
+getWindowManager().getDefaultDisplay().getMetrics(metric);
+<span class="built_in">int</span> <span class="variable">width</span> = metric.widthPixels;     <span class="comment">// 屏幕宽度（像素）</span>
+<span class="built_in">int</span> <span class="variable">height</span> = metric.heightPixels;   <span class="comment">// 屏幕高度（像素）</span>
+<span class="built_in">float</span> density = metric.density;      <span class="comment">// 屏幕密度（0.75 / 1.0 / 1.5）</span>
+<span class="built_in">int</span> densityDpi = metric.densityDpi;  <span class="comment">// 屏幕密度DPI（120 / 160 / 240）</span>
+</code></pre><p>方法二：</p>
+<pre><code><span class="type">WindowManager</span> wm = (<span class="type">WindowManager</span>) getContext<span class="literal">()</span>.getSystemService(<span class="type">Context</span>.<span class="type">WINDOW_SERVICE</span>);
+<span class="built_in">int</span> width = wm.getDefaultDisplay<span class="literal">()</span>.getWidth<span class="literal">()</span>;
+<span class="built_in">int</span> height = wm.getDefaultDisplay<span class="literal">()</span>.getHeight<span class="literal">()</span>;
+</code></pre><h3 id="8-动态添加布局LayoutInflater">8.动态添加布局LayoutInflater</h3><pre><code>View root = getRootView<span class="params">()</span>;
+<span class="comment">//这里的RelativeLayout就是要变化的view</span>
+RelativeLayout dynamic_view=<span class="params">(RelativeLayout)</span> root.findViewById<span class="params">(R.id.dynamic_view)</span>;
+<span class="comment">//代码设置布局</span>
+LayoutInflater layoutInflater=<span class="params">(LayoutInflater)</span> context.getSystemService<span class="params">(Context.LAYOUT_INFLATER_SERVICE)</span>;
+View child=layoutInflater.inflate<span class="params">(R.layout.add_view, null)</span>; 
+<span class="comment">//添加进root布局中</span>
+dynamic_view.addView<span class="params">(child)</span>;
+
+这里的add_view的宽高layout失效，在它外面嵌套一个RelativeLayout来解决这个问题。
+</code></pre><p>（注意：很久的玩意了…呵呵…）</p>
+<h3 id="9-ScrollView">9.ScrollView</h3><p>当布局界面上条目比较多，且不是使用ListView时，使用<scrollview>包裹里里面的内容就可以解决了。同时ScrollView只能有一个子孩子布局,所以在里面再包裹&lt; LinearLayout&gt;</scrollview></p>
+<pre><code>&lt;ScrollView
+    android:layout_width=<span class="string">"match_parent"</span>
+    android:layout_height=<span class="string">"wrap_content"</span> &gt;
+
+    &lt;LinearLayout
+        android:layout_width=<span class="string">"match_parent"</span>
+        android:layout_height=<span class="string">"wrap_content"</span>
+        android:orientation=<span class="string">"vertical"</span> &gt;
+
+        &lt;com<span class="class">.sabria</span><span class="class">.sabriaprotect</span><span class="class">.ui</span><span class="class">.SettingView</span>
+</code></pre><p>（注：现在看到这个感觉有点想笑…呵呵~~~）</p>
 </span>
       
     </div>
@@ -209,7 +286,7 @@
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/08/02/【奇巧淫技004期】AndroidStudio的乱刀之策/" rel="next">【奇巧淫技004期】AndroidStudio的乱刀之策</a>
+              <a href="/2015/08/15/【杂谈8月】Material Design设计在中国之困/" rel="next">【杂谈8月】Material Design设计在中国之困</a>
             
           </div>
         </div>
@@ -272,7 +349,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -328,7 +405,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#何为长袖善舞"><span class="nav-number">1.</span> <span class="nav-text">何为长袖善舞</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#何为长袖善舞"><span class="nav-number">1.</span> <span class="nav-text">何为长袖善舞</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-一年前e居社区APP开发时,服务端是C#(web-service),如何上传图片到服务器"><span class="nav-number">1.0.1.</span> <span class="nav-text">1.一年前e居社区APP开发时,服务端是C#(web-service),如何上传图片到服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Android触摸事件的传递"><span class="nav-number">1.0.2.</span> <span class="nav-text">2.Android触摸事件的传递</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-百度地图问题"><span class="nav-number">1.0.3.</span> <span class="nav-text">3.百度地图问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-ImageLoader_fitXY"><span class="nav-number">1.0.4.</span> <span class="nav-text">4.ImageLoader fitXY</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-对于ActivityGroup/FragmentActivity导致的BUG：Can_not_perform_this_action_after_onSaveInstanc_解决方案："><span class="nav-number">1.0.5.</span> <span class="nav-text">5.对于ActivityGroup/FragmentActivity导致的BUG：Can not perform this action after onSaveInstanc 解决方案：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-双击离开APP"><span class="nav-number">1.0.6.</span> <span class="nav-text">6.双击离开APP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-获取屏幕宽度"><span class="nav-number">1.0.7.</span> <span class="nav-text">7.获取屏幕宽度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-动态添加布局LayoutInflater"><span class="nav-number">1.0.8.</span> <span class="nav-text">8.动态添加布局LayoutInflater</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-ScrollView"><span class="nav-number">1.0.9.</span> <span class="nav-text">9.ScrollView</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
