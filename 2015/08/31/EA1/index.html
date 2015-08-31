@@ -1,0 +1,935 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+    
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.4"/>
+
+
+    <meta name="description" content="重新发现、定义并创造这个世界..." />
+
+
+
+  <meta name="keywords" content="Hexo,next" />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
+
+
+<meta name="description" content="Effective Android part-1 对象创建与销毁
+Lesson Creation and destruction of objects创建与销毁对象法则：
+1.用静态工厂方法替换构造器 Consider providing static factory methods instead of constructors;
+Toast.makeText();
+2.Builder构建器
+P">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Effective Android part-1">
+<meta property="og:url" content="http://yoursite.com/2015/08/31/EA1/index.html">
+<meta property="og:site_name" content="sabria">
+<meta property="og:description" content="Effective Android part-1 对象创建与销毁
+Lesson Creation and destruction of objects创建与销毁对象法则：
+1.用静态工厂方法替换构造器 Consider providing static factory methods instead of constructors;
+Toast.makeText();
+2.Builder构建器
+P">
+<meta property="og:updated_time" content="2015-08-31T14:25:53.573Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Effective Android part-1">
+<meta name="twitter:description" content="Effective Android part-1 对象创建与销毁
+Lesson Creation and destruction of objects创建与销毁对象法则：
+1.用静态工厂方法替换构造器 Consider providing static factory methods instead of constructors;
+Toast.makeText();
+2.Builder构建器
+P">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'hide'
+  };
+</script>
+
+    <title> Effective Android part-1 // sabria </title>
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+
+
+
+<div class="container one-column page-post-detail">
+    <div class="headband"></div>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">sabria</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+        </div>
+    </header>
+
+    <main id="main" class="main">
+        <div class="main-inner">
+            <div id="content" class="content">
+                
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              Effective Android part-1
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-08-31T22:23:06+08:00" content="2015-08-31">
+            2015-08-31
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>Effective Android part-1 对象创建与销毁</p>
+<h1 id="Lesson_Creation_and_destruction_of_objects">Lesson Creation and destruction of objects</h1><p>创建与销毁对象法则：</p>
+<p>1.用静态工厂方法替换构造器 Consider providing static factory methods instead of constructors;</p>
+<pre><code><span class="tag">Toast</span><span class="class">.makeText</span>();
+</code></pre><p>2.Builder构建器</p>
+<pre><code>Picasso.<span class="function"><span class="title">with</span><span class="params">(context)</span></span>
+  .<span class="function"><span class="title">load</span><span class="params">(url)</span></span>
+  .<span class="function"><span class="title">resize</span><span class="params">(<span class="number">50</span>, <span class="number">50</span>)</span></span>
+  .<span class="function"><span class="title">centerCrop</span><span class="params">()</span></span>
+  .<span class="function"><span class="title">into</span><span class="params">(imageView)</span></span>
+</code></pre><p>3.单例模式</p>
+<pre><code><span class="built_in">Singleton</span>.getInstance()<span class="comment">;</span>
+</code></pre><p>4.延时对象创建</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Foo</span> {  
+    <span class="comment">// 似有静态内部类, 只有当有引用时, 该类才会被装载  </span>
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">LazyFoo</span> {  
+        <span class="keyword">public</span> <span class="keyword">static</span> Foo foo = <span class="keyword">new</span> Foo();  
+    }  
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Foo <span class="title">getInstance</span>(<span class="params"></span>) </span>{  
+        <span class="keyword">return</span> LazyFoo.foo;  
+    }  
+}  
+</code></pre><p>5.适时消除对象引用</p>
+<pre><code>onDestory{
+   <span class="instruction"> instance </span>= null ;
+}
+</code></pre><p>6.try-catch显示调用</p>
+<pre><code>InputStream <span class="operator">in</span> = <span class="constant">null</span>;  
+<span class="keyword">try</span> {  
+    <span class="operator">in</span> = settingsUrl.openStream();  
+    settings.<span class="built_in">load</span>(<span class="operator">in</span>);  
+} <span class="keyword">catch</span> (IOException e) {  
+    throw <span class="built_in">new</span> StrutsException();  
+} <span class="keyword">finally</span> {  
+    <span class="keyword">if</span> (<span class="operator">in</span> != <span class="constant">null</span>) {  
+        <span class="keyword">try</span> {  
+            <span class="operator">in</span>.<span class="built_in">close</span>();  
+        } <span class="keyword">catch</span> (IOException io) {  
+
+        }  
+    }  
+}
+</code></pre><a id="more"></a>
+<h2 id="#1-Consider_providing_static_factory_methods_instead_of_constructors">#1.Consider providing static factory methods instead of constructors</h2><h3 id="Meaning">Meaning</h3><blockquote>
+<p>所谓构造器：</p>
+</blockquote>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">FactoryStatic</span> {    
+    <span class="function"><span class="keyword">public</span> <span class="title">FactoryStatic</span>(<span class="params"></span>) </span>{
+    }    
+}
+</code></pre><p>调用：</p>
+<pre><code>FactoryStatic<span class="instruction"> instance </span>=<span class="instruction"> new </span>FactoryStatic(<span class="function">)</span>;
+</code></pre><blockquote>
+<p>用静态工厂方法：</p>
+</blockquote>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FactoryStatic</span> </span>{
+
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> FactoryStatic CON_INSTANCE = <span class="keyword">new</span> FactoryStatic();
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> FactoryStatic <span class="title">newInstance</span><span class="params">()</span></span>{
+        <span class="keyword">return</span> FactoryStatic.CON_INSTANCE;
+    }
+}
+</code></pre><p>调用：</p>
+<pre><code>FactoryStatic instance=FactoryStatic.newInstance()<span class="comment">;</span>
+</code></pre><h3 id="Quality">Quality</h3><h4 id="advantageous">advantageous</h4><p>1.静态工厂方法名称可以指定具有含义的名称;</p>
+<blockquote>
+<p>valueOf:返回的实例与它的参数具有相同的值，类型转化方法。   (或者直接用of)</p>
+<p>getInstance:返回的实例是通过方法的参数来描述的，单例面试Singleton该方法没有参数,并返回唯一的实例;</p>
+<p>newInstacne:同getInstance，但每次返回的实例和其他实例不同；</p>
+<p>getType:同getInstance(),在工厂方法处于不同的类中的时候使用，type表示工厂方法所返回的对象类型；</p>
+<p>newType:同newInstance(),在工厂方法处于不同的类中的时候使用，type表示工厂方法所返回的对象类型；</p>
+</blockquote>
+<p>2.不必每次调用都创建新对象;</p>
+<p>3.可以返回原返回类型的任何子类型的对象;</p>
+<pre><code><span class="tag">e</span><span class="class">.g</span>. <span class="tag">Java</span> <span class="tag">Collections</span> <span class="tag">framework</span> <span class="attr_selector">[grepcode.com]</span>
+</code></pre><h4 id="disadvantageous">disadvantageous</h4><p>1.类如果不含公有的或者受保护的构造器，就不能被子类化;</p>
+<p>2.与其他的静态方法实际上没有任何区别;</p>
+<h3 id="CodeSimple">CodeSimple</h3><h4 id="Java范例：">Java范例：</h4><p>Boolean.valueOf(“true”);</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">Boolean</span> valueOf(String string) {
+    <span class="keyword">return</span> parseBoolean(string) ? <span class="keyword">Boolean</span>.<span class="keyword">TRUE</span> : <span class="keyword">Boolean</span>.<span class="keyword">FALSE</span>;
+}
+
+<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">Boolean</span> <span class="keyword">TRUE</span> = <span class="keyword">new</span> <span class="keyword">Boolean</span>(<span class="keyword">true</span>);
+
+<span class="keyword">public</span> <span class="keyword">Boolean</span>(<span class="keyword">boolean</span> value) {
+    <span class="keyword">this</span>.value = value;
+}
+</code></pre><p>Collections.emptyMap();</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> &lt;K, V&gt; Map&lt;K, V&gt; emptyMap() {
+    <span class="keyword">return</span> EMPTY_MAP;
+}
+
+<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Map EMPTY_MAP = <span class="keyword">new</span> EmptyMap();
+</code></pre><h4 id="Android范例：">Android范例：</h4><p>Toast.makeText();</p>
+<pre><code>public class <span class="type">Toast</span> {
+    public <span class="type">Toast</span>(<span class="type">Context</span> context) {
+        mContext = context;
+    }
+
+    public <span class="keyword">static</span> <span class="type">Toast</span> makeText(<span class="type">Context</span> context, <span class="type">CharSequence</span> text, <span class="type">int</span> duration) {
+        <span class="type">Toast</span> <span class="literal">result</span> = new <span class="type">Toast</span>(context);
+        ......
+        <span class="literal">result</span>.mNextView = v;
+        ......
+        <span class="keyword">return</span> <span class="literal">result</span>;
+    }
+
+    public <span class="type">void</span> show()       
+         service.enqueueToast(pkg, tn, mDuration); 
+    }
+}
+</code></pre><p>ObjectAnimator.ofFloat(target, propertyName, values);</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ObjectAnimator</span> <span class="keyword">extends</span> <span class="title">ValueAnimator</span> </span>{
+
+    <span class="function"><span class="keyword">private</span> <span class="title">ObjectAnimator</span><span class="params">(Object <span class="keyword">target</span>, String propertyName)</span> </span>{
+        mTarget = <span class="keyword">target</span>;
+        setPropertyName(propertyName);
+    }
+
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function">ObjectAnimator <span class="title">ofFloat</span><span class="params">(Object <span class="keyword">target</span>, String propertyName, <span class="keyword">float</span>... values)</span> </span>{
+        ObjectAnimator anim = <span class="keyword">new</span> ObjectAnimator(<span class="keyword">target</span>, propertyName);
+        anim.setFloatValues(values);
+        <span class="keyword">return</span> anim;
+    }
+}
+</code></pre><h2 id="#2-Builder构建器">#2.Builder构建器</h2><p>构造器和静态工厂的问题在于无法友善的拓展大量的可选参数.<br>对于参数，一般采用重叠构造器的方法处理，这种过多的参数面临代码难于编写和维护.</p>
+<h3 id="Meaning-1">Meaning</h3><blockquote>
+<p>构造器多参：</p>
+</blockquote>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> People {
+
+    <span class="keyword">private</span> <span class="built_in">String</span> mName;<span class="comment">// required</span>
+    <span class="keyword">private</span> <span class="built_in">String</span> mSex;<span class="comment">// required</span>
+
+    <span class="keyword">private</span> <span class="built_in">String</span> mAddress;<span class="comment">// optional</span>
+    <span class="keyword">private</span> <span class="built_in">String</span> mAge;<span class="comment">// optional</span>
+    <span class="keyword">private</span> <span class="built_in">String</span> mProject;<span class="comment">// optional</span>
+    <span class="keyword">private</span> <span class="built_in">String</span> mFat;<span class="comment">// optional</span>
+
+    <span class="keyword">public</span> People(<span class="built_in">String</span> name, <span class="built_in">String</span> sex) {
+        <span class="keyword">this</span>(name, sex, <span class="string">"USA"</span>);
+    }
+
+    <span class="keyword">public</span> People(<span class="built_in">String</span> name, <span class="built_in">String</span> sex, <span class="built_in">String</span> address) {
+        <span class="keyword">this</span>(name, sex, address, <span class="string">"20"</span>);
+    }
+
+    <span class="keyword">public</span> People(<span class="built_in">String</span> name, <span class="built_in">String</span> sex, <span class="built_in">String</span> address, <span class="built_in">String</span> age) {
+        <span class="keyword">this</span>(name, sex, address, age, <span class="string">"shopping,movie,travel"</span>);
+    }
+
+    <span class="keyword">public</span> People(<span class="built_in">String</span> name, <span class="built_in">String</span> sex, <span class="built_in">String</span> address, <span class="built_in">String</span> age, 
+                    <span class="built_in">String</span> project) {
+        <span class="keyword">this</span>(name, sex, address, age, project, <span class="string">"0"</span>);
+    }
+
+    <span class="keyword">public</span> People(<span class="built_in">String</span> name, <span class="built_in">String</span> sex, <span class="built_in">String</span> address, <span class="built_in">String</span> age, 
+                    <span class="built_in">String</span> project, <span class="built_in">String</span> fat) {
+        <span class="keyword">this</span>.mName = name;
+        <span class="keyword">this</span>.mSex = sex;
+        <span class="keyword">this</span>.mAddress = address;
+        <span class="keyword">this</span>.mAge = age;
+        <span class="keyword">this</span>.mProject = project;
+        <span class="keyword">this</span>.mFat = fat;
+    }
+
+}    
+</code></pre><p>调用：</p>
+<pre><code>People people = <span class="keyword">new</span> People(<span class="string">"Tony"</span>, <span class="string">"man"</span>, <span class="string">" 13 Liverpool Road, 
+</span>                Islington, London, London, N1 <span class="number">0</span>RW<span class="string">", "</span><span class="number">32</span><span class="string">", "</span><span class="keyword">read</span><span class="string">", "</span><span class="number">50</span>kg");
+</code></pre><h3 id="CodeSimple-1">CodeSimple</h3><h4 id="Android范例：-1">Android范例：</h4><p>Picasso 一个API接口优良并友善的图片加载框架，<br><a href="https://github.com/square/picasso/blob/master/picasso/src/main/java/com/squareup/picasso/Picasso.java" title="Picasso.java" target="_blank" rel="external">https://github.com/square/picasso/blob/master/picasso/src/main/java/com/squareup/picasso/Picasso.java</a></p>
+<p>调用方式如下：</p>
+<pre><code>Picasso.<span class="function"><span class="title">with</span><span class="params">(context)</span></span>
+  .<span class="function"><span class="title">load</span><span class="params">(url)</span></span>
+  .<span class="function"><span class="title">resize</span><span class="params">(<span class="number">50</span>, <span class="number">50</span>)</span></span>
+  .<span class="function"><span class="title">centerCrop</span><span class="params">()</span></span>
+  .<span class="function"><span class="title">into</span><span class="params">(imageView)</span></span>
+</code></pre><p>Picasso的Builder模式：</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Picasso</span> </span>{
+
+    <span class="keyword">static</span> <span class="keyword">volatile</span> Picasso singleton = <span class="keyword">null</span>;
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Picasso <span class="title">with</span><span class="params">(Context context)</span> </span>{
+        <span class="keyword">if</span> (singleton == <span class="keyword">null</span>) {
+          <span class="keyword">synchronized</span> (Picasso.class) {
+            <span class="keyword">if</span> (singleton == <span class="keyword">null</span>) {
+              singleton = <span class="keyword">new</span> Builder(context).build();              
+            }
+          }
+        }
+        <span class="keyword">return</span> singleton;
+      }
+
+     <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Builder</span> </span>{
+        <span class="keyword">private</span> <span class="keyword">final</span> Context context;<span class="comment">// required</span>
+
+        <span class="keyword">private</span> Downloader downloader;<span class="comment">// optional</span>
+        <span class="keyword">private</span> ExecutorService service;<span class="comment">// optional</span>
+        ......
+
+        <span class="function"><span class="keyword">public</span> <span class="title">Builder</span><span class="params">(Context context)</span> </span>{
+          <span class="keyword">if</span> (context == <span class="keyword">null</span>) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Context must not be null."</span>);
+          }
+
+          <span class="keyword">this</span>.context = context.getApplicationContext();
+        }
+
+        <span class="function"><span class="keyword">public</span> Builder <span class="title">downloader</span><span class="params">(Downloader downloader)</span> </span>{
+          <span class="keyword">if</span> (downloader == <span class="keyword">null</span>) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Downloader must not be null."</span>);
+          }
+          <span class="keyword">if</span> (<span class="keyword">this</span>.downloader != <span class="keyword">null</span>) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Downloader already set."</span>);
+          }
+          <span class="keyword">this</span>.downloader = downloader;
+          <span class="keyword">return</span> <span class="keyword">this</span>;
+        }
+
+        .......
+
+        <span class="function"><span class="keyword">public</span> Picasso <span class="title">build</span><span class="params">()</span> </span>{
+          Context context = <span class="keyword">this</span>.context;
+
+          <span class="keyword">if</span> (downloader == <span class="keyword">null</span>) {
+            downloader = Utils.createDefaultDownloader(context);
+          }
+
+          <span class="keyword">if</span> (service == <span class="keyword">null</span>) {
+            service = <span class="keyword">new</span> PicassoExecutorService();
+          }
+          .....
+
+          <span class="keyword">return</span> <span class="keyword">new</span> Picasso(context, dispatcher, cache, listener, transformer, requestHandlers, stats,
+              defaultBitmapConfig, indicatorsEnabled, loggingEnabled);
+        }
+      }
+
+    <span class="function"><span class="keyword">public</span> RequestCreator <span class="title">load</span><span class="params">(String path)</span> </span>{
+        <span class="keyword">if</span> (path == <span class="keyword">null</span>) {
+          <span class="keyword">return</span> <span class="keyword">new</span> RequestCreator(<span class="keyword">this</span>, <span class="keyword">null</span>, <span class="number">0</span>);
+        }
+        <span class="keyword">if</span> (path.trim().length() == <span class="number">0</span>) {
+          <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Path must not be empty."</span>);
+        }
+        <span class="keyword">return</span> load(Uri.parse(path));
+      }
+
+}    
+</code></pre><h2 id="#3-Singleton">#3.Singleton</h2><h3 id="Meaning-2">Meaning</h3><blockquote>
+<p>1.懒汉，线程不安全：在多线程不能正常工作</p>
+</blockquote>
+<pre><code>public class Singleton {  
+   <span class="keyword"> private</span><span class="keyword"> static</span> Singleton instance;  
+   <span class="keyword"> private</span> Singleton<span class="function"> (</span><span class="function">)</span>{}  
+
+   <span class="keyword"> public</span><span class="keyword"> static</span> Singleton<span class="function"> getInstance(</span><span class="function">)</span> {  
+   <span class="instruction"> if </span>(instance == null<span class="function">)</span> {  
+       <span class="instruction"> instance </span>=<span class="instruction"> new </span>Singleton(<span class="function">)</span>;  
+    }  
+   <span class="instruction"> return </span>instance;  
+    }  
+}  
+</code></pre><blockquote>
+<p>2.懒汉，线程安全：能够在多线程中很好的工作，遗憾的是，效率很低，99%情况下不需要同步</p>
+</blockquote>
+<pre><code>public class Singleton {  
+   <span class="keyword"> private</span><span class="keyword"> static</span> Singleton instance;  
+   <span class="keyword"> private</span> Singleton<span class="function"> (</span><span class="function">)</span>{}  
+
+   <span class="keyword"> public</span><span class="keyword"> static</span> synchronized Singleton<span class="function"> getInstance(</span><span class="function">)</span> {  
+       <span class="instruction"> if </span>(instance == null<span class="function">)</span> {  
+           <span class="instruction"> instance </span>=<span class="instruction"> new </span>Singleton(<span class="function">)</span>;  
+        }  
+       <span class="instruction"> return </span>instance;  
+    }  
+}   
+</code></pre><blockquote>
+<p>3.饿汉：基于classloder机制避免了多线程的同步问题，但没有达到lazy loading的目的</p>
+</blockquote>
+<pre><code>public class Singleton {  
+   <span class="keyword"> private</span><span class="keyword"> static</span> Singleton<span class="instruction"> instance </span>=<span class="instruction"> new </span>Singleton(<span class="function">)</span>;  
+   <span class="keyword"> private</span> Singleton<span class="function"> (</span><span class="function">)</span>{}  
+   <span class="keyword"> public</span><span class="keyword"> static</span> Singleton<span class="function"> getInstance(</span><span class="function">)</span> {  
+       <span class="instruction"> return </span>instance;  
+    }  
+}     
+</code></pre><blockquote>
+<p>4.饿汉，变种：同2，类初始化，没有lazy loading的目的，静态域中即实例化instance</p>
+</blockquote>
+<pre><code>public class Singleton {
+   <span class="keyword"> private</span><span class="keyword"> static</span>  Singleton<span class="instruction"> instance </span>= null;
+   <span class="keyword"> static</span> {
+       <span class="instruction"> instance </span>=<span class="instruction"> new </span>Singleton(<span class="function">)</span>;
+    }
+
+   <span class="keyword"> private</span><span class="function"> Singleton(</span><span class="function">)</span> {
+    }
+
+   <span class="keyword"> public</span><span class="keyword"> static</span> Singleton<span class="function"> getInstance(</span><span class="function">)</span> {
+       <span class="instruction"> return </span>instance;
+    }
+}
+</code></pre><blockquote>
+<p>5.静态内部类：利用了classloder的机制来保证初始化instance时只有一个线程，同时SingletonHolder类没有被主动使用，只有显示通过调用getInstance方法时，才会显示装载SingletonHolder类，从而实例化instance。起到了lazy laoding..</p>
+</blockquote>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>{  
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonHolder</span> </span>{  
+        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Singleton INSTANCE = <span class="keyword">new</span> Singleton();  
+    }  
+    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span> <span class="params">()</span></span>{}  
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>{  
+        <span class="keyword">return</span> SingletonHolder.INSTANCE;  
+    }  
+}     
+</code></pre><blockquote>
+<p>6.枚举：不仅能避免多线程同步问题，而且还能防止反序列化重新创建新的对象。</p>
+</blockquote>
+<pre><code><span class="keyword">public</span> <span class="keyword">enum</span> Singleton {  
+    INSTANCE;  
+    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">whateverMethod</span><span class="params">()</span> </span>{  
+    }  
+} 
+</code></pre><blockquote>
+<p>7.双重校验锁：本人最爱！</p>
+</blockquote>
+<pre><code>public class <span class="built_in">Singleton</span> {  
+    private <span class="keyword">volatile</span> <span class="keyword">static</span> <span class="built_in">Singleton</span> <span class="built_in">singleton</span><span class="comment">;  </span>
+    private <span class="built_in">Singleton</span> (){}  
+    public <span class="keyword">static</span> <span class="built_in">Singleton</span> getSingleton() {  
+        <span class="keyword">if</span> (<span class="built_in">singleton</span> == <span class="literal">null</span>) {  
+            synchronized (<span class="built_in">Singleton</span>.class) {  
+            <span class="keyword">if</span> (<span class="built_in">singleton</span> == <span class="literal">null</span>) {  
+                <span class="built_in">singleton</span> = new <span class="built_in">Singleton</span>()<span class="comment">;  </span>
+            }  
+            }  
+        }  
+        <span class="keyword">return</span> <span class="built_in">singleton</span><span class="comment">;  </span>
+    }  
+} 
+</code></pre><h2 id="#4-延时对象创建">#4.延时对象创建</h2></span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/3000/01/01/CX/" rel="prev">Android长袖善舞【不断更新】</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/08/29/LK/" rel="next">离开其实并不舍，但又如何</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+            </div>
+
+            
+
+            
+              <div class="comments" id="comments">
+                
+              </div>
+            
+        </div>
+
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/avatar.jpg" alt="熊伟xiongwei" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">熊伟xiongwei</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">重新发现、定义并创造这个世界...</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xiaomeixw" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.sabria.net/" target="_blank">anotherblog</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/1561605537" target="_blank">weibo</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Lesson_Creation_and_destruction_of_objects"><span class="nav-number">1.</span> <span class="nav-text">Lesson Creation and destruction of objects</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="##1-Consider_providing_static_factory_methods_instead_of_constructors"><span class="nav-number">1.1.</span> <span class="nav-text">#1.Consider providing static factory methods instead of constructors</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Meaning"><span class="nav-number">1.1.1.</span> <span class="nav-text">Meaning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Quality"><span class="nav-number">1.1.2.</span> <span class="nav-text">Quality</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#advantageous"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">advantageous</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#disadvantageous"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">disadvantageous</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CodeSimple"><span class="nav-number">1.1.3.</span> <span class="nav-text">CodeSimple</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Java范例："><span class="nav-number">1.1.3.1.</span> <span class="nav-text">Java范例：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Android范例："><span class="nav-number">1.1.3.2.</span> <span class="nav-text">Android范例：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="##2-Builder构建器"><span class="nav-number">1.2.</span> <span class="nav-text">#2.Builder构建器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Meaning-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">Meaning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CodeSimple-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">CodeSimple</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Android范例：-1"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">Android范例：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="##3-Singleton"><span class="nav-number">1.3.</span> <span class="nav-text">#3.Singleton</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Meaning-2"><span class="nav-number">1.3.1.</span> <span class="nav-text">Meaning</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="##4-延时对象创建"><span class="nav-number">1.4.</span> <span class="nav-text">#4.延时对象创建</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">熊伟xiongwei</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+        </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+</div>
+
+<script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.4"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.4"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.4" id="motion.global"></script>
+
+
+
+  <script type="text/javascript" src="/js/search-toggle.js"></script>
+
+
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.4" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (CONFIG.sidebar === 'always') {
+            displaySidebar();
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+<!-- lazyload -->
+<script type="text/javascript" src="/js/lazyload.js"></script>
+<script type="text/javascript">
+    jQuery(function () {
+        jQuery("#posts img").lazyload({
+            placeholder: "/images/loading.gif",
+            effect: "fadeIn"
+        });
+    });
+</script>
+</body>
+</html>
