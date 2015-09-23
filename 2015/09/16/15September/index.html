@@ -75,7 +75,8 @@ UI
 Name">
 <meta property="og:image" content="http://stillmaintained.com/wasabeef/awesome-android-libraries.png">
 <meta property="og:image" content="http://i.imgur.com/xxGy2oO.png">
-<meta property="og:updated_time" content="2015-09-23T08:58:41.490Z">
+<meta property="og:image" content="http://i.imgur.com/fGGzV4u.png">
+<meta property="og:updated_time" content="2015-09-23T11:34:55.452Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【开源9月】September 九月开源">
 <meta name="twitter:description" content="包含如下内容：
@@ -265,7 +266,7 @@ Name">
 <tbody>
 <tr>
 <td><a href="https://github.com/jlmd/UpcomingMoviesMVP" target="_blank" rel="external">UpcomingMoviesMVP</a></td>
-<td><a href="https://github.com/jlmd" target="_blank" rel="external">–jlmd–</a></td>
+<td><a href="https://github.com/jlmd" target="_blank" rel="external"><del>~jlmd</del>~</a></td>
 <td><a href="https://github.com/jlmd/UpcomingMoviesMVP/blob/master/art/screenshot1.png" target="_blank" rel="external">Dagger\Retrofit和Otto配合,实践MVP架构</a></td>
 </tr>
 <tr>
@@ -421,7 +422,25 @@ protected void onResume<span class="params">()</span> {
         }
     });
 }
-</code></pre></span>
+</code></pre><ul>
+<li><a href="https://github.com/jlmd/UpcomingMoviesMVP" target="_blank" rel="external">UpcomingMoviesMVP</a> ：&ensp;&ensp; UpcomingMoviesMVP是一个非常优秀践行MVP设计模式的Demo尝试。在<a href="http://square.github.io/dagger/" target="_blank" rel="external">Dagger</a>、<a href="http://square.github.io/retrofit/" target="_blank" rel="external">Retrofit</a>、<a href="http://jakewharton.github.io/butterknife/" target="_blank" rel="external">ButterKnife</a>、<a href="https://github.com/makovkastar/FloatingActionButton" target="_blank" rel="external">FloatingActionButton</a>、<a href="http://square.github.io/picasso/" target="_blank" rel="external">Picasso</a>和<a href="http://square.github.io/otto/" target="_blank" rel="external">Otto</a>的配合下M(model)V(View)P(presenter)实践.</li>
+</ul>
+<p><img src="http://i.imgur.com/fGGzV4u.png" alt=""></p>
+<p>首先对于MVP的理解我会专门开辟一个原生架构、MVC、MVP和MVVP架构的文章。具体见文章：(待补充)</p>
+<p>如何将你的Activity抽分为MVP架构：</p>
+<pre><code>在原生的处理业务逻辑中，我们会将<span class="string">"layout布局UI的显示"</span>和<span class="string">"数据的获取"</span>这两部分都放在一个Activity中，抽取为MVP架构的核心就在于将<span class="string">"数据获取"</span>部分抽取出来放到presenter中，同时通过interface来完成与<span class="function"><span class="title">View</span><span class="params">(新Activity)</span></span>的交互沟通。
+</code></pre><p>MVP的几个核心点：</p>
+<ol>
+<li>View不直接与Model交互，View而是通过与Presenter交互来与Model间接交互： User&lt;—&gt;View&lt;—&gt;Presenter&lt;—&gt;Model</li>
+<li>通常View与Presenter是一对一，但复杂的一个View可能会对应多个Presenter。</li>
+<li><p>在android上践行MVP，在现有的解决方案上(2015年9月)必须或者需求性依赖一些第三方的lib来实现.比如：</p>
+<p> Retrofit(表述性状态传递–类型安全的 REST 客户端):实现标准的API接口解析与调用,以此简化API接口的调用和解析。</p>
+<p> Dagger(依赖注入):通过注解注入对象，从而完成自动的初始化，以此简化View的获取使用和处理。</p>
+<p> Rx(响应式编程):通过观察与订阅实现回调函数的监听和处理，以此减少android极度依赖回调函数处理逻辑的方案。</p>
+<p> Test(测试):Mockito、Robolectric、Mosby</p>
+</li>
+</ol>
+</span>
       
     </div>
 
