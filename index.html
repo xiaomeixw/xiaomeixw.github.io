@@ -192,8 +192,9 @@
 
 点评开源
 </code></pre><p><a href="https://github.com/stars/xiaomeixw" target="_blank" rel="external">If you have interest in these libraries you can visit my github’s stars</a> </p>
-<p>======================<br><img src="http://stillmaintained.com/wasabeef/awesome-android-libraries.png" alt="Project status"></p>
-<h3 id="Index_2015-09-16">Index 2015-09-16</h3><p>(One UI libraries - Two Data Libraries - One blog posts)</p>
+<hr>
+<p><img src="http://stillmaintained.com/wasabeef/awesome-android-libraries.png" alt="Project status"></p>
+<h3 id="Index_2015-09-16">Index 2015-09-16</h3><h4 id="Library:">Library:</h4><p>(One UI libraries - Two Data Libraries - One blog posts)</p>
 <h1 id="UI">UI</h1><table>
 <thead>
 <tr>
@@ -206,7 +207,7 @@
 <tr>
 <td><a href="https://github.com/jcmore2/BannerTime" target="_blank" rel="external">BannerTime</a></td>
 <td><a href="https://github.com/jcmore2" target="_blank" rel="external">jcmore2</a></td>
-<td><a href="https://github.com/jcmore2/BannerTime/blob/master/raw/sample.png" target="_blank" rel="external">展示popup的提示消息效果</a></td>
+<td><a href="https://github.com/jcmore2/BannerTime/blob/master/raw/sample.png" target="_blank" rel="external">展示popup-dialog的提示消息效果</a></td>
 </tr>
 </tbody>
 </table>
@@ -222,12 +223,12 @@
 <tr>
 <td><a href="https://github.com/jlmd/UpcomingMoviesMVP" target="_blank" rel="external">UpcomingMoviesMVP</a></td>
 <td><a href="https://github.com/jlmd" target="_blank" rel="external">jlmd</a></td>
-<td><a href="https://github.com/jlmd/UpcomingMoviesMVP/blob/master/art/screenshot1.png" target="_blank" rel="external">在Dagger、Retrofit和Otto的配合下实现的一个MVP架构实践</a></td>
+<td><a href="https://github.com/jlmd/UpcomingMoviesMVP/blob/master/art/screenshot1.png" target="_blank" rel="external">Dagger\Retrofit和Otto配合,实践MVP架构</a></td>
 </tr>
 <tr>
 <td><a href="https://github.com/ivacf/archi" target="_blank" rel="external">Archi</a></td>
 <td><a href="https://github.com/ivacf" target="_blank" rel="external">ivacf</a></td>
-<td><a href="https://github.com/ivacf/archi/blob/master/images/archi-screenshots.png" target="_blank" rel="external">在Dagger、Retrofit和RxJava的配合下实践安卓的架构:Standard Android/MVP/MVVM</a></td>
+<td><a href="https://github.com/ivacf/archi/blob/master/images/archi-screenshots.png" target="_blank" rel="external">Dagger\Retrofit和RxJava配合,实践Standard Android/MVP/MVVM</a></td>
 </tr>
 </tbody>
 </table>
@@ -247,7 +248,137 @@
 </tr>
 </tbody>
 </table>
-</span>
+<h4 id="Comment:">Comment:</h4><ul>
+<li><a href="https://github.com/jcmore2/BannerTime" target="_blank" rel="external">BannerTime</a> ：&ensp;&ensp; BannerTime在众多popup-dialog的消息提示中并不出众，但其API的链式调用方案值得学习.</li>
+</ul>
+<p><img src="http://i.imgur.com/TNVjUIs.png" alt=""></p>
+<p>API链式调用:</p>
+<pre><code>@Override
+protected void onResume<span class="params">()</span> {
+    super.onResume<span class="params">()</span>;
+        BannerTime.init<span class="params">(this)</span>
+                .shownTime<span class="params">(<span class="number">4000</span>)</span>
+                .hiddenTime<span class="params">(<span class="number">3000</span>)</span>
+                .imageBanner<span class="params">(<span class="string">"http://pre03.deviantart.net/2aa0/th/pre/f/2012/321/d/1/african_landscape_by_dasflon-d5l9t7c.jpg"</span>)</span>
+                .withKOButton<span class="params">()</span>
+                .withKOButton<span class="params">()</span>
+                .show<span class="params">(listener)</span>;
+}
+</code></pre><p>BannerTime的链式调用方法非常简单，通过return instance方案实现最简单的链式调用方案。</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">BannerTime</span> {
+
+    <span class="comment">/**
+     * 初始化,其实就是最简单的创建BannerTime对象
+     */</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> BannerTime <span class="title">init</span>(<span class="params">Context context</span>) </span>{
+        <span class="keyword">if</span> (sInstance == <span class="keyword">null</span>) {
+            sInstance = <span class="keyword">new</span> BannerTime(context);
+        }
+        mContext = context;
+        <span class="comment">//初始化最初的一些参数</span>
+        init();
+        <span class="comment">//通过返回BannerTime对象,接着可以继续调用BannerTime中的其他方法</span>
+        <span class="keyword">return</span> sInstance;
+    }
+
+    <span class="comment">/**
+     * 设置显示的时间参数
+     */</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> BannerTime <span class="title">shownTime</span>(<span class="params"><span class="keyword">int</span> time</span>) </span>{
+        SHOW_TIME_BANNER = time;
+        <span class="keyword">return</span> sInstance;
+    }
+
+    <span class="comment">/**
+     * 放置图片
+     */</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> BannerTime <span class="title">imageBanner</span>(<span class="params">String path, boolean crop</span>) </span>{
+        requestCreator = Picasso.with(mContext).load(path);
+        <span class="keyword">if</span> (crop)
+            requestCreator.fit().centerCrop();
+        <span class="keyword">else</span>
+            requestCreator.fit().centerInside();
+        <span class="keyword">return</span> sInstance;
+    }
+
+    <span class="comment">/**
+     * 最终展示出来
+     */</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">show</span>(<span class="params"></span>) </span>{
+        <span class="comment">//调用的还是带有回调的show(listener)</span>
+        show(<span class="keyword">null</span>);
+    }
+
+    <span class="comment">/**
+     * 最终走实质性逻辑代码的地方,会将之前所有参数的部分进行处理
+     * @param listener
+     */</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">show</span>(<span class="params">BannerTimeListener listener</span>) </span>{
+        <span class="keyword">if</span> (sInstance == <span class="keyword">null</span>)
+            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"It´ necessary call '.init()' method"</span>);
+        mListener = listener;
+        ImageView img = (ImageView) mView.findViewById(R.id.imageAd);
+        <span class="keyword">if</span> (requestCreator != <span class="keyword">null</span>) {
+            <span class="keyword">if</span> (mPlaceHolder != <span class="number">0</span>) {
+                requestCreator.placeholder(mPlaceHolder)
+                        .<span class="keyword">into</span>(img);
+            } <span class="keyword">else</span> {
+                requestCreator.<span class="keyword">into</span>(img);
+            }
+        } <span class="keyword">else</span> {
+            Picasso.with(mContext)
+                    .load(mPlaceHolder)
+                    .placeholder(mPlaceHolder)
+                    .fit().centerCrop()
+                    .<span class="keyword">into</span>(img);
+        }
+        <span class="comment">//创建dialog</span>
+        createDialog();
+    }
+
+}
+
+
+<span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">BannerTimeListener</span> {
+    <span class="function"><span class="keyword">void</span> <span class="title">onShow</span>(<span class="params"></span>)</span>;
+    <span class="function"><span class="keyword">void</span> <span class="title">onDismiss</span>(<span class="params"></span>)</span>;
+    <span class="function"><span class="keyword">void</span> <span class="title">onClickOk</span>(<span class="params"></span>)</span>;
+    <span class="function"><span class="keyword">void</span> <span class="title">onClickKO</span>(<span class="params"></span>)</span>;
+    <span class="function"><span class="keyword">void</span> <span class="title">onClickImage</span>(<span class="params"></span>)</span>;
+}
+</code></pre><p>BannerTime中有一个小知识点可以学习，就是指定时间后做关闭的动画:</p>
+<p>//计时器方案关闭banner<br>scheduleHideBanner(dialog);</p>
+<pre><code><span class="comment">/**
+ * 在指定的时间内关闭dialog
+ */</span>
+<span class="keyword">private</span> <span class="keyword">static</span> <span class="function"><span class="keyword">void</span> <span class="title">scheduleHideBanner</span><span class="params">(<span class="keyword">final</span> Dialog dialog)</span> </span>{
+    dismissDialog(dialog);
+    <span class="comment">//创建TimerTask</span>
+    timerTaskHide = <span class="keyword">new</span> TimerTask() {
+        <span class="annotation">@Override</span>
+        <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
+            scheduleShowBanner(dialog);
+        }
+    };
+    timerHide.schedule(timerTaskHide, HIDE_TIME_BANNER);
+}
+
+ <span class="keyword">private</span> <span class="keyword">static</span> <span class="function"><span class="keyword">void</span> <span class="title">dismissDialog</span><span class="params">(<span class="keyword">final</span> Dialog dialog)</span></span>{
+    <span class="comment">//主线程运行</span>
+    ((Activity) mContext).runOnUiThread(<span class="keyword">new</span> Runnable() {
+        <span class="annotation">@Override</span>
+        <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
+            <span class="comment">//一定要先判读activity是否关闭,否则会导致dialog无法附着在activity导致奔溃</span>
+            <span class="keyword">if</span> (!((Activity) mContext).isFinishing() &amp;&amp; dialog.isShowing()) {
+                dialog.dismiss();
+                <span class="keyword">if</span> (mListener != <span class="keyword">null</span>)
+                    mListener.onDismiss();
+            }
+            Log.i(TAG, <span class="string">"hideBanner"</span>);
+        }
+    });
+}
+</code></pre></span>
         
       
     </div>
