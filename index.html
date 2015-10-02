@@ -152,6 +152,176 @@
           
           
             
+              <a class="post-title-link" href="/2015/10/03/MVP_1/" itemprop="url">
+                【范式10月】Android-MVP范式编程(一)
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-10-03T01:05:48+08:00" content="2015-10-03">
+            2015-10-03
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody"><p>#解析MVP</p>
+<p>Model层：java-bean对象，实现序列化Parcelable</p>
+<p>Presenter层：基类Presenter</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Presenter</span>&lt;<span class="title">V</span>&gt; </span>{
+    <span class="function"><span class="keyword">void</span> <span class="title">attachView</span><span class="params">(V view)</span></span>;
+    <span class="function"><span class="keyword">void</span> <span class="title">detachView</span><span class="params">()</span></span>;
+}
+</code></pre><p>实现者：</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainPresenter</span> <span class="keyword">implements</span> <span class="title">Presenter</span>&lt;<span class="title">MvpView</span>&gt; </span>{
+    <span class="comment">//View对象</span>
+    <span class="keyword">private</span> MvpView view;
+
+    <span class="comment">//绑定view</span>
+    <span class="annotation">@Override</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">attachView</span><span class="params">(MvpView view)</span> </span>{
+        <span class="keyword">this</span>.view = view;
+    }
+
+    <span class="comment">//解绑View</span>
+    <span class="annotation">@Override</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">detachView</span><span class="params">()</span> </span>{
+        view=<span class="keyword">null</span>;
+    }
+
+    <span class="comment">//该方法到Activity中调用</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">loadRepositories</span><span class="params">()</span> </span>{
+        <span class="comment">//请求数据</span>
+        rx.send(
+            onSucced(){
+                <span class="comment">//把结果传递给view并通知view更新</span>
+                view.showRepositories(list);
+            }
+
+            onFail(){
+                view.showMessage(string);
+            }
+
+        );
+
+    }    
+
+}
+</code></pre><p>View层：基类View</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">MvpView</span> {
+    <span class="function">Context <span class="title">getContext</span>(<span class="params"></span>)</span>;
+}
+</code></pre><p>继承者：展示要变化界面的view动态方法</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MainMvpView</span> <span class="keyword">extends</span> <span class="title">MvpView</span> </span>{
+    <span class="function"><span class="keyword">void</span> <span class="title">showRepositories</span><span class="params">(List&lt;?&gt; list)</span></span>;
+    <span class="function"><span class="keyword">void</span> <span class="title">showMessage</span><span class="params">(string <span class="keyword">error</span>)</span></span>;
+}    
+</code></pre><p>Activity中实现其对应的View的方法</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> <span class="keyword">implements</span> <span class="title">MainMvpView</span> </span>{
+
+    <span class="keyword">private</span> MainPresenter presenter;
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">protected</span> <span class="function"><span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>{
+        <span class="keyword">super</span>.onCreate(savedInstanceState);
+        <span class="comment">//1.view指向绑定presenter</span>
+        presenter = <span class="keyword">new</span> MainPresenter();
+        presenter.attachView(<span class="keyword">this</span>);
+        <span class="comment">//2.加载xml布局</span>
+        setContentView(R.layout.activity_main);
+        infoTextView = (TextView) findViewById(R.id.text_info);
+
+        <span class="comment">//3.findViewById</span>
+        reposRecycleView = (RecyclerView) findViewById(R.id.repos_recycler_view);
+        setupRecyclerView(reposRecycleView);
+
+        <span class="comment">//4.拿数据并更新界面</span>
+        setupPresenter(){
+            <span class="comment">//该方法在presenter中完成后台请求，并在请求完成后，调用到View中的loadRepositories，而loadRepositories方法的具体实现则是此activity 实现View的具体方法，也就是下面的那个@Override showRepositories方法</span>
+            presenter.loadRepositories();
+        };
+    }
+
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="function">Context <span class="title">getContext</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> <span class="keyword">this</span>;
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">showRepositories</span><span class="params">(List&lt;?&gt; list)</span> </span>{
+        <span class="comment">//拿到请求的数据界面来更新</span>
+        handlerSuccedUI();
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">showMessage</span><span class="params">(String <span class="keyword">error</span>)</span> </span>{
+        hadnlerFailUI();
+    }
+
+
+     <span class="annotation">@Override</span>
+    <span class="keyword">protected</span> <span class="function"><span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>{
+        presenter.detachView();
+        <span class="keyword">super</span>.onDestroy();
+    }
+
+}    
+</code></pre><p><img src="http://i.imgur.com/u21S82X.png" alt=""></p>
+<p><img src="http://i.imgur.com/XDCeZca.png" alt=""></p>
+<p>1.Activity实现于View;</p>
+<p>2.Activity调用presenter请求数据;</p>
+<p>3.presenter中请求数据,并将json–解析–》model-bean对象;</p>
+<p>4.presenter中请求成功(失败/加载中)后,调用view.onsucced(fail/loading)方法通知UI更新;</p>
+<p>5.activity的onsucced(fail/loading)方法完成UI更新;</p>
+</span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/2015/09/16/15September/" itemprop="url">
                 【开源9月】September
               </a>
@@ -1082,74 +1252,6 @@ protected void onResume<span class="params">()</span> {
 
 
     
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2015/07/30/QY1/" itemprop="url">
-                【奇巧淫技001期】PullToRefresh的归降之策
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2015-07-30T16:31:06+08:00" content="2015-07-30">
-            2015-07-30
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h1 id="PTR的几种主流实现方式">PTR的几种主流实现方式</h1><p>继承ListView</p>
-<p>继承LinearLayout</p>
-<p>继承ViewGroup</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/07/30/QY1/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1189,7 +1291,7 @@ protected void onResume<span class="params">()</span> {
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

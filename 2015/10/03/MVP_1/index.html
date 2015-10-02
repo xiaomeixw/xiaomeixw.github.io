@@ -37,19 +37,42 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
 
 
-<meta name="description" content="为什么是我的博客这是个诡异的问题，为什么要有这个博客，作者本人不想解释态度，总之鄙视阿里！
-我是谁android开发三年,现供职于美丽神器APP,重新发现、定义并创造这个世界是自己一直的梦想。喜欢研究code的奇巧淫技,爱好编程范式,重组代码格式,特别能折腾,不爱研究源代码，超爱研究开源框架和控件…最尊敬的公司是google…最讨厌腾讯…梦想一定要实现的,绝不能被现实打败…30岁创立自己的技术公司">
+<meta name="description" content="#解析MVP
+Model层：java-bean对象，实现序列化Parcelable
+Presenter层：基类Presenter
+public interface Presenter&amp;lt;V&amp;gt; {
+    void attachView(V view);
+    void detachView();
+}
+实现者：
+public class MainPresenter implements">
 <meta property="og:type" content="article">
-<meta property="og:title" content="为什么是我的博客">
-<meta property="og:url" content="http://yoursite.com/1979/01/01/WHY/index.html">
+<meta property="og:title" content="【范式10月】Android-MVP范式编程(一)">
+<meta property="og:url" content="http://yoursite.com/2015/10/03/MVP_1/index.html">
 <meta property="og:site_name" content="sabria">
-<meta property="og:description" content="为什么是我的博客这是个诡异的问题，为什么要有这个博客，作者本人不想解释态度，总之鄙视阿里！
-我是谁android开发三年,现供职于美丽神器APP,重新发现、定义并创造这个世界是自己一直的梦想。喜欢研究code的奇巧淫技,爱好编程范式,重组代码格式,特别能折腾,不爱研究源代码，超爱研究开源框架和控件…最尊敬的公司是google…最讨厌腾讯…梦想一定要实现的,绝不能被现实打败…30岁创立自己的技术公司">
-<meta property="og:updated_time" content="2015-08-13T03:14:38.116Z">
+<meta property="og:description" content="#解析MVP
+Model层：java-bean对象，实现序列化Parcelable
+Presenter层：基类Presenter
+public interface Presenter&amp;lt;V&amp;gt; {
+    void attachView(V view);
+    void detachView();
+}
+实现者：
+public class MainPresenter implements">
+<meta property="og:image" content="http://i.imgur.com/u21S82X.png">
+<meta property="og:image" content="http://i.imgur.com/XDCeZca.png">
+<meta property="og:updated_time" content="2015-10-02T17:06:11.898Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="为什么是我的博客">
-<meta name="twitter:description" content="为什么是我的博客这是个诡异的问题，为什么要有这个博客，作者本人不想解释态度，总之鄙视阿里！
-我是谁android开发三年,现供职于美丽神器APP,重新发现、定义并创造这个世界是自己一直的梦想。喜欢研究code的奇巧淫技,爱好编程范式,重组代码格式,特别能折腾,不爱研究源代码，超爱研究开源框架和控件…最尊敬的公司是google…最讨厌腾讯…梦想一定要实现的,绝不能被现实打败…30岁创立自己的技术公司">
+<meta name="twitter:title" content="【范式10月】Android-MVP范式编程(一)">
+<meta name="twitter:description" content="#解析MVP
+Model层：java-bean对象，实现序列化Parcelable
+Presenter层：基类Presenter
+public interface Presenter&amp;lt;V&amp;gt; {
+    void attachView(V view);
+    void detachView();
+}
+实现者：
+public class MainPresenter implements">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -59,7 +82,7 @@
   };
 </script>
 
-    <title> 为什么是我的博客 // sabria </title>
+    <title> 【范式10月】Android-MVP范式编程(一) // sabria </title>
 </head>
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 <!--[if lte IE 8]>
@@ -154,7 +177,7 @@
           
           
             
-              为什么是我的博客
+              【范式10月】Android-MVP范式编程(一)
             
           
         </h1>
@@ -163,8 +186,8 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="1979-01-01T00:00:00+08:00" content="1979-01-01">
-            1979-01-01
+          <time itemprop="dateCreated" datetime="2015-10-03T01:05:48+08:00" content="2015-10-03">
+            2015-10-03
           </time>
         </span>
 
@@ -182,38 +205,116 @@
       
 
       
-        <span itemprop="articleBody"><h1 id="为什么是我的博客">为什么是我的博客</h1><p>这是个诡异的问题，为什么要有这个博客，作者本人不想解释态度，总之鄙视阿里！</p>
-<h1 id="我是谁">我是谁</h1><p>android开发三年,现供职于美丽神器APP,重新发现、定义并创造这个世界是自己一直的梦想。<br>喜欢研究code的奇巧淫技,爱好编程范式,重组代码格式,特别能折腾,不爱研究源代码，超爱研究开源框架和控件…<br>最尊敬的公司是google…最讨厌腾讯…<br>梦想一定要实现的,绝不能被现实打败…30岁创立自己的技术公司是一直最现实的追求…</p>
-<a id="more"></a>
-<h1 id="博客发展计划">博客发展计划</h1><p>含有如下内容：</p>
-<blockquote>
-<p>1.奇巧淫技日报-UI</p>
-<p>2.奇巧淫技日报-Data</p>
-<p>3.奇巧淫技周刊<br>    主要是讲本周的日报汇总，编辑成册，并涵盖其他信息推荐</p>
-</blockquote>
-<p>post标题取名：</p>
-<pre><code>UI-编号：<span class="number">011</span>
-    基本UI B <span class="comment">(basic)</span>
-    自定义UI C <span class="comment">(custome)</span>
-    开源   O  <span class="comment">(open)</span>
-Data-编号 <span class="number">022</span>
-    基础  B <span class="comment">(basic)</span>
-    自定义 C <span class="comment">(custome)</span>
-    开源   O <span class="comment">(open)</span>
+        <span itemprop="articleBody"><p>#解析MVP</p>
+<p>Model层：java-bean对象，实现序列化Parcelable</p>
+<p>Presenter层：基类Presenter</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Presenter</span>&lt;<span class="title">V</span>&gt; </span>{
+    <span class="function"><span class="keyword">void</span> <span class="title">attachView</span><span class="params">(V view)</span></span>;
+    <span class="function"><span class="keyword">void</span> <span class="title">detachView</span><span class="params">()</span></span>;
+}
+</code></pre><p>实现者：</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainPresenter</span> <span class="keyword">implements</span> <span class="title">Presenter</span>&lt;<span class="title">MvpView</span>&gt; </span>{
+    <span class="comment">//View对象</span>
+    <span class="keyword">private</span> MvpView view;
 
-其他-编号 <span class="number">033</span> 暂定义,等待后续补充完整
-    基础  B <span class="comment">(basic)</span>
-    自定义 C <span class="comment">(custome)</span>
-    开源   O <span class="comment">(open)</span>
-</code></pre><p>若后末尾使用D(delay)代表推出晚了，O(on time)表示推出日就是本日不存在延迟（一般O不会出现）</p>
-<p>所谓基础Basic就是指android系统公开的UI或者逻辑Data代码<br>所谓自定义Custome就是指自己自定义View或者自定义逻辑Data代码<br>所谓开源就是指github(open)上开源的控件和逻辑框架</p>
-<p>因此最终的post格式如下：</p>
-<pre><code><span class="keyword">android奇巧淫技日报(20150731-S011-B)
+    <span class="comment">//绑定view</span>
+    <span class="annotation">@Override</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">attachView</span><span class="params">(MvpView view)</span> </span>{
+        <span class="keyword">this</span>.view = view;
+    }
+
+    <span class="comment">//解绑View</span>
+    <span class="annotation">@Override</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">detachView</span><span class="params">()</span> </span>{
+        view=<span class="keyword">null</span>;
+    }
+
+    <span class="comment">//该方法到Activity中调用</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">loadRepositories</span><span class="params">()</span> </span>{
+        <span class="comment">//请求数据</span>
+        rx.send(
+            onSucced(){
+                <span class="comment">//把结果传递给view并通知view更新</span>
+                view.showRepositories(list);
+            }
+
+            onFail(){
+                view.showMessage(string);
+            }
+
+        );
+
+    }    
+
+}
+</code></pre><p>View层：基类View</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">MvpView</span> {
+    <span class="function">Context <span class="title">getContext</span>(<span class="params"></span>)</span>;
+}
+</code></pre><p>继承者：展示要变化界面的view动态方法</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MainMvpView</span> <span class="keyword">extends</span> <span class="title">MvpView</span> </span>{
+    <span class="function"><span class="keyword">void</span> <span class="title">showRepositories</span><span class="params">(List&lt;?&gt; list)</span></span>;
+    <span class="function"><span class="keyword">void</span> <span class="title">showMessage</span><span class="params">(string <span class="keyword">error</span>)</span></span>;
+}    
+</code></pre><p>Activity中实现其对应的View的方法</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> <span class="keyword">implements</span> <span class="title">MainMvpView</span> </span>{
+
+    <span class="keyword">private</span> MainPresenter presenter;
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">protected</span> <span class="function"><span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>{
+        <span class="keyword">super</span>.onCreate(savedInstanceState);
+        <span class="comment">//1.view指向绑定presenter</span>
+        presenter = <span class="keyword">new</span> MainPresenter();
+        presenter.attachView(<span class="keyword">this</span>);
+        <span class="comment">//2.加载xml布局</span>
+        setContentView(R.layout.activity_main);
+        infoTextView = (TextView) findViewById(R.id.text_info);
+
+        <span class="comment">//3.findViewById</span>
+        reposRecycleView = (RecyclerView) findViewById(R.id.repos_recycler_view);
+        setupRecyclerView(reposRecycleView);
+
+        <span class="comment">//4.拿数据并更新界面</span>
+        setupPresenter(){
+            <span class="comment">//该方法在presenter中完成后台请求，并在请求完成后，调用到View中的loadRepositories，而loadRepositories方法的具体实现则是此activity 实现View的具体方法，也就是下面的那个@Override showRepositories方法</span>
+            presenter.loadRepositories();
+        };
+    }
+
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="function">Context <span class="title">getContext</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> <span class="keyword">this</span>;
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">showRepositories</span><span class="params">(List&lt;?&gt; list)</span> </span>{
+        <span class="comment">//拿到请求的数据界面来更新</span>
+        handlerSuccedUI();
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">showMessage</span><span class="params">(String <span class="keyword">error</span>)</span> </span>{
+        hadnlerFailUI();
+    }
+
+
+     <span class="annotation">@Override</span>
+    <span class="keyword">protected</span> <span class="function"><span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>{
+        presenter.detachView();
+        <span class="keyword">super</span>.onDestroy();
+    }
+
+}    
+</code></pre><p><img src="http://i.imgur.com/u21S82X.png" alt=""></p>
+<p><img src="http://i.imgur.com/XDCeZca.png" alt=""></p>
+<p>1.Activity实现于View;</p>
+<p>2.Activity调用presenter请求数据;</p>
+<p>3.presenter中请求数据,并将json–解析–》model-bean对象;</p>
+<p>4.presenter中请求成功(失败/加载中)后,调用view.onsucced(fail/loading)方法通知UI更新;</p>
+<p>5.activity的onsucced(fail/loading)方法完成UI更新;</p>
 </span>
-<span class="keyword">android奇巧淫技日报(20150731-S022-C-D)
-</span>
-<span class="keyword">android奇巧淫技周刊第一期</span>
-</code></pre></span>
       
     </div>
 
@@ -224,13 +325,11 @@ Data-编号 <span class="number">022</span>
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/07/30/QY1/" rel="prev">【奇巧淫技001期】PullToRefresh的归降之策</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/1970/01/01/CX/" rel="next">Android长袖善舞【不断更新】</a>
+              <a href="/2015/09/16/15September/" rel="next">【开源9月】September</a>
             
           </div>
         </div>
@@ -349,7 +448,7 @@ Data-编号 <span class="number">022</span>
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么是我的博客"><span class="nav-number">1.</span> <span class="nav-text">为什么是我的博客</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#我是谁"><span class="nav-number">2.</span> <span class="nav-text">我是谁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#博客发展计划"><span class="nav-number">3.</span> <span class="nav-text">博客发展计划</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
