@@ -183,116 +183,185 @@
 
       
         
-          <span itemprop="articleBody"><p>#解析MVP</p>
-<p>Model层：java-bean对象，实现序列化Parcelable</p>
-<p>Presenter层：基类Presenter</p>
-<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Presenter</span>&lt;<span class="title">V</span>&gt; </span>{
-    <span class="function"><span class="keyword">void</span> <span class="title">attachView</span><span class="params">(V view)</span></span>;
-    <span class="function"><span class="keyword">void</span> <span class="title">detachView</span><span class="params">()</span></span>;
+          <span itemprop="articleBody"><p>我将保证MVP核心范式编程的文章将不少于5篇文章，在我还没有正式给MVP下定义前，我相信一个优秀的范例将非常有效的让我们对MVP有一个非常深入的了解。</p>
+<p>首先让我们搭建一个基础MVP架构的目录，然后我们逐步解析MVP的含义，并最终完成一套符合The Clean Architecture核心思想的MVP架构封装。这里将是MVP范式编程的第一个章节,我将通过一个层级范例来解构MVP。</p>
+<h2 id="解析MVP层级范例">解析MVP层级范例</h2><p><img src="http://i.imgur.com/larhurt.png" alt=""></p>
+<p>mvp的分层我们按照model-presenter-view三个包级别分层，这样的分层将非常方便于各层级的关系展示。</p>
+<p>MODEL:</p>
+<pre><code>model包中装载的是我们通常所谓的java-bean对象，这些model对象继承Parcelable实现序列化。
+</code></pre><p>PRESENTER:</p>
+<pre><code>presenter包中装载的是我们的逻辑处理对象，它将沟通<span class="built_in">view</span>，并获取后台逻辑数据，将json解析为model对象，并根据数据请求的结果最终通知<span class="built_in">view</span>层完成UI的更新.
+</code></pre><p>VIEW:</p>
+<pre><code><span class="built_in">view</span>包中装载两个组成部分，一个是接口abstract-<span class="built_in">view</span>，它将沟通activity-<span class="built_in">view</span>和presenter，里面定义的都是等待activity-<span class="built_in">view</span>实现的逻辑方法。  另一个是activity-<span class="built_in">view</span>，它将完成<span class="built_in">view</span>的所有实现。
+</code></pre><p>MVP本质：</p>
+<p>1.将view和data抽象分离处理，原activity中的两个组成部分：界面和数据逻辑分别放在view和presenter层级中。</p>
+<p>2.view层主要是原activity的界面层级。它将分成两个组成部分，一个为activity-view(实际View业务处理)，另一个为abstract-view(定义抽象方法完成view层与presenter层沟通);</p>
+<p>3.presenter层主要是原activity的数据逻辑层级。它将完成后台的数据逻辑请求，并将json转成model，通过请求的数据结果，将model返回给view层级，完成UI界面的更新。</p>
+<h3 id="code_means_everythings">code means everythings</h3><p>1.model中的User.class将继承Parcelable实现序列化</p>
+<pre><code><span class="keyword">package</span> xiongwei.mvp.model;
+
+<span class="keyword">import</span> android.os.Parcel;
+<span class="keyword">import</span> android.os.Parcelable;
+
+<span class="comment">/**
+ * Created by 伟 on 2015/10/3.
+ * 实现Parcelable非常简单
+ * 1）implements Parcelable
+ * 2）重写writeToParcel方法
+ * 3）重写describeContents方法，默认返回0即可
+ * 4）实例化静态内部对象CREATOR实现接口Parcelable.Creator
+ *
+ * 在android studio中实现Parcelable的技巧非常简单
+ * 1.先将你需要的的字段书写出来
+ * 2.alt+Enter完成未完成方法(implements methods)的提示,此时AS会自动帮你完成describeContents和writeToParcel方法
+ * 3.继续alt+Enter完成(Add Parcelable Implements)的提示,此时AS会完成实例化静态内部对象CREATOR。
+ */</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">implements</span> <span class="title">Parcelable</span> {</span>
+
+    <span class="keyword">private</span> <span class="typename">long</span> id;
+    <span class="keyword">private</span> String name;
+    <span class="keyword">private</span> String url;
+    <span class="keyword">private</span> String email;
+    <span class="keyword">private</span> String login;
+    <span class="keyword">private</span> String location;
+    <span class="keyword">private</span> String avatarUrl;
+
+
+    <span class="keyword">protected</span> User(Parcel <span class="keyword">in</span>) {
+        id = <span class="keyword">in</span>.readLong();
+        name = <span class="keyword">in</span>.readString();
+        url = <span class="keyword">in</span>.readString();
+        email = <span class="keyword">in</span>.readString();
+        login = <span class="keyword">in</span>.readString();
+        location = <span class="keyword">in</span>.readString();
+        avatarUrl = <span class="keyword">in</span>.readString();
+    }
+
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Creator&lt;User&gt; CREATOR = <span class="keyword">new</span> Creator&lt;User&gt;() {
+        <span class="annotation">@Override</span>
+        <span class="keyword">public</span> User createFromParcel(Parcel <span class="keyword">in</span>) {
+            <span class="keyword">return</span> <span class="keyword">new</span> User(<span class="keyword">in</span>);
+        }
+
+        <span class="annotation">@Override</span>
+        <span class="keyword">public</span> User[] newArray(<span class="typename">int</span> size) {
+            <span class="keyword">return</span> <span class="keyword">new</span> User[size];
+        }
+    };
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="typename">int</span> describeContents() {
+        <span class="keyword">return</span> <span class="number">0</span>;
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="typename">void</span> writeToParcel(Parcel dest, <span class="typename">int</span> flags) {
+        dest.writeLong(id);
+        dest.writeString(name);
+        dest.writeString(url);
+        dest.writeString(email);
+        dest.writeString(login);
+        dest.writeString(location);
+        dest.writeString(avatarUrl);
+    }
 }
-</code></pre><p>实现者：</p>
-<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainPresenter</span> <span class="keyword">implements</span> <span class="title">Presenter</span>&lt;<span class="title">MvpView</span>&gt; </span>{
-    <span class="comment">//View对象</span>
-    <span class="keyword">private</span> MvpView view;
+</code></pre><p>2.Presenter层：基类Presenter</p>
+<pre><code><span class="keyword">package</span> xiongwei.mvp.presenter;
+
+<span class="comment">/**
+ * Created by 伟 on 2015/10/3.
+ * Presenter基类,接口类型,通过泛型传递View
+ */</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Presenter</span>&lt;<span class="title">V</span>&gt; </span>{
 
     <span class="comment">//绑定view</span>
-    <span class="annotation">@Override</span>
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">attachView</span><span class="params">(MvpView view)</span> </span>{
-        <span class="keyword">this</span>.view = view;
-    }
+    <span class="function"><span class="keyword">void</span> <span class="title">attachView</span><span class="params">(V view)</span></span>;
 
-    <span class="comment">//解绑View</span>
-    <span class="annotation">@Override</span>
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">detachView</span><span class="params">()</span> </span>{
-        view=<span class="keyword">null</span>;
-    }
-
-    <span class="comment">//该方法到Activity中调用</span>
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">loadRepositories</span><span class="params">()</span> </span>{
-        <span class="comment">//请求数据</span>
-        rx.send(
-            onSucced(){
-                <span class="comment">//把结果传递给view并通知view更新</span>
-                view.showRepositories(list);
-            }
-
-            onFail(){
-                view.showMessage(string);
-            }
-
-        );
-
-    }    
+    <span class="comment">//解绑view</span>
+    <span class="function"><span class="keyword">void</span> <span class="title">detachView</span><span class="params">()</span></span>;
 
 }
-</code></pre><p>View层：基类View</p>
-<pre><code><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">MvpView</span> {
+</code></pre><p>实现者：</p>
+<pre><code><span class="keyword">import</span> xiongwei.mvp.view.MainView;
+
+<span class="comment">/**
+ * Created by 伟 on 2015/10/3.
+ */</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainPresenter</span> <span class="keyword">implements</span> <span class="title">Presenter</span>&lt;<span class="title">MainView</span>&gt; </span>{
+
+    <span class="keyword">private</span> MainView view;
+
+    <span class="annotation">@Override</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">attachView</span><span class="params">(MainView view)</span> </span>{
+        <span class="keyword">this</span>.view=view;
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">detachView</span><span class="params">()</span> </span>{
+        <span class="keyword">this</span>.view=<span class="keyword">null</span>;
+    }
+
+    <span class="comment">//进行数据请求,并进行对view层的通知</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getData</span><span class="params">()</span></span>{
+        <span class="comment">//TODO</span>
+    }
+
+
+}
+</code></pre><p>3.View：基类View</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">View</span> {
     <span class="function">Context <span class="title">getContext</span>(<span class="params"></span>)</span>;
 }
 </code></pre><p>继承者：展示要变化界面的view动态方法</p>
-<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MainMvpView</span> <span class="keyword">extends</span> <span class="title">MvpView</span> </span>{
-    <span class="function"><span class="keyword">void</span> <span class="title">showRepositories</span><span class="params">(List&lt;?&gt; list)</span></span>;
-    <span class="function"><span class="keyword">void</span> <span class="title">showMessage</span><span class="params">(string <span class="keyword">error</span>)</span></span>;
-}    
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MainView</span> <span class="keyword">extends</span>  <span class="title">View</span></span>{
+    <span class="function"><span class="keyword">void</span> <span class="title">showData</span><span class="params">(List&lt;User&gt; list)</span></span>;
+    <span class="function"><span class="keyword">void</span> <span class="title">showMessage</span><span class="params">(String message)</span></span>;
+    <span class="function"><span class="keyword">void</span> <span class="title">showLoading</span><span class="params">()</span></span>;
+}
 </code></pre><p>Activity中实现其对应的View的方法</p>
-<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> <span class="keyword">implements</span> <span class="title">MainMvpView</span> </span>{
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainViewActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> <span class="keyword">implements</span> <span class="title">MainView</span></span>{
 
-    <span class="keyword">private</span> MainPresenter presenter;
 
     <span class="annotation">@Override</span>
-    <span class="keyword">protected</span> <span class="function"><span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>{
+    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>{
         <span class="keyword">super</span>.onCreate(savedInstanceState);
-        <span class="comment">//1.view指向绑定presenter</span>
-        presenter = <span class="keyword">new</span> MainPresenter();
-        presenter.attachView(<span class="keyword">this</span>);
-        <span class="comment">//2.加载xml布局</span>
-        setContentView(R.layout.activity_main);
-        infoTextView = (TextView) findViewById(R.id.text_info);
 
-        <span class="comment">//3.findViewById</span>
-        reposRecycleView = (RecyclerView) findViewById(R.id.repos_recycler_view);
-        setupRecyclerView(reposRecycleView);
 
-        <span class="comment">//4.拿数据并更新界面</span>
-        setupPresenter(){
-            <span class="comment">//该方法在presenter中完成后台请求，并在请求完成后，调用到View中的loadRepositories，而loadRepositories方法的具体实现则是此activity 实现View的具体方法，也就是下面的那个@Override showRepositories方法</span>
-            presenter.loadRepositories();
-        };
+
+
     }
 
 
+
+    <span class="comment">//MainView需要实现的内容</span>
     <span class="annotation">@Override</span>
-    <span class="keyword">public</span> <span class="function">Context <span class="title">getContext</span><span class="params">()</span> </span>{
-        <span class="keyword">return</span> <span class="keyword">this</span>;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">showData</span><span class="params">(List&lt;User&gt; list)</span> </span>{
+
     }
 
     <span class="annotation">@Override</span>
-    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">showRepositories</span><span class="params">(List&lt;?&gt; list)</span> </span>{
-        <span class="comment">//拿到请求的数据界面来更新</span>
-        handlerSuccedUI();
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">showMessage</span><span class="params">(String message)</span> </span>{
+
     }
 
     <span class="annotation">@Override</span>
-    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">showMessage</span><span class="params">(String <span class="keyword">error</span>)</span> </span>{
-        hadnlerFailUI();
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">showLoading</span><span class="params">()</span> </span>{
+
     }
 
-
-     <span class="annotation">@Override</span>
-    <span class="keyword">protected</span> <span class="function"><span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>{
-        presenter.detachView();
-        <span class="keyword">super</span>.onDestroy();
+    <span class="annotation">@Override</span>
+    <span class="function"><span class="keyword">public</span> Context <span class="title">getContext</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> <span class="keyword">null</span>;
     }
-
-}    
-</code></pre><p><img src="http://i.imgur.com/u21S82X.png" alt=""></p>
-<p><img src="http://i.imgur.com/XDCeZca.png" alt=""></p>
-<p>1.Activity实现于View;</p>
-<p>2.Activity调用presenter请求数据;</p>
-<p>3.presenter中请求数据,并将json–解析–》model-bean对象;</p>
-<p>4.presenter中请求成功(失败/加载中)后,调用view.onsucced(fail/loading)方法通知UI更新;</p>
-<p>5.activity的onsucced(fail/loading)方法完成UI更新;</p>
-</span>
+}
+</code></pre><hr>
+<p>现在我们就完成了基类view和实现view以及基类Presenter和实现类Presenter，但model、view和Presenter之间完全还未串联起来。</p>
+<h3 id="Communicate_the_M-V-P">Communicate the M-V-P</h3><p>首先解决model和Presenter的沟通</p>
+<pre><code>所谓model和Presenter的沟通就是在MainPresenter中请求完成书记后，将服务端返回的json转化为model对象。
+</code></pre><p>再次解决Presenter和View的沟通</p>
+<pre><code><span class="number">1.</span>MainPresenter中attachView装载泛型传入的MainView;
+<span class="number">2.</span>数据请求完成后，根据请求的结果，调用MainView的方法。
+</code></pre></span>
         
       
     </div>
