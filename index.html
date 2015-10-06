@@ -152,6 +152,191 @@
           
           
             
+              <a class="post-title-link" href="/2015/10/06/ZT10_1/" itemprop="url">
+                【杂谈10月】程序员眼中的Material Design
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-10-06T23:13:48+08:00" content="2015-10-06">
+            2015-10-06
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody"><p>程序员的角度的Material Design</p>
+<h2 id="前言">前言</h2><p>&emsp;&emsp;这是一篇给予设计品读的文章，只是从程序员角度告知设计同仁何为Material Design设计。2个月前，我们决定将美丽神器APP-android端全部翻新，不仅要完成从Eclipse转到AS，基础框架也将全部自己重建与设计，同时设计风格也将遵循MD的设计风格而存在。这是一项艰巨的任务，而让设计同仁在ios设计风格的熏陶下，理解MD风格将是其中最为艰难的部分，因此这篇文章最初是在一次与设计同仁的技术交流会议上总结的，现在开放出来也希望可以帮到更多的设计同仁去理解。</p>
+<p><img src="http://i.imgur.com/MNgSWGg.png" alt=""></p>
+<p>中文网站：<a href="http://wiki.jikexueyuan.com/project/material-design/" title="http://wiki.jikexueyuan.com/project/material-design/" target="_blank" rel="external">http://wiki.jikexueyuan.com/project/material-design/</a></p>
+<p>英文(翻墙)：<a href="http://www.google.com/design/spec/material-design/" title="http://www.google.com/design/spec/material-design/" target="_blank" rel="external">http://www.google.com/design/spec/material-design/</a></p>
+<p>设计总结：<a href="http://www.uisdc.com/comprehensive-material-design-note" title="http://www.uisdc.com/comprehensive-material-design-note" target="_blank" rel="external">http://www.uisdc.com/comprehensive-material-design-note</a></p>
+<p>几个可以参考的android-app(demo) : </p>
+<p>最美应用   最美壁纸    最美创意</p>
+<p>印象笔记   什么值得买  aisen </p>
+<p>pocket casts  网易云音乐  materialcat  </p>
+<h2 id="一-了解">一.了解</h2><p>&emsp;&emsp;Material Design：纸墨设计风格，诞生于2014年6月google 2014/IO大会。 涉及到了跨平台和设备的视觉,动态,交互设计等方面。Material Design对排版、材质、配色、光效、间距、文字大小、交互方式、动画轨迹都做出了建议，以帮助设计者设计出符合Material Design风格的应用。</p>
+<iframe height="498" width="510" src="http://player.youku.com/embed/XNzMxNzUyNzQ0" frameborder="0" allowfullscreen></iframe>
+
+<p>Material Design演示</p>
+<p>&emsp;&emsp;Material Design的灵感来自于对纸和墨水的研究,基于触觉现实感.并且它还在继续地发展扩充,有很大的想象空间.</p>
+<p>&emsp;&emsp;基于现实,让材料的表面和边缘提供视觉线索. 熟悉的触觉属性可以帮助用户快速地明白正在发生什么.</p>
+<p>&emsp;&emsp;光,表面和运动的一些基本规则是很关键性的因素,它们可以传达物体在空间如何存在,运动和交互.运动是很关键的因素,可以吸引注意力和保持连续性. 反馈需要微小但是清晰, 转换需要有效率但是还要保持连贯.</p>
+<p>见目录：</p>
+<p><a href="http://wiki.jikexueyuan.com/project/material-design/material-design-intro/introduction.html" title="http://wiki.jikexueyuan.com/project/material-design/material-design-intro/introduction.html" target="_blank" rel="external">http://wiki.jikexueyuan.com/project/material-design/material-design-intro/introduction.html</a></p>
+<h3 id="1-1_核心元素">1.1 核心元素</h3><ol>
+<li>表面和阴影：层级</li>
+</ol>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/281651365368208.png?imageView2/2/w/500/q/100" alt=""></p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/69293.png?imageView2/2/w/500/q/100" alt=""></p>
+<ol>
+<li>色彩：“大胆、图形化、有意义”</li>
+</ol>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/87748.png?imageView2/2/w/500/q/100" alt=""></p>
+<ol>
+<li>边距：第二基线（Keyline 2）</li>
+</ol>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/87752.png?imageView2/2/w/500/q/100" alt=""></p>
+<ol>
+<li>网格系统：卡片、列表、网格系统</li>
+</ol>
+<p>口错误</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/components-cards-usage-card_noa_large_mdpi.png?imageView2/2/w/500/q/100" alt=""></p>
+<p>口正确</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/components-cards-usage-card_nob_large_mdpi.png?imageView2/2/w/500/q/100" alt=""></p>
+<ol>
+<li>令人愉悦的细节和动画;</li>
+</ol>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/87759.gif?imageView2/2/w/500/q/100" alt=""></p>
+<h3 id="2-设计原则">2.设计原则</h3><p>1、    材料是个隐喻</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364431.jpg?imageView2/2/w/500/q/100" alt=""></p>
+<p>2、    表面是直观和自然的</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364432.jpg?imageView2/2/w/500/q/100" alt=""></p>
+<p>3、    维度提供交互</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364433.jpg?imageView2/2/w/500/q/100" alt=""></p>
+<p>4、    适应性设计</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364434.jpg?imageView2/2/w/500/q/100" alt=""></p>
+<p>5、    目录用黑体和图形设计，并带有意图</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364435.jpg?imageView2/2/w/500/q/100" alt=""></p>
+<p>6、    颜色、表面和图标都强调动作效果</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364436.jpg?imageView2/2/w/500/q/100" alt=""></p>
+<p>7、    用户发起变化</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364437.jpg?imageView2/2/w/500/q/100" alt=""></p>
+<p>8、    动画效果要在统一的</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364438.jpg?imageView2/2/w/500/q/100" alt=""></p>
+<p>9、    动作提供了意义</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364439.jpg?imageView2/2/w/500/q/100" alt=""></p>
+<p>演示几个video：</p>
+<p><iframe height="498" width="510" src="http://player.youku.com/embed/XODM2MTc0NzE2" frameborder="0" allowfullscreen></iframe><br>Morning Routine - Free alarm app for Android</p>
+<p><iframe height="498" width="510" src="http://player.youku.com/embed/XOTUzOTI3OTE2" frameborder="0" allowfullscreen></iframe><br>微信丨关于Material Design的 应用优化与动效设计</p>
+<p><iframe height="498" width="510" src="http://player.youku.com/embed/XODg2NDQ1NDQ4" frameborder="0" allowfullscreen></iframe><br>INSTAGRAM with Material Design</p>
+<h2 id="二-程序员眼中的核心元素">二.程序员眼中的核心元素</h2><p>无论MD风格包含多少设计的元素，对于可以被程序实践的MD，则会将核心表现在如下的元素中.下面的核心元素的俗语都是官方为程序员提供的控件，他们才是程序员实现MD风格的核心。</p>
+<h3 id="1-Theme">1.Theme</h3><p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443111.png" alt=""></p>
+<p>Theme核心就在于对于一个界面甚至整体APP定一个颜色纵深的基调，比如现在可以控制状态栏颜色，title颜色，背景颜色，虚拟按键栏颜色，并按照MD颜色层级进行颜色的搭配。</p>
+<p>口android:colorPrimaryDark 应用的主要暗色调，statusBarColor默认使用该颜色</p>
+<p>口android:statusBarColor 状态栏颜色，默认使用colorPrimaryDark</p>
+<p>口android:colorPrimary 应用的主要色调，actionBar默认使用该颜色</p>
+<p>口android:windowBackground 窗口背景颜色</p>
+<p>口android:navigationBarColor 底部栏颜色</p>
+<p>口android:colorForeground 应用的前景色，ListView的分割线，switch滑动区默认使用该颜色</p>
+<p>口android:colorBackground 应用的背景色，popMenu的背景默认使用该颜色</p>
+<p>口android:colorAccent 一般控件的选种效果默认采用该颜色</p>
+<p>口android:colorControlNormal 控件的默认色调　</p>
+<p>口android:colorControlHighlight 控件按压时的色调</p>
+<p>口android:colorControlActivated 控件选中时的颜色，默认使用colorAccent</p>
+<p>口android:colorButtonNormal 默认按钮的背景颜色</p>
+<p>口android:textColor Button，textView的文字颜色</p>
+<p>口android:textColorPrimaryDisableOnly RadioButton checkbox等控件的文字</p>
+<p>口android:textColorPrimary 应用的主要文字颜色，actionBar的标题文字默认使用该颜色</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443style-typography-12_large_mdpi.png" alt=""></p>
+<h3 id="2-导航栏(标题栏)Toolbar">2.导航栏(标题栏)Toolbar</h3><p>android3.0之前 APP的Title都是Android程序员根据已经存在的一些基础控件拼凑而成，3.0后官方退出Actionbar，4.4后MD风格中出现Toolbar(v7包中提供)。</p>
+<p>Actionbar：</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364432014062009211697.gif" alt=""></p>
+<p>Toolbar</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364431416285884351.png" alt=""></p>
+<p>ToolBar属于ActionBar的升级版，扩展了ActionBar，使得程序员可以像使用独立的控件一样使用ToolBar.所以为了展现MD风格，程序员一般都会使用Toolbar来完成标题栏。</p>
+<p>Toolbar上的按钮点击后弹出的popup视图窗效果，在MD中被定义为“纸片”，它是悬空形态的。</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443components-chips-contactchips-chips_03b_large_mdpi.png" alt=""></p>
+<h3 id="3-卡片CardView_列表_RecyclerView">3.卡片CardView 列表 RecyclerView</h3><p>MD风格其实比较注重卡片效果，官方在MD中将全铺的没有网格效果的瓷砖效果标记为wrong风格，让程序员用卡片布局来映衬MD风格。</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443components-cards-content-card_books_large_mdpi.png" alt=""></p>
+<p>口错误</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443components-cards-usage-card_no2a_large_mdpi.png" alt=""></p>
+<p>口正确</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443components-cards-usage-card_no2b_large_mdpi.png" alt=""></p>
+<p>RecyclerView是指列表，早期android是用ListView来实现列表的.为了更好的性能，同时为了配合CardView卡片，MD风格中官方建议使用RecyclerView替代ListView。</p>
+<h3 id="4-波纹触摸反馈Ripple">4.波纹触摸反馈Ripple</h3><p>点击卡片条目，RecyclerView条目或者按钮等，展现一种波纹般的触摸效果。</p>
+<p><img src="http://img.my.csdn.net/uploads/201412/07/1417883148_7961.gif-thumb.jpg" alt=""></p>
+<p><img src="http://img.my.csdn.net/uploads/201412/07/1417881700_6000.gif-thumb.jpg" alt=""></p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/73644320141122214256_785.gif" alt=""></p>
+<h3 id="5-揭露效果Reveal_effect">5.揭露效果Reveal effect</h3><p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/73644320141122214257_220.gif" alt=""></p>
+<h3 id="6-曲线运动Curved_motion">6.曲线运动Curved motion</h3><p><img src="http://img.my.csdn.net/uploads/201412/07/1417883797_3321.gif-thumb.jpg" alt=""></p>
+<h3 id="7-Z轴代表的阴影_和_裁剪">7.Z轴代表的阴影 和  裁剪</h3><p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/73644320141014201623593.png" alt=""></p>
+<h3 id="8-Activity的进场与退场动画_Activity_Transition">8.Activity的进场与退场动画 Activity Transition</h3><p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443trainsition_shared_element.gif" alt=""></p>
+<h3 id="9-侧滑栏抽屉_NavigationView_和_DrawerLayout搭配">9.侧滑栏抽屉 NavigationView 和  DrawerLayout搭配</h3><p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443drawer.png" alt=""></p>
+<h3 id="10-悬空按钮FAB">10.悬空按钮FAB</h3><p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364436_1.png" alt=""></p>
+<h2 id="三-谷歌的兼容实现">三.谷歌的兼容实现</h2><p><iframe height="498" width="510" src="http://player.youku.com/embed/XMTI1MDA2OTUyMA==" frameborder="0" allowfullscreen></iframe><br>Android Design Support Library</p>
+<p>&emsp;&emsp;在今天4月份前，实际上实现MD风格，在代码逻辑上并不方面，很多的MD风格的控件只能在5.0的手机上才可以运行，现在Support Library为我们将MD风格兼容到5.0下起到了重要的作用。因此，设计现在所做的MD设计图，对我们程序员而言，代表着，我们必须使用兼容类库将它兼容到更低端的手机中。</p>
+<p>这些新的兼容控件的名称如下：</p>
+<p>Navigation View<br>抽屉</p>
+<p>TextInputLayout<br>输入框控件的悬浮标签</p>
+<p>Floating Action Button<br>悬浮操作按钮</p>
+<p>Snackbar<br>提示</p>
+<p>TabLayout<br>选项卡</p>
+<p>CoordinatorLayout<br>手势与滚动</p>
+<p>Collapsing Toolbar<br>可伸缩折叠的Toolbar</p>
+<p>他们为实现二中的核心元素的向下兼容而存在。</p>
+<h2 id="四-后记">四.后记</h2><p>&emsp;&emsp;尽管MD风格在国外已经越来越成为趋势，但就目前中国对于android设计发展趋势而看，在短期内，照着IOS来做的原则暂时不会变化，未来如何，还需要时间来检验。即使诚如哔哩哔哩或者什么值得买这样一批首先尝试的app，在坚守一段MD风格后，都纷纷投降，转变风格，android端APP风格均重投IOS设计之下。Material Design在中国之困，这不能不说是一个巨大的讽刺。也许过2年后再看今时今日之纷争…谁又说得清道得其中的蜃楼变迁。</p>
+<p>后记小文两篇：</p>
+<p>1.Material Design in Action — 哔哩哔哩动画 Android 客户端<br><a href="http://www.jianshu.com/p/d1458e550b8e#" target="_blank" rel="external">http://www.jianshu.com/p/d1458e550b8e#</a></p>
+<p>2.Material Design设计在中国之困<br><a href="http://www.sabria.me/2015/08/15/ZT8_1/" target="_blank" rel="external">http://www.sabria.me/2015/08/15/ZT8_1/</a></p>
+</span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/2015/10/03/MVP_1/" itemprop="url">
                 【范式10月】Android-MVP范式编程(一)
               </a>
@@ -1247,80 +1432,6 @@ protected void onResume<span class="params">()</span> {
 
 
     
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2015/07/31/QY2/" itemprop="url">
-                【奇巧淫技002期】onCreate()过程中获取View的width和Height为0的海阔之策
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2015-07-31T12:33:06+08:00" content="2015-07-31">
-            2015-07-31
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h1 id="解决在onCreate()过程中获取View的width和Height为0的4种方法">解决在onCreate()过程中获取View的width和Height为0的4种方法</h1><p>问题出现原因：setContentView(layout)的加载时异步的,因此获取到的getHeight为0;</p>
-<p>解决方法：</p>
-<ol>
-<li>ViewTreeObserver</li>
-<li>Runnable</li>
-<li>onLayout</li>
-<li>getMeasureHeight         </li>
-</ol>
-<p>推荐：ViewTreeObserver方法…</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/07/31/QY2/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1360,7 +1471,7 @@ protected void onResume<span class="params">()</span> {
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-count">14</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

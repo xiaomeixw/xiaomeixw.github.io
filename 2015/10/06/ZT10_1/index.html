@@ -1,0 +1,737 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+    
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.4"/>
+
+
+    <meta name="description" content="重新发现、定义并创造这个世界..." />
+
+
+
+  <meta name="keywords" content="Hexo,next" />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
+
+
+<meta name="description" content="程序员的角度的Material Design
+前言&amp;emsp;&amp;emsp;这是一篇给予设计品读的文章，只是从程序员角度告知设计同仁何为Material Design设计。2个月前，我们决定将美丽神器APP-android端全部翻新，不仅要完成从Eclipse转到AS，基础框架也将全部自己重建与设计，同时设计风格也将遵循MD的设计风格而存在。这是一项艰巨的任务，而让设计同仁在ios设计风格的熏陶下，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【杂谈10月】程序员眼中的Material Design">
+<meta property="og:url" content="http://yoursite.com/2015/10/06/ZT10_1/index.html">
+<meta property="og:site_name" content="sabria">
+<meta property="og:description" content="程序员的角度的Material Design
+前言&amp;emsp;&amp;emsp;这是一篇给予设计品读的文章，只是从程序员角度告知设计同仁何为Material Design设计。2个月前，我们决定将美丽神器APP-android端全部翻新，不仅要完成从Eclipse转到AS，基础框架也将全部自己重建与设计，同时设计风格也将遵循MD的设计风格而存在。这是一项艰巨的任务，而让设计同仁在ios设计风格的熏陶下，">
+<meta property="og:image" content="http://i.imgur.com/MNgSWGg.png">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/281651365368208.png?imageView2/2/w/500/q/100">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/69293.png?imageView2/2/w/500/q/100">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/87748.png?imageView2/2/w/500/q/100">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/87752.png?imageView2/2/w/500/q/100">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/components-cards-usage-card_noa_large_mdpi.png?imageView2/2/w/500/q/100">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/components-cards-usage-card_nob_large_mdpi.png?imageView2/2/w/500/q/100">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/87759.gif?imageView2/2/w/500/q/100">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/7364431.jpg?imageView2/2/w/500/q/100">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/7364432.jpg?imageView2/2/w/500/q/100">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/7364433.jpg?imageView2/2/w/500/q/100">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/7364434.jpg?imageView2/2/w/500/q/100">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/7364435.jpg?imageView2/2/w/500/q/100">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/7364436.jpg?imageView2/2/w/500/q/100">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/7364437.jpg?imageView2/2/w/500/q/100">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/7364438.jpg?imageView2/2/w/500/q/100">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/7364439.jpg?imageView2/2/w/500/q/100">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/736443111.png">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/736443style-typography-12_large_mdpi.png">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/7364432014062009211697.gif">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/7364431416285884351.png">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/736443components-chips-contactchips-chips_03b_large_mdpi.png">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/736443components-cards-content-card_books_large_mdpi.png">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/736443components-cards-usage-card_no2a_large_mdpi.png">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/736443components-cards-usage-card_no2b_large_mdpi.png">
+<meta property="og:image" content="http://img.my.csdn.net/uploads/201412/07/1417883148_7961.gif-thumb.jpg">
+<meta property="og:image" content="http://img.my.csdn.net/uploads/201412/07/1417881700_6000.gif-thumb.jpg">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/73644320141122214256_785.gif">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/73644320141122214257_220.gif">
+<meta property="og:image" content="http://img.my.csdn.net/uploads/201412/07/1417883797_3321.gif-thumb.jpg">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/73644320141014201623593.png">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/736443trainsition_shared_element.gif">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/736443drawer.png">
+<meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/7364436_1.png">
+<meta property="og:updated_time" content="2015-10-06T15:14:55.392Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【杂谈10月】程序员眼中的Material Design">
+<meta name="twitter:description" content="程序员的角度的Material Design
+前言&amp;emsp;&amp;emsp;这是一篇给予设计品读的文章，只是从程序员角度告知设计同仁何为Material Design设计。2个月前，我们决定将美丽神器APP-android端全部翻新，不仅要完成从Eclipse转到AS，基础框架也将全部自己重建与设计，同时设计风格也将遵循MD的设计风格而存在。这是一项艰巨的任务，而让设计同仁在ios设计风格的熏陶下，">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'hide'
+  };
+</script>
+
+    <title> 【杂谈10月】程序员眼中的Material Design // sabria </title>
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+
+
+
+<div class="container one-column page-post-detail">
+    <div class="headband"></div>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">sabria</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+        </div>
+    </header>
+
+    <main id="main" class="main">
+        <div class="main-inner">
+            <div id="content" class="content">
+                
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              【杂谈10月】程序员眼中的Material Design
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-10-06T23:13:48+08:00" content="2015-10-06">
+            2015-10-06
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>程序员的角度的Material Design</p>
+<h2 id="前言">前言</h2><p>&emsp;&emsp;这是一篇给予设计品读的文章，只是从程序员角度告知设计同仁何为Material Design设计。2个月前，我们决定将美丽神器APP-android端全部翻新，不仅要完成从Eclipse转到AS，基础框架也将全部自己重建与设计，同时设计风格也将遵循MD的设计风格而存在。这是一项艰巨的任务，而让设计同仁在ios设计风格的熏陶下，理解MD风格将是其中最为艰难的部分，因此这篇文章最初是在一次与设计同仁的技术交流会议上总结的，现在开放出来也希望可以帮到更多的设计同仁去理解。</p>
+<p><img src="http://i.imgur.com/MNgSWGg.png" alt=""></p>
+<p>中文网站：<a href="http://wiki.jikexueyuan.com/project/material-design/" title="http://wiki.jikexueyuan.com/project/material-design/" target="_blank" rel="external">http://wiki.jikexueyuan.com/project/material-design/</a></p>
+<p>英文(翻墙)：<a href="http://www.google.com/design/spec/material-design/" title="http://www.google.com/design/spec/material-design/" target="_blank" rel="external">http://www.google.com/design/spec/material-design/</a></p>
+<p>设计总结：<a href="http://www.uisdc.com/comprehensive-material-design-note" title="http://www.uisdc.com/comprehensive-material-design-note" target="_blank" rel="external">http://www.uisdc.com/comprehensive-material-design-note</a></p>
+<p>几个可以参考的android-app(demo) : </p>
+<p>最美应用   最美壁纸    最美创意</p>
+<p>印象笔记   什么值得买  aisen </p>
+<p>pocket casts  网易云音乐  materialcat  </p>
+<h2 id="一-了解">一.了解</h2><p>&emsp;&emsp;Material Design：纸墨设计风格，诞生于2014年6月google 2014/IO大会。 涉及到了跨平台和设备的视觉,动态,交互设计等方面。Material Design对排版、材质、配色、光效、间距、文字大小、交互方式、动画轨迹都做出了建议，以帮助设计者设计出符合Material Design风格的应用。</p>
+<iframe height="498" width="510" src="http://player.youku.com/embed/XNzMxNzUyNzQ0" frameborder="0" allowfullscreen></iframe>
+
+<p>Material Design演示</p>
+<p>&emsp;&emsp;Material Design的灵感来自于对纸和墨水的研究,基于触觉现实感.并且它还在继续地发展扩充,有很大的想象空间.</p>
+<p>&emsp;&emsp;基于现实,让材料的表面和边缘提供视觉线索. 熟悉的触觉属性可以帮助用户快速地明白正在发生什么.</p>
+<p>&emsp;&emsp;光,表面和运动的一些基本规则是很关键性的因素,它们可以传达物体在空间如何存在,运动和交互.运动是很关键的因素,可以吸引注意力和保持连续性. 反馈需要微小但是清晰, 转换需要有效率但是还要保持连贯.</p>
+<p>见目录：</p>
+<p><a href="http://wiki.jikexueyuan.com/project/material-design/material-design-intro/introduction.html" title="http://wiki.jikexueyuan.com/project/material-design/material-design-intro/introduction.html" target="_blank" rel="external">http://wiki.jikexueyuan.com/project/material-design/material-design-intro/introduction.html</a></p>
+<h3 id="1-1_核心元素">1.1 核心元素</h3><ol>
+<li>表面和阴影：层级</li>
+</ol>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/281651365368208.png?imageView2/2/w/500/q/100" alt=""></p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/69293.png?imageView2/2/w/500/q/100" alt=""></p>
+<ol>
+<li>色彩：“大胆、图形化、有意义”</li>
+</ol>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/87748.png?imageView2/2/w/500/q/100" alt=""></p>
+<ol>
+<li>边距：第二基线（Keyline 2）</li>
+</ol>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/87752.png?imageView2/2/w/500/q/100" alt=""></p>
+<ol>
+<li>网格系统：卡片、列表、网格系统</li>
+</ol>
+<p>口错误</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/components-cards-usage-card_noa_large_mdpi.png?imageView2/2/w/500/q/100" alt=""></p>
+<p>口正确</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/components-cards-usage-card_nob_large_mdpi.png?imageView2/2/w/500/q/100" alt=""></p>
+<ol>
+<li>令人愉悦的细节和动画;</li>
+</ol>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/87759.gif?imageView2/2/w/500/q/100" alt=""></p>
+<h3 id="2-设计原则">2.设计原则</h3><p>1、    材料是个隐喻</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364431.jpg?imageView2/2/w/500/q/100" alt=""></p>
+<p>2、    表面是直观和自然的</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364432.jpg?imageView2/2/w/500/q/100" alt=""></p>
+<p>3、    维度提供交互</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364433.jpg?imageView2/2/w/500/q/100" alt=""></p>
+<p>4、    适应性设计</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364434.jpg?imageView2/2/w/500/q/100" alt=""></p>
+<p>5、    目录用黑体和图形设计，并带有意图</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364435.jpg?imageView2/2/w/500/q/100" alt=""></p>
+<p>6、    颜色、表面和图标都强调动作效果</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364436.jpg?imageView2/2/w/500/q/100" alt=""></p>
+<p>7、    用户发起变化</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364437.jpg?imageView2/2/w/500/q/100" alt=""></p>
+<p>8、    动画效果要在统一的</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364438.jpg?imageView2/2/w/500/q/100" alt=""></p>
+<p>9、    动作提供了意义</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364439.jpg?imageView2/2/w/500/q/100" alt=""></p>
+<p>演示几个video：</p>
+<p><iframe height="498" width="510" src="http://player.youku.com/embed/XODM2MTc0NzE2" frameborder="0" allowfullscreen></iframe><br>Morning Routine - Free alarm app for Android</p>
+<p><iframe height="498" width="510" src="http://player.youku.com/embed/XOTUzOTI3OTE2" frameborder="0" allowfullscreen></iframe><br>微信丨关于Material Design的 应用优化与动效设计</p>
+<p><iframe height="498" width="510" src="http://player.youku.com/embed/XODg2NDQ1NDQ4" frameborder="0" allowfullscreen></iframe><br>INSTAGRAM with Material Design</p>
+<h2 id="二-程序员眼中的核心元素">二.程序员眼中的核心元素</h2><p>无论MD风格包含多少设计的元素，对于可以被程序实践的MD，则会将核心表现在如下的元素中.下面的核心元素的俗语都是官方为程序员提供的控件，他们才是程序员实现MD风格的核心。</p>
+<h3 id="1-Theme">1.Theme</h3><p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443111.png" alt=""></p>
+<p>Theme核心就在于对于一个界面甚至整体APP定一个颜色纵深的基调，比如现在可以控制状态栏颜色，title颜色，背景颜色，虚拟按键栏颜色，并按照MD颜色层级进行颜色的搭配。</p>
+<p>口android:colorPrimaryDark 应用的主要暗色调，statusBarColor默认使用该颜色</p>
+<p>口android:statusBarColor 状态栏颜色，默认使用colorPrimaryDark</p>
+<p>口android:colorPrimary 应用的主要色调，actionBar默认使用该颜色</p>
+<p>口android:windowBackground 窗口背景颜色</p>
+<p>口android:navigationBarColor 底部栏颜色</p>
+<p>口android:colorForeground 应用的前景色，ListView的分割线，switch滑动区默认使用该颜色</p>
+<p>口android:colorBackground 应用的背景色，popMenu的背景默认使用该颜色</p>
+<p>口android:colorAccent 一般控件的选种效果默认采用该颜色</p>
+<p>口android:colorControlNormal 控件的默认色调　</p>
+<p>口android:colorControlHighlight 控件按压时的色调</p>
+<p>口android:colorControlActivated 控件选中时的颜色，默认使用colorAccent</p>
+<p>口android:colorButtonNormal 默认按钮的背景颜色</p>
+<p>口android:textColor Button，textView的文字颜色</p>
+<p>口android:textColorPrimaryDisableOnly RadioButton checkbox等控件的文字</p>
+<p>口android:textColorPrimary 应用的主要文字颜色，actionBar的标题文字默认使用该颜色</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443style-typography-12_large_mdpi.png" alt=""></p>
+<h3 id="2-导航栏(标题栏)Toolbar">2.导航栏(标题栏)Toolbar</h3><p>android3.0之前 APP的Title都是Android程序员根据已经存在的一些基础控件拼凑而成，3.0后官方退出Actionbar，4.4后MD风格中出现Toolbar(v7包中提供)。</p>
+<p>Actionbar：</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364432014062009211697.gif" alt=""></p>
+<p>Toolbar</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364431416285884351.png" alt=""></p>
+<p>ToolBar属于ActionBar的升级版，扩展了ActionBar，使得程序员可以像使用独立的控件一样使用ToolBar.所以为了展现MD风格，程序员一般都会使用Toolbar来完成标题栏。</p>
+<p>Toolbar上的按钮点击后弹出的popup视图窗效果，在MD中被定义为“纸片”，它是悬空形态的。</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443components-chips-contactchips-chips_03b_large_mdpi.png" alt=""></p>
+<h3 id="3-卡片CardView_列表_RecyclerView">3.卡片CardView 列表 RecyclerView</h3><p>MD风格其实比较注重卡片效果，官方在MD中将全铺的没有网格效果的瓷砖效果标记为wrong风格，让程序员用卡片布局来映衬MD风格。</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443components-cards-content-card_books_large_mdpi.png" alt=""></p>
+<p>口错误</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443components-cards-usage-card_no2a_large_mdpi.png" alt=""></p>
+<p>口正确</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443components-cards-usage-card_no2b_large_mdpi.png" alt=""></p>
+<p>RecyclerView是指列表，早期android是用ListView来实现列表的.为了更好的性能，同时为了配合CardView卡片，MD风格中官方建议使用RecyclerView替代ListView。</p>
+<h3 id="4-波纹触摸反馈Ripple">4.波纹触摸反馈Ripple</h3><p>点击卡片条目，RecyclerView条目或者按钮等，展现一种波纹般的触摸效果。</p>
+<p><img src="http://img.my.csdn.net/uploads/201412/07/1417883148_7961.gif-thumb.jpg" alt=""></p>
+<p><img src="http://img.my.csdn.net/uploads/201412/07/1417881700_6000.gif-thumb.jpg" alt=""></p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/73644320141122214256_785.gif" alt=""></p>
+<h3 id="5-揭露效果Reveal_effect">5.揭露效果Reveal effect</h3><p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/73644320141122214257_220.gif" alt=""></p>
+<h3 id="6-曲线运动Curved_motion">6.曲线运动Curved motion</h3><p><img src="http://img.my.csdn.net/uploads/201412/07/1417883797_3321.gif-thumb.jpg" alt=""></p>
+<h3 id="7-Z轴代表的阴影_和_裁剪">7.Z轴代表的阴影 和  裁剪</h3><p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/73644320141014201623593.png" alt=""></p>
+<h3 id="8-Activity的进场与退场动画_Activity_Transition">8.Activity的进场与退场动画 Activity Transition</h3><p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443trainsition_shared_element.gif" alt=""></p>
+<h3 id="9-侧滑栏抽屉_NavigationView_和_DrawerLayout搭配">9.侧滑栏抽屉 NavigationView 和  DrawerLayout搭配</h3><p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443drawer.png" alt=""></p>
+<h3 id="10-悬空按钮FAB">10.悬空按钮FAB</h3><p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364436_1.png" alt=""></p>
+<h2 id="三-谷歌的兼容实现">三.谷歌的兼容实现</h2><p><iframe height="498" width="510" src="http://player.youku.com/embed/XMTI1MDA2OTUyMA==" frameborder="0" allowfullscreen></iframe><br>Android Design Support Library</p>
+<p>&emsp;&emsp;在今天4月份前，实际上实现MD风格，在代码逻辑上并不方面，很多的MD风格的控件只能在5.0的手机上才可以运行，现在Support Library为我们将MD风格兼容到5.0下起到了重要的作用。因此，设计现在所做的MD设计图，对我们程序员而言，代表着，我们必须使用兼容类库将它兼容到更低端的手机中。</p>
+<p>这些新的兼容控件的名称如下：</p>
+<p>Navigation View<br>抽屉</p>
+<p>TextInputLayout<br>输入框控件的悬浮标签</p>
+<p>Floating Action Button<br>悬浮操作按钮</p>
+<p>Snackbar<br>提示</p>
+<p>TabLayout<br>选项卡</p>
+<p>CoordinatorLayout<br>手势与滚动</p>
+<p>Collapsing Toolbar<br>可伸缩折叠的Toolbar</p>
+<p>他们为实现二中的核心元素的向下兼容而存在。</p>
+<h2 id="四-后记">四.后记</h2><p>&emsp;&emsp;尽管MD风格在国外已经越来越成为趋势，但就目前中国对于android设计发展趋势而看，在短期内，照着IOS来做的原则暂时不会变化，未来如何，还需要时间来检验。即使诚如哔哩哔哩或者什么值得买这样一批首先尝试的app，在坚守一段MD风格后，都纷纷投降，转变风格，android端APP风格均重投IOS设计之下。Material Design在中国之困，这不能不说是一个巨大的讽刺。也许过2年后再看今时今日之纷争…谁又说得清道得其中的蜃楼变迁。</p>
+<p>后记小文两篇：</p>
+<p>1.Material Design in Action — 哔哩哔哩动画 Android 客户端<br><a href="http://www.jianshu.com/p/d1458e550b8e#" target="_blank" rel="external">http://www.jianshu.com/p/d1458e550b8e#</a></p>
+<p>2.Material Design设计在中国之困<br><a href="http://www.sabria.me/2015/08/15/ZT8_1/" target="_blank" rel="external">http://www.sabria.me/2015/08/15/ZT8_1/</a></p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/03/MVP_1/" rel="next">【范式10月】Android-MVP范式编程(一)</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+            </div>
+
+            
+
+            
+              <div class="comments" id="comments">
+                
+              </div>
+            
+        </div>
+
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/avatar.jpg" alt="熊伟xiongwei" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">熊伟xiongwei</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">重新发现、定义并创造这个世界...</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xiaomeixw" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.sabria.net/" target="_blank">anotherblog</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/1561605537" target="_blank">weibo</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一-了解"><span class="nav-number">2.</span> <span class="nav-text">一.了解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1_核心元素"><span class="nav-number">2.1.</span> <span class="nav-text">1.1 核心元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-设计原则"><span class="nav-number">2.2.</span> <span class="nav-text">2.设计原则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-程序员眼中的核心元素"><span class="nav-number">3.</span> <span class="nav-text">二.程序员眼中的核心元素</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Theme"><span class="nav-number">3.1.</span> <span class="nav-text">1.Theme</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-导航栏(标题栏)Toolbar"><span class="nav-number">3.2.</span> <span class="nav-text">2.导航栏(标题栏)Toolbar</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-卡片CardView_列表_RecyclerView"><span class="nav-number">3.3.</span> <span class="nav-text">3.卡片CardView 列表 RecyclerView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-波纹触摸反馈Ripple"><span class="nav-number">3.4.</span> <span class="nav-text">4.波纹触摸反馈Ripple</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-揭露效果Reveal_effect"><span class="nav-number">3.5.</span> <span class="nav-text">5.揭露效果Reveal effect</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-曲线运动Curved_motion"><span class="nav-number">3.6.</span> <span class="nav-text">6.曲线运动Curved motion</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-Z轴代表的阴影_和_裁剪"><span class="nav-number">3.7.</span> <span class="nav-text">7.Z轴代表的阴影 和  裁剪</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-Activity的进场与退场动画_Activity_Transition"><span class="nav-number">3.8.</span> <span class="nav-text">8.Activity的进场与退场动画 Activity Transition</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-侧滑栏抽屉_NavigationView_和_DrawerLayout搭配"><span class="nav-number">3.9.</span> <span class="nav-text">9.侧滑栏抽屉 NavigationView 和  DrawerLayout搭配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-悬空按钮FAB"><span class="nav-number">3.10.</span> <span class="nav-text">10.悬空按钮FAB</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三-谷歌的兼容实现"><span class="nav-number">4.</span> <span class="nav-text">三.谷歌的兼容实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四-后记"><span class="nav-number">5.</span> <span class="nav-text">四.后记</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">熊伟xiongwei</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+        </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+</div>
+
+<script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.4"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.4"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.4" id="motion.global"></script>
+
+
+
+  <script type="text/javascript" src="/js/search-toggle.js"></script>
+
+
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.4" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (CONFIG.sidebar === 'always') {
+            displaySidebar();
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+<!-- lazyload -->
+<script type="text/javascript" src="/js/lazyload.js"></script>
+<script type="text/javascript">
+    jQuery(function () {
+        jQuery("#posts img").lazyload({
+            placeholder: "/images/loading.gif",
+            effect: "fadeIn"
+        });
+    });
+</script>
+</body>
+</html>
