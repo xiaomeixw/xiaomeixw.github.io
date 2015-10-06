@@ -48,7 +48,7 @@
 首先让我们搭建一个基础MVP架构的目录，然后我们逐步解析MVP的含义，并最终完成一套符合The Clean Architecture核心思想的MVP架构封装。这里将是MVP范式编程的第一个章节,我将通过一个层级范例来解构MVP。
 解析MVP层级范例">
 <meta property="og:image" content="http://i.imgur.com/larhurt.png">
-<meta property="og:updated_time" content="2015-10-04T13:43:45.713Z">
+<meta property="og:updated_time" content="2015-10-06T15:29:05.857Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【范式10月】Android-MVP范式编程(一)">
 <meta name="twitter:description" content="我将保证MVP核心范式编程的文章将不少于5篇文章，在我还没有正式给MVP下定义前，我相信一个优秀的范例将非常有效的让我们对MVP有一个非常深入的了解。
@@ -364,7 +364,8 @@
 </code></pre><p>再次解决Presenter和View的沟通</p>
 <pre><code><span class="number">1.</span>MainPresenter中attachView装载泛型传入的MainView;
 <span class="number">2.</span>数据请求完成后，根据请求的结果，调用MainView的方法。
-</code></pre></span>
+</code></pre><h3 id="源码">源码</h3><p>part1项目代码可以在Github <a href="https://github.com/xiaomeixw/MVP" target="_blank" rel="external">repository</a> 找到.</p>
+</span>
       
     </div>
 
@@ -500,7 +501,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#解析MVP层级范例"><span class="nav-number">1.</span> <span class="nav-text">解析MVP层级范例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#code_means_everythings"><span class="nav-number">1.1.</span> <span class="nav-text">code means everythings</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Communicate_the_M-V-P"><span class="nav-number">1.2.</span> <span class="nav-text">Communicate the M-V-P</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#解析MVP层级范例"><span class="nav-number">1.</span> <span class="nav-text">解析MVP层级范例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#code_means_everythings"><span class="nav-number">1.1.</span> <span class="nav-text">code means everythings</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Communicate_the_M-V-P"><span class="nav-number">1.2.</span> <span class="nav-text">Communicate the M-V-P</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#源码"><span class="nav-number">1.3.</span> <span class="nav-text">源码</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
