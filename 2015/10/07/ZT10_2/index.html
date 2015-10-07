@@ -1,0 +1,688 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+    
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.4"/>
+
+
+    <meta name="description" content="重新发现、定义并创造这个世界..." />
+
+
+
+  <meta name="keywords" content="Hexo,next" />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
+
+
+<meta name="description" content="框架的规范
+/**
+ * Created by xiongwei &amp;amp; lele,An Android project Engineer.
+ * Date:2015-08-14  12:27
+ * Base on Meilimei.com (PHP Service)
+ * Describe:   FrescoManager.getInstance().load(url).into(image">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【正谈10月】框架的规范（一）">
+<meta property="og:url" content="http://yoursite.com/2015/10/07/ZT10_2/index.html">
+<meta property="og:site_name" content="sabria">
+<meta property="og:description" content="框架的规范
+/**
+ * Created by xiongwei &amp;amp; lele,An Android project Engineer.
+ * Date:2015-08-14  12:27
+ * Base on Meilimei.com (PHP Service)
+ * Describe:   FrescoManager.getInstance().load(url).into(image">
+<meta property="og:image" content="http://i.imgur.com/gssxZrg.png">
+<meta property="og:updated_time" content="2015-10-07T15:52:46.853Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【正谈10月】框架的规范（一）">
+<meta name="twitter:description" content="框架的规范
+/**
+ * Created by xiongwei &amp;amp; lele,An Android project Engineer.
+ * Date:2015-08-14  12:27
+ * Base on Meilimei.com (PHP Service)
+ * Describe:   FrescoManager.getInstance().load(url).into(image">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'hide'
+  };
+</script>
+
+    <title> 【正谈10月】框架的规范（一） // sabria </title>
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+
+
+
+<div class="container one-column page-post-detail">
+    <div class="headband"></div>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">sabria</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+        </div>
+    </header>
+
+    <main id="main" class="main">
+        <div class="main-inner">
+            <div id="content" class="content">
+                
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              【正谈10月】框架的规范（一）
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-10-07T21:01:48+08:00" content="2015-10-07">
+            2015-10-07
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>框架的规范</p>
+<pre><code>/<span class="keyword">*</span><span class="keyword">*</span>
+ <span class="keyword">*</span> Created by xiongwei &amp; lele,An Android project Engineer.
+ <span class="keyword">*</span> Date:2015-08-14  12:27
+ <span class="keyword">*</span> Base on Meilimei.com (PHP Service)
+ <span class="keyword">*</span> Describe:   FrescoManager.getInstance().load(url).into(imageview);
+ <span class="keyword">*</span> Version:1.0
+ <span class="keyword">*</span> Open source
+ <span class="keyword">*</span>/
+</code></pre><h2 id="前言">前言</h2><p><img src="http://i.imgur.com/gssxZrg.png" alt=""></p>
+<p>&emsp;&emsp;2个月前，我和我的同事赵小(亦)乐童鞋在公司决策者的支持下决定彻底放弃Eclipse版本的美丽神器，准备开始着手搭建基于Android studio的Android基础开发框架。在这之前我们的旧版本美丽神器我们开发了整整一年多，但却一直都是松散的架构体系，性能极度低下。我和赵小乐童鞋都是各自为核心构建各自喜欢的架构和开发模块，导致我们会经常将一个模型工具类按照我们自己的思路反复构建两次。而这次我们决定结束这样松散的架构体系，共同启用一套共同搭建的Android开发框架。这套框架要彼此适合我们各自的使用习惯且应该具有极高的规范性、拓展性和可复制型。一年的共同合作让我们拥有了很好的默契和一致认可的开发习惯，这为这套框架的开发提供了坚实的基础和合作默契。也是时候公开我们探究的一些核心元素了。</p>
+<p>&emsp;&emsp;Android的框架一直在被不断的探索和发觉，基于“基础Android传统的模式”，“MVP模式”或者“MVVP模式”不断的成为争论的观点。在探究最初新架构时我本意推行MVP的架构模式，但考虑强行推行MVP将导致原有的代码基本需要重写，复用部分将非常少。这将导致我们很难在11月底推出基于MD风格的美丽神器Android端。而MVVP则目前因为data-binding尚不能友好的支持向下兼容，且单向绑定表明Google还有很大的潜力将其转变为双向绑定(开源社区的library早已双向绑定许久)，而此后的代码模块，将导致双向绑定推出后，又要动用时间资源成本重新编排Xml和代码模块。因此均不是最佳选项。</p>
+<p>&emsp;&emsp;如果我们一直纠结于使用那种The Clean Architecture架构作为基础时，不妨回到一些很显著的事实上来：其实谷歌官方一直以来没有使用MVP或者MVVP架构，就是考虑到核心模块的过大改动，将使得之前所做的很多成熟模式均带来转变的成本冗余，谷歌官方也需要更多的时间来架构新的java表层框架。我们最终决定保守的处理这次架构的选择，仍然决定使用Android传统的模式。因此依托于当前成熟的Library将成为关键，即便如此，我们也要将许多的核心模块封装成套，在纯Activity(Fragment/View)界面将“节俭化”为最小最少代码。</p>
+<p>&emsp;&emsp;彻底开源这套框架，将使得我面临“泄露公司资源”的道德风险，而曲线救国般的展示只言片语的思维核心，将有助于避免这种道德上的风险。因此我们不会开源这套框架，而我将展示我们是如何将一个千万级别下载百万用户的APP，如何完成从Eclipse转到Android studio，从SVN转向Git，同时完成一套核心框架的开发，以及践行MD风格设计的过程，我想这才是最重要的部分，难道“思想”不比“愚钝的代码”更重要吗？！</p>
+<p>&emsp;&emsp;这里将是第一部节，这部分将描述框架的规范。我将保障全部文章将不少于10篇，并保证自己一定倾囊相授核心思想，并在开源思想和保守公司资源中做出道德平衡。</p>
+<h2 id="框架规范：命名">框架规范：命名</h2><p>&emsp;&emsp;一套优秀的框架最开始并不是要去抉择选用何种library库，不是要实现那种架构模式，也不应该是直接上手分包搭建框架。它应该是一套基础的框架规范命名。这将能够使得多人协作时大家能够彼此按照一个基础的约定来攥写代码，而这种代码必须在命名上就是可以维护且可以被一眼识别的。</p>
+<p>&emsp;&emsp;在旧版本美丽神器中，我和赵小乐童鞋就吃了很多的亏，我们直接上手代码，直接攥写xml文件，彼此没有足够的约定俗成，而核心注释的缺失也加重了我们彼此交流的时间成本。不过好在一直以来我们分工明确，产品模块清晰，因此也没有造成太大的障碍。而这次为了避免这样的情况出现。我们专门在一次内部技术沟通会议时花了一下午确定了这一套约束体系。</p>
+<p>&emsp;&emsp;也许你会问，直接按照google官方的那些sample命名或者随便找篇网上人写的android命名规范去准守不就行。这里也是我特殊要站出来说明的问题，首先，纸上得来终是浅。其次，不是所有的规范都可以随意套用，不根据自己项目的实际，不根据彼此程序员开发习惯就这样照搬，终不是适合自己的。最后，规范也是人自己定义的，没有人说这个就是正确的，那个就一定是错的。对于一个程序员来说保持自己的思想和正确习惯比准守纸上理论更重要。</p>
+<h3 id="一-xml命名">一.xml命名</h3><h4 id="1-_Layout布局的命名">1. Layout布局的命名</h4><p>我们将布局的命名定义为3个结构名+1个补充名</p>
+<pre><code>形态名_模块名_布局名<span class="comment">(_补充名...)</span>
+</code></pre><hr>
+<p>所谓形态名是指layout布局是属于那种界面形态表现，它取值于下面的4个值中</p>
+<pre><code><span class="title">activity</span>    fragment     view      util      
+</code></pre><p>我们认为形态名越少越好，所以当我给出这四个取值时，你其实就明白了这里的形态究竟含义如何。一个界面，我们可以用activity实现，也可以用fragment实现，也可以是一个直接的view，同时增加一个util作为其他类型的补充，它将专门来表示include界面或者一些可复用的基础界面。</p>
+<hr>
+<p>所谓模块名是指根据你的产品业务实际的命名，所以它不是固定的！比如美丽神器就包含四个主产品模块，分别是觅 – 圈 – 惠 – 我 ， 因此我们对应的模块命名为如下取值。</p>
+<pre><code>mi            quan         hui        me        <span class="function"><span class="title">base</span><span class="params">(include)</span></span>
+</code></pre><p>注意的是util的前缀形态名不受模块影响，所以util的模块名一般是base(include)，base(include)仅且而且必须对于util形态名！</p>
+<hr>
+<p>所谓布局名是指这个layout的用途，它可能是listview，也可能是popup，也可能是自己定义的一些名称类，因此这里的部分是最自由的。</p>
+<hr>
+<p>补充名会根据布局名来处理，它不是必须的，它是布局名的补充。并且可以一直添加。</p>
+<p>比如以下命名为规范范例：</p>
+<pre><code>activity_mi_ins_new<span class="class">.xml</span>
+fragment_hui_listview_adapter<span class="class">.xml</span>    
+view_hui_shangou_isnowing_listview<span class="class">.xml</span>
+util_base_listview<span class="class">.xml</span>
+util_include_head.xml
+</code></pre><p>举例2：fragment形态名   hui模块名    listview布局名    adapter补充名    见名知义：这个layout布局是fragment形态，它属于惠模块，它是一个listview的adapter条目。<br>举例3：view形态名   hui模块名    shangou布局名    isnowing和listview补充名    见名知义：这个layout布局是view形态，它属于惠模块，它是惠模块下属的闪购模块正在展示部分的条目布局。</p>
+<p>&emsp;&emsp;从layout命名你可以一窥我们想化繁为简的思想体现，我们不想在xml中命名中太着重于各种不同的控件标注，我们力争从最简单的角度去划分，这不仅仅是因为android控件有n多种，同时我们想用最简单的命名就能够见名知其为何种布局形态，它代表的产品逻辑，以及它着重刻画的是含义。我们将命名的含义进行了盘活且不拘礼于现有的命名规范。这里的核心就在于我们给予布局名很大的随意性权限，也正是这种无拘束性导致更灵活的命名。</p>
+<h4 id="2-_Drawable或者Mipmap图片命名">2. Drawable或者Mipmap图片命名</h4><p>&emsp;&emsp;在早期我们命名图片资源时，我们启用的是</p>
+<pre><code>模块名_icon数字
+</code></pre><p>比如惠模块的，取名就是hui_icon01一直向后添加。当时这样命名的原因也是因为是为了防止反编译res包后图片资源直接把反编译者拿出使用，摸棱两可的命名基本上很难被反编译后使用，增加反编译盗图的难度(但不管如何，如果人家想盗你图，你即使再命名混乱，我想也是没什么卵用的！)。</p>
+<p>而现在我们开始直接将模块名去掉，我们的保证图片资源直接从icon0开始，如果是测试的图片直接用test0开始(测试图片是指最终会在正式发行时删除的占位图片)。</p>
+<pre><code>icon12
+<span class="built_in">test</span>2
+</code></pre><p>在这里我其实蛮建议你使用我们之前的命名方案的，因为它能够更好的区分模块，在多人协同时方便不同的模块人员管理自己的图片资源(毕竟自己上传了哪些图片自己还是比较清楚的)。同时为防止盗图增加难度。</p>
+<p>比如以下命名为规范范例：</p>
+<pre><code>hui_ico<span class="label">n1</span>
+mi_ico<span class="label">n21</span>
+</code></pre><p>或者</p>
+<pre><code>icon1
+<span class="built_in">test</span>12
+</code></pre><h4 id="3-资源包">3.资源包</h4><p>全小写是基本原则，这个不需要多强调。中间使用_划分</p>
+<hr>
+<p>anim包中：</p>
+<pre><code>动画类型_方向
+</code></pre><p>注：方向是可以一直添加的</p>
+<p>比如以下命名为规范范例：</p>
+<pre><code>fade<span class="number">_</span><span class="keyword">in</span>
+slide<span class="number">_</span><span class="keyword">in</span><span class="number">_f</span>rom<span class="number">_</span>bottom
+<span class="keyword">out</span><span class="number">_</span>to<span class="number">_</span>right
+</code></pre><hr>
+<p>color包中：</p>
+<pre><code>颜色类型_color
+</code></pre><p>比如以下命名为规范范例：</p>
+<pre><code>gary_color
+</code></pre><hr>
+<p>menu包中：</p>
+<pre><code>menu_开头
+</code></pre><p>比如以下命名为规范范例：</p>
+<pre><code>menu_toolbar_mainpage
+</code></pre><h4 id="4-value包命名">4.value包命名</h4><p>value包中一般含有attrs ids colors dimens styles等，但是我们知道我们在引用第三方的一些自定义控件时，它也有自己的value包，我们不建议你将这些自定义的value中的值粘贴复制到xml内容中，建议你分多个值包。比如我们自己有attrs.xml，引用的第三方的pulltorefresh有attrs.xml。</p>
+<p>所以面对此时的正确命名是：</p>
+<pre><code>my_attrs<span class="class">.xml</span>
+pull_to_refresh_attrs<span class="class">.xml</span>
+fab_attrs<span class="class">.xml</span>
+vpi_attrs.xml
+</code></pre><p>colors.xml、ids、dimens、styles和theme也按照各自不同的xml名去处理。</p>
+<p>这样做最大的好处就在于，分开不同的资源定义，它将非常方便于我们随时替换不同的第三方自定义控件。</p>
+<p>而对于xml里面的命名，不管是哪种xml类型，对于外层的标识同一用大写开头，里面的item同一小写开头，驼峰</p>
+<pre><code><span class="tag">&lt;<span class="title">style</span> <span class="attribute">name</span>=<span class="value">"CustomTabPageIndicator"</span> <span class="attribute">parent</span>=<span class="value">"Widget.TabPageIndicator"</span>&gt;</span><span class="css">
+    &lt;<span class="tag">item</span> <span class="tag">name</span>="<span class="rule"><span class="attribute">android</span>:<span class="value">fadingEdgeLength<span class="string">"&gt;8dp&lt;/item&gt;
+</span></span></span></span><span class="tag">&lt;/<span class="title">style</span>&gt;</span>
+
+
+ <span class="tag">&lt;<span class="title">declare-styleable</span> <span class="attribute">name</span>=<span class="value">"PagerSlidingTabStrip"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">attr</span> <span class="attribute">name</span>=<span class="value">"pstsIndicatorColor"</span> <span class="attribute">format</span>=<span class="value">"color"</span> /&gt;</span>
+<span class="tag">&lt;/<span class="title">declare-styleable</span>&gt;</span>
+</code></pre><p>当然item你也可用用下划线的方式来处理，也是没问题的</p>
+<pre><code>&lt;declare-styleable name=<span class="string">"PagerSlidingTabStrip"</span>&gt;
+    &lt;attr name=<span class="string">"psts_indicator_color"</span> format=<span class="string">"color"</span> /&gt;
+&lt;/declare-styleable&gt;
+
+&lt;<span class="attribute">color</span> name=<span class="string">"result_view"</span>&gt;<span class="hexcolor">#b00000</span>00&lt;/<span class="attribute">color</span>&gt;
+</code></pre><h4 id="5-_xml文件中id命名">5. xml文件中id命名</h4><p>waiting for upload , Continue tomorrow….</p>
+<h3 id="二-类中命名">二.类中命名</h3><h4 id="1-_类中基础命名">1. 类中基础命名</h4><h4 id="2-_类中方法命名">2. 类中方法命名</h4><h3 id="三-分包结构">三.分包结构</h3><h3 id="四-QuickUtils枢纽">四.QuickUtils枢纽</h3><h3 id="五-Application初始化">五.Application初始化</h3></span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/06/ZT10_1/" rel="next">【杂谈10月】程序员眼中的Material Design</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+            </div>
+
+            
+
+            
+              <div class="comments" id="comments">
+                
+              </div>
+            
+        </div>
+
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/avatar.jpg" alt="熊伟xiongwei" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">熊伟xiongwei</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">重新发现、定义并创造这个世界...</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xiaomeixw" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.sabria.net/" target="_blank">anotherblog</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/1561605537" target="_blank">weibo</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#框架规范：命名"><span class="nav-number">2.</span> <span class="nav-text">框架规范：命名</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-xml命名"><span class="nav-number">2.1.</span> <span class="nav-text">一.xml命名</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-_Layout布局的命名"><span class="nav-number">2.1.1.</span> <span class="nav-text">1. Layout布局的命名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-_Drawable或者Mipmap图片命名"><span class="nav-number">2.1.2.</span> <span class="nav-text">2. Drawable或者Mipmap图片命名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-资源包"><span class="nav-number">2.1.3.</span> <span class="nav-text">3.资源包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-value包命名"><span class="nav-number">2.1.4.</span> <span class="nav-text">4.value包命名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-_xml文件中id命名"><span class="nav-number">2.1.5.</span> <span class="nav-text">5. xml文件中id命名</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-类中命名"><span class="nav-number">2.2.</span> <span class="nav-text">二.类中命名</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-_类中基础命名"><span class="nav-number">2.2.1.</span> <span class="nav-text">1. 类中基础命名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-_类中方法命名"><span class="nav-number">2.2.2.</span> <span class="nav-text">2. 类中方法命名</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-分包结构"><span class="nav-number">2.3.</span> <span class="nav-text">三.分包结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四-QuickUtils枢纽"><span class="nav-number">2.4.</span> <span class="nav-text">四.QuickUtils枢纽</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五-Application初始化"><span class="nav-number">2.5.</span> <span class="nav-text">五.Application初始化</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">熊伟xiongwei</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+        </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+</div>
+
+<script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.4"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.4"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.4" id="motion.global"></script>
+
+
+
+  <script type="text/javascript" src="/js/search-toggle.js"></script>
+
+
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.4" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (CONFIG.sidebar === 'always') {
+            displaySidebar();
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+<!-- lazyload -->
+<script type="text/javascript" src="/js/lazyload.js"></script>
+<script type="text/javascript">
+    jQuery(function () {
+        jQuery("#posts img").lazyload({
+            placeholder: "/images/loading.gif",
+            effect: "fadeIn"
+        });
+    });
+</script>
+</body>
+</html>
