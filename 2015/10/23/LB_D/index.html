@@ -1,0 +1,887 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+    
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.4"/>
+
+
+    <meta name="description" content="重新发现、定义并创造这个世界..." />
+
+
+
+  <meta name="keywords" content="Hexo,next" />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
+
+
+<meta name="description" content="&amp;emsp;&amp;emsp;其实准确的说应该是今天凌晨1点钟完成上线，今天又用了一天完成(或完善)了昨天(10/22)、今天(10/23)和明天(10/24)三天的library.
+1.为什么要做这个gitbook&amp;emsp;&amp;emsp;其实之前一直都想把自己每天学习和浏览的印记记录下来，一方面是有时经常fork 优秀的library,隔一段时间就忘记了。而是想做一个不同于当前daimajia他们不同">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【杂谈10月】Library-Everyday-Gitbook上线">
+<meta property="og:url" content="http://yoursite.com/2015/10/23/LB_D/index.html">
+<meta property="og:site_name" content="sabria">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;其实准确的说应该是今天凌晨1点钟完成上线，今天又用了一天完成(或完善)了昨天(10/22)、今天(10/23)和明天(10/24)三天的library.
+1.为什么要做这个gitbook&amp;emsp;&amp;emsp;其实之前一直都想把自己每天学习和浏览的印记记录下来，一方面是有时经常fork 优秀的library,隔一段时间就忘记了。而是想做一个不同于当前daimajia他们不同">
+<meta property="og:image" content="https://img.shields.io/badge/project-maintained-brightgreen.svg?style=flat">
+<meta property="og:image" content="https://img.shields.io/badge/API-8%2B-green.svg?style=flat">
+<meta property="og:image" content="https://img.shields.io/badge/awesome-library-ff69b4.svg?style=flat">
+<meta property="og:image" content="https://img.shields.io/badge/For-Android-blue.svg?style=flat-square">
+<meta property="og:image" content="http://i.imgur.com/g4x1ThH.png">
+<meta property="og:image" content="http://i.imgur.com/DJgzbkd.gif">
+<meta property="og:image" content="http://i.imgur.com/DJgzbkd.gif">
+<meta property="og:image" content="http://i.imgur.com/DJgzbkd.gif">
+<meta property="og:image" content="https://img.shields.io/badge/AndroidEveryday-Day3-green.svg?style=flat">
+<meta property="og:image" content="https://github.com/elevenetc/TextSurface/raw/master/docs/demo.gif">
+<meta property="og:image" content="https://github.com/elevenetc/DraggableView/raw/master/docs/skewview.gif">
+<meta property="og:image" content="https://github.com/elevenetc/BadgeView/raw/master/docs/badgeview-spongebob.gif">
+<meta property="og:image" content="https://camo.githubusercontent.com/520ae13b5197a4d1fa94642794eeb6d427bce1c3/687474703a2f2f37786b39646a2e636f6d312e7a302e676c622e636c6f7564646e2e636f6d2f62616467652f73637265656e73686f74732f62616467652e676966">
+<meta property="og:image" content="https://camo.githubusercontent.com/a705a3e88c75ae2394943bd7c56f725697616ea8/687474703a2f2f7777772e6a65666667696c66656c742e636f6d2f766965776261646765722f76622d31612e706e67">
+<meta property="og:image" content="http://i.imgur.com/ayCgRjB.png">
+<meta property="og:image" content="https://github.com/glomadrian/MvpCleanArchitecture/raw/master/img/screenshot_1.png">
+<meta property="og:image" content="http://i.imgur.com/DsX7bsb.png">
+<meta property="og:image" content="https://github.com/jlmd/UpcomingMoviesMVP/raw/master/art/screenshot1.png">
+<meta property="og:image" content="http://i.imgur.com/TRBV7jp.jpg">
+<meta property="og:image" content="http://i.imgur.com/Z2wSnv2.png">
+<meta property="og:image" content="http://i.imgur.com/AHA60WS.png">
+<meta property="og:image" content="http://i.imgur.com/WpHtwuM.png">
+<meta property="og:image" content="http://i.imgur.com/wbgsH2m.jpg">
+<meta property="og:image" content="https://img.shields.io/badge/The%20Day3-End%20!-ED1C24.svg?style=flat">
+<meta property="og:image" content="http://i.imgur.com/DJgzbkd.gif">
+<meta property="og:image" content="http://i.imgur.com/DJgzbkd.gif">
+<meta property="og:image" content="http://i.imgur.com/DJgzbkd.gif">
+<meta property="og:image" content="https://img.shields.io/badge/AndroidEveryday-Day2-green.svg?style=flat">
+<meta property="og:image" content="https://github.com/mxn21/FlowingDrawer/raw/master/screen.gif">
+<meta property="og:image" content="https://github.com/mxn21/SlidingCard/raw/master/screen.gif">
+<meta property="og:image" content="https://github.com/yqritc/Android-ScalableVideoView/raw/master/sample/sample.gif">
+<meta property="og:image" content="https://github.com/yqritc/RecyclerView-FlexibleDivider/raw/master/sample/sample2.gif">
+<meta property="og:image" content="https://github.com/yqritc/RecyclerView-MultipleViewTypesAdapter/raw/master/sample/sample.gif">
+<meta property="og:image" content="https://camo.githubusercontent.com/c87939a0a73e3fd7305a2d3dca6cc596d2c97b15/687474703a2f2f68616e6e6573646f72666d616e6e2e636f6d2f696d616765732f64656275676f7665726c61792e706e67">
+<meta property="og:image" content="https://raw.githubusercontent.com/JoanZapata/android-asyncservice/master/logo.png">
+<meta property="og:image" content="http://i.imgur.com/xzn9gKd.png">
+<meta property="og:image" content="http://i.imgur.com/Zg8e2Wq.png">
+<meta property="og:image" content="http://i.imgur.com/P2ZgWY4.png">
+<meta property="og:image" content="http://i.imgur.com/2m5zDIH.png">
+<meta property="og:image" content="http://i.imgur.com/2vFzulA.jpg">
+<meta property="og:image" content="http://i.imgur.com/DJgzbkd.gif">
+<meta property="og:image" content="http://i.imgur.com/DJgzbkd.gif">
+<meta property="og:image" content="http://i.imgur.com/DJgzbkd.gif">
+<meta property="og:image" content="https://img.shields.io/badge/AndroidEveryday-Day1-green.svg?style=flat">
+<meta property="og:image" content="https://cloud.githubusercontent.com/assets/13122232/10564092/9f6f8be0-75c3-11e5-94bd-801aef62c529.gif">
+<meta property="og:image" content="https://cloud.githubusercontent.com/assets/13122232/8438305/9f7c2644-1f82-11e5-8f51-25ba7cca0711.gif">
+<meta property="og:image" content="https://cloud.githubusercontent.com/assets/13122232/9293580/3521f486-444e-11e5-9de2-3b9cab9a13f6.gif">
+<meta property="og:image" content="https://cloud.githubusercontent.com/assets/11768239/9027657/600244d6-397b-11e5-916f-409d4ab3de28.gif">
+<meta property="og:image" content="https://github.com/appformation/smash/raw/master/assets/logo.png">
+<meta property="og:image" content="http://i.imgur.com/2PdsasQ.png">
+<meta property="og:image" content="https://camo.githubusercontent.com/26703d84f95849e173d8c04c05b1708e32ddfc36/687474703a2f2f6b696d6f2e696f2f696d616765732f616e64726f69642d6469616772616d2e706e67">
+<meta property="og:image" content="https://camo.githubusercontent.com/b5024164a5784e6bb2a2857a8af41f4499298051/687474703a2f2f7465686d6f752e6769746875622e696f2f72782d616e64726f69642d6172636869746563747572652f696d616765732f617263686974656374757265322e312e706e67">
+<meta property="og:image" content="https://github.com/rallat/EffectiveAndroid/raw/master/assets/clean.png">
+<meta property="og:image" content="http://i.imgur.com/QWvjQuq.png">
+<meta property="og:image" content="http://i.imgur.com/8xZuRgm.png">
+<meta property="og:image" content="http://i.imgur.com/5w4I6L2.png">
+<meta property="og:image" content="http://i.imgur.com/c69XTPO.png">
+<meta property="og:image" content="https://img.shields.io/badge/The%20Day1-End%20!-ED1C24.svg?style=flat">
+<meta property="og:updated_time" content="2015-10-23T16:08:47.598Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【杂谈10月】Library-Everyday-Gitbook上线">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;其实准确的说应该是今天凌晨1点钟完成上线，今天又用了一天完成(或完善)了昨天(10/22)、今天(10/23)和明天(10/24)三天的library.
+1.为什么要做这个gitbook&amp;emsp;&amp;emsp;其实之前一直都想把自己每天学习和浏览的印记记录下来，一方面是有时经常fork 优秀的library,隔一段时间就忘记了。而是想做一个不同于当前daimajia他们不同">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'hide'
+  };
+</script>
+
+    <title> 【杂谈10月】Library-Everyday-Gitbook上线 // sabria </title>
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+
+
+
+<div class="container one-column page-post-detail">
+    <div class="headband"></div>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">sabria</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+        </div>
+    </header>
+
+    <main id="main" class="main">
+        <div class="main-inner">
+            <div id="content" class="content">
+                
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              【杂谈10月】Library-Everyday-Gitbook上线
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-10-23T23:45:48+08:00" content="2015-10-23">
+            2015-10-23
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>&emsp;&emsp;其实准确的说应该是今天凌晨1点钟完成上线，今天又用了一天完成(或完善)了昨天(10/22)、今天(10/23)和明天(10/24)三天的library.</p>
+<h2 id="1-为什么要做这个gitbook">1.为什么要做这个gitbook</h2><p>&emsp;&emsp;其实之前一直都想把自己每天学习和浏览的印记记录下来，一方面是有时经常fork 优秀的library,隔一段时间就忘记了。而是想做一个不同于当前daimajia他们不同的library库。</p>
+<p>&emsp;&emsp;国内有很多优秀的开源和共享注意者都会经常分享一些优秀的library，但他们的library一般都只分享给中国人。我想尝试的站在中国人的角度为老外们来点咱中国人的干活。</p>
+<h2 id="2-这个gitbook主要是给中国开发者看的吗，为什么有中文的释义">2.这个gitbook主要是给中国开发者看的吗，为什么有中文的释义</h2><p>&emsp;&emsp;说实话，不是，主要是给老外看的。<br>&emsp;&emsp;中文释义一方面是方面我自己最快速的查看库的内容【苦笑】(谁让我中文这么好)。另一方面是给英文不比我好的出入android开发的中国同仁看的。</p>
+<h2 id="3-听说你更新一个day要花2个小时，不就几个libraries一列举吗_。搞怎么麻烦">3.听说你更新一个day要花2个小时，不就几个libraries一列举吗 。搞怎么麻烦</h2><p>&emsp;&emsp;这个要重点解释下，因为为了照顾国外开发者，同时国外很多优秀的文章的图片在国内访问也很慢。鉴于技术网络环境问题。所以我采取的是，将所有的图片都下载或者右键另存为后，做裁剪和压缩后上传到github或者markdown。有时一排要放两个图片，为了美观我需要将高度都定为同一个值，此时就要用ps或者美图秀秀这样的工具操作咯。其实1个小时不到写完day，但是要花40多分钟处理图片。同时还要将完成的Day系列更新3个地方：</p>
+<pre><code>1<span class="class">.gitHub</span>的<span class="tag">README</span><span class="class">.md</span>
+2<span class="class">.gitbook</span>的内页<span class="class">.md</span>
+3.博客
+</code></pre><p>&emsp;&emsp;很多博客的英文原文网站如果不翻墙根本打不开，虽然有VPN，但是速度也不是很开。gitbook的速度即使在VPN下也慢如蜗牛。这种痛苦，作为搞技术的你也是应该懂的。</p>
+<p>&emsp;&emsp;同时每周日都需有精心准备的专题策划(先透露下10月25日本周日的第一次的“周日策划专题”是我们的Jake Wharton大神周刊，期待哦)。</p>
+<pre><code>搜索优秀Library + 排版 + 关键信息整理 + 图片处理 + 更新 = <span class="number">2</span>小时！
+</code></pre><p>&emsp;&emsp;所以木办法，精益求精，要做就做好，绝不敷衍！</p>
+<h2 id="4-真的是天天更新吗，来源哪里">4.真的是天天更新吗，来源哪里</h2><p>&emsp;&emsp;对，没错，必须的。一方面是提醒自己要有责任心，说出来的话就要做到。另一方面时，一个人在一个领域耕耘7年，就能成为这个领域的专家，坚持不懈的学习很重要。这不仅是份能够养活自己的工作，而且是自己开追求开源精神的重要过程。</p>
+<p>&emsp;&emsp;来源：(暂时来源，不排除以后收集推荐的)</p>
+<pre><code><span class="number">1.</span>自己每天浏览相关技术网站后收集；
+<span class="number">2.</span>自己摆弄github search;
+</code></pre><h2 id="5-有些英文有些生硬，怕老外看的懂吗">5.有些英文有些生硬，怕老外看的懂吗</h2><p>&emsp;&emsp;说实话是有点担心，不过，英文就这水平，看的懂，发音烂，口齿不清。呵呵，所以笨鸟必须天天飞。</p>
+<h2 id="6-同事作为搞技术的，你其实文笔不错，说让你出书,你怎么看">6.同事作为搞技术的，你其实文笔不错，说让你出书,你怎么看</h2><p>&emsp;&emsp;呵呵，中国国内的一坨烂书，只会圈钱，误人子弟。我能力不够，不会出书。做人要对得起自己的良心，自己水平不够，绝不误人子弟，赚黑心钱。</p>
+<h2 id="7-未来了博客和Gitbook发展和更新">7.未来了博客和Gitbook发展和更新</h2><p>&emsp;&emsp;首先每天都要更新AndroidEveryday系列.同时还有好几篇博文都欠债下来了。现在公司APP也在开发，比较忙，所以有时请谅解。其次本年一定完成所有的范式编程系列文章。久等了啊！</p>
+<p>&emsp;&emsp;最后再次表达下本人的观念：</p>
+<pre><code>取之于开源，必最终回归于开源，此谓之：大道！
+</code></pre><p>&emsp;&emsp;下面是这三天的AndroidEveryday，博客中也雅俗共赏下咯，看看和github的排版有什么不同。</p>
+<a id="more"></a>
+<h1 id="List_of_Android_Libraries_I_browsed_EveryDay-">List of Android  Libraries I browsed EveryDay.</h1><p><img src="https://img.shields.io/badge/project-maintained-brightgreen.svg?style=flat" alt="Project status"> <a href="https://developer.android.com/about/versions/android-2.2.html" target="_blank" rel="external"><img src="https://img.shields.io/badge/API-8%2B-green.svg?style=flat" alt="API"></a> <a href="https://github.com/stars/xiaomeixw" target="_blank" rel="external"><img src="https://img.shields.io/badge/awesome-library-ff69b4.svg?style=flat" alt="library"></a> <a href="https://www.android.com/" target="_blank" rel="external"><img src="https://img.shields.io/badge/For-Android-blue.svg?style=flat-square" alt="android"></a></p>
+<p><img src="http://i.imgur.com/g4x1ThH.png" alt=""></p>
+<h2 id="Tips">Tips</h2><p>Contains the following content：</p>
+<ul>
+<li><em>library</em></li>
+<li><em>article/blog</em></li>
+<li><em>website</em></li>
+<li><em>tools</em></li>
+<li><em>apps</em></li>
+<li><em>news</em></li>
+</ul>
+<hr>
+<p><img src="http://i.imgur.com/DJgzbkd.gif" width="32%"> <img src="http://i.imgur.com/DJgzbkd.gif" width="32%">  <img src="http://i.imgur.com/DJgzbkd.gif" width="32%"> </p>
+<h2 id="Day3">Day3</h2><blockquote>
+<p><img src="https://img.shields.io/badge/AndroidEveryday-Day3-green.svg?style=flat" alt=""><br><strong><em>Time : October 24th,2015</em></strong> / <strong><em>Author : <a href="https://github.com/xiaomeixw" target="_blank" rel="external">xiaomeixw</a></em></strong></p>
+</blockquote>
+<h4 id="library">library</h4><p>1.UI:</p>
+<ul>
+<li><p><em><a href="https://github.com/elevenetc/TextSurface" target="_blank" rel="external">TextSurface</a> — (From <a href="https://github.com/elevenetc" target="_blank" rel="external">elevenetc</a>) :<br>A little animation framework which could help you to show message in a nice looking way. [让TextView动画飞起来].</em></p>
+<p>  <img src="https://github.com/elevenetc/TextSurface/raw/master/docs/demo.gif" alt=""></p>
+</li>
+<li><p><em><a href="https://github.com/elevenetc/DraggableView" target="_blank" rel="external">DraggableView</a> — (From <a href="https://github.com/elevenetc" target="_blank" rel="external">elevenetc</a>) :<br>Draggable views with rotation and skew/scale effects. [带动画效果拖拽View条目].</em></p>
+<p>  <img src="https://github.com/elevenetc/DraggableView/raw/master/docs/skewview.gif" alt=""></p>
+</li>
+<li><p><em><a href="https://github.com/elevenetc/BadgeView" target="_blank" rel="external">BadgeView</a> — (From <a href="https://github.com/elevenetc" target="_blank" rel="external">elevenetc</a>) :<br>Badge view with animated effect which shows a bitmap or a text. [带动画效果的在徽章中显示图片或者文字].</em></p>
+<p>  <img src="https://github.com/elevenetc/BadgeView/raw/master/docs/badgeview-spongebob.gif" alt=""></p>
+</li>
+<li><p><em><a href="https://github.com/bingoogolapple/BGABadgeView-Android" target="_blank" rel="external">BGABadgeView-Android</a> — (From <a href="https://github.com/bingoogolapple" target="_blank" rel="external">bingoogolapple</a>) :<br>Android badge view copy from the china “twitter” : sina weibo. [模仿新浪微博的Android徽章控件].</em></p>
+<p>  <img src="https://camo.githubusercontent.com/520ae13b5197a4d1fa94642794eeb6d427bce1c3/687474703a2f2f37786b39646a2e636f6d312e7a302e676c622e636c6f7564646e2e636f6d2f62616467652f73637265656e73686f74732f62616467652e676966" alt=""></p>
+</li>
+<li><p><em><a href="https://github.com/jgilfelt/android-viewbadger" target="_blank" rel="external">android-viewbadger</a> — (From <a href="https://github.com/jgilfelt" target="_blank" rel="external">jgilfelt</a>) :<br>A simple way to “badge” any given Android view at runtime without having to cater for it in layout. [徽章View].</em></p>
+<p>  <img src="https://camo.githubusercontent.com/a705a3e88c75ae2394943bd7c56f725697616ea8/687474703a2f2f7777772e6a65666667696c66656c742e636f6d2f766965776261646765722f76622d31612e706e67" alt=""></p>
+</li>
+<li><p><em><a href="https://github.com/elevenetc/BadgeView" target="_blank" rel="external">BadgeView</a> — (From <a href="https://github.com/stefanjauker/BadgeView" target="_blank" rel="external">stefanjauker</a>) :<br>An extended TextView that mimics the iOS Springboard ‘badges’. It can be overlaid on any other item. [徽章View].</em></p>
+<p>  <img src="http://i.imgur.com/ayCgRjB.png" alt=""></p>
+</li>
+</ul>
+<p>2.Logic：</p>
+<ul>
+<li><em><a href="https://github.com/boxme/AsyncManager" target="_blank" rel="external">AsyncManager</a> — (From <a href="https://github.com/boxme" target="_blank" rel="external">boxme</a> &amp; Tag  is <a href="https://github.com/boxme/AsyncManager" target="_blank" rel="external">AsyncTask</a>) :<br>Android Multithreading Library For Easy Asynchronous Management. [后台异步线程].</em></li>
+</ul>
+<pre><code>![](http://i.imgur.com/<span class="number">0</span>tubENV.png)
+
+    // A <span class="type">BackgroundTask</span> <span class="keyword">object</span> will be returned <span class="keyword">from</span> this <span class="keyword">method</span>. <span class="type">Reference</span> it <span class="keyword">if</span> require.
+    <span class="type">AsyncManager</span>.runBackgroundTask(new <span class="type">TaskRunnable</span>&lt;<span class="type">Params</span>, <span class="type">Result</span>, <span class="type">Void</span>&gt;() {
+        @<span class="type">Override</span>
+        public <span class="type">Result</span> doLongOperation(<span class="type">Params</span> params) throws <span class="type">InterruptedException</span> {
+            // checkForThreadInterruption();
+            // <span class="type">Your</span> long operation
+            <span class="keyword">return</span> <span class="literal">result</span>;
+        }
+
+        // <span class="type">Override</span> this callback <span class="keyword">if</span> you need to handle the <span class="literal">result</span> on the <span class="type">UI</span> thread
+        @<span class="type">Override</span>
+        public <span class="type">void</span> callback(<span class="type">Result</span> <span class="literal">result</span>) {
+            // <span class="type">Handle</span> the <span class="literal">result</span> <span class="keyword">from</span> doLongOperation()
+        }
+    }.setParams(params));    
+</code></pre><p>3.Architecture:</p>
+<ul>
+<li><p><em><a href="https://github.com/glomadrian/MvpCleanArchitecture" target="_blank" rel="external">MvpCleanArchitecture</a> — (From <a href="https://github.com/glomadrian" target="_blank" rel="external">glomadrian</a>) :<br>A sample project using Clean architecture and MVP in Android. [探索MVP架构].</em></p>
+<p>  <img src="https://github.com/glomadrian/MvpCleanArchitecture/raw/master/img/screenshot_1.png" alt=""></p>
+</li>
+</ul>
+<ul>
+<li><p><em><a href="https://github.com/antoniolg/androidmvp" target="_blank" rel="external">androidmvp</a> — (From <a href="https://github.com/antoniolg" target="_blank" rel="external">antoniolg</a>) :<br>MVP Android Example used to explain how to use this pattern in our Android apps. [MVP架构的一个Simple范例].</em></p>
+<p>  <img src="http://i.imgur.com/DsX7bsb.png" alt=""></p>
+</li>
+<li><p><em><a href="https://github.com/jlmd/UpcomingMoviesMVP" target="_blank" rel="external">UpcomingMoviesMVP</a> — (From <a href="https://github.com/jlmd" target="_blank" rel="external">jlmd</a>) :<br>Sample project of MVP and Material Design using as repository a list of upcoming movies. [MVP架构 &amp; Material Design的一个电影Simple范例].</em></p>
+<p>  <img src="https://github.com/jlmd/UpcomingMoviesMVP/raw/master/art/screenshot1.png" alt=""></p>
+</li>
+<li><p><em><img src="http://i.imgur.com/TRBV7jp.jpg" alt=""> <a href="https://github.com/huntermr/FastAndroid" target="_blank" rel="external">FastAndroid</a> — (From <a href="https://github.com/huntermr" target="_blank" rel="external">huntermr</a>) :<br>A Rapid development framework With MVP &amp; some famous libraries . [融入了MVP模式,集成了多个开源项目后,进行整合形成的Android快速开发框架].</em></p>
+<p>  <img src="http://i.imgur.com/Z2wSnv2.png" alt=""></p>
+</li>
+</ul>
+<h4 id="article">article</h4><ul>
+<li><p><em><a href="https://corner.squareup.com/2015/08/a-small-leak.html" target="_blank" rel="external">cA small leak will sink a great ship</a> — (From Author  <a href="https://github.com/pyricau" target="_blank" rel="external">Piwai</a> blog <a href="http://www.piwai.info/" target="_blank" rel="external">http://www.piwai.info/</a>) — [No Source]</em> </p>
+<p>  This post started as an internal email thread when I was building LeakCanary. I found a strange memory leak and started digging in order to figure out what was happening.<br>  TL;DR: Prior to Android Lollipop, alert dialogs may cause memory leaks in your Android apps. [Translation：Square工程师 : 一个内存泄漏引发的悲惨结果]. </p>
+<p>  Chinese Translation Address : <a href="http://www.devtf.cn/?p=1065" target="_blank" rel="external">Thanks To android-tech-frontier</a></p>
+<p>  <img src="http://i.imgur.com/AHA60WS.png" alt=""><img src="http://i.imgur.com/WpHtwuM.png" alt=""></p>
+<p>  A super cool man in Android , This is his resume website : <a href="http://www.piwai.info/cv.html#/welcome" target="_blank" rel="external">http://www.piwai.info/cv.html#/welcome</a></p>
+</li>
+</ul>
+<h4 id="website">website</h4><ul>
+<li><p><em><a href="https://medium.com/android-news" target="_blank" rel="external">https://medium.com/android-news</a> — (Build By [Evan Williams,2012](<a href="https://en.wikipedia.org/wiki/Medium" target="_blank" rel="external">https://en.wikipedia.org/wiki/Medium</a></em>(publishing<em>platform))) : Medium is a blog-publishing platform.The platform has evolved into a hybrid of non-professional contributions and professional, paid contributions. [基于主题的协作型媒体Blog文章消费写作平台].</em></p>
+<p>  <img src="http://i.imgur.com/wbgsH2m.jpg" alt=""></p>
+<p>  <img src="https://img.shields.io/badge/The%20Day3-End%20!-ED1C24.svg?style=flat" alt=""></p>
+</li>
+</ul>
+<hr>
+<p><img src="http://i.imgur.com/DJgzbkd.gif" width="32%"> <img src="http://i.imgur.com/DJgzbkd.gif" width="32%">  <img src="http://i.imgur.com/DJgzbkd.gif" width="32%"> </p>
+<h2 id="Day2">Day2</h2><blockquote>
+<p><img src="https://img.shields.io/badge/AndroidEveryday-Day2-green.svg?style=flat" alt=""><br><strong><em>Time : October 23th,2015</em></strong> / <strong><em>Author : <a href="https://github.com/xiaomeixw" target="_blank" rel="external">xiaomeixw</a></em></strong></p>
+</blockquote>
+<h4 id="library-1">library</h4><p>1.UI:</p>
+<ul>
+<li><p><em><a href="https://github.com/mxn21/FlowingDrawer" target="_blank" rel="external">FlowingDrawer</a> — (From <a href="https://github.com/mxn21" target="_blank" rel="external">mxn21</a>) :<br>swipe right to display drawer with flowing effects[贝塞尔曲线弹性抽屉菜单].</em></p>
+<p>  <img src="https://github.com/mxn21/FlowingDrawer/raw/master/screen.gif" alt=""></p>
+</li>
+<li><p><em><a href="https://github.com/mxn21/SlidingCard" target="_blank" rel="external">SlidingCard</a> — (From <a href="https://github.com/mxn21" target="_blank" rel="external">mxn21</a>) :<br>Sliding cards with pretty gallery effects [手指滑动图片效果].</em></p>
+<p>  <img src="https://github.com/mxn21/SlidingCard/raw/master/screen.gif" alt=""></p>
+</li>
+<li><p><em><a href="https://github.com/yqritc/Android-ScalableVideoView" target="_blank" rel="external">Android-ScalableVideoView</a> — (From <a href="https://github.com/yqritc" target="_blank" rel="external">yqritc</a>) :<br>Android Texture VideoView having a variety of scale types like the scale types of ImageView. [像Imageview一样展示视频动画,extends TextureView].</em></p>
+<p>  <img src="https://github.com/yqritc/Android-ScalableVideoView/raw/master/sample/sample.gif" alt=""></p>
+</li>
+<li><p><em><a href="https://github.com/yqritc/RecyclerView-FlexibleDivider" target="_blank" rel="external">RecyclerView-FlexibleDivider</a> — (From <a href="https://github.com/yqritc" target="_blank" rel="external">yqritc</a>) :<br>Android library providing simple way to control divider items of RecyclerView. [给RecyclerView添加分格线].</em></p>
+<p>  <img src="https://github.com/yqritc/RecyclerView-FlexibleDivider/raw/master/sample/sample2.gif" alt=""></p>
+</li>
+<li><p><em><a href="https://github.com/yqritc/RecyclerView-MultipleViewTypesAdapter" target="_blank" rel="external">RecyclerView-MultipleViewTypesAdapter</a> — (From <a href="https://github.com/yqritc" target="_blank" rel="external">yqritc</a>) :<br>RecyclerView adapter classes for managing multiple view types. [RecyclerView多类型布局].</em></p>
+<p>  <img src="https://github.com/yqritc/RecyclerView-MultipleViewTypesAdapter/raw/master/sample/sample.gif" alt=""></p>
+</li>
+<li><p><em><a href="https://github.com/sockeqwe/debugoverlay" target="_blank" rel="external">debugoverlay</a> — (From <a href="https://github.com/sockeqwe/" target="_blank" rel="external">sockeqwe</a>) :<br>A tiny window overlay to log app internal on top of your android app. [做一个透明层让log显示在上面].</em></p>
+<p>  <img src="https://camo.githubusercontent.com/c87939a0a73e3fd7305a2d3dca6cc596d2c97b15/687474703a2f2f68616e6e6573646f72666d616e6e2e636f6d2f696d616765732f64656275676f7665726c61792e706e67" alt=""></p>
+</li>
+</ul>
+<p>2.Logic：</p>
+<ul>
+<li><p><em><a href="https://github.com/JoanZapata/android-asyncservice" target="_blank" rel="external">android-asyncservice</a> — (From <a href="https://github.com/JoanZapata" target="_blank" rel="external">JoanZapata</a> &amp; Tag  is <a href="https://github.com/JoanZapata/android-asyncservice" target="_blank" rel="external">AsyncTask</a>) :<br>AsyncService uses annotations to shorten the code needed to start asynchronous long running tasks and return result. [使用注解@AsyncService &amp; @OnMessage来完成异步请求].</em></p>
+<p>  <img src="https://raw.githubusercontent.com/JoanZapata/android-asyncservice/master/logo.png" alt=""></p>
+</li>
+</ul>
+<pre><code><span class="annotation">@AsyncService</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DemoService</span> </span>{
+
+    <span class="function"><span class="keyword">public</span> User <span class="title">getUser</span><span class="params">(String name)</span> </span>{
+        <span class="comment">// Runs asynchronously.</span>
+        <span class="keyword">return</span> …;
+    }
+
+}
+... then use it.
+… {
+    service.getUser(<span class="string">"joan"</span>);
+}
+
+<span class="annotation">@OnMessage</span> <span class="function"><span class="keyword">void</span> <span class="title">onUser</span><span class="params">(User e)</span> </span>{
+    <span class="comment">// Runs on UI thread.</span>
+}
+</code></pre><p>3.Architecture:</p>
+<ul>
+<li><p><em><a href="https://github.com/sockeqwe/mosby" target="_blank" rel="external">mosby</a> — (From <a href="https://github.com/sockeqwe" target="_blank" rel="external">sockeqwe</a>) :<br>A Model-View-Presenter library for modern Android apps. [一个Android的MVP架构].</em></p>
+<p>  <img src="http://i.imgur.com/xzn9gKd.png" alt=""></p>
+<p>  (more information want to know please see today’s Article)</p>
+</li>
+</ul>
+<h4 id="article-1">article</h4><ul>
+<li><p><em><a href="http://hannesdorfmann.com/mosby/mvp/" target="_blank" rel="external">Model-View-Presenter</a> — (From Author  <a href="https://github.com/sockeqwe" target="_blank" rel="external">sockeqwe</a> blog <a href="http://hannesdorfmann.com" target="_blank" rel="external">http://hannesdorfmann.com</a>) — [Source in <a href="https://github.com/sockeqwe/mosby" target="_blank" rel="external">Github</a>]</em> </p>
+<p>  The name of this library, Mosby, has been chosen in honor of Ted Mosby, the architect of the famous tv series How I Met Your Mother. The aim of this library is to help you build modern android apps with a clean Model-View-Presenter architecture. Furthermore, Mosby helps you to handle screen orientation changes by introducing ViewState and retaining Presenters. [Translation：MVP框架 – Ted Mosby的软件架构]. </p>
+<p>  Chinese Translation Address : <a href="http://www.devtf.cn/?p=551" target="_blank" rel="external">Thanks To android-tech-frontier</a></p>
+<p>  <img src="http://i.imgur.com/Zg8e2Wq.png" alt=""><img src="http://i.imgur.com/P2ZgWY4.png" alt=""></p>
+<p>  <img src="http://i.imgur.com/2m5zDIH.png" alt=""></p>
+<p>  This page describes the principle of Model-View-Presenter (MVP) and how to use Mosby to create MVP based applications.</p>
+<ul>
+<li><em>The <a href="http://hannesdorfmann.com/mosby/mvp/" target="_blank" rel="external">model</a> is the data that will be displayed in the view (user interface).</em></li>
+<li><em>The <a href="http://hannesdorfmann.com/mosby/mvp/" target="_blank" rel="external">view</a> is an interface that displays data (the model) and routes user commands (events) to the Presenter to act upon that data. The view usually has a reference to its Presenter.</em></li>
+<li><em>The <a href="http://hannesdorfmann.com/mosby/mvp/" target="_blank" rel="external">Presenter</a> is the “middle-man” (played by the controller in MVC) and has references to both, view and model. Please note that the word “Model” is misleading. It should rather be business logic that retrieves or manipulates a Model. For instance: If you have a database storing User in a database table and your View wants to display a list of users, then the Presenter would have a reference to your database business logic (like a DAO) from where the Presenter will query a list of Users.</em></li>
+</ul>
+</li>
+</ul>
+<h4 id="website-1">website</h4><ul>
+<li><p><em><a href="http://stackoverflow.com/" target="_blank" rel="external">http://stackoverflow.com</a> — (Build By <a href="http://stackoverflow.com/" target="_blank" rel="external">Jeff Atwood &amp; Joel Spolsky ,2008</a>) :Stack Overflow is a question and answer site for professional and enthusiast programmers. [程序猿BUG的维基百科Wiki].</em></p>
+<p>  <img src="http://i.imgur.com/2vFzulA.jpg" alt=""></p>
+</li>
+</ul>
+<pre><code>!<span class="attr_selector">[]</span>(<span class="attribute">https</span>:<span class="comment">//img.shields.io/badge/The%20Day2-End%20!-ED1C24.svg?style=flat)</span>
+</code></pre><hr>
+<p><img src="http://i.imgur.com/DJgzbkd.gif" width="32%"> <img src="http://i.imgur.com/DJgzbkd.gif" width="32%">  <img src="http://i.imgur.com/DJgzbkd.gif" width="32%"> </p>
+<h2 id="Day1">Day1</h2><blockquote>
+<p><img src="https://img.shields.io/badge/AndroidEveryday-Day1-green.svg?style=flat" alt=""><br><strong><em>Time : October 22th,2015</em></strong> / <strong><em>Author : <a href="https://github.com/xiaomeixw" target="_blank" rel="external">xiaomeixw</a></em></strong></p>
+</blockquote>
+<h4 id="library-2">library</h4><p>1.UI:</p>
+<ul>
+<li><p><em><a href="https://github.com/cooltechworks/SendEmailAnimation" target="_blank" rel="external">SendEmailAnimation</a> — (From <a href="https://github.com/cooltechworks" target="_blank" rel="external">cooltechworks</a>) :<br>This is a small attempt to attract users when they are using in app feature to send out an email. [一个发送Email的动画效果].</em></p>
+<p>  <img src="https://cloud.githubusercontent.com/assets/13122232/10564092/9f6f8be0-75c3-11e5-94bd-801aef62c529.gif" alt=""></p>
+</li>
+<li><p><em><a href="https://github.com/cooltechworks/BitmapMerger" target="_blank" rel="external">BitmapMerger</a> — (From <a href="https://github.com/cooltechworks" target="_blank" rel="external">cooltechworks</a>) :<br>Play with bitmaps [bitmaps动画].</em></p>
+<p>  <img src="https://cloud.githubusercontent.com/assets/13122232/8438305/9f7c2644-1f82-11e5-8f51-25ba7cca0711.gif" alt=""></p>
+</li>
+<li><p><em><a href="https://github.com/cooltechworks/ZeroGravityAnimation" target="_blank" rel="external">ZeroGravityAnimation</a> — (From <a href="https://github.com/cooltechworks" target="_blank" rel="external">cooltechworks</a>) :<br>random object fly on your screen [屏幕随机物件飞动].</em></p>
+<p>  <img src="https://cloud.githubusercontent.com/assets/13122232/9293580/3521f486-444e-11e5-9de2-3b9cab9a13f6.gif" alt=""></p>
+</li>
+<li><p><em><a href="https://github.com/TakeoffAndroid/AppIntroAnimation" target="_blank" rel="external">AppIntroAnimation</a> — (From <a href="https://github.com/TakeoffAndroid" target="_blank" rel="external">TakeoffAndroid</a>) :<br>AppIntroAnimation is a set of code snippets to make cool intro screen for your app with special Image Translation and Transformation animation effects [一个引导页].</em></p>
+<p>  <img src="https://cloud.githubusercontent.com/assets/11768239/9027657/600244d6-397b-11e5-916f-409d4ab3de28.gif" alt=""></p>
+</li>
+</ul>
+<p>2.Logic：</p>
+<ul>
+<li><p><em><a href="https://github.com/appformation/smash" target="_blank" rel="external">smash</a> — (From <a href="https://github.com/appformation" target="_blank" rel="external">appformation</a> &amp; Tag  is <a href="https://github.com/appformation/smash" target="_blank" rel="external">Networking</a>) :<br>Smash is Volley inspired networking library that’s using OkHttp in its core [结合OkHttp的类Volley网络请求library].</em></p>
+<p>  <img src="https://github.com/appformation/smash/raw/master/assets/logo.png" alt=""></p>
+</li>
+<li><p>_<a href="https://github.com/smanikandan14/ThinDownloadManager" target="_blank" rel="external">ThinDownloadManager</a> — (From <a href="https://github.com/smanikandan14" target="_blank" rel="external">smanikandan14</a> &amp; Tag  is <a href="https://github.com/smanikandan14" target="_blank" rel="external">Networking</a>) :<br>Thin DownloadManager is an android library primary to download files and to avoid using DOWNLOAD_WITHOUT<em>NOTIFICATION permission when using Android provided DownloadManager in your application. [一个类volley架构思想的下载框架,无需 DownloadManager permission].</em></p>
+<p>  <img src="http://i.imgur.com/2PdsasQ.png" alt=""></p>
+</li>
+</ul>
+<p>3.Architecture:</p>
+<ul>
+<li><p><em><a href="https://github.com/thiagokimo/Base" target="_blank" rel="external">Base</a> — (From <a href="https://github.com/thiagokimo" target="_blank" rel="external">thiagokimo</a>) :<br>Base is a lightweight library that gives you a clean architecture foundation for your Android MVP’s [探索MVP架构].</em></p>
+<p>  <img src="https://camo.githubusercontent.com/26703d84f95849e173d8c04c05b1708e32ddfc36/687474703a2f2f6b696d6f2e696f2f696d616765732f616e64726f69642d6469616772616d2e706e67" alt=""></p>
+</li>
+<li><p><em><a href="https://github.com/tehmou/rx-android-architecture" target="_blank" rel="external">rx-android-architecture</a> — (From <a href="https://github.com/tehmou" target="_blank" rel="external">tehmou</a>) : An example project of an Android architecture built on RxJava [基于RxJava架构的Simple].</em></p>
+<p>  <img src="https://camo.githubusercontent.com/b5024164a5784e6bb2a2857a8af41f4499298051/687474703a2f2f7465686d6f752e6769746875622e696f2f72782d616e64726f69642d6172636869746563747572652f696d616765732f617263686974656374757265322e312e706e67" alt=""></p>
+</li>
+<li><p><em><a href="https://github.com/rallat/EffectiveAndroid" target="_blank" rel="external">EffectiveAndroid</a> — (From <a href="https://github.com/rallat" target="_blank" rel="external">rallat</a>) :This sample project shows how to apply MVP and Clean architecture on an Android app [Twitter工程师rallat的MVP进化之旅].</em></p>
+<p>  <img src="https://github.com/rallat/EffectiveAndroid/raw/master/assets/clean.png" alt=""></p>
+</li>
+</ul>
+<h4 id="article-2">article</h4><ul>
+<li><p><em><a href="http://saulmm.github.io/when-Thor-and-Hulk-meet-dagger2-rxjava-1/" target="_blank" rel="external">When the Avengers meet Dagger2, RxJava and Retrofit in a clean way</a> — (From Author  <a href="https://github.com/saulmm" target="_blank" rel="external">saulmm</a> blog <a href="https://github.com/saulmm" target="_blank" rel="external">http://saulmm.github.io</a>) — [Source in <a href="https://github.com/saulmm/Avengers" target="_blank" rel="external">Github</a>]</em> </p>
+<p>  Today, if you are an Android developer and don’t recognize the words Dagger 2, RxJava or Retrofit, you are missing something, this series will put some focus on giving the basic ideas of how to use these frameworks together with a Clean Architecture perspective. [Translation：当复仇者联盟遇上Dagger2、RxJava和Retrofit的巧妙结合]. </p>
+<p>  Chinese Translation Address : <a href="http://www.devtf.cn/?p=565" target="_blank" rel="external">Thanks To android-tech-frontier</a></p>
+<p>  <img src="http://i.imgur.com/QWvjQuq.png" alt=""><img src="http://i.imgur.com/8xZuRgm.png" alt=""></p>
+<h3 id="When_Avengers_meet_Dagger2,_RxJava_&amp;_Retrofit_in_a_clean_way">When Avengers meet Dagger2, RxJava &amp; Retrofit in a clean way</h3><p>  This is the blog’s source code of a series focused on giving some basic ideas about how to use <a href="http://square.github.io/retrofit/" target="_blank" rel="external">Retrofit</a>, <a href="http://google.github.io/dagger/" target="_blank" rel="external">Dagger2</a> &amp; <a href="https://github.com/ReactiveX/RxJava" target="_blank" rel="external">RxJava</a> together with a <a href="http://blog.8thlight.com/uncle-bob/2012/08/13/the-clean-architecture.html" target="_blank" rel="external">Clean Architecture</a>.</p>
+<h5 id="Part_1_-_Dagger_2"><a href="http://saulmm.github.io/when-Thor-and-Hulk-meet-dagger2-rxjava-1/" target="_blank" rel="external">Part 1 - Dagger 2</a></h5><p>  In this first part it explains how Dagger 2 can help the decoupling of the layers in a project, removing dependencies so that it is easily scalable and testable.</p>
+<h5 id="Part_2_-_RxJava,_RxAndroid,_Reactive_Extensions_&amp;_operators"><a href="http://saulmm.github.io/when-Iron-Man-becomes-Reactive-Avengers2/" target="_blank" rel="external">Part 2 - RxJava, RxAndroid, Reactive Extensions &amp; operators</a></h5><p>  This part focuses on the understanding of what are the Reactive Extensions, its Java implementation, and use RxJava operators, all it integrated with a clean architecture </p>
+</li>
+<li><p><em><a href="http://gank.io/post/560e15be2dca930e00da1083" target="_blank" rel="external">Introduce RxJava To Android developer</a> — (From Author  <a href="https://github.com/rengwuxian" target="_blank" rel="external">rengwuxian</a> blog <a href="http://gank.io/" target="_blank" rel="external">http://gank.io/</a>) — [No Source &amp; Translation： 给 Android 开发者的 RxJava 详解]</em> </p>
+<p>  我从去年开始使用 RxJava ，到现在一年多了。今年加入了 Flipboard 后，看到 Flipboard 的 Android 项目也在使用 RxJava ，并且使用的场景越来越多 。而最近这几个月，我也发现国内越来越多的人开始提及 RxJava 。有人说『RxJava 真是太好用了』，有人说『RxJava 真是太难用了』，另外更多的人表示：我真的百度了也谷歌了，但我还是想问： RxJava 到底是什么？. </p>
+<p>  English translation Address : Have No One translated it At the moment  (If You are interested In this article，please translate it to English).</p>
+<p>  <img src="http://i.imgur.com/5w4I6L2.png" alt=""></p>
+</li>
+</ul>
+<h4 id="website-2">website</h4><ul>
+<li><p><em><a href="http://gank.io/" target="_blank" rel="external">http://gank.io/</a> — (Build By <a href="https://github.com/daimajia" target="_blank" rel="external">daimajia</a>) :To start a serious writing For Android developer [重新开始一次认真的写作].</em></p>
+<p>  <img src="http://i.imgur.com/c69XTPO.png" alt=""></p>
+<p>  <img src="https://img.shields.io/badge/The%20Day1-End%20!-ED1C24.svg?style=flat" alt=""></p>
+</li>
+</ul>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/19/ZT10_3_S/" rel="next">【正谈10月】Square技术架构</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+            </div>
+
+            
+
+            
+              <div class="comments" id="comments">
+                
+              </div>
+            
+        </div>
+
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/avatar.jpg" alt="熊伟xiongwei" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">熊伟xiongwei</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">重新发现、定义并创造这个世界...</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">17</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xiaomeixw" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.sabria.net/" target="_blank">anotherblog</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/1561605537" target="_blank">weibo</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-为什么要做这个gitbook"><span class="nav-number">1.</span> <span class="nav-text">1.为什么要做这个gitbook</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-这个gitbook主要是给中国开发者看的吗，为什么有中文的释义"><span class="nav-number">2.</span> <span class="nav-text">2.这个gitbook主要是给中国开发者看的吗，为什么有中文的释义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-听说你更新一个day要花2个小时，不就几个libraries一列举吗_。搞怎么麻烦"><span class="nav-number">3.</span> <span class="nav-text">3.听说你更新一个day要花2个小时，不就几个libraries一列举吗 。搞怎么麻烦</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-真的是天天更新吗，来源哪里"><span class="nav-number">4.</span> <span class="nav-text">4.真的是天天更新吗，来源哪里</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-有些英文有些生硬，怕老外看的懂吗"><span class="nav-number">5.</span> <span class="nav-text">5.有些英文有些生硬，怕老外看的懂吗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-同事作为搞技术的，你其实文笔不错，说让你出书,你怎么看"><span class="nav-number">6.</span> <span class="nav-text">6.同事作为搞技术的，你其实文笔不错，说让你出书,你怎么看</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-未来了博客和Gitbook发展和更新"><span class="nav-number">7.</span> <span class="nav-text">7.未来了博客和Gitbook发展和更新</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#List_of_Android_Libraries_I_browsed_EveryDay-"><span class="nav-number"></span> <span class="nav-text">List of Android  Libraries I browsed EveryDay.</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Tips"><span class="nav-number">1.</span> <span class="nav-text">Tips</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Day3"><span class="nav-number">2.</span> <span class="nav-text">Day3</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#library"><span class="nav-number">2.0.1.</span> <span class="nav-text">library</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#article"><span class="nav-number">2.0.2.</span> <span class="nav-text">article</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#website"><span class="nav-number">2.0.3.</span> <span class="nav-text">website</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Day2"><span class="nav-number">3.</span> <span class="nav-text">Day2</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#library-1"><span class="nav-number">3.0.1.</span> <span class="nav-text">library</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#article-1"><span class="nav-number">3.0.2.</span> <span class="nav-text">article</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#website-1"><span class="nav-number">3.0.3.</span> <span class="nav-text">website</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Day1"><span class="nav-number">4.</span> <span class="nav-text">Day1</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#library-2"><span class="nav-number">4.0.1.</span> <span class="nav-text">library</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#article-2"><span class="nav-number">4.0.2.</span> <span class="nav-text">article</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#When_Avengers_meet_Dagger2,_RxJava_&_Retrofit_in_a_clean_way"><span class="nav-number">4.1.</span> <span class="nav-text">When Avengers meet Dagger2, RxJava & Retrofit in a clean way</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Part_1_-_Dagger_2"><span class="nav-number">4.1.0.1.</span> <span class="nav-text">Part 1 - Dagger 2</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Part_2_-_RxJava,_RxAndroid,_Reactive_Extensions_&_operators"><span class="nav-number">4.1.0.2.</span> <span class="nav-text">Part 2 - RxJava, RxAndroid, Reactive Extensions & operators</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#website-2"><span class="nav-number">4.1.1.</span> <span class="nav-text">website</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">熊伟xiongwei</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+        </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+</div>
+
+<script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.4"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.4"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.4" id="motion.global"></script>
+
+
+
+  <script type="text/javascript" src="/js/search-toggle.js"></script>
+
+
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.4" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (CONFIG.sidebar === 'always') {
+            displaySidebar();
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+<!-- lazyload -->
+<script type="text/javascript" src="/js/lazyload.js"></script>
+<script type="text/javascript">
+    jQuery(function () {
+        jQuery("#posts img").lazyload({
+            placeholder: "/images/loading.gif",
+            effect: "fadeIn"
+        });
+    });
+</script>
+</body>
+</html>

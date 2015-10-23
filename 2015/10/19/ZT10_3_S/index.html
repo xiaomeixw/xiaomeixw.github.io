@@ -65,7 +65,7 @@
 <meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/强强强强Image%204.png">
 <meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/rrrImage%205.png">
 <meta property="og:image" content="http://7xn9yd.com1.z0.glb.clouddn.com/dddddddImage%206.png">
-<meta property="og:updated_time" content="2015-10-21T15:51:41.009Z">
+<meta property="og:updated_time" content="2015-10-23T16:12:17.899Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【正谈10月】Square技术架构">
 <meta name="twitter:description" content="一个由Square搭建的‘OK’框架，将构造一套有效的Android架构开发。
@@ -212,7 +212,7 @@
 <p>*Json数据转换层由Moshi替代原生json解析;</p>
 <p>*表层代码调用层由Retrofit实现REST-API列表。</p>
 </blockquote>
-<p>======================<br>|    Name  |  Author  |  Description |<br>|    —   |  —     |  —         |<br>|   <a href="https://github.com/square/okio" target="_blank" rel="external">okio</a>    |    <a href="https://github.com/square" target="_blank" rel="external">square</a>    |    [A modern I/O API for Java]    |<br>|   <a href="https://github.com/square/okhttp" target="_blank" rel="external">okhttp</a>    |    <a href="https://github.com/square" target="_blank" rel="external">square</a>    |    [An HTTP+SPDY client for Android and Java applications]    |   <a href="https://github.com/square/moshi" target="_blank" rel="external">moshi</a>    |    <a href="https://github.com/square" target="_blank" rel="external">square</a>    |    [A modern JSON library for Android and Java]   |   <a href="https://github.com/square/retrofit" target="_blank" rel="external">retrofit2</a>    |    <a href="https://github.com/square" target="_blank" rel="external">square</a>    |    [Type-safe HTTP client for Android and Java by Square]    </p>
+<p>======================<br>|    Name  |  Author  |  Description |<br>|    —   |  —     |  —         |<br>|   <a href="https://github.com/square/okio" target="_blank" rel="external">okio</a>    |    <a href="https://github.com/square" target="_blank" rel="external">square</a>    |    [A modern I/O API for Java]    |<br>|   <a href="https://github.com/square/okhttp" target="_blank" rel="external">okhttp</a>    |    <a href="https://github.com/square" target="_blank" rel="external">square</a>    |    [An HTTP+SPDY client for Android and Java applications]    |   <a href="https://github.com/square/moshi" target="_blank" rel="external">moshi</a>    |    <a href="https://github.com/square" target="_blank" rel="external">square</a>    |    [A modern JSON library for Android and Java]   |   <a href="https://github.com/square/retrofit" target="_blank" rel="external">retrofit2</a>    |    <a href="https://github.com/square" target="_blank" rel="external">square</a>    |    [Type-safe HTTP client for Android and Java by Square]        |</p>
 <p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/Image222222%204.png" alt=""></p>
 <p>这是整体的架构图,四个部成：</p>
 <ul>
@@ -691,8 +691,36 @@ listCall.enqueue(<span class="keyword">new</span> <span class="type">Callback</s
     }
 });
 </code></pre><p>Tips11.为什么我网络成功，但返回的array数组里什么都没有,是:[]，moshi究竟需要怎样的格式才可以完成自我json转化为pojo对象：</p>
-<p>{<br>    “state”: “000”,<br>    “t_rs”: [<br>        {<br>            “id”: “1422”,<br>            “title”: “[ 上海万安 ]360艺术美鼻”,<br>            “image”: “<a href="http://tehui.meilimei.com/static/team/2015/0612/14340889238311.jpg?201510200800" target="_blank" rel="external">http://tehui.meilimei.com/static/team/2015/0612/14340889238311.jpg?201510200800</a>“,<br>            “team_price”: “500.00”,<br>            “now_number”: “1”,<br>            “market_price”: “22800.00”,<br>            “delivery”: “coupon”,<br>            “deposit”: “500.00”,<br>            “mechanism”: “上海万安医疗美容医院”,<br>            “flag”: 1<br>        },<br>        {<br>            “id”: “1602”,<br>            “title”: “[ 上海万安 ]瑞兰玻尿酸注射 不开刀就能美美哒的秘密”,<br>            “image”: “<a href="http://tehui.meilimei.com/static/team/2015/0624/14351340349342.jpg?201510200800" target="_blank" rel="external">http://tehui.meilimei.com/static/team/2015/0624/14351340349342.jpg?201510200800</a>“,<br>            “team_price”: “300.00”,<br>            “now_number”: “4”,<br>            “market_price”: “3800.00”,<br>            “delivery”: “coupon”,<br>            “deposit”: “300.00”,<br>            “mechanism”: “上海万安医疗美容医院”,<br>            “flag”: 1<br>        }<br>    ]<br>}</p>
-<p>看这里的json串，数组的key为t_rs，所以</p>
+<pre><code>{
+    "<span class="attribute">state</span>": <span class="value"><span class="string">"000"</span></span>,
+    "<span class="attribute">t_rs</span>": <span class="value">[
+        {
+            "<span class="attribute">id</span>": <span class="value"><span class="string">"1422"</span></span>,
+            "<span class="attribute">title</span>": <span class="value"><span class="string">"[ 上海万安 ]360艺术美鼻"</span></span>,
+            "<span class="attribute">image</span>": <span class="value"><span class="string">"http://tehui.meilimei.com/static/team/2015/0612/14340889238311.jpg?201510200800"</span></span>,
+            "<span class="attribute">team_price</span>": <span class="value"><span class="string">"500.00"</span></span>,
+            "<span class="attribute">now_number</span>": <span class="value"><span class="string">"1"</span></span>,
+            "<span class="attribute">market_price</span>": <span class="value"><span class="string">"22800.00"</span></span>,
+            "<span class="attribute">delivery</span>": <span class="value"><span class="string">"coupon"</span></span>,
+            "<span class="attribute">deposit</span>": <span class="value"><span class="string">"500.00"</span></span>,
+            "<span class="attribute">mechanism</span>": <span class="value"><span class="string">"上海万安医疗美容医院"</span></span>,
+            "<span class="attribute">flag</span>": <span class="value"><span class="number">1</span>
+        </span>},
+        {
+            "<span class="attribute">id</span>": <span class="value"><span class="string">"1602"</span></span>,
+            "<span class="attribute">title</span>": <span class="value"><span class="string">"[ 上海万安 ]瑞兰玻尿酸注射 不开刀就能美美哒的秘密"</span></span>,
+            "<span class="attribute">image</span>": <span class="value"><span class="string">"http://tehui.meilimei.com/static/team/2015/0624/14351340349342.jpg?201510200800"</span></span>,
+            "<span class="attribute">team_price</span>": <span class="value"><span class="string">"300.00"</span></span>,
+            "<span class="attribute">now_number</span>": <span class="value"><span class="string">"4"</span></span>,
+            "<span class="attribute">market_price</span>": <span class="value"><span class="string">"3800.00"</span></span>,
+            "<span class="attribute">delivery</span>": <span class="value"><span class="string">"coupon"</span></span>,
+            "<span class="attribute">deposit</span>": <span class="value"><span class="string">"300.00"</span></span>,
+            "<span class="attribute">mechanism</span>": <span class="value"><span class="string">"上海万安医疗美容医院"</span></span>,
+            "<span class="attribute">flag</span>": <span class="value"><span class="number">1</span>
+        </span>}
+    ]
+</span>}
+</code></pre><p>看这里的json串，数组的key为t_rs，所以</p>
 <pre><code>public <span class="class"><span class="keyword">class</span> <span class="title">JsonFather</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">BaseInfoBen</span> {</span>
 
     <span class="keyword">private</span> <span class="type">String</span> state;
@@ -708,14 +736,16 @@ listCall.enqueue(<span class="keyword">new</span> <span class="type">Callback</s
 </code></pre><p>那你拿回来的info里面就是空数组，可见暂时和gson不同的moshi是根据变量名单词匹配的。gson的解析是根据注解上的名称value来匹配json串的，moshi因为是新框架，暂时不支持注解对应json名，所以它要求你的变量名和json串相同！</p>
 <p>不知J神的moshi解析框架以后是否支持注解…待观察…</p>
 <h3 id="五-当SquareFoundation遇到MVP和hibernate,将擦出怎样的火花">五.当SquareFoundation遇到MVP和hibernate,将擦出怎样的火花</h3><p>该部分我会封装一套基于’Ok’ Libraries ，结合MVP分层结构，同时使用hibernate思想操作封装对象的框架。届时请关注我博客的更新。</p>
-<h3 id="六-结尾语">六.结尾语</h3><p>1.大神就是大神，一整个核心架构在台座上昭然若现，极度优良的API和接口调用，极富效率的底层架构，都将让我们一窥Square公司的核心开发技巧和能量。这是中国国内狭隘自私不懂开源的BAT这样的公司不能比拟的;</p>
-<p>2.Square即将上市，最新的消息，估计为60亿美金。10月15日我便在微信朋友圈发布了这条消息：</p>
-<p><a href="http://3g.163.com/ntes/special/0034073A/wechat_article.html?docid=B5UQKU57000915BF&amp;spst=0&amp;spss=newsapp&amp;spsf=wx&amp;spsw=1" title="Square IPO欲融资2.75亿美元" target="_blank" rel="external">Square IPO欲融资2.75亿美元</a></p>
-<p>并留下了下面的一段话：</p>
-<pre><code>分享这条消息是因为这家公司是Android开源界的大神，自从这家公司<span class="number">09</span>年成立，就一直专职在社区为Android提供新的技术和架构，而如今很多技术都成为Android开发前沿。这家公司的创始人杰克多西也是Twitter的创始人，但由于Twitter的权利内斗而被自己公司fired。如今糟糕营收和缓慢用户增长的Twitter不得不重新请回自家创始人。多西<span class="number">8</span>岁开始在自己的第一台IBM电脑上学习编程，是个不折不扣的屌丝程序猿，但好在国外优良的创业传统，给予很多有想法的程序猿改变世界以及自己，国外牛逼的互联网公司的创始人都是程序猿。反观国内程序猿如屌丝般的我们，天天奔波在<span class="number">2</span>点<span class="number">1</span>线，每个月为万把块钱的薪酬奋斗，一套房，一辆车，在国内剥削经济和加班风潮下，早已磨灭斗志和创业意识。
-</code></pre><p>后来又翻到了一篇2013年年底的新闻：</p>
-<p><a href="http://3g.163.com/ntes/special/0034073A/wechat_article.html?docid=9GKN0NE600964KJ3&amp;spst=0&amp;spss=newsapp&amp;spsf=wx&amp;spsw=1" title="太大方了，杰克·多西返还 10% Square 股票" target="_blank" rel="external">太大方了，杰克·多西返还 10% Square 股票</a></p>
-<p>不知道在中国有多少公司能有财富共享的思想，真的很难……你能富有，只是因为你有一帮让你富有的员工。你不写一行代码，你不画一张设计图，你不开发一个客户，你不为一次决策失误买单，你凭什么不珍惜员工。马云说要做一家102年的企业，他指的是已经成立了16年的阿里巴巴…中国国内的互联网环境一直很糟糕，过度的垄断、对技术的敷衍和钱绝不都没有效应领域的偏见思想，导致中国只是一个大局域网的环境，与国外的技术良性发展非常不同。现如今，互联网资本寒冬将至，希望可以戳破这一波非理性型泡沫，留下可以发展的良心企业。</p>
+<h3 id="六-结尾语">六.结尾语</h3><p>&emsp;&emsp;1.大神就是大神，一整个核心架构在台座上昭然若现，极度优良的API和接口调用，极富效率的底层架构，都将让我们一窥Square公司的核心开发技巧和能量。这是中国国内狭隘自私不懂开源的BAT这样的公司不能比拟的;</p>
+<p>&emsp;&emsp;2.Square即将上市，最新的消息，估计为60亿美金。10月15日我便在微信朋友圈发布了这条消息：</p>
+<p>News : <a href="http://3g.163.com/ntes/special/0034073A/wechat_article.html?docid=B5UQKU57000915BF&amp;spst=0&amp;spss=newsapp&amp;spsf=wx&amp;spsw=1" title="Square IPO欲融资2.75亿美元" target="_blank" rel="external">Square IPO欲融资2.75亿美元</a></p>
+<p>&emsp;&emsp;并留下了下面的一段话：</p>
+<blockquote>
+<p>分享这条消息是因为这家公司是Android开源界的大神，自从这家公司09年成立，就一直专职在社区为Android提供新的技术和架构，而如今很多技术都成为Android开发前沿。这家公司的创始人杰克多西也是Twitter的创始人，但由于Twitter的权利内斗而被自己公司fired。如今糟糕营收和缓慢用户增长的Twitter不得不重新请回自家创始人。多西8岁开始在自己的第一台IBM电脑上学习编程，是个不折不扣的屌丝程序猿，但好在国外优良的创业传统，给予很多有想法的程序猿改变世界以及自己，国外牛逼的互联网公司的创始人都是程序猿。反观国内程序猿如屌丝般的我们，天天奔波在2点1线，每个月为万把块钱的薪酬奋斗，一套房，一辆车，在国内剥削经济和加班风潮下，早已磨灭斗志和创业意识。</p>
+</blockquote>
+<p>&emsp;&emsp;后来又翻到了一篇2013年年底的新闻：</p>
+<p>News : <a href="http://3g.163.com/ntes/special/0034073A/wechat_article.html?docid=9GKN0NE600964KJ3&amp;spst=0&amp;spss=newsapp&amp;spsf=wx&amp;spsw=1" title="太大方了，杰克·多西返还 10% Square 股票" target="_blank" rel="external">太大方了，杰克·多西返还 10% Square 股票</a></p>
+<p>&emsp;&emsp;不知道在中国有多少公司能有财富共享的思想，真的很难……你能富有，只是因为你有一帮让你富有的员工。你不写一行代码，你不画一张设计图，你不开发一个客户，你不为一次决策失误买单，你凭什么不珍惜员工。马云说要做一家102年的企业，他指的是已经成立了16年的阿里巴巴…中国国内的互联网环境一直很糟糕，过度的垄断、对技术的敷衍和钱绝不都没有效益领域的偏见思想，导致中国只是一个大局域网的环境，与国外的技术良性发展非常不同。现如今，互联网资本寒冬将至，希望可以戳破这一波非理性型泡沫，留下可以发展的良心企业。</p>
 </span>
       
     </div>
@@ -726,6 +756,8 @@ listCall.enqueue(<span class="keyword">new</span> <span class="type">Callback</s
       
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/10/23/LB_D/" rel="prev">【杂谈10月】Library-Everyday-Gitbook上线</a>
             
           </div>
 
@@ -794,7 +826,7 @@ listCall.enqueue(<span class="keyword">new</span> <span class="type">Callback</s
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-count">17</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
