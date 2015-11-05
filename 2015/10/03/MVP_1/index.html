@@ -48,7 +48,7 @@
 首先让我们搭建一个基础MVP架构的目录，然后我们逐步解析MVP的含义，并最终完成一套符合The Clean Architecture核心思想的MVP架构封装。这里将是MVP范式编程的第一个章节,我将通过一个层级范例来解构MVP。
 解析MVP层级范例">
 <meta property="og:image" content="http://i.imgur.com/larhurt.png">
-<meta property="og:updated_time" content="2015-10-06T15:29:05.857Z">
+<meta property="og:updated_time" content="2015-11-05T15:19:35.528Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【范式10月】Android-MVP范式编程(一)">
 <meta name="twitter:description" content="我将保证MVP核心范式编程的文章将不少于5篇文章，在我还没有正式给MVP下定义前，我相信一个优秀的范例将非常有效的让我们对MVP有一个非常深入的了解。
@@ -200,6 +200,7 @@
 <p>1.将view和data抽象分离处理，原activity中的两个组成部分：界面和数据逻辑分别放在view和presenter层级中。</p>
 <p>2.view层主要是原activity的界面层级。它将分成两个组成部分，一个为activity-view(实际View业务处理)，另一个为abstract-view(定义抽象方法完成view层与presenter层沟通);</p>
 <p>3.presenter层主要是原activity的数据逻辑层级。它将完成后台的数据逻辑请求，并将json转成model，通过请求的数据结果，将model返回给view层级，完成UI界面的更新。</p>
+<a id="more"></a>
 <h3 id="code_means_everythings">code means everythings</h3><p>1.model中的User.class将继承Parcelable实现序列化</p>
 <pre><code><span class="keyword">package</span> xiongwei.mvp.model;
 
@@ -445,7 +446,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">17</span>
+              <span class="site-state-item-count">18</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

@@ -1,0 +1,1084 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+    
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.4"/>
+
+
+    <meta name="description" content="重新发现、定义并创造这个世界..." />
+
+
+
+  <meta name="keywords" content="Hexo,next" />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
+
+
+<meta name="description" content="一.前言D.Richard Hipp不曾想到在这一年他萌芽的轻量级数据库居然诞生在一条漂泊在大海的军舰上，这个诞生于2000年8月的Sqlite数据库由13万行C代码构成,轻量简洁稳定的优势特点,使它经过多年的发展成为Google&amp;amp;Apple在移动端上探索数据库的核心主力，广泛而且大量的被使用。9年后,也就是2009年，NoSql形态数据库被逐渐推上历史的舞蹈核心，Mongodb在服务端架">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【正谈10月】Explore NoSql on Android">
+<meta property="og:url" content="http://yoursite.com/2015/10/23/ZT11_1/index.html">
+<meta property="og:site_name" content="sabria">
+<meta property="og:description" content="一.前言D.Richard Hipp不曾想到在这一年他萌芽的轻量级数据库居然诞生在一条漂泊在大海的军舰上，这个诞生于2000年8月的Sqlite数据库由13万行C代码构成,轻量简洁稳定的优势特点,使它经过多年的发展成为Google&amp;amp;Apple在移动端上探索数据库的核心主力，广泛而且大量的被使用。9年后,也就是2009年，NoSql形态数据库被逐渐推上历史的舞蹈核心，Mongodb在服务端架">
+<meta property="og:image" content="https://camo.githubusercontent.com/0a52e12c924a0f8e7fb720e815caa8d9224a5755/68747470733a2f2f7261772e6769746875622e636f6d2f77696b692f45736f7465726963536f6674776172652f6b72796f2f696d616765732f6c6f676f2e6a7067">
+<meta property="og:image" content="http://i.imgur.com/VULtoM1.png">
+<meta property="og:image" content="http://i.imgur.com/mAOOcIR.png">
+<meta property="og:image" content="http://i.imgur.com/ogaqAs9.png">
+<meta property="og:image" content="http://i.imgur.com/Pg9wSoN.png">
+<meta property="og:image" content="http://i.imgur.com/hxDkXvk.png">
+<meta property="og:image" content="http://i.imgur.com/uYc1haQ.png">
+<meta property="og:image" content="http://i.imgur.com/UdBbZpQ.png">
+<meta property="og:image" content="https://camo.githubusercontent.com/0f6193a1f84aa8a77d07ac18d3566b87bc89999b/687474703a2f2f736e6170707964622e636f6d2f696d672f62656e63686d61726b5f73716c6974655f776974685f7472616e73616374696f6e2e706e67">
+<meta property="og:image" content="https://camo.githubusercontent.com/c1aa705fde3eb12245c06730d850c23e5a84ad8d/687474703a2f2f746c657964656e2d6d6973632e73332e616d617a6f6e6177732e636f6d2f636f756368626173652d6c6974652f636f756368626173652d6c6974652d6172636869746563747572652e706e67">
+<meta property="og:image" content="https://github.com/realm/realm-java/raw/master/logo.png">
+<meta property="og:image" content="https://camo.githubusercontent.com/17e85ae827b8e27ffe00272ed6670e894566b799/687474703a2f2f636c2e6c792f696d6167652f3363316b3131336f313832622f47726f6365727953796e632e706e67">
+<meta property="og:image" content="https://github.com/pilgr/Paper/raw/master/paper_icon.png">
+<meta property="og:image" content="https://camo.githubusercontent.com/e10a22cbed051dccb789dc1275fc2c49b5e52eca/68747470733a2f2f696d672e796f75747562652e636f6d2f76692f5f4b474477774550356a732f302e6a7067">
+<meta property="og:updated_time" content="2015-11-05T15:16:11.526Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【正谈10月】Explore NoSql on Android">
+<meta name="twitter:description" content="一.前言D.Richard Hipp不曾想到在这一年他萌芽的轻量级数据库居然诞生在一条漂泊在大海的军舰上，这个诞生于2000年8月的Sqlite数据库由13万行C代码构成,轻量简洁稳定的优势特点,使它经过多年的发展成为Google&amp;amp;Apple在移动端上探索数据库的核心主力，广泛而且大量的被使用。9年后,也就是2009年，NoSql形态数据库被逐渐推上历史的舞蹈核心，Mongodb在服务端架">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'hide'
+  };
+</script>
+
+    <title> 【正谈10月】Explore NoSql on Android // sabria </title>
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+
+
+
+<div class="container one-column page-post-detail">
+    <div class="headband"></div>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">sabria</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+        </div>
+    </header>
+
+    <main id="main" class="main">
+        <div class="main-inner">
+            <div id="content" class="content">
+                
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              【正谈10月】Explore NoSql on Android
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-10-23T23:45:48+08:00" content="2015-10-23">
+            2015-10-23
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h2 id="一-前言">一.前言</h2><p>D.Richard Hipp不曾想到在这一年他萌芽的轻量级数据库居然诞生在一条漂泊在大海的军舰上，这个诞生于2000年8月的Sqlite数据库由13万行C代码构成,轻量简洁稳定的优势特点,使它经过多年的发展成为Google&amp;Apple在移动端上探索数据库的核心主力，广泛而且大量的被使用。9年后,也就是2009年，NoSql形态数据库被逐渐推上历史的舞蹈核心，Mongodb在服务端架构数据库中大行其道，许多中小型数据库均开始由MySql转向更友好形态的Mongodb.而此时距离iphone1代发布已经过去了整整2年。<br>尽管如此，但在移动端领域NoSql形态数据库仍然还是处于萌芽起步阶段，在写这篇博客时我不经问自己:在Android上探索NoSql型数据库是否为时尚早?也许我们仍然需要时间来检验这个问题和它可能存在的标准答案！</p>
+<h2 id="二-何为Nosql">二.何为Nosql</h2><p>泛指非关系型的数据库，关系数据库关注在关系上，NoSQL关注在存储上。<br>NoSQL数据库种类繁多，但是一个共同的特点都是去掉了关系数据库的关系型特性。数据之间无关系，容易扩展。<br>当前主流四种主要形态的NoSql型数据库：</p>
+<ul>
+<li><em>键值（key-value）比如：Oracle BDB</em></li>
+<li><em>列存储数据库 比如：HBase</em></li>
+<li><em>文档型数据库 比如：MongoDb</em></li>
+<li><em>图形(Graph)数据库 比如：Infinite Graph</em></li>
+</ul>
+<p>主流的Nosql型数据库在Android端的探索主要是以key-value键值对的形式存在。这一类数据库主要会使用到一个哈希表，这个表中有一个特定的键和一个指针指向特定的数据。Key/value模型对于IT系统来说的优势在于简单、易部署。但是如果DBA只对部分值进行查询或更新的时候，Key/value就显得效率低下了。</p>
+<p>使用场景：</p>
+<ul>
+<li><em>1.取代SP存储；</em></li>
+<li><em>2.用于缓存场景.</em></li>
+</ul>
+<a id="more"></a>
+<h2 id="三-探索NoSql">三.探索NoSql</h2><p>在这里我会探索一个简单的基于kryo序列化的Nosql，它的核心和JakeWharton的DiskLruCache有异曲同工之妙，最终一样也是会以File文件的形态存在。很多大型的APP，比如网易新闻等都是以DiskLruCache磁盘缓存为核心构筑自己的缓存策略的。今年10月份之前的美丽神器APP也是用的DiskLruCache来处理缓存的。在我将它置换为NoSql型数据后，速度相比较于DiskLruCache快了接近3倍以上。</p>
+<h3 id="3-1_何为kryo">3.1 何为kryo</h3><p><img src="https://camo.githubusercontent.com/0a52e12c924a0f8e7fb720e815caa8d9224a5755/68747470733a2f2f7261772e6769746875622e636f6d2f77696b692f45736f7465726963536f6674776172652f6b72796f2f696d616765732f6c6f676f2e6a7067" alt=""></p>
+<p>Kryo 是一个快速高效的Java对象图形序列化框架，它原生支持java，且在java的序列化上甚至优于google著名的序列化框架protobuf。在插入一条数据时比原生java的序列化最快可以达到17倍之多。</p>
+<p><img src="http://i.imgur.com/VULtoM1.png" width="75%"></p>
+<p>2014年10月2日发布了3.0的版本.</p>
+<p>项目地址:<a href="https://github.com/EsotericSoftware/kryo" target="_blank" rel="external">https://github.com/EsotericSoftware/kryo</a> build by<a href="https://github.com/EsotericSoftware" target="_blank" rel="external">Esoteric Software</a>.</p>
+<p>API:</p>
+<pre><code>Kryo kryo <span class="keyword">=</span> new Kryo();
+<span class="comment">// ...</span>
+<span class="keyword">Output</span> <span class="keyword">output</span> <span class="keyword">=</span> new <span class="keyword">Output</span>(new FileOutputStream(<span class="string">"file.bin"</span>));
+SomeClass someObject <span class="keyword">=</span> ...
+kryo<span class="typename">.writeObject</span>(<span class="keyword">output</span>, someObject);
+<span class="keyword">output</span><span class="typename">.close</span>();
+<span class="comment">// ...</span>
+<span class="keyword">Input</span> <span class="keyword">input</span> <span class="keyword">=</span> new <span class="keyword">Input</span>(new FileInputStream(<span class="string">"file.bin"</span>));
+SomeClass someObject <span class="keyword">=</span> kryo<span class="typename">.readObject</span>(<span class="keyword">input</span>, SomeClass<span class="typename">.class</span>);
+<span class="keyword">input</span><span class="typename">.close</span>();
+</code></pre><p>gradle引入到Android Studio：</p>
+<pre><code><span class="keyword">compile</span> <span class="string">'com.esotericsoftware:kryo:3.0.2'</span>
+</code></pre><h3 id="3-2_最终生成的NoSql文件夹和文件">3.2 最终生成的NoSql文件夹和文件</h3><p><img src="http://i.imgur.com/mAOOcIR.png" width="55%"><img src="http://i.imgur.com/ogaqAs9.png" width="55%"></p>
+<h3 id="3-3_API接口">3.3 API接口</h3><p>最终形成的API调用如下：</p>
+<pre><code>//<span class="number">1</span>.在<span class="type">Application</span>中初始化单例管理对象：
+<span class="type">NoSqlManager</span> dbManager = <span class="type">NoSqlManager</span>.getDbManager(this);
+
+//<span class="number">2</span>.存储
+<span class="type">MyApplication</span>.getDbManager().save(<span class="type">KEY_String</span>, <span class="string">"value"</span>);
+
+//<span class="number">3</span>.取出来
+<span class="type">MyApplication</span>.getDbManager().get(<span class="type">KEY_String</span>, new <span class="type">NoSqlManager</span>.<span class="type">Callback</span>() {
+     @<span class="type">Override</span>
+     public <span class="type">void</span> onFinish(<span class="type">Object</span> <span class="literal">result</span>) {
+          textView.setText(<span class="literal">result</span> + <span class="string">""</span>);
+     }    
+});
+</code></pre><h3 id="3-4_包结构">3.4 包结构</h3><p><img src="http://i.imgur.com/Pg9wSoN.png" alt=""></p>
+<p>constans包:</p>
+<pre><code><span class="rule"><span class="attribute">Constans</span>:<span class="value">定义全局参数变量</span></span>;
+</code></pre><p>inter包:</p>
+<pre><code><span class="rule"><span class="attribute">ISql</span>:<span class="value">定义增删查改基础接口</span></span>;
+</code></pre><p>logic包：</p>
+<pre><code><span class="label">NoSqlDao:</span>implements ISql 完成增删查改的具体操作
+
+<span class="label">NoSqlService:</span>中间解耦
+</code></pre><p>util包:</p>
+<pre><code>SqlException：发送<span class="keyword">try</span>-<span class="keyword">catch</span>异常
+
+SqlHelper:帮助类
+
+SqlTable:包裹存储的实体类
+</code></pre><p>主包：</p>
+<pre><code><span class="attribute">NoSqlManager</span>: <span class="string">最终API调用管理者.</span>
+</code></pre><h3 id="3-5_Step_By_Step">3.5 Step By Step</h3><h4 id="3-5-1_ISql">3.5.1 ISql</h4><p>我们知道数据库离不开增删查改这4个最基本的逻辑方法，所以我们抽出一个接口：我们知道有时改其实也就是重新增，所以这里只定义4种方法:增 、查 、判断 和 删</p>
+<pre><code>/<span class="keyword">*</span><span class="keyword">*</span>
+ <span class="keyword">*</span> Created by xiongwei,An Android project Engineer.
+ <span class="keyword">*</span> Date:2015-11-02  11:42
+ <span class="keyword">*</span> Base on Meilimei.com (PHP Service)
+ <span class="keyword">*</span> Describe: 接口
+ <span class="keyword">*</span> Version:1.0
+ <span class="keyword">*</span> Open source
+ <span class="keyword">*</span>/
+public  interface ISql {
+
+    /<span class="keyword">*</span><span class="keyword">*</span>增:存储<span class="keyword">*</span>/
+   <span class="variable">&lt;T&gt;</span> void save(String key, T value);
+
+    /<span class="keyword">*</span><span class="keyword">*</span>查:获取<span class="keyword">*</span>/
+    <span class="variable">&lt;T&gt;</span> T get(String key);
+
+    /<span class="keyword">*</span><span class="keyword">*</span>判断:是否存在<span class="keyword">*</span>/
+    boolean isExist(String key);
+
+    /<span class="keyword">*</span><span class="keyword">*</span>删:删除<span class="keyword">*</span>/
+    void delete();
+
+    /<span class="keyword">*</span><span class="keyword">*</span>删:如果存在删除<span class="keyword">*</span>/
+    void deleteIfExists(String key);
+
+}
+</code></pre><h4 id="3-5-2_NoSqlDao">3.5.2 NoSqlDao</h4><p>使用Kryo实现子类的增删查和判断：</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NoSqlDao</span> <span class="keyword">implements</span> <span class="title">ISql</span> </span>{
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> &lt;T&gt; <span class="function"><span class="keyword">void</span> <span class="title">save</span><span class="params">(String key, T value)</span> </span>{
+
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">get</span><span class="params">(String key)</span> </span>{
+        <span class="keyword">return</span> <span class="keyword">null</span>;
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isExist</span><span class="params">(String key)</span> </span>{
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">()</span> </span>{
+
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">deleteIfExists</span><span class="params">(String key)</span> </span>{
+
+    }
+}
+</code></pre><p>先看流程图：<br>save：</p>
+<p><img src="http://i.imgur.com/hxDkXvk.png" alt=""></p>
+<pre><code>@Override
+    <span class="keyword">public</span> &lt;T&gt; <span class="keyword">void</span> <span class="built_in">save</span>(<span class="keyword">String</span> <span class="variable">key</span>, T value) {
+
+        <span class="comment">//第一次调用file肯定不存在,那就创建它</span>
+        createFile();
+
+        <span class="comment">//包装value内容</span>
+        <span class="keyword">final</span> SqlTable&lt;T&gt; sqlTable = <span class="keyword">new</span> SqlTable&lt;&gt;(value);
+
+        <span class="comment">//创建一个原始orgFile和BackupFile</span>
+        <span class="keyword">final</span>  File oriFileDir = SqlHelper.getOriFileDir(mFilesDir, <span class="variable">key</span>);
+        <span class="keyword">final</span> File backFileDir = SqlHelper.makeBackupFile(oriFileDir);
+
+        <span class="comment">//将原文件重命名back文件</span>
+        SqlHelper.handlerOriginalFileToBackFile(oriFileDir, backFileDir);
+
+        <span class="comment">//写入文件</span>
+        writeTableFile(<span class="variable">key</span>, sqlTable, oriFileDir, backFileDir);
+
+    }
+
+ <span class="keyword">private</span> &lt;T&gt; <span class="keyword">void</span> writeTableFile(<span class="keyword">String</span> <span class="variable">key</span>, SqlTable&lt;T&gt; sqlTable, File oriFileDir, File backFileDir) {
+        FileOutputStream fileStream = <span class="keyword">new</span> FileOutputStream(oriFileDir);
+        <span class="keyword">final</span> Output kryoOutput = <span class="keyword">new</span> Output(fileStream);
+
+        <span class="comment">//操作kryo</span>
+        getKryo().writeObject(kryoOutput, sqlTable);
+        kryoOutput.flush();
+        fileStream.flush();
+        SqlHelper.sync(fileStream);
+        kryoOutput.close(); 
+
+        <span class="comment">//删除备份文件        </span>
+        backFileDir.delete();      
+}
+</code></pre><p>get:</p>
+<p><img src="http://i.imgur.com/uYc1haQ.png" alt=""></p>
+<pre><code><span class="comment">/**
+ * 根据key获取value
+ * @param key
+ * @param &lt;T&gt;
+ * @return
+ */</span>
+@Override
+<span class="keyword">public</span> &lt;T&gt; T <span class="built_in">get</span>(<span class="keyword">String</span> <span class="variable">key</span>) {
+    <span class="comment">//如果不存在创建文件夹</span>
+    createFile();
+
+    <span class="comment">//拿到两个File文件</span>
+    <span class="keyword">final</span> File originalFile = SqlHelper.getOriFileDir(mFilesDir, <span class="variable">key</span>);
+    <span class="keyword">final</span> File backupFile = SqlHelper.makeBackupFile(originalFile);
+
+    <span class="keyword">if</span> (backupFile.exists()) {
+        originalFile.delete();
+        backupFile.renameTo(originalFile);
+    }
+
+    <span class="comment">//key对应的Value是否存在</span>
+    <span class="keyword">if</span> (!isExist(<span class="variable">key</span>)) {<span class="comment">//如果没有那就返回null</span>
+        <span class="keyword">return</span> <span class="keyword">null</span>;
+    }
+
+    <span class="comment">//kryo读取</span>
+    <span class="keyword">return</span> readTableFile(<span class="variable">key</span>, originalFile);
+}
+
+
+<span class="keyword">private</span> &lt;T&gt; T readTableFile(<span class="keyword">String</span> <span class="variable">key</span>, File originalFile) {
+
+     <span class="keyword">final</span> Input i = <span class="keyword">new</span> Input(<span class="keyword">new</span> FileInputStream(originalFile));
+     <span class="keyword">final</span> Kryo kryo = getKryo();
+
+      <span class="keyword">final</span> SqlTable&lt;T&gt; paperTable = kryo.readObject(i, SqlTable.class);
+      i.close();
+      <span class="keyword">return</span> paperTable.mContent;
+
+}
+</code></pre><p>isExist:</p>
+<pre><code><span class="comment">/**
+ * key拿value是否存在
+ * <span class="doctag">@param</span> key
+ * <span class="doctag">@return</span>
+ */</span>
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">isExist</span><span class="params">(String key)</span> </span>{
+    createFile();
+    <span class="keyword">final</span> File originalFile = SqlHelper.getOriFileDir(mFilesDir, key);
+    <span class="function"><span class="keyword">return</span> originalFile.<span class="title">exists</span><span class="params">()</span></span>;
+}
+</code></pre><p>delete:</p>
+<pre><code>@Override
+<span class="keyword">public</span> <span class="keyword">void</span> delete() {
+    createFile();
+    <span class="keyword">final</span> <span class="keyword">String</span> dbPath = SqlHelper.getFilePath(mContext, mDbName);
+    <span class="keyword">if</span> (!SqlHelper.deleteDirectory(dbPath)) {
+        <span class="comment">//QuickUtils.log.i("Couldn't delete SQL dir : " + dbPath);</span>
+    }
+    isFileMkDirCreated = <span class="keyword">false</span>;
+}
+
+@Override
+<span class="keyword">public</span> <span class="keyword">void</span> deleteIfExists(<span class="keyword">String</span> <span class="variable">key</span>) {
+    createFile();
+
+    <span class="keyword">final</span> File originalFile = SqlHelper.getOriFileDir(mFilesDir, <span class="variable">key</span>);
+    <span class="keyword">if</span> (!originalFile.exists()) {
+        <span class="keyword">return</span>;
+    }
+
+    <span class="built_in">boolean</span> deleted = originalFile.delete();
+    <span class="keyword">if</span> (!deleted) {
+        <span class="keyword">throw</span> <span class="keyword">new</span> SqlException(<span class="string">"Couldn't delete file "</span> + originalFile
+                + <span class="string">" for table "</span> + <span class="variable">key</span>);
+    }
+
+}
+</code></pre><h4 id="3-5-3_NoSqlService">3.5.3 NoSqlService</h4><p>NoSqlService类:类似JavaEE中的Service层，主要是解耦</p>
+<pre><code><span class="comment">/**
+ * Created by xiongwei,An Android project Engineer.
+ * Date:2015-11-02  19:41
+ * Base on Meilimei.com (PHP Service)
+ * Describe: 解耦
+ * Version:1.0
+ * Open source
+ */</span>
+<span class="keyword">public</span> class NoSqlService {
+
+    <span class="keyword">private</span> <span class="keyword">final</span> NoSqlDao mStorage;
+
+    <span class="keyword">public</span> NoSqlService(Context context, <span class="keyword">String</span> dbName) {
+        mStorage = <span class="keyword">new</span> NoSqlDao(context.getApplicationContext(), dbName);
+    }
+
+
+    <span class="keyword">public</span> <span class="keyword">void</span> delete() {
+        mStorage.delete();
+    }
+
+
+    <span class="keyword">public</span> &lt;T&gt; NoSqlService write(<span class="keyword">String</span> <span class="variable">key</span>, T value) {
+        <span class="keyword">if</span> (value == <span class="keyword">null</span>) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> SqlException(<span class="string">"noSql doesn't support writing null root values"</span>);
+        } <span class="keyword">else</span> {
+            mStorage.<span class="built_in">save</span>(<span class="variable">key</span>, value);
+        }
+        <span class="keyword">return</span> <span class="keyword">this</span>;
+    }
+
+
+    <span class="keyword">public</span> &lt;T&gt; T read(<span class="keyword">String</span> <span class="variable">key</span>) {
+        <span class="keyword">return</span> read(<span class="variable">key</span>, <span class="keyword">null</span>);
+    }
+
+
+    <span class="keyword">public</span> &lt;T&gt; T read(<span class="keyword">String</span> <span class="variable">key</span>, T defaultValue) {
+        T value = mStorage.<span class="built_in">get</span>(<span class="variable">key</span>);
+        <span class="keyword">return</span> value == <span class="keyword">null</span> ? defaultValue : value;
+    }
+
+
+    <span class="keyword">public</span> <span class="built_in">boolean</span> exist(<span class="keyword">String</span> <span class="variable">key</span>) {
+        <span class="keyword">return</span> mStorage.isExist(<span class="variable">key</span>);
+    }
+
+
+    <span class="keyword">public</span> <span class="keyword">void</span> delete(<span class="keyword">String</span> <span class="variable">key</span>) {
+        mStorage.deleteIfExists(<span class="variable">key</span>);
+    }
+}
+</code></pre><h4 id="3-5-4_NoSqlManager">3.5.4 NoSqlManager</h4><p>NoSqlManager主要做管理，同时异步线程开启get/save这样的耗时操作</p>
+<p>首先单例模式(双重锁判断)：</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">static</span> <span class="function">NoSqlManager <span class="title">getDbManager</span><span class="params">(Context context)</span> </span>{
+    <span class="function"><span class="keyword">return</span>  <span class="title">getDbManager</span><span class="params">(context,<span class="keyword">null</span>)</span></span>;
+}
+
+<span class="keyword">public</span> <span class="keyword">static</span> <span class="function">NoSqlManager <span class="title">getDbManager</span><span class="params">(Context context,String dbName)</span> </span>{
+    <span class="keyword">if</span> (dbCache == <span class="keyword">null</span>) {
+        <span class="keyword">synchronized</span> (NoSqlManager.class) {
+            <span class="keyword">if</span> (dbCache == <span class="keyword">null</span>) {
+                dbCache = <span class="keyword">new</span> NoSqlManager(context,dbName);
+            }
+        }
+    }
+    <span class="keyword">return</span> dbCache;
+}
+</code></pre><p>构造:初始化service</p>
+<pre><code><span class="function"><span class="keyword">private</span> <span class="title">NoSqlManager</span><span class="params">(Context context, String dbName)</span></span>{
+    <span class="keyword">this</span>.mContext= context;
+    <span class="keyword">this</span>.mDbname=dbName;
+    getNoSQL();
+}
+
+<span class="keyword">private</span> <span class="keyword">static</span> <span class="function">NoSqlService <span class="title">getNoSQL</span><span class="params">()</span> </span>{
+    <span class="keyword">if</span> (mContext == <span class="keyword">null</span>) {
+        <span class="keyword">throw</span> <span class="keyword">new</span> SqlException(<span class="string">"context must init in application or activity"</span>);
+    }
+
+    <span class="keyword">if</span>(mDbname==<span class="keyword">null</span>){
+        mDbname=Constans.DEFAULT_DB_NAME;
+    }
+
+    <span class="keyword">synchronized</span> (mSqlMap) {
+        noSQL = mSqlMap.get(mDbname);
+        <span class="keyword">if</span> (noSQL == <span class="keyword">null</span>) {
+            <span class="comment">//初始化NoSqlService</span>
+            noSQL = <span class="keyword">new</span> NoSqlService(mContext, mDbname);
+            mSqlMap.put(mDbname, noSQL);
+        }
+        <span class="keyword">return</span> noSQL;
+    }
+}
+</code></pre><p>save/get等方法的封装：</p>
+<pre><code>//<span class="number">1</span>.开启线程
+public &lt;T&gt; <span class="type">void</span> save(<span class="type">String</span> key,T value) {
+    new <span class="type">DbAsyncTask</span>(key,value).execute(<span class="type">MESSAGE_SAVE_DB</span>);
+}
+
+private  class  <span class="type">DbAsyncTask</span>&lt;T&gt; extends <span class="type">AsyncTask</span>&lt;<span class="type">Object</span>, <span class="type">Void</span>, T&gt; {
+
+
+    public <span class="type">DbAsyncTask</span>(<span class="type">String</span> get_key,<span class="type">Callback</span> callback) {
+        this.get_key=get_key;
+        this.callback=callback;
+    }
+
+
+    public  <span class="type">DbAsyncTask</span>(<span class="type">String</span> save_key,T buffer) {
+        this.save_key=save_key;
+        this.buffer=buffer;
+    }
+
+    @<span class="type">Override</span>
+    protected T doInBackground(<span class="type">Object</span>... params) {
+        switch ((<span class="type">Integer</span>) params[<span class="number">0</span>]) {
+            <span class="keyword">case</span> <span class="type">MESSAGE_SAVE_DB</span>:
+                //<span class="number">2</span>.在后台操作中存储
+                saveDbInternal(save_key, buffer);
+                <span class="keyword">return</span> null;
+            <span class="keyword">case</span> <span class="type">MESSAGE_GET_DB</span>:
+                <span class="keyword">return</span> getDbInternal(get_key);
+            <span class="keyword">case</span> <span class="type">MESSAGE_DELETE_DB</span>:
+                <span class="keyword">return</span> deleteDbInternal(delete_key);
+            ....
+        }
+        <span class="keyword">return</span> null;
+    }
+
+    @<span class="type">Override</span>
+    protected <span class="type">void</span> onPostExecute(T <span class="literal">result</span>) {
+        super.onPostExecute(<span class="literal">result</span>);
+        <span class="keyword">if</span>(<span class="literal">result</span>!=null){
+            <span class="type">Log</span>.d(<span class="string">"onPostExecute"</span>,<span class="literal">result</span>+<span class="string">""</span>);
+            callback.onFinish(<span class="literal">result</span>);
+        }
+    }
+}
+
+//<span class="number">3</span>.调用service层操作(service再调用<span class="type">NoSqlDao</span>)
+private &lt;T&gt; <span class="type">void</span> saveDbInternal(<span class="type">String</span> key, T value) {
+    <span class="keyword">if</span> (noSQL != null) {
+        nosql().write(key, value);
+    }
+}
+</code></pre><p>自此就完成了一套基于kryo的key-value的NoSql数据架构</p>
+<h4 id="3-5-5其他类">3.5.5其他类</h4><p>Constans类:</p>
+<pre><code>/<span class="keyword">*</span><span class="keyword">*</span>
+ <span class="keyword">*</span> Created by xiongwei,An Android project Engineer.
+ <span class="keyword">*</span> Date:2015-11-02  19:45
+ <span class="keyword">*</span> Base on Meilimei.com (PHP Service)
+ <span class="keyword">*</span> Describe: 常量
+ <span class="keyword">*</span> Version:1.0
+ <span class="keyword">*</span> Open source
+ <span class="keyword">*</span>/
+public class Constans {
+
+   /<span class="keyword">*</span><span class="keyword">*</span>
+    <span class="keyword">*</span> 最终生成的文件夹名称: io.nosqldb
+    <span class="keyword">*</span>/
+   public static final String DEFAULT_DB_NAME = <span class="string">"io.nosqldb"</span>;
+   /<span class="keyword">*</span><span class="keyword">*</span>
+    <span class="keyword">*</span> 文件的后缀名:  aaa.nosql
+    <span class="keyword">*</span>/
+   public static final String DEFAULT_DB_SUFFIX = <span class="string">".nosql"</span>;
+}
+</code></pre><p>SqlTable：</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SqlTable</span>&lt;<span class="title">T</span>&gt; </span>{
+
+    <span class="annotation">@SuppressWarnings</span>(<span class="string">"UnusedDeclaration"</span>)
+    <span class="function"><span class="keyword">public</span> <span class="title">SqlTable</span><span class="params">()</span> </span>{
+    }
+
+    <span class="function"><span class="keyword">public</span> <span class="title">SqlTable</span><span class="params">(T content)</span> </span>{
+        mContent = content;
+    }
+
+    <span class="comment">// Serialized content</span>
+    <span class="keyword">public</span> T mContent;
+}
+</code></pre><p>整体调用逻辑：</p>
+<p><img src="http://i.imgur.com/UdBbZpQ.png" alt=""></p>
+<h3 id="3-6_配合缓存策略使用">3.6 配合缓存策略使用</h3><ul>
+<li><em>QuickUtils.cache.has(key)  方法调用的是NoSqlManager.has(key)方法判断该key是否有value</em></li>
+<li><em>QuickUtils.cache.getSynchronous(key);  方法调用的是NoSqlManager.get(key).</em></li>
+<li><em>QuickUtils.cache.setSynchronous(key, value);   方法调用的是NoSqlManager.save(key, value).</em></li>
+</ul>
+<pre><code>@Override
+protected void initData<span class="params">()</span> {
+    <span class="comment">//判断是否有没有网络，同时缓存中确实存在该key</span>
+    <span class="keyword">if</span><span class="params">(!QuickUtils.net.hasNetwork<span class="params">()</span> &amp;&amp; QuickUtils.cache.has<span class="params">(key)</span>)</span>{
+        <span class="comment">//有就取出来</span>
+        Object fileCache = QuickUtils.cache.getSynchronous<span class="params">(yourCacheKey)</span>;
+        <span class="keyword">if</span><span class="params">(fileCache instanceof NewHuiDetailInfo)</span>{
+            <span class="comment">//展示换成数据数据</span>
+            onSuccess<span class="params">(<span class="params">(NewHuiDetailInfo)</span> fileCache)</span>;
+        }
+    }
+    <span class="comment">//判断是否没有网络同时缓存中也没有该key的value,提示网络问题</span>
+    QuickUtils.net.toast<span class="params">()</span>.getNetFail<span class="params">(context,value, <span class="string">"网络不给力"</span>)</span>;
+    <span class="comment">//不管如何都走实际调用,getDataFromService(会先判断是否有网,如果就取数据,并更新缓存,没有就不发送请求)</span>
+    getDataFromService<span class="params">()</span>;
+}
+
+<span class="comment">//在类似于AsyncTask的onPostExecute()的方法中调用,具体根据你的网络框架来</span>
+private void saveCache<span class="params">(NewHuiDetailInfo obj)</span> {
+    base_info = obj;
+    <span class="comment">//有网络才存储,为什么,自己想....</span>
+    <span class="keyword">if</span><span class="params">(QuickUtils.net.hasNetwork<span class="params">()</span>)</span>{
+        QuickUtils.cache.setSynchronous<span class="params">(yourCacheKey, obj)</span>;
+    }
+}
+</code></pre><p>ps:你也许会感觉奇怪,为什么要反复的多次都去判断网络,因为有很多代码都是异步的，所以可能你此时没网络，走到下一步的时候就有了网络，为了程序严谨，反复的每次逻辑操作前都附带判断网络.</p>
+<p>至于为什么获取到数据后要先判断是否有网络才去存储，自己思考下.相通了你会发觉这里的逻辑很有意思.</p>
+<h2 id="四-后记">四.后记</h2><p>这篇文章只是试探性的尝试NoSql形态数据库在android上的使用，我们知道Sqlite是由14万行C代码组成的,它相对于在移动端远还未成熟的NoSql数据库而言，尽管也许速度没有那么快，但最大的优势就是稳定。<br>好在Android社区也在一直行动，一个名为<a href="https://github.com/nhachicha/SnappyDB" target="_blank" rel="external">SnappyDB</a>的开源NoSql数据库完全底层由C语言编写，java只做API包装，性能比Sqlite高百倍，super awesome！Come on！</p>
+<pre><code>libs
+├───|── snappydb-<span class="number">0.5</span><span class="number">.2</span>.jar
+    |── armeabi
+    │   └── libsnappydb-<span class="keyword">native</span>.so
+    ├── armeabi-v7a
+    │   └── libsnappydb-<span class="keyword">native</span>.so
+    ├── mips
+    │   └── libsnappydb-<span class="keyword">native</span>.so
+    └── x86
+        └── libsnappydb-<span class="keyword">native</span>.so
+</code></pre><p><img src="https://camo.githubusercontent.com/0f6193a1f84aa8a77d07ac18d3566b87bc89999b/687474703a2f2f736e6170707964622e636f6d2f696d672f62656e63686d61726b5f73716c6974655f776974685f7472616e73616374696f6e2e706e67" width="90%"></p>
+<p>其他NoSql探索：</p>
+<ul>
+<li><p><em><a href="https://github.com/yshrsmz/rxrealm" target="_blank" rel="external">rxrealm</a> — (From <a href="https://github.com/yshrsmz" target="_blank" rel="external">yshrsmz</a>) :<br>Rx utility for Realm Java.</em></p>
+</li>
+<li><p><em><a href="https://github.com/couchbase/couchbase-lite-android" target="_blank" rel="external">couchbase-lite-android</a> — (From <a href="https://github.com/couchbase" target="_blank" rel="external">couchbase</a>) :<br>Lightweight, embedded, syncable NoSQL database engine for Android.</em></p>
+<p>  <img src="https://camo.githubusercontent.com/c1aa705fde3eb12245c06730d850c23e5a84ad8d/687474703a2f2f746c657964656e2d6d6973632e73332e616d617a6f6e6177732e636f6d2f636f756368626173652d6c6974652f636f756368626173652d6c6974652d6172636869746563747572652e706e67" alt=""></p>
+</li>
+<li><p><em><a href="https://github.com/realm/realm-java" target="_blank" rel="external">realm-java</a> — (From <a href="https://github.com/realm" target="_blank" rel="external">realm</a>) :<br>Realm is a mobile database: a replacement for SQLite &amp; ORMs.</em></p>
+<p>  <img src="https://github.com/realm/realm-java/raw/master/logo.png" alt=""></p>
+</li>
+<li><p><em><a href="https://github.com/couchbaselabs/GrocerySync-Android" target="_blank" rel="external">GrocerySync-Android</a> — (From <a href="https://github.com/couchbaselabs" target="_blank" rel="external">couchbaselabs</a>) :<br>Couchbase Lite demo app for Android: A simple synced shopping list.</em></p>
+<p>  <img src="https://camo.githubusercontent.com/17e85ae827b8e27ffe00272ed6670e894566b799/687474703a2f2f636c2e6c792f696d6167652f3363316b3131336f313832622f47726f6365727953796e632e706e67" alt=""></p>
+</li>
+<li><p><em><a href="https://github.com/Jearil/SimpleNoSQL" target="_blank" rel="external">SimpleNoSQL</a> — (From <a href="https://github.com/Jearil" target="_blank" rel="external">Jearil</a>) :<br>A simple NoSQL client for Android. Meant as a document store using key/value pairs and some rudimentary querying. Useful for avoiding the hassle of SQL code.</em></p>
+</li>
+<li><p><em><a href="https://github.com/pilgr/Paper" target="_blank" rel="external">Paper</a> — (From <a href="https://github.com/pilgr" target="_blank" rel="external">pilgr</a>) :<br>Fast and simple data storage library for Android.</em></p>
+<p>  <img src="https://github.com/pilgr/Paper/raw/master/paper_icon.png" alt=""></p>
+</li>
+<li><p><em><a href="https://github.com/TheFinestArtist/Royal-Android" target="_blank" rel="external">Royal-Android</a> — (From <a href="https://github.com/TheFinestArtist" target="_blank" rel="external">TheFinestArtist</a>) :<br>Fast and simple data storage library for Android.</em></p>
+</li>
+<li><p><em><a href="https://github.com/jankotek/MapDB" target="_blank" rel="external">MapDB</a> — (From <a href="https://github.com/jankotek" target="_blank" rel="external">jankotek</a>) :<br>MapDB provides concurrent Maps, Sets and Queues backed by disk storage or off-heap-memory. It is a fast and easy to use embedded Java database engine.</em></p>
+<p>  <img src="https://camo.githubusercontent.com/e10a22cbed051dccb789dc1275fc2c49b5e52eca/68747470733a2f2f696d672e796f75747562652e636f6d2f76692f5f4b474477774550356a732f302e6a7067" alt=""></p>
+</li>
+</ul>
+<hr>
+<blockquote>
+<p>该博客文章完成并封笔于2015年11月5日23：15,希望NoSql在未来2-3年内在Android端能有更大的突破！</p>
+</blockquote>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/23/LB_D/" rel="next">【杂谈10月】Library-Everyday-Gitbook上线</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+            </div>
+
+            
+
+            
+              <div class="comments" id="comments">
+                
+              </div>
+            
+        </div>
+
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/avatar.jpg" alt="熊伟xiongwei" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">熊伟xiongwei</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">重新发现、定义并创造这个世界...</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xiaomeixw" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.sabria.net/" target="_blank">anotherblog</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/1561605537" target="_blank">weibo</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-前言"><span class="nav-number">1.</span> <span class="nav-text">一.前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-何为Nosql"><span class="nav-number">2.</span> <span class="nav-text">二.何为Nosql</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三-探索NoSql"><span class="nav-number">3.</span> <span class="nav-text">三.探索NoSql</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1_何为kryo"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 何为kryo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2_最终生成的NoSql文件夹和文件"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 最终生成的NoSql文件夹和文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3_API接口"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 API接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4_包结构"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 包结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5_Step_By_Step"><span class="nav-number">3.5.</span> <span class="nav-text">3.5 Step By Step</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-1_ISql"><span class="nav-number">3.5.1.</span> <span class="nav-text">3.5.1 ISql</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-2_NoSqlDao"><span class="nav-number">3.5.2.</span> <span class="nav-text">3.5.2 NoSqlDao</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-3_NoSqlService"><span class="nav-number">3.5.3.</span> <span class="nav-text">3.5.3 NoSqlService</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-4_NoSqlManager"><span class="nav-number">3.5.4.</span> <span class="nav-text">3.5.4 NoSqlManager</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-5其他类"><span class="nav-number">3.5.5.</span> <span class="nav-text">3.5.5其他类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6_配合缓存策略使用"><span class="nav-number">3.6.</span> <span class="nav-text">3.6 配合缓存策略使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四-后记"><span class="nav-number">4.</span> <span class="nav-text">四.后记</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">熊伟xiongwei</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+        </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+</div>
+
+<script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.4"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.4"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.4" id="motion.global"></script>
+
+
+
+  <script type="text/javascript" src="/js/search-toggle.js"></script>
+
+
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.4" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (CONFIG.sidebar === 'always') {
+            displaySidebar();
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+<!-- lazyload -->
+<script type="text/javascript" src="/js/lazyload.js"></script>
+<script type="text/javascript">
+    jQuery(function () {
+        jQuery("#posts img").lazyload({
+            placeholder: "/images/loading.gif",
+            effect: "fadeIn"
+        });
+    });
+</script>
+</body>
+</html>

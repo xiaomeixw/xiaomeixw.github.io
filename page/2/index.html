@@ -152,6 +152,115 @@
           
           
             
+              <a class="post-title-link" href="/2015/08/31/EA1/" itemprop="url">
+                Effective Android part-1
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-08-31T22:23:06+08:00" content="2015-08-31">
+            2015-08-31
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>Effective Android part-1 对象创建与销毁</p>
+<h1 id="Lesson_Creation_and_destruction_of_objects">Lesson Creation and destruction of objects</h1><p>创建与销毁对象法则：</p>
+<p>1.用静态工厂方法替换构造器 Consider providing static factory methods instead of constructors;</p>
+<pre><code><span class="tag">Toast</span><span class="class">.makeText</span>();
+</code></pre><p>2.Builder构建器</p>
+<pre><code>Picasso.<span class="function"><span class="title">with</span><span class="params">(context)</span></span>
+  .<span class="function"><span class="title">load</span><span class="params">(url)</span></span>
+  .<span class="function"><span class="title">resize</span><span class="params">(<span class="number">50</span>, <span class="number">50</span>)</span></span>
+  .<span class="function"><span class="title">centerCrop</span><span class="params">()</span></span>
+  .<span class="function"><span class="title">into</span><span class="params">(imageView)</span></span>
+</code></pre><p>3.单例模式</p>
+<pre><code><span class="built_in">Singleton</span>.getInstance()<span class="comment">;</span>
+</code></pre><p>4.延时对象创建</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Foo</span> {  
+    <span class="comment">// 似有静态内部类, 只有当有引用时, 该类才会被装载  </span>
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">LazyFoo</span> {  
+        <span class="keyword">public</span> <span class="keyword">static</span> Foo foo = <span class="keyword">new</span> Foo();  
+    }  
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Foo <span class="title">getInstance</span>(<span class="params"></span>) </span>{  
+        <span class="keyword">return</span> LazyFoo.foo;  
+    }  
+}  
+</code></pre><p>5.适时消除对象引用</p>
+<pre><code>onDestory{
+   <span class="instruction"> instance </span>= null ;
+}
+</code></pre><p>6.try-catch显示调用</p>
+<pre><code>InputStream <span class="operator">in</span> = <span class="constant">null</span>;  
+<span class="keyword">try</span> {  
+    <span class="operator">in</span> = settingsUrl.openStream();  
+    settings.<span class="built_in">load</span>(<span class="operator">in</span>);  
+} <span class="keyword">catch</span> (IOException e) {  
+    throw <span class="built_in">new</span> StrutsException();  
+} <span class="keyword">finally</span> {  
+    <span class="keyword">if</span> (<span class="operator">in</span> != <span class="constant">null</span>) {  
+        <span class="keyword">try</span> {  
+            <span class="operator">in</span>.<span class="built_in">close</span>();  
+        } <span class="keyword">catch</span> (IOException io) {  
+
+        }  
+    }  
+}
+</code></pre>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/08/31/EA1/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/2015/08/15/ZT8_1/" itemprop="url">
                 【杂谈8月】Material Design设计在中国之困(一)
               </a>
@@ -662,7 +771,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">17</span>
+              <span class="site-state-item-count">18</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

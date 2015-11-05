@@ -152,6 +152,85 @@
           
           
             
+              <a class="post-title-link" href="/2015/10/23/ZT11_1/" itemprop="url">
+                【正谈10月】Explore NoSql on Android
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-10-23T23:45:48+08:00" content="2015-10-23">
+            2015-10-23
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h2 id="一-前言">一.前言</h2><p>D.Richard Hipp不曾想到在这一年他萌芽的轻量级数据库居然诞生在一条漂泊在大海的军舰上，这个诞生于2000年8月的Sqlite数据库由13万行C代码构成,轻量简洁稳定的优势特点,使它经过多年的发展成为Google&amp;Apple在移动端上探索数据库的核心主力，广泛而且大量的被使用。9年后,也就是2009年，NoSql形态数据库被逐渐推上历史的舞蹈核心，Mongodb在服务端架构数据库中大行其道，许多中小型数据库均开始由MySql转向更友好形态的Mongodb.而此时距离iphone1代发布已经过去了整整2年。<br>尽管如此，但在移动端领域NoSql形态数据库仍然还是处于萌芽起步阶段，在写这篇博客时我不经问自己:在Android上探索NoSql型数据库是否为时尚早?也许我们仍然需要时间来检验这个问题和它可能存在的标准答案！</p>
+<h2 id="二-何为Nosql">二.何为Nosql</h2><p>泛指非关系型的数据库，关系数据库关注在关系上，NoSQL关注在存储上。<br>NoSQL数据库种类繁多，但是一个共同的特点都是去掉了关系数据库的关系型特性。数据之间无关系，容易扩展。<br>当前主流四种主要形态的NoSql型数据库：</p>
+<ul>
+<li><em>键值（key-value）比如：Oracle BDB</em></li>
+<li><em>列存储数据库 比如：HBase</em></li>
+<li><em>文档型数据库 比如：MongoDb</em></li>
+<li><em>图形(Graph)数据库 比如：Infinite Graph</em></li>
+</ul>
+<p>主流的Nosql型数据库在Android端的探索主要是以key-value键值对的形式存在。这一类数据库主要会使用到一个哈希表，这个表中有一个特定的键和一个指针指向特定的数据。Key/value模型对于IT系统来说的优势在于简单、易部署。但是如果DBA只对部分值进行查询或更新的时候，Key/value就显得效率低下了。</p>
+<p>使用场景：</p>
+<ul>
+<li><em>1.取代SP存储；</em></li>
+<li><em>2.用于缓存场景.</em></li>
+</ul>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/10/23/ZT11_1/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/2015/10/23/LB_D/" itemprop="url">
                 【杂谈10月】Library-Everyday-Gitbook上线
               </a>
@@ -1033,131 +1112,28 @@ vpi_attrs.xml
 
       
         
-          <span itemprop="articleBody"><p>程序员的角度的Material Design</p>
+          <p>程序员的角度的Material Design</p>
 <h2 id="前言">前言</h2><p>&emsp;&emsp;这是一篇给予设计品读的文章，只是从程序员角度告知设计同仁何为Material Design设计。2个月前，我们决定将美丽神器APP-android端全部翻新，不仅要完成从Eclipse转到AS，基础框架也将全部自己重建与设计，同时设计风格也将遵循MD的设计风格而存在。这是一项艰巨的任务，而让设计同仁在ios设计风格的熏陶下，理解MD风格将是其中最为艰难的部分，因此这篇文章最初是在一次与设计同仁的技术交流会议上总结的，现在开放出来也希望可以帮到更多的设计同仁去理解。</p>
 <p><img src="http://i.imgur.com/MNgSWGg.png" alt=""></p>
-<p>中文网站：<a href="http://wiki.jikexueyuan.com/project/material-design/" title="http://wiki.jikexueyuan.com/project/material-design/" target="_blank" rel="external">http://wiki.jikexueyuan.com/project/material-design/</a></p>
-<p>英文(翻墙)：<a href="http://www.google.com/design/spec/material-design/" title="http://www.google.com/design/spec/material-design/" target="_blank" rel="external">http://www.google.com/design/spec/material-design/</a></p>
-<p>设计总结：<a href="http://www.uisdc.com/comprehensive-material-design-note" title="http://www.uisdc.com/comprehensive-material-design-note" target="_blank" rel="external">http://www.uisdc.com/comprehensive-material-design-note</a></p>
+<p>中文网站：<a href="http://wiki.jikexueyuan.com/project/material-design/" title="http://wiki.jikexueyuan.com/project/material-design/">http://wiki.jikexueyuan.com/project/material-design/</a></p>
+<p>英文(翻墙)：<a href="http://www.google.com/design/spec/material-design/" title="http://www.google.com/design/spec/material-design/">http://www.google.com/design/spec/material-design/</a></p>
+<p>设计总结：<a href="http://www.uisdc.com/comprehensive-material-design-note" title="http://www.uisdc.com/comprehensive-material-design-note">http://www.uisdc.com/comprehensive-material-design-note</a></p>
 <p>几个可以参考的android-app(demo) : </p>
 <p>最美应用   最美壁纸    最美创意</p>
 <p>印象笔记   什么值得买  aisen </p>
 <p>pocket casts  网易云音乐  materialcat  </p>
 <h2 id="一-了解">一.了解</h2><p>&emsp;&emsp;Material Design：纸墨设计风格，诞生于2014年6月google 2014/IO大会。 涉及到了跨平台和设备的视觉,动态,交互设计等方面。Material Design对排版、材质、配色、光效、间距、文字大小、交互方式、动画轨迹都做出了建议，以帮助设计者设计出符合Material Design风格的应用。</p>
-<iframe height="498" width="510" src="http://player.youku.com/embed/XNzMxNzUyNzQ0" frameborder="0" allowfullscreen></iframe>
+<iframe height=498 width=510 src="http://player.youku.com/embed/XNzMxNzUyNzQ0" frameborder=0 allowfullscreen></iframe>
 
 <p>Material Design演示</p>
 <p>&emsp;&emsp;Material Design的灵感来自于对纸和墨水的研究,基于触觉现实感.并且它还在继续地发展扩充,有很大的想象空间.</p>
 <p>&emsp;&emsp;基于现实,让材料的表面和边缘提供视觉线索. 熟悉的触觉属性可以帮助用户快速地明白正在发生什么.</p>
 <p>&emsp;&emsp;光,表面和运动的一些基本规则是很关键性的因素,它们可以传达物体在空间如何存在,运动和交互.运动是很关键的因素,可以吸引注意力和保持连续性. 反馈需要微小但是清晰, 转换需要有效率但是还要保持连贯.</p>
-<p>见目录：</p>
-<p><a href="http://wiki.jikexueyuan.com/project/material-design/material-design-intro/introduction.html" title="http://wiki.jikexueyuan.com/project/material-design/material-design-intro/introduction.html" target="_blank" rel="external">http://wiki.jikexueyuan.com/project/material-design/material-design-intro/introduction.html</a></p>
-<h3 id="1-1_核心元素">1.1 核心元素</h3><ol>
-<li>表面和阴影：层级</li>
-</ol>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/281651365368208.png?imageView2/2/w/500/q/100" alt=""></p>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/69293.png?imageView2/2/w/500/q/100" alt=""></p>
-<ol>
-<li>色彩：“大胆、图形化、有意义”</li>
-</ol>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/87748.png?imageView2/2/w/500/q/100" alt=""></p>
-<ol>
-<li>边距：第二基线（Keyline 2）</li>
-</ol>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/87752.png?imageView2/2/w/500/q/100" alt=""></p>
-<ol>
-<li>网格系统：卡片、列表、网格系统</li>
-</ol>
-<p>口错误</p>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/components-cards-usage-card_noa_large_mdpi.png?imageView2/2/w/500/q/100" alt=""></p>
-<p>口正确</p>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/components-cards-usage-card_nob_large_mdpi.png?imageView2/2/w/500/q/100" alt=""></p>
-<ol>
-<li>令人愉悦的细节和动画;</li>
-</ol>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/87759.gif?imageView2/2/w/500/q/100" alt=""></p>
-<h3 id="2-设计原则">2.设计原则</h3><p>1、    材料是个隐喻</p>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364431.jpg?imageView2/2/w/500/q/100" alt=""></p>
-<p>2、    表面是直观和自然的</p>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364432.jpg?imageView2/2/w/500/q/100" alt=""></p>
-<p>3、    维度提供交互</p>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364433.jpg?imageView2/2/w/500/q/100" alt=""></p>
-<p>4、    适应性设计</p>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364434.jpg?imageView2/2/w/500/q/100" alt=""></p>
-<p>5、    目录用黑体和图形设计，并带有意图</p>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364435.jpg?imageView2/2/w/500/q/100" alt=""></p>
-<p>6、    颜色、表面和图标都强调动作效果</p>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364436.jpg?imageView2/2/w/500/q/100" alt=""></p>
-<p>7、    用户发起变化</p>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364437.jpg?imageView2/2/w/500/q/100" alt=""></p>
-<p>8、    动画效果要在统一的</p>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364438.jpg?imageView2/2/w/500/q/100" alt=""></p>
-<p>9、    动作提供了意义</p>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364439.jpg?imageView2/2/w/500/q/100" alt=""></p>
-<p>演示几个video：</p>
-<p><iframe height="498" width="510" src="http://player.youku.com/embed/XODM2MTc0NzE2" frameborder="0" allowfullscreen></iframe><br>Morning Routine - Free alarm app for Android</p>
-<p><iframe height="498" width="510" src="http://player.youku.com/embed/XOTUzOTI3OTE2" frameborder="0" allowfullscreen></iframe><br>微信丨关于Material Design的 应用优化与动效设计</p>
-<p><iframe height="498" width="510" src="http://player.youku.com/embed/XODg2NDQ1NDQ4" frameborder="0" allowfullscreen></iframe><br>INSTAGRAM with Material Design</p>
-<h2 id="二-程序员眼中的核心元素">二.程序员眼中的核心元素</h2><p>无论MD风格包含多少设计的元素，对于可以被程序实践的MD，则会将核心表现在如下的元素中.下面的核心元素的俗语都是官方为程序员提供的控件，他们才是程序员实现MD风格的核心。</p>
-<h3 id="1-Theme">1.Theme</h3><p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443111.png" alt=""></p>
-<p>Theme核心就在于对于一个界面甚至整体APP定一个颜色纵深的基调，比如现在可以控制状态栏颜色，title颜色，背景颜色，虚拟按键栏颜色，并按照MD颜色层级进行颜色的搭配。</p>
-<p>口android:colorPrimaryDark 应用的主要暗色调，statusBarColor默认使用该颜色</p>
-<p>口android:statusBarColor 状态栏颜色，默认使用colorPrimaryDark</p>
-<p>口android:colorPrimary 应用的主要色调，actionBar默认使用该颜色</p>
-<p>口android:windowBackground 窗口背景颜色</p>
-<p>口android:navigationBarColor 底部栏颜色</p>
-<p>口android:colorForeground 应用的前景色，ListView的分割线，switch滑动区默认使用该颜色</p>
-<p>口android:colorBackground 应用的背景色，popMenu的背景默认使用该颜色</p>
-<p>口android:colorAccent 一般控件的选种效果默认采用该颜色</p>
-<p>口android:colorControlNormal 控件的默认色调　</p>
-<p>口android:colorControlHighlight 控件按压时的色调</p>
-<p>口android:colorControlActivated 控件选中时的颜色，默认使用colorAccent</p>
-<p>口android:colorButtonNormal 默认按钮的背景颜色</p>
-<p>口android:textColor Button，textView的文字颜色</p>
-<p>口android:textColorPrimaryDisableOnly RadioButton checkbox等控件的文字</p>
-<p>口android:textColorPrimary 应用的主要文字颜色，actionBar的标题文字默认使用该颜色</p>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443style-typography-12_large_mdpi.png" alt=""></p>
-<h3 id="2-导航栏(标题栏)Toolbar">2.导航栏(标题栏)Toolbar</h3><p>android3.0之前 APP的Title都是Android程序员根据已经存在的一些基础控件拼凑而成，3.0后官方退出Actionbar，4.4后MD风格中出现Toolbar(v7包中提供)。</p>
-<p>Actionbar：</p>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364432014062009211697.gif" alt=""></p>
-<p>Toolbar</p>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364431416285884351.png" alt=""></p>
-<p>ToolBar属于ActionBar的升级版，扩展了ActionBar，使得程序员可以像使用独立的控件一样使用ToolBar.所以为了展现MD风格，程序员一般都会使用Toolbar来完成标题栏。</p>
-<p>Toolbar上的按钮点击后弹出的popup视图窗效果，在MD中被定义为“纸片”，它是悬空形态的。</p>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443components-chips-contactchips-chips_03b_large_mdpi.png" alt=""></p>
-<h3 id="3-卡片CardView_列表_RecyclerView">3.卡片CardView 列表 RecyclerView</h3><p>MD风格其实比较注重卡片效果，官方在MD中将全铺的没有网格效果的瓷砖效果标记为wrong风格，让程序员用卡片布局来映衬MD风格。</p>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443components-cards-content-card_books_large_mdpi.png" alt=""></p>
-<p>口错误</p>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443components-cards-usage-card_no2a_large_mdpi.png" alt=""></p>
-<p>口正确</p>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443components-cards-usage-card_no2b_large_mdpi.png" alt=""></p>
-<p>RecyclerView是指列表，早期android是用ListView来实现列表的.为了更好的性能，同时为了配合CardView卡片，MD风格中官方建议使用RecyclerView替代ListView。</p>
-<h3 id="4-波纹触摸反馈Ripple">4.波纹触摸反馈Ripple</h3><p>点击卡片条目，RecyclerView条目或者按钮等，展现一种波纹般的触摸效果。</p>
-<p><img src="http://img.my.csdn.net/uploads/201412/07/1417883148_7961.gif-thumb.jpg" alt=""></p>
-<p><img src="http://img.my.csdn.net/uploads/201412/07/1417881700_6000.gif-thumb.jpg" alt=""></p>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/73644320141122214256_785.gif" alt=""></p>
-<h3 id="5-揭露效果Reveal_effect">5.揭露效果Reveal effect</h3><p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/73644320141122214257_220.gif" alt=""></p>
-<h3 id="6-曲线运动Curved_motion">6.曲线运动Curved motion</h3><p><img src="http://img.my.csdn.net/uploads/201412/07/1417883797_3321.gif-thumb.jpg" alt=""></p>
-<h3 id="7-Z轴代表的阴影_和_裁剪">7.Z轴代表的阴影 和  裁剪</h3><p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/73644320141014201623593.png" alt=""></p>
-<h3 id="8-Activity的进场与退场动画_Activity_Transition">8.Activity的进场与退场动画 Activity Transition</h3><p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443trainsition_shared_element.gif" alt=""></p>
-<h3 id="9-侧滑栏抽屉_NavigationView_和_DrawerLayout搭配">9.侧滑栏抽屉 NavigationView 和  DrawerLayout搭配</h3><p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443drawer.png" alt=""></p>
-<h3 id="10-悬空按钮FAB">10.悬空按钮FAB</h3><p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/7364436_1.png" alt=""></p>
-<h2 id="三-谷歌的兼容实现">三.谷歌的兼容实现</h2><p><iframe height="498" width="510" src="http://player.youku.com/embed/XMTI1MDA2OTUyMA==" frameborder="0" allowfullscreen></iframe><br>Android Design Support Library</p>
-<p>&emsp;&emsp;在今天4月份前，实际上实现MD风格，在代码逻辑上并不方面，很多的MD风格的控件只能在5.0的手机上才可以运行，现在Support Library为我们将MD风格兼容到5.0下起到了重要的作用。因此，设计现在所做的MD设计图，对我们程序员而言，代表着，我们必须使用兼容类库将它兼容到更低端的手机中。</p>
-<p>这些新的兼容控件的名称如下：</p>
-<p>Navigation View<br>抽屉</p>
-<p>TextInputLayout<br>输入框控件的悬浮标签</p>
-<p>Floating Action Button<br>悬浮操作按钮</p>
-<p>Snackbar<br>提示</p>
-<p>TabLayout<br>选项卡</p>
-<p>CoordinatorLayout<br>手势与滚动</p>
-<p>Collapsing Toolbar<br>可伸缩折叠的Toolbar</p>
-<p>他们为实现二中的核心元素的向下兼容而存在。</p>
-<h2 id="四-后记">四.后记</h2><p>&emsp;&emsp;尽管MD风格在国外已经越来越成为趋势，但就目前中国对于android设计发展趋势而看，在短期内，照着IOS来做的原则暂时不会变化，未来如何，还需要时间来检验。即使诚如哔哩哔哩或者什么值得买这样一批首先尝试的app，在坚守一段MD风格后，都纷纷投降，转变风格，android端APP风格均重投IOS设计之下。Material Design在中国之困，这不能不说是一个巨大的讽刺。也许过2年后再看今时今日之纷争…谁又说得清道得其中的蜃楼变迁。</p>
-<p>后记小文两篇：</p>
-<p>1.Material Design in Action — 哔哩哔哩动画 Android 客户端<br><a href="http://www.jianshu.com/p/d1458e550b8e#" target="_blank" rel="external">http://www.jianshu.com/p/d1458e550b8e#</a></p>
-<p>2.Material Design设计在中国之困<br><a href="http://www.sabria.me/2015/08/15/ZT8_1/" target="_blank" rel="external">http://www.sabria.me/2015/08/15/ZT8_1/</a></p>
-</span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/10/06/ZT10_1/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -1218,7 +1194,7 @@ vpi_attrs.xml
 
       
         
-          <span itemprop="articleBody"><p>我将保证MVP核心范式编程的文章将不少于5篇文章，在我还没有正式给MVP下定义前，我相信一个优秀的范例将非常有效的让我们对MVP有一个非常深入的了解。</p>
+          <p>我将保证MVP核心范式编程的文章将不少于5篇文章，在我还没有正式给MVP下定义前，我相信一个优秀的范例将非常有效的让我们对MVP有一个非常深入的了解。</p>
 <p>首先让我们搭建一个基础MVP架构的目录，然后我们逐步解析MVP的含义，并最终完成一套符合The Clean Architecture核心思想的MVP架构封装。这里将是MVP范式编程的第一个章节,我将通过一个层级范例来解构MVP。</p>
 <h2 id="解析MVP层级范例">解析MVP层级范例</h2><p><img src="http://i.imgur.com/larhurt.png" alt=""></p>
 <p>mvp的分层我们按照model-presenter-view三个包级别分层，这样的分层将非常方便于各层级的关系展示。</p>
@@ -1232,172 +1208,11 @@ vpi_attrs.xml
 <p>1.将view和data抽象分离处理，原activity中的两个组成部分：界面和数据逻辑分别放在view和presenter层级中。</p>
 <p>2.view层主要是原activity的界面层级。它将分成两个组成部分，一个为activity-view(实际View业务处理)，另一个为abstract-view(定义抽象方法完成view层与presenter层沟通);</p>
 <p>3.presenter层主要是原activity的数据逻辑层级。它将完成后台的数据逻辑请求，并将json转成model，通过请求的数据结果，将model返回给view层级，完成UI界面的更新。</p>
-<h3 id="code_means_everythings">code means everythings</h3><p>1.model中的User.class将继承Parcelable实现序列化</p>
-<pre><code><span class="keyword">package</span> xiongwei.mvp.model;
-
-<span class="keyword">import</span> android.os.Parcel;
-<span class="keyword">import</span> android.os.Parcelable;
-
-<span class="comment">/**
- * Created by 伟 on 2015/10/3.
- * 实现Parcelable非常简单
- * 1）implements Parcelable
- * 2）重写writeToParcel方法
- * 3）重写describeContents方法，默认返回0即可
- * 4）实例化静态内部对象CREATOR实现接口Parcelable.Creator
- *
- * 在android studio中实现Parcelable的技巧非常简单
- * 1.先将你需要的的字段书写出来
- * 2.alt+Enter完成未完成方法(implements methods)的提示,此时AS会自动帮你完成describeContents和writeToParcel方法
- * 3.继续alt+Enter完成(Add Parcelable Implements)的提示,此时AS会完成实例化静态内部对象CREATOR。
- */</span>
-<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">implements</span> <span class="title">Parcelable</span> {</span>
-
-    <span class="keyword">private</span> <span class="typename">long</span> id;
-    <span class="keyword">private</span> String name;
-    <span class="keyword">private</span> String url;
-    <span class="keyword">private</span> String email;
-    <span class="keyword">private</span> String login;
-    <span class="keyword">private</span> String location;
-    <span class="keyword">private</span> String avatarUrl;
-
-
-    <span class="keyword">protected</span> User(Parcel <span class="keyword">in</span>) {
-        id = <span class="keyword">in</span>.readLong();
-        name = <span class="keyword">in</span>.readString();
-        url = <span class="keyword">in</span>.readString();
-        email = <span class="keyword">in</span>.readString();
-        login = <span class="keyword">in</span>.readString();
-        location = <span class="keyword">in</span>.readString();
-        avatarUrl = <span class="keyword">in</span>.readString();
-    }
-
-    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Creator&lt;User&gt; CREATOR = <span class="keyword">new</span> Creator&lt;User&gt;() {
-        <span class="annotation">@Override</span>
-        <span class="keyword">public</span> User createFromParcel(Parcel <span class="keyword">in</span>) {
-            <span class="keyword">return</span> <span class="keyword">new</span> User(<span class="keyword">in</span>);
-        }
-
-        <span class="annotation">@Override</span>
-        <span class="keyword">public</span> User[] newArray(<span class="typename">int</span> size) {
-            <span class="keyword">return</span> <span class="keyword">new</span> User[size];
-        }
-    };
-
-    <span class="annotation">@Override</span>
-    <span class="keyword">public</span> <span class="typename">int</span> describeContents() {
-        <span class="keyword">return</span> <span class="number">0</span>;
-    }
-
-    <span class="annotation">@Override</span>
-    <span class="keyword">public</span> <span class="typename">void</span> writeToParcel(Parcel dest, <span class="typename">int</span> flags) {
-        dest.writeLong(id);
-        dest.writeString(name);
-        dest.writeString(url);
-        dest.writeString(email);
-        dest.writeString(login);
-        dest.writeString(location);
-        dest.writeString(avatarUrl);
-    }
-}
-</code></pre><p>2.Presenter层：基类Presenter</p>
-<pre><code><span class="keyword">package</span> xiongwei.mvp.presenter;
-
-<span class="comment">/**
- * Created by 伟 on 2015/10/3.
- * Presenter基类,接口类型,通过泛型传递View
- */</span>
-<span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Presenter</span>&lt;<span class="title">V</span>&gt; </span>{
-
-    <span class="comment">//绑定view</span>
-    <span class="function"><span class="keyword">void</span> <span class="title">attachView</span><span class="params">(V view)</span></span>;
-
-    <span class="comment">//解绑view</span>
-    <span class="function"><span class="keyword">void</span> <span class="title">detachView</span><span class="params">()</span></span>;
-
-}
-</code></pre><p>实现者：</p>
-<pre><code><span class="keyword">import</span> xiongwei.mvp.view.MainView;
-
-<span class="comment">/**
- * Created by 伟 on 2015/10/3.
- */</span>
-<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainPresenter</span> <span class="keyword">implements</span> <span class="title">Presenter</span>&lt;<span class="title">MainView</span>&gt; </span>{
-
-    <span class="keyword">private</span> MainView view;
-
-    <span class="annotation">@Override</span>
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">attachView</span><span class="params">(MainView view)</span> </span>{
-        <span class="keyword">this</span>.view=view;
-    }
-
-    <span class="annotation">@Override</span>
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">detachView</span><span class="params">()</span> </span>{
-        <span class="keyword">this</span>.view=<span class="keyword">null</span>;
-    }
-
-    <span class="comment">//进行数据请求,并进行对view层的通知</span>
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getData</span><span class="params">()</span></span>{
-        <span class="comment">//TODO</span>
-    }
-
-
-}
-</code></pre><p>3.View：基类View</p>
-<pre><code><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">View</span> {
-    <span class="function">Context <span class="title">getContext</span>(<span class="params"></span>)</span>;
-}
-</code></pre><p>继承者：展示要变化界面的view动态方法</p>
-<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MainView</span> <span class="keyword">extends</span>  <span class="title">View</span></span>{
-    <span class="function"><span class="keyword">void</span> <span class="title">showData</span><span class="params">(List&lt;User&gt; list)</span></span>;
-    <span class="function"><span class="keyword">void</span> <span class="title">showMessage</span><span class="params">(String message)</span></span>;
-    <span class="function"><span class="keyword">void</span> <span class="title">showLoading</span><span class="params">()</span></span>;
-}
-</code></pre><p>Activity中实现其对应的View的方法</p>
-<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainViewActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> <span class="keyword">implements</span> <span class="title">MainView</span></span>{
-
-
-    <span class="annotation">@Override</span>
-    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>{
-        <span class="keyword">super</span>.onCreate(savedInstanceState);
-
-
-
-
-    }
-
-
-
-    <span class="comment">//MainView需要实现的内容</span>
-    <span class="annotation">@Override</span>
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">showData</span><span class="params">(List&lt;User&gt; list)</span> </span>{
-
-    }
-
-    <span class="annotation">@Override</span>
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">showMessage</span><span class="params">(String message)</span> </span>{
-
-    }
-
-    <span class="annotation">@Override</span>
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">showLoading</span><span class="params">()</span> </span>{
-
-    }
-
-    <span class="annotation">@Override</span>
-    <span class="function"><span class="keyword">public</span> Context <span class="title">getContext</span><span class="params">()</span> </span>{
-        <span class="keyword">return</span> <span class="keyword">null</span>;
-    }
-}
-</code></pre><hr>
-<p>现在我们就完成了基类view和实现view以及基类Presenter和实现类Presenter，但model、view和Presenter之间完全还未串联起来。</p>
-<h3 id="Communicate_the_M-V-P">Communicate the M-V-P</h3><p>首先解决model和Presenter的沟通</p>
-<pre><code>所谓model和Presenter的沟通就是在MainPresenter中请求完成书记后，将服务端返回的json转化为model对象。
-</code></pre><p>再次解决Presenter和View的沟通</p>
-<pre><code><span class="number">1.</span>MainPresenter中attachView装载泛型传入的MainView;
-<span class="number">2.</span>数据请求完成后，根据请求的结果，调用MainView的方法。
-</code></pre><h3 id="源码">源码</h3><p>part1项目代码可以在Github <a href="https://github.com/xiaomeixw/MVP" target="_blank" rel="external">repository</a> 找到.</p>
-</span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/10/03/MVP_1/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -1458,7 +1273,7 @@ vpi_attrs.xml
 
       
         
-          <span itemprop="articleBody"><p>包含如下内容：</p>
+          <p>包含如下内容：</p>
 <pre><code>开源推荐
 
 <span class="keyword">APP</span>推荐
@@ -1467,241 +1282,14 @@ vpi_attrs.xml
 
 点评开源
 </code></pre><blockquote>
-<p>If you have interest in these libraries you can visit <a href="https://github.com/stars/xiaomeixw" target="_blank" rel="external">my github’s stars</a> </p>
+<p>If you have interest in these libraries you can visit <a href="https://github.com/stars/xiaomeixw">my github’s stars</a> </p>
 </blockquote>
-<hr>
-<p><img src="http://stillmaintained.com/wasabeef/awesome-android-libraries.png" alt="Project status"><a href="https://developer.android.com/about/versions/android-2.2.html" target="_blank" rel="external"><img src="https://img.shields.io/badge/API-8%2B-green.svg?style=flat" alt="API"></a> <a href="http://www.sabria.me/2015/09/16/15September/" target="_blank" rel="external"><img src="https://img.shields.io/badge/Sabria%20Blog-September--9月-green.svg?style=flat" alt="sabria"></a> </p>
-<h3 id="Index_2015-09-16">Index 2015-09-16</h3><h4 id="Library:">Library:</h4><p>(One UI libraries - Two Data Libraries - One blog posts)</p>
-<h1 id="UI">UI</h1><table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Author</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="https://github.com/jcmore2/BannerTime" target="_blank" rel="external">BannerTime</a></td>
-<td><a href="https://github.com/jcmore2" target="_blank" rel="external">jcmore2</a></td>
-<td><a href="https://github.com/jcmore2/BannerTime/blob/master/raw/sample.png" target="_blank" rel="external">展示popup-dialog的提示消息效果</a></td>
-</tr>
-</tbody>
-</table>
-<h1 id="DATA">DATA</h1><table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Author</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="https://github.com/ivacf/archi" target="_blank" rel="external">Archi</a></td>
-<td><a href="https://github.com/ivacf" target="_blank" rel="external">ivacf</a></td>
-<td><a href="https://github.com/ivacf/archi/blob/master/images/archi-screenshots.png" target="_blank" rel="external">Dagger\Retrofit和RxJava配合,实践Standard Android/MVP/MVVM</a></td>
-</tr>
-<tr>
-<td><a href="https://github.com/jlmd/UpcomingMoviesMVP" target="_blank" rel="external">UpcomingMVP</a></td>
-<td><a href="https://github.com/jlmd" target="_blank" rel="external"><del>~jlmd</del>~</a></td>
-<td><a href="https://github.com/jlmd/UpcomingMoviesMVP/blob/master/art/screenshot1.png" target="_blank" rel="external">Dagger\Retrofit和Otto配合,实践MVP架构</a></td>
-</tr>
-</tbody>
-</table>
-<h1 id="POSTS">POSTS</h1><table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Author</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="https://medium.com/@orhanobut/consider-interface-segregation-c120c5ddacc5" target="_blank" rel="external">Consider interface segregation</a></td>
-<td><a href="https://github.com/orhanobut" target="_blank" rel="external">orhanobut</a></td>
-<td><a href="http://jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0922/3499.html" target="_blank" rel="external">编程经验之接口分离原则(中译)</a></td>
-</tr>
-</tbody>
-</table>
-<h1 id="Others：">Others：</h1><ul>
-<li>UI:&ensp;&ensp; <a href="https://github.com/jlmd/AnimatedCircleLoadingView" target="_blank" rel="external">AnimatedCircleLoadingView</a> <a href="https://github.com/jlmd" target="_blank" rel="external">(Author:jlmd)</a>：&ensp;&ensp;一个material design风格的加载成功或者失败提示 </li>
-</ul>
-<p><img src="http://i.imgur.com/5k8gmDs.gif" alt="AnimatedCircleLoadingView-image"></p>
-<ul>
-<li>UI:&ensp;&ensp; <a href="https://github.com/jcmore2/Collage" target="_blank" rel="external">Collage</a> <a href="https://github.com/jcmore2" target="_blank" rel="external">(Author:jcmore2)</a>：&ensp;&ensp;一个随意并随机生成摆放图片的View,可以操作图片的缩放 </li>
-</ul>
-<p><img src="http://i.imgur.com/EuvQRqK.png  =250x250" alt=""></p>
-<ul>
-<li>UI:&ensp;&ensp; <a href="https://github.com/wasabeef/fresco-processors" target="_blank" rel="external">Fresco-Processors</a> <a href="https://github.com/wasabeef" target="_blank" rel="external">(Author:wasabeef)</a>：&ensp;&ensp;对fresco框架加载图片的显示增加动画效果</li>
-</ul>
-<p><img src="http://i.imgur.com/qOalj2S.png" alt=""></p>
-<h4 id="Comment:">Comment:</h4><ul>
-<li><a href="https://github.com/jcmore2/BannerTime" target="_blank" rel="external">BannerTime</a> ：&ensp;&ensp; BannerTime在众多popup-dialog的消息提示中并不出众，但其API的链式调用方案值得学习.</li>
-</ul>
-<p><img src="http://i.imgur.com/xxGy2oO.png" alt=""></p>
-<p>API链式调用:</p>
-<pre><code>@Override
-protected void onResume<span class="params">()</span> {
-    super.onResume<span class="params">()</span>;
-        BannerTime.init<span class="params">(this)</span>
-                .shownTime<span class="params">(<span class="number">4000</span>)</span>
-                .hiddenTime<span class="params">(<span class="number">3000</span>)</span>
-                .imageBanner<span class="params">(<span class="string">"http://pre03.deviantart.net/2aa0/th/pre/f/2012/321/d/1/african_landscape_by_dasflon-d5l9t7c.jpg"</span>)</span>
-                .withKOButton<span class="params">()</span>
-                .withKOButton<span class="params">()</span>
-                .show<span class="params">(listener)</span>;
-}
-</code></pre><p>BannerTime的链式调用方法非常简单，通过return instance方案实现最简单的链式调用方案。</p>
-<pre><code><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">BannerTime</span> {
-
-    <span class="comment">/**
-     * 初始化,其实就是最简单的创建BannerTime对象
-     */</span>
-    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> BannerTime <span class="title">init</span>(<span class="params">Context context</span>) </span>{
-        <span class="keyword">if</span> (sInstance == <span class="keyword">null</span>) {
-            sInstance = <span class="keyword">new</span> BannerTime(context);
-        }
-        mContext = context;
-        <span class="comment">//初始化最初的一些参数</span>
-        init();
-        <span class="comment">//通过返回BannerTime对象,接着可以继续调用BannerTime中的其他方法</span>
-        <span class="keyword">return</span> sInstance;
-    }
-
-    <span class="comment">/**
-     * 设置显示的时间参数
-     */</span>
-    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> BannerTime <span class="title">shownTime</span>(<span class="params"><span class="keyword">int</span> time</span>) </span>{
-        SHOW_TIME_BANNER = time;
-        <span class="keyword">return</span> sInstance;
-    }
-
-    <span class="comment">/**
-     * 放置图片
-     */</span>
-    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> BannerTime <span class="title">imageBanner</span>(<span class="params">String path, boolean crop</span>) </span>{
-        requestCreator = Picasso.with(mContext).load(path);
-        <span class="keyword">if</span> (crop)
-            requestCreator.fit().centerCrop();
-        <span class="keyword">else</span>
-            requestCreator.fit().centerInside();
-        <span class="keyword">return</span> sInstance;
-    }
-
-    <span class="comment">/**
-     * 最终展示出来
-     */</span>
-    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">show</span>(<span class="params"></span>) </span>{
-        <span class="comment">//调用的还是带有回调的show(listener)</span>
-        show(<span class="keyword">null</span>);
-    }
-
-    <span class="comment">/**
-     * 最终走实质性逻辑代码的地方,会将之前所有参数的部分进行处理
-     * @param listener
-     */</span>
-    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">show</span>(<span class="params">BannerTimeListener listener</span>) </span>{
-        <span class="keyword">if</span> (sInstance == <span class="keyword">null</span>)
-            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"It´ necessary call '.init()' method"</span>);
-        mListener = listener;
-        ImageView img = (ImageView) mView.findViewById(R.id.imageAd);
-        <span class="keyword">if</span> (requestCreator != <span class="keyword">null</span>) {
-            <span class="keyword">if</span> (mPlaceHolder != <span class="number">0</span>) {
-                requestCreator.placeholder(mPlaceHolder)
-                        .<span class="keyword">into</span>(img);
-            } <span class="keyword">else</span> {
-                requestCreator.<span class="keyword">into</span>(img);
-            }
-        } <span class="keyword">else</span> {
-            Picasso.with(mContext)
-                    .load(mPlaceHolder)
-                    .placeholder(mPlaceHolder)
-                    .fit().centerCrop()
-                    .<span class="keyword">into</span>(img);
-        }
-        <span class="comment">//创建dialog</span>
-        createDialog();
-    }
-
-}
-
-
-<span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">BannerTimeListener</span> {
-    <span class="function"><span class="keyword">void</span> <span class="title">onShow</span>(<span class="params"></span>)</span>;
-    <span class="function"><span class="keyword">void</span> <span class="title">onDismiss</span>(<span class="params"></span>)</span>;
-    <span class="function"><span class="keyword">void</span> <span class="title">onClickOk</span>(<span class="params"></span>)</span>;
-    <span class="function"><span class="keyword">void</span> <span class="title">onClickKO</span>(<span class="params"></span>)</span>;
-    <span class="function"><span class="keyword">void</span> <span class="title">onClickImage</span>(<span class="params"></span>)</span>;
-}
-</code></pre><p>BannerTime中有一个小知识点可以学习，就是指定时间后做关闭的动画:</p>
-<p>//计时器方案关闭banner<br>scheduleHideBanner(dialog);</p>
-<pre><code><span class="comment">/**
- * 在指定的时间内关闭dialog
- */</span>
-<span class="keyword">private</span> <span class="keyword">static</span> <span class="function"><span class="keyword">void</span> <span class="title">scheduleHideBanner</span><span class="params">(<span class="keyword">final</span> Dialog dialog)</span> </span>{
-    dismissDialog(dialog);
-    <span class="comment">//创建TimerTask</span>
-    timerTaskHide = <span class="keyword">new</span> TimerTask() {
-        <span class="annotation">@Override</span>
-        <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
-            scheduleShowBanner(dialog);
-        }
-    };
-    timerHide.schedule(timerTaskHide, HIDE_TIME_BANNER);
-}
-
- <span class="keyword">private</span> <span class="keyword">static</span> <span class="function"><span class="keyword">void</span> <span class="title">dismissDialog</span><span class="params">(<span class="keyword">final</span> Dialog dialog)</span></span>{
-    <span class="comment">//主线程运行</span>
-    ((Activity) mContext).runOnUiThread(<span class="keyword">new</span> Runnable() {
-        <span class="annotation">@Override</span>
-        <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
-            <span class="comment">//一定要先判读activity是否关闭,否则会导致dialog无法附着在activity导致奔溃</span>
-            <span class="keyword">if</span> (!((Activity) mContext).isFinishing() &amp;&amp; dialog.isShowing()) {
-                dialog.dismiss();
-                <span class="keyword">if</span> (mListener != <span class="keyword">null</span>)
-                    mListener.onDismiss();
-            }
-            Log.i(TAG, <span class="string">"hideBanner"</span>);
-        }
-    });
-}
-</code></pre><ul>
-<li><a href="https://github.com/ivacf/archi" target="_blank" rel="external">Archi</a> ：&ensp;&ensp; Archi用三种不同的方式来实现一个APP,则三种方法分别是标准现行android架构、MVP架构和基于Data Binding的MVVP架构。在Data Binding (only MVVM)、RxJava &amp; RxAndroid、Retrofit 2和测试框架的配合下践行不同的方案来表现APP的View\Data架构.</li>
-</ul>
-<p><img src="http://i.imgur.com/xvejITP.png" alt=""></p>
-<p>#####App</p>
-<p>#####MVP</p>
-<p>First:</p>
-<blockquote>
-<p>首先看Project目录：<br><img src="http://i.imgur.com/rWIEC95.png" alt=""></p>
-<p>MVP架构需求比较严格的目录分包：model包、view包和presenter包</p>
-<p>model包(就是基础的javabean对象)中：</p>
-<p>view包(就是interface层和原activity的View组成部分)中:</p>
-<p>presenter包(就是原activity的数据请求组成部分)中:</p>
-</blockquote>
-<p>Second:<br>model包：</p>
-<p>#####MVVP</p>
-<ul>
-<li><a href="https://github.com/jlmd/UpcomingMoviesMVP" target="_blank" rel="external">UpcomingMoviesMVP</a> ：&ensp;&ensp; UpcomingMoviesMVP是一个非常优秀践行MVP设计模式的Demo尝试。在<a href="http://square.github.io/dagger/" target="_blank" rel="external">Dagger</a>、<a href="http://square.github.io/retrofit/" target="_blank" rel="external">Retrofit</a>、<a href="http://jakewharton.github.io/butterknife/" target="_blank" rel="external">ButterKnife</a>、<a href="https://github.com/makovkastar/FloatingActionButton" target="_blank" rel="external">FloatingActionButton</a>、<a href="http://square.github.io/picasso/" target="_blank" rel="external">Picasso</a>和<a href="http://square.github.io/otto/" target="_blank" rel="external">Otto</a>的配合下M(model)V(View)P(presenter)实践.</li>
-</ul>
-<p><img src="http://i.imgur.com/fGGzV4u.png" alt=""></p>
-<p>首先对于MVP的理解我会专门开辟一个原生架构、MVC、MVP和MVVP架构的文章。具体见文章：(待补充)</p>
-<p>如何将你的Activity抽分为MVP架构：</p>
-<pre><code>在原生的处理业务逻辑中，我们会将<span class="string">"layout布局UI的显示"</span>和<span class="string">"数据的获取"</span>这两部分都放在一个Activity中，抽取为MVP架构的核心就在于将<span class="string">"数据获取"</span>部分抽取出来放到presenter中，同时通过interface来完成与<span class="function"><span class="title">View</span><span class="params">(新Activity)</span></span>的交互沟通。
-</code></pre><p>MVP的几个核心点：</p>
-<ol>
-<li>View不直接与Model交互，View而是通过与Presenter交互来与Model间接交互： User&lt;—&gt;View&lt;—&gt;Presenter&lt;—&gt;Model</li>
-<li>通常View与Presenter是一对一，但复杂的一个View可能会对应多个Presenter。</li>
-<li><p>在android上践行MVP，在现有的解决方案上(2015年9月)必须或者需求性依赖一些第三方的lib来实现.比如：</p>
-<p> Retrofit(表述性状态传递–类型安全的 REST 客户端):实现标准的API接口解析与调用,以此简化API接口的调用和解析。</p>
-<p> Dagger(依赖注入):通过注解注入对象，从而完成自动的初始化，以此简化View的获取使用和处理。</p>
-<p> Rx(响应式编程):通过观察与订阅实现回调函数的监听和处理，以此减少android极度依赖回调函数处理逻辑的方案。</p>
-<p> Test(测试):Mockito、Robolectric、Mosby</p>
-</li>
-</ol>
-</span>
+<h2 id="<!-more->">
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/09/16/15September/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -1972,115 +1560,6 @@ protected void onResume<span class="params">()</span> {
 
 
     
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2015/08/31/EA1/" itemprop="url">
-                Effective Android part-1
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2015-08-31T22:23:06+08:00" content="2015-08-31">
-            2015-08-31
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>Effective Android part-1 对象创建与销毁</p>
-<h1 id="Lesson_Creation_and_destruction_of_objects">Lesson Creation and destruction of objects</h1><p>创建与销毁对象法则：</p>
-<p>1.用静态工厂方法替换构造器 Consider providing static factory methods instead of constructors;</p>
-<pre><code><span class="tag">Toast</span><span class="class">.makeText</span>();
-</code></pre><p>2.Builder构建器</p>
-<pre><code>Picasso.<span class="function"><span class="title">with</span><span class="params">(context)</span></span>
-  .<span class="function"><span class="title">load</span><span class="params">(url)</span></span>
-  .<span class="function"><span class="title">resize</span><span class="params">(<span class="number">50</span>, <span class="number">50</span>)</span></span>
-  .<span class="function"><span class="title">centerCrop</span><span class="params">()</span></span>
-  .<span class="function"><span class="title">into</span><span class="params">(imageView)</span></span>
-</code></pre><p>3.单例模式</p>
-<pre><code><span class="built_in">Singleton</span>.getInstance()<span class="comment">;</span>
-</code></pre><p>4.延时对象创建</p>
-<pre><code><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Foo</span> {  
-    <span class="comment">// 似有静态内部类, 只有当有引用时, 该类才会被装载  </span>
-    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">LazyFoo</span> {  
-        <span class="keyword">public</span> <span class="keyword">static</span> Foo foo = <span class="keyword">new</span> Foo();  
-    }  
-
-    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Foo <span class="title">getInstance</span>(<span class="params"></span>) </span>{  
-        <span class="keyword">return</span> LazyFoo.foo;  
-    }  
-}  
-</code></pre><p>5.适时消除对象引用</p>
-<pre><code>onDestory{
-   <span class="instruction"> instance </span>= null ;
-}
-</code></pre><p>6.try-catch显示调用</p>
-<pre><code>InputStream <span class="operator">in</span> = <span class="constant">null</span>;  
-<span class="keyword">try</span> {  
-    <span class="operator">in</span> = settingsUrl.openStream();  
-    settings.<span class="built_in">load</span>(<span class="operator">in</span>);  
-} <span class="keyword">catch</span> (IOException e) {  
-    throw <span class="built_in">new</span> StrutsException();  
-} <span class="keyword">finally</span> {  
-    <span class="keyword">if</span> (<span class="operator">in</span> != <span class="constant">null</span>) {  
-        <span class="keyword">try</span> {  
-            <span class="operator">in</span>.<span class="built_in">close</span>();  
-        } <span class="keyword">catch</span> (IOException io) {  
-
-        }  
-    }  
-}
-</code></pre>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/08/31/EA1/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2120,7 +1599,7 @@ protected void onResume<span class="params">()</span> {
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">17</span>
+              <span class="site-state-item-count">18</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
