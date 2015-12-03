@@ -152,6 +152,276 @@
           
           
             
+              <a class="post-title-link" href="/2015/12/03/ZT12_2/" itemprop="url">
+                【正谈12月】动态代理范式编程-Part1
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-12-03T21:32:48+08:00" content="2015-12-03">
+            2015-12-03
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody"><h2 id="一-代理模式">一.代理模式</h2><p>###1.1 概念</p>
+<p><img src="http://i.imgur.com/FBNavuM.jpg" alt=""></p>
+<p>对其他对象提供一种代理以控制对这个对象的访问</p>
+<p>浅显理解一下：  </p>
+<pre><code><span class="literal">A</span> 需要访问 C 
+</code></pre><p>—&gt;  </p>
+<pre><code>A 通过 <span class="keyword">B </span>间接访问 到C
+</code></pre><p>其中的代理B和目标对象C都是实现同一个接口，因此他们可以都彼此了解。</p>
+<p>在某些情况下，一个客户不想或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作用。表面上客户是在访问代理对象，实际代理对象中访问中调用的是目标对象的方法。</p>
+<h3 id="2-操作方案：">2.操作方案：</h3><p><img src="http://i.imgur.com/UZEHkFf.png" alt=""></p>
+<p>1.定义一个共同型接口</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">CommonInter</span>{                    
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSting</span>(<span class="params"></span>)</span>;        
+} 
+</code></pre><p>2.实际目标对象</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommonInterImp</span>  <span class="keyword">implements</span> <span class="title">CommonInter</span></span>{  
+
+    <span class="annotation">@Override</span>  
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSting</span><span class="params">()</span> </span>{  
+        System.out.println(<span class="string">"CommonInterImp"</span>);                
+    }  
+
+}      
+</code></pre><p>3.创建代理对象</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommProxy</span> <span class="keyword">implements</span> <span class="title">CommonInter</span> </span>{  
+
+    <span class="comment">//多态--持有接口实现对象的引用</span>
+    <span class="keyword">private</span> CommonInter commonInter;  
+
+    <span class="function"><span class="keyword">public</span> <span class="title">CommProxy</span><span class="params">()</span></span>{
+        <span class="comment">//默认是实现类commonInterImp</span>
+        <span class="keyword">this</span>.commonInter = <span class="keyword">new</span> commonInterImp();  
+    }  
+
+    <span class="function"><span class="keyword">public</span> <span class="title">CommProxy</span><span class="params">(CommonInter commonInter)</span></span>{ 
+        <span class="comment">//其他的任何一个实现类 </span>
+        <span class="keyword">this</span>.commonInter = commonInter;  
+    }  
+
+    <span class="annotation">@Override</span>  
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSting</span><span class="params">()</span> </span>{  
+        <span class="comment">//实际调用的是目标对象的doSting();              </span>
+        <span class="keyword">this</span>.commonInter.doSting();  
+
+    }        
+}
+</code></pre><p>4.调用</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>{
+     <span class="comment">//创建代理对象  </span>
+     CommProxy proxy = <span class="keyword">new</span> CommProxy();  
+     <span class="comment">//表面调用代理对象的方法，实际上代理中是调用的目标对象的方法  </span>
+     proxy.doSting();  
+}
+</code></pre><h2 id="二-动态代理">二.动态代理</h2><h3 id="2-1_概念">2.1 概念</h3><p>在某些情况下，我们A不希望或是不能直接访问对象 C，而是通过访问一个中介对象 B，由 B 去访问 C 达成目的，这种方式我们就称为代理。</p>
+<ul>
+<li><em>A：工作对象(Client)</em></li>
+<li><em>B：代理类(Proxy)</em></li>
+<li><em>C：被代理类，委托类，目标对象(RealObject)</em></li>
+</ul>
+<p>代理优点有：</p>
+<pre><code><span class="number">1.</span>隐藏目标对象的实现
+<span class="number">2.</span>解耦，不改变目标对象代码情况下做一些额外处理，比如添加初始判断及其他公共操作.
+</code></pre><p>一个非常典型的使用场景比如：<br>代理类：</p>
+<pre><code><span class="keyword">class</span> <span class="title">CommProxy</span> <span class="title">implements</span> <span class="title">CommInter</span>  {  
+    <span class="keyword">private</span> CommonInter impl;
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSting</span>(<span class="params"></span>)  </span>{  
+        <span class="keyword">if</span> (impl==<span class="keyword">null</span>)  {  
+            impl = <span class="keyword">new</span> commonInterImp();  
+        }  
+        doBefore();  
+        impl.doSting();  
+        doAfter();  
+    }  
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doBefore</span>(<span class="params"></span>)  </span>{  
+        System.<span class="keyword">out</span>.println(<span class="string">"前置处理！"</span>);  
+    }  
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doAfter</span>(<span class="params"></span>)  </span>{  
+        System.<span class="keyword">out</span>.println(<span class="string">"后置处理！"</span>);  
+    }  
+}
+</code></pre><p>静态代理：代理类在程序运行前已经存在的代理方式称为静态代理。</p>
+<p>动态代理：代理类在程序运行前不存在、运行时由程序动态生成的代理方式称为动态代理。</p>
+<h3 id="2-2_实现动态代理包括三步：">2.2 实现动态代理包括三步：</h3><p>(1). 新建目标对象；</p>
+<p>(2). 实现InvocationHandler接口，这是负责连接代理类和目标对象的中间类必须实现的接口；</p>
+<p>(3). 通过Proxy类新建代理类对象。</p>
+<p>本质：<br>动态代理实现实际是双层的静态代理，开发者提供了目标对象C，程序动态生成了代理类 A：$Proxy。开发者还需要提供一个实现了InvocationHandler的子类 B。B它其实是连接程序自动生成的动态代理类 A 和目标对象 C</p>
+<p>工作对象—》调用程序生成的动态代理A—》调用链接子类B—》目标对象C</p>
+<h3 id="2-3_几个API参数的含义：">2.3 几个API参数的含义：</h3><p>1.public Object invoke(Object proxy, Method method, Object[] args)  </p>
+<pre><code>* <span class="variable">@param</span> proxy 在其上调用方法的代理实例,通过 Proxy.<span class="function">newProxyInstance</span>() 生成的代理类对象：&amp;Proxy
+* <span class="variable">@param</span> method 对应于在代理对象&amp;Proxy上调用的接口方法的 Method 实例
+* <span class="variable">@param</span> args &amp;Proxy对象的method的参数，如果没有，设为null
+</code></pre><p>2.Object result = method.invoke(obj,args);  </p>
+<pre><code>* <span class="variable">@param</span> Object receiver 执行这个方法的对象owner,一般创建动态代理时指定的目标对象
+* <span class="variable">@param</span> Object... args 方法上的参数
+</code></pre><p>3.Proxy.newProxyInstance(cls.getClassLoader(),cls.getInterfaces(),new ProxyInvocationHandler(obj));  </p>
+<pre><code>* <span class="variable">@param</span> ClassLoader loader loader表示目标对象的类加载器
+* <span class="variable">@param</span> Class&lt;?&gt;[] interfaces interfaces表示目标对象的接口，生成代理类时需要实现这些接口
+* <span class="variable">@param</span> InvocationHandler h是InvocationHandler实现类对象，负责连接动态代理类和目标对象的中间类
+</code></pre><h3 id="2-4_动态代理范例：">2.4 动态代理范例：</h3><p>1.新建目标对象：</p>
+<pre><code><span class="comment">//共同接口对象</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">CommonInter</span> </span>{
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doString</span><span class="params">()</span></span>;
+}
+
+<span class="comment">//目标对象</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommonInterImp</span> <span class="keyword">implements</span> <span class="title">CommonInter</span></span>{
+    <span class="annotation">@Override</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doString</span><span class="params">()</span> </span>{
+        System.out.print(<span class="string">"CommonInterImp---doString()"</span>);
+
+    }
+}    
+</code></pre><p>2.动态角色实现InvocationHandler 接口，它将动态生成代理类。</p>
+<pre><code>public class <span class="type">ProxyInvocationHandler</span> implements <span class="type">InvocationHandler</span>{
+
+    private <span class="type">Object</span> obj;
+
+    /**
+     * 这里传进来的就是目标对象,它要去调用invoke方法
+     * @param obj
+     */
+    <span class="type">ProxyInvocationHandler</span>(<span class="type">Object</span> obj){
+        this.obj=obj;
+    }
+
+
+    /**
+     *
+     * @param proxy   在其上调用方法的代理实例,通过 <span class="type">Proxy</span>.newProxyInstance() 生成的代理类对象
+     * @param <span class="keyword">method</span>  代理对象被调用的函数
+     * @param args    代理对象被调用的函数的参数，如果没有，设为null
+     * @<span class="keyword">return</span>
+     * @throws <span class="type">Throwable</span>
+     */
+    @<span class="type">Override</span>
+    public <span class="type">Object</span> invoke(<span class="type">Object</span> proxy, <span class="type">Method</span> <span class="keyword">method</span>, <span class="type">Object</span>[] args) throws <span class="type">Throwable</span> {
+        //前置操作
+        doBefore();
+        /**
+         * @param <span class="type">Object</span> receiver 执行这个方法的对象owner,一般创建动态代理时指定的目标对象
+         * @param <span class="type">Object</span>... args 方法上的参数
+         */
+        <span class="type">Object</span> <span class="literal">result</span>=<span class="keyword">method</span>.invoke(obj,args);
+        //后置操作
+        doAfter();
+        <span class="keyword">return</span> <span class="literal">result</span>;
+    }
+
+    /**
+     * 工厂
+     * @param obj
+     * @<span class="keyword">return</span>
+     */
+    public <span class="keyword">static</span>  <span class="type">Object</span> factory(<span class="type">Object</span> obj){
+        <span class="type">Class</span>&lt;?&gt; cls = obj.getClass();
+        /**
+         * @param <span class="type">ClassLoader</span> loader loader表示类加载器
+         * @param <span class="type">Class</span>&lt;?&gt;[] interfaces 表示委托类的接口，生成代理类时需要实现这些接口
+         * @param <span class="type">InvocationHandler</span> invocationHandler h是<span class="type">InvocationHandler</span>实现类对象，负责连接代理类和委托类的中间类
+         */
+        <span class="keyword">return</span> <span class="type">Proxy</span>.newProxyInstance(cls.getClassLoader(),cls.getInterfaces(),new <span class="type">ProxyInvocationHandler</span>(obj));
+    }
+
+
+    private <span class="type">void</span> doBefore() {
+        <span class="type">System</span>.<span class="keyword">out</span>.print(<span class="string">"doBefore"</span>);
+    }
+
+    private <span class="type">void</span> doAfter() {
+        <span class="type">System</span>.<span class="keyword">out</span>.print(<span class="string">"doAfter"</span>);
+    }
+}
+</code></pre><p>3.通过 Proxy 类静态函数生成代理对象</p>
+<pre><code>/<span class="keyword">*</span><span class="keyword">*</span>
+ <span class="keyword">*</span> 工厂
+ <span class="keyword">*</span> <span class="comment">@param obj</span>
+ <span class="keyword">*</span> <span class="comment">@return</span>
+ <span class="keyword">*</span>/
+public static  Object factory(Object obj){
+    Class<span class="variable">&lt;?&gt;</span> cls = obj.getClass();
+    /<span class="keyword">*</span><span class="keyword">*</span>
+    <span class="keyword">*</span> <span class="comment">@param ClassLoader loader loader表示目标对象的类加载器</span>
+    <span class="keyword">*</span> <span class="comment">@param Class&lt;?&gt;[] interfaces 表示目标对象的接口，生成代理类时需要实现这些接口</span>
+    <span class="keyword">*</span> <span class="comment">@param InvocationHandler invocationHandler h是InvocationHandler实现类对象，负责连接代理类和委托类的中间类</span>
+    <span class="keyword">*</span>/
+    return Proxy.newProxyInstance(cls.getClassLoader(),cls.getInterfaces(),new ProxyInvocationHandler(obj));
+}
+</code></pre><p>4.调用：</p>
+<pre><code><span class="keyword">private</span> void getDynamicProxy<span class="literal">()</span> {
+    <span class="type">CommonInterImp</span> commonInterImp = <span class="keyword">new</span> <span class="type">CommonInterImp</span><span class="literal">()</span>;
+    <span class="type">CommonInter</span> tiny = (<span class="type">CommonInter</span>)<span class="type">ProxyInvocationHandler</span>.factory(commonInterImp);
+    tiny.doString<span class="literal">()</span>;
+}
+</code></pre><h3 id="2-5_动态代理在Android中应用的本质">2.5 动态代理在Android中应用的本质</h3><p>所接触到的开源项目中,动态代理都是为封装代码而存在，它将我们需求完成的操作，都通过一句话调用完成：</p>
+<p>比如原始HTTP请求Retrofit</p>
+<blockquote>
+<p>拼接请求 —URL发送HTTP请求—获取JSON —解析JSON为Bean对象 —&gt;显示数据</p>
+</blockquote>
+<p>Retrofit的动态代理封装了:</p>
+<blockquote>
+<p>URL发送HTTP请求—&gt; 获取JSON —&gt; 解析JSON为Bean对象</p>
+</blockquote>
+<p>变成:</p>
+<blockquote>
+<p>拼接请求 — Retrofit 动态代理 invoke() 完成 通用操作 —&gt;显示数据</p>
+</blockquote>
+<p>当你调用Retrofit时你要完成的只不过是拼接请求,而后Retrofit的动态代理invoke中完成<br>“使用OKHttp完成网络请求，获取JSON并解析为Bean对象返回”的操作.</p>
+<p>最终目的是为了：“代码结构的简化,封装优良调用”的目的.</p>
+</span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/2015/12/02/ZT12_1/" itemprop="url">
                 【正谈12月】取之于开源,必回归于开源
               </a>
@@ -202,11 +472,11 @@
 Properties properties = <span class="keyword">new</span> Properties()
 properties.load(<span class="keyword">project</span>.rootProject.<span class="keyword">file</span>(<span class="string">'local.properties'</span>).newDataInputStream())
 
-version = <span class="string">"1.0.0"</span><span class="comment">//发布的library的版本号</span>
+version = <span class="string">"1.0.0"</span><span class="comment">//发布的library的版本号,这个比较关键！！！</span>
 
-<span class="keyword">def</span> siteUrl = <span class="string">'https://github.com/meilishenqi/GradeBar'</span>      <span class="comment">// 项目的主页(可随意)</span>
-<span class="keyword">def</span> gitUrl = <span class="string">'https://github.com/meilishenqi/GradeBar'</span>      <span class="comment">// Git仓库的url(可碎语)</span>
-<span class="keyword">group</span> = <span class="string">"com.mlm.gradebar"</span>    <span class="comment">// 这里是groupId ,必须填写  一般填唯一的包名</span>
+<span class="keyword">def</span> siteUrl = <span class="string">'https://github.com/meilishenqi/GradeBar'</span>      <span class="comment">// 项目的主页(可随意，建议填library的github地址)</span>
+<span class="keyword">def</span> gitUrl = <span class="string">'https://github.com/meilishenqi/GradeBar'</span>      <span class="comment">// Git仓库的url(可随意，建议填library的github地址)</span>
+<span class="keyword">group</span> = <span class="string">"com.mlm.gradebar"</span>    <span class="comment">// 这里是groupId ,必须填写(建议填唯一的包名)</span>
 
 bintray {
     user = properties.getProperty(<span class="string">"bintray.user"</span>) <span class="comment">//读取 local.properties 文件里面的 bintray.user</span>
@@ -232,7 +502,7 @@ bintray {
             <span class="keyword">project</span> {
                 packaging <span class="string">'aar'</span>
                 // <span class="keyword">Add</span> your description here
-                <span class="keyword">name</span> <span class="string">'Android BounceProgressBar Widget'</span>     //项目描述
+                <span class="keyword">name</span> <span class="string">'The library is a custom view about "Personal center consumption points" in our old version app'</span>     //项目描述
                 <span class="keyword">url</span> siteUrl
                 // <span class="keyword">Set</span> your license
                 licenses {
@@ -243,9 +513,9 @@ bintray {
                 }
                 developers {
                     developer {
-                        <span class="keyword">id</span> <span class="string">'zhaoyanjun'</span>        //填写开发者的一些基本信息
-                        <span class="keyword">name</span> <span class="string">'zhaoyanjun'</span>    //填写开发者的一些基本信息
-                        email <span class="string">'1643915516@qq.com'</span>   //填写开发者的一些基本信息
+                        <span class="keyword">id</span> <span class="string">'xiaomeixw'</span>        //开发者的基本信息(建议填自己名称)
+                        <span class="keyword">name</span> <span class="string">'xiaomeixw'</span>    //开发者基本信息(建议填自己名称)
+                        email <span class="string">'jpxw007@gmail.com'</span>   //开发者基本信息(建议填自己名称)
                     }
                 }
                 scm {
@@ -262,7 +532,7 @@ bintray {
 </code></pre><p><img src="http://i.imgur.com/8VHsif4.png" alt=""></p>
 <pre><code><span class="label">gradlew</span> <span class="keyword">bintrayUpload </span>
 </code></pre><p><img src="http://i.imgur.com/oslP3wf.png" alt=""></p>
-<p>然后再bintray中查看：</p>
+<p>然后在bintray中查看：</p>
 <p><img src="http://i.imgur.com/t2Ojkon.png" alt=""></p>
 <p>6.点击Add to JCenter 添加到JCenter,然后填写信息</p>
 <p><img src="http://i.imgur.com/FzNLPWu.png" alt=""></p>
@@ -294,9 +564,9 @@ bintray {
                 }
                 developers {
                     developer {
-                        <span class="keyword">id</span> <span class="string">'xiaomeixw'</span>        //填写开发者的一些基本信息
-                        <span class="keyword">name</span> <span class="string">'xiaomeixw'</span>    //填写开发者的一些基本信息
-                        email <span class="string">'jpxw007@gmail.com'</span>   //填写开发者的一些基本信息
+                        <span class="keyword">id</span> <span class="string">'xiaomeixw'</span>        //开发者基本信息
+                        <span class="keyword">name</span> <span class="string">'xiaomeixw'</span>    //开发者基本信息
+                        email <span class="string">'jpxw007@gmail.com'</span>   //开发者基本信息
                     }
                 }
                 scm {
@@ -311,7 +581,7 @@ bintray {
 </code></pre><p>然后命令行重新：</p>
 <pre><code>gradlew <span class="keyword">install</span>
 </code></pre><p>问题：2 在cmd或者Android的命令行中运行gradlew install</p>
-<p>FAILURE: Build failed with an exception.  编码问题</p>
+<p>FAILURE: Build failed with an exception.  提示出现编码问题</p>
 <p><img src="http://i.imgur.com/wmxE2dP.png" alt=""></p>
 <p>解决方案：library的build.gradle中添加：</p>
 <pre><code><span class="comment">//</span>
@@ -328,7 +598,175 @@ javadoc {
         links <span class="string">"http://docs.oracle.com/javase/7/docs/api"</span>
     }
 }
-</code></pre></span>
+</code></pre><p>问题：3 Add To JCenter被拒绝<br>bintray需要四个基本文件才可以提供上传到JCenter服务：</p>
+<p><img src="http://i.imgur.com/8qv5q7v.png" alt=""></p>
+<ul>
+<li><em>pom.xml</em></li>
+<li><em>.aar file</em></li>
+<li><em>sources jar</em></li>
+<li><em>javadoc jar</em></li>
+</ul>
+<p><img src="http://i.imgur.com/ojjA6ZW.png" alt=""><br>但我第一个上传的版本只有2个文件，还需要sources.jar和javadoc.jar</p>
+<p>解决方案在library的build.gradle中添加相关gradle的任务：</p>
+<p><a href="http://stackoverflow.com/questions/11474729/how-to-build-sources-jar-with-gradle" target="_blank" rel="external">http://stackoverflow.com/questions/11474729/how-to-build-sources-jar-with-gradle</a></p>
+<p>添加生成source.jar 任务：</p>
+<pre><code><span class="keyword">task</span> sourcesJar(type: Jar) {
+    <span class="keyword">from</span> android.<span class="keyword">sourceSets</span>.main.java.srcDirs
+    classifier = <span class="string">'sources'</span>
+}
+</code></pre><p>添加生成javadoc.jar 任务：</p>
+<pre><code><span class="keyword">task</span> javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = <span class="string">'javadoc'</span>
+    <span class="keyword">from</span> javadoc.<span class="keyword">destinationDir</span>
+}
+</code></pre><p>最后：</p>
+<pre><code><span class="title">artifacts</span> {
+    <span class="title">archives</span> javadocJar
+    archives sourcesJar
+}
+</code></pre><p>再次重新 </p>
+<pre><code>gradlew <span class="keyword">install</span>
+</code></pre><p>然后上传</p>
+<pre><code><span class="label">gradlew</span> <span class="keyword">bintrayUpload </span>
+</code></pre><p>如果这次运行提示：</p>
+<ul>
+<li>What went wrong:<br>Execution failed for task ‘:library:bintrayUpload’.<br>org.apache.http.conn.HttpHostConnectException: Connection to <a href="https://api.bintray.com" target="_blank" rel="external">https://api.bintray.com</a> refused</li>
+</ul>
+<p>很简单,删除bintray上第一次上传的，然后重新上传运行一次.</p>
+<p><img src="http://i.imgur.com/ekharB3.png" alt=""></p>
+<p>然后Add To JCenter就可以了</p>
+<p>最后附录library的完整build.gradle</p>
+<pre><code>apply plugin: <span class="string">'com.android.library'</span>
+apply plugin: <span class="string">'com.jfrog.bintray'</span><span class="comment">//improtant</span>
+apply plugin: <span class="string">'com.github.dcendents.android-maven'</span><span class="comment">//for javadoc-task</span>
+
+
+android {
+    compileSdkVersion <span class="number">22</span>
+    buildToolsVersion <span class="string">"22.0.1"</span>
+
+    defaultConfig {
+        minSdkVersion <span class="number">14</span>
+        targetSdkVersion <span class="number">22</span>
+        versionCode <span class="number">1</span>
+        versionName <span class="string">"1.0"</span>
+    }
+    buildTypes {
+        release {
+            minifyEnabled <span class="keyword">false</span>
+            proguardFiles getDefaultProguardFile(<span class="string">'proguard-android.txt'</span>), <span class="string">'proguard-rules.pro'</span>
+        }
+    }
+}
+
+<span class="keyword">dependencies</span> {
+    <span class="keyword">compile</span> <span class="keyword">fileTree</span>(dir: <span class="string">'libs'</span>, <span class="keyword">include</span>: [<span class="string">'*.jar'</span>])
+}
+
+<span class="comment">//important</span>
+<span class="keyword">task</span> javadoc(type: Javadoc) {
+    <span class="keyword">source</span> = android.<span class="keyword">sourceSets</span>.main.java.srcDirs
+    <span class="keyword">classpath</span> += <span class="keyword">project</span>.files(android.getBootClasspath().<span class="keyword">join</span>(<span class="keyword">File</span>.pathSeparator))
+}
+javadoc {
+    <span class="keyword">options</span>{
+        encoding <span class="string">"UTF-8"</span>
+        charSet <span class="string">'UTF-8'</span>
+        author <span class="keyword">true</span>
+        version <span class="keyword">true</span>
+        links <span class="string">"http://docs.oracle.com/javase/7/docs/api"</span>
+    }
+}
+
+<span class="comment">//important 自动生成pom.xml文件</span>
+version = <span class="string">"1.0.0"</span><span class="comment">//发布的library的版本号</span>
+
+<span class="keyword">def</span> siteUrl = <span class="string">'https://github.com/meilishenqi/GradeBar'</span>      <span class="comment">// 项目的主页(可随意)</span>
+<span class="keyword">def</span> gitUrl = <span class="string">'https://github.com/meilishenqi/GradeBar'</span>      <span class="comment">// Git仓库的url(可随意)</span>
+<span class="keyword">group</span> = <span class="string">"com.mlm.gradebar"</span>    <span class="comment">// 这里是groupId ,必须填写(建议填包名)</span>
+
+install {
+    <span class="keyword">repositories</span>.mavenInstaller {
+        <span class="comment">// This generates POM.xml with proper parameters</span>
+        pom {
+            <span class="keyword">project</span> {
+                packaging <span class="string">'aar'</span>
+                <span class="comment">// Add your description here</span>
+                name <span class="string">'The library is a custom view about "Personal center consumption points" in our old version app'</span>     <span class="comment">//项目描述</span>
+                url siteUrl
+                <span class="comment">// Set your license</span>
+                licenses {
+                    license {
+                        name <span class="string">'The Apache Software License, Version 2.0'</span>
+                        url <span class="string">'http://www.apache.org/licenses/LICENSE-2.0.txt'</span>
+                    }
+                }
+                developers {
+                    developer {
+                        id <span class="string">'xiaomeixw'</span>        <span class="comment">//开发者基本信息</span>
+                        name <span class="string">'xiaomeixw'</span>    <span class="comment">//开发者基本信息</span>
+                        email <span class="string">'jpxw007@gmail.com'</span>   <span class="comment">//开发者基本信息</span>
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+
+<span class="comment">//生成source.jar</span>
+<span class="keyword">task</span> sourcesJar(type: Jar) {
+    <span class="keyword">from</span> android.<span class="keyword">sourceSets</span>.main.java.srcDirs
+    classifier = <span class="string">'sources'</span>
+}
+
+<span class="comment">//生成javadocJar</span>
+<span class="keyword">task</span> javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = <span class="string">'javadoc'</span>
+    <span class="keyword">from</span> javadoc.<span class="keyword">destinationDir</span>
+}
+
+<span class="keyword">artifacts</span> {
+    archives sourcesJar
+    archives javadocJar
+}
+
+
+
+<span class="comment">//important读取 local.properties 文件里面的 bintray.user和bintray.apikey</span>
+Properties properties = <span class="keyword">new</span> Properties()
+properties.load(<span class="keyword">project</span>.rootProject.<span class="keyword">file</span>(<span class="string">'local.properties'</span>).newDataInputStream())
+
+
+bintray {
+    user = properties.getProperty(<span class="string">"bintray.user"</span>)
+    key = properties.getProperty(<span class="string">"bintray.apikey"</span>)
+
+    <span class="keyword">configurations</span> = [<span class="string">'archives'</span>]
+    pkg {
+        repo = <span class="string">"maven"</span>
+        <span class="keyword">group</span> = <span class="keyword">group</span>
+        name = <span class="string">"gradebar"</span><span class="comment">//发布到JCenter上的项目名字，必须填写</span>
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = [<span class="string">"Apache-2.0"</span>]
+        publish = <span class="keyword">true</span>
+    }
+}
+</code></pre><p>问题四：gradlew install 和 gradlew bintrayUpload 每次都要运行吗？</p>
+<p>不是，gradlew install只在第一次运行,如果你提供了完整了四个文件，就无需再运行.</p>
+<p>如果要更新version,只需要修改library的build.grade的</p>
+<pre><code><span class="keyword">version</span> = <span class="string">"1.0.0"</span><span class="comment">//发布的library的版本号</span>
+</code></pre><p>为</p>
+<pre><code><span class="keyword">version</span> = <span class="string">"1.0.1"</span><span class="comment">//发布的library的版本号</span>
+</code></pre><p>然后</p>
+<pre><code><span class="label">gradlew</span> <span class="keyword">bintrayUpload </span>
+</code></pre><p>就可以了，发布完成，也不需要 add jcenter, bintray会自动帮你更新version.</p>
+</span>
         
       
     </div>
@@ -1587,116 +2025,6 @@ vpi_attrs.xml
 
 
     
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2015/09/10/OP9_1/" itemprop="url">
-                【正谈9月】Open-Source-Android
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2015-09-10T23:23:12+08:00" content="2015-09-10">
-            2015-09-10
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>OpenAndroid:</p>
-<p>总结所有自己已知或使用过的Android解决方案：</p>
-<p>1.Image图片处理框架：</p>
-<p>Android-Universal-Image-Loader:</p>
-<p>&emsp;&emsp;<a href="https://github.com/nostra13/Android-Universal-Image-Loader">https://github.com/nostra13/Android-Universal-Image-Loader</a></p>
-<p>Picasso</p>
-<p>&emsp;&emsp;<a href="https://github.com/square/picasso">https://github.com/square/picasso</a></p>
-<p>Afinal</p>
-<p>&emsp;&emsp;<a href="https://github.com/yangfuhai/afinal">https://github.com/yangfuhai/afinal</a></p>
-<p>Glide</p>
-<p>&emsp;&emsp;<a href="https://github.com/bumptech/glide">https://github.com/bumptech/glide</a></p>
-<p>Fresco</p>
-<p>&emsp;&emsp;<a href="https://github.com/facebook/fresco">https://github.com/facebook/fresco</a></p>
-<p>2.EventBus替代callback接口回调的事件处理与沟通</p>
-<p>EventBus</p>
-<p>&emsp;&emsp;<a href="https://github.com/greenrobot/EventBus">https://github.com/greenrobot/EventBus</a></p>
-<p>Otto</p>
-<p>&emsp;&emsp;<a href="https://github.com/square/otto">https://github.com/square/otto</a></p>
-<p>RxJava</p>
-<p>&emsp;&emsp;<a href="https://github.com/ReactiveX/RxJava">https://github.com/ReactiveX/RxJava</a></p>
-<p>RxAndroid</p>
-<p>&emsp;&emsp;<a href="https://github.com/ReactiveX/RxAndroid">https://github.com/ReactiveX/RxAndroid</a></p>
-<p>tinybus</p>
-<p>&emsp;&emsp;<a href="https://github.com/beworker/tinybus">https://github.com/beworker/tinybus</a></p>
-<p>3.Network 网络请求</p>
-<p>volley</p>
-<p>&emsp;&emsp;<a href="https://github.com/mcxiaoke/android-volley">https://github.com/mcxiaoke/android-volley</a></p>
-<p>android-async-http</p>
-<p>&emsp;&emsp;<a href="https://github.com/loopj/android-async-http">https://github.com/loopj/android-async-http</a></p>
-<p>okhttp</p>
-<p>&emsp;&emsp;<a href="https://github.com/square/okhttp">https://github.com/square/okhttp</a></p>
-<p>retrofit</p>
-<p>&emsp;&emsp;<a href="https://github.com/square/retrofit">https://github.com/square/retrofit</a></p>
-<p>wasp</p>
-<p>&emsp;&emsp;<a href="https://github.com/orhanobut/wasp">https://github.com/orhanobut/wasp</a></p>
-<p>4.Injector注解</p>
-<p>Dagger</p>
-<p>&emsp;&emsp;<a href="https://github.com/square/dagger">https://github.com/square/dagger</a></p>
-<p>AndroidAnnotations </p>
-<p>&emsp;&emsp;<a href="https://github.com/excilys/androidannotations">https://github.com/excilys/androidannotations</a></p>
-<p>ButterKnife</p>
-<p>&emsp;&emsp;<a href="https://github.com/JakeWharton/butterknife">https://github.com/JakeWharton/butterknife</a></p>
-<p>5.Test测试</p>
-<p>android-testing-templates</p>
-<p>&emsp;&emsp;<a href="https://github.com/googlesamples/android-testing-templates/tree/master/AndroidTestingBlueprint">https://github.com/googlesamples/android-testing-templates/tree/master/AndroidTestingBlueprint</a></p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/09/10/OP9_1/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1736,7 +2064,7 @@ vpi_attrs.xml
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">19</span>
+              <span class="site-state-item-count">20</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

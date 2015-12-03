@@ -1,0 +1,811 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+    
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.4"/>
+
+
+    <meta name="description" content="重新发现、定义并创造这个世界..." />
+
+
+
+  <meta name="keywords" content="Hexo,next" />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
+
+
+<meta name="description" content="一.代理模式###1.1 概念
+
+对其他对象提供一种代理以控制对这个对象的访问
+浅显理解一下：  
+A 需要访问 C 
+—&amp;gt;  
+A 通过 B 间接访问 到C
+其中的代理B和目标对象C都是实现同一个接口，因此他们可以都彼此了解。
+在某些情况下，一个客户不想或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作用。表面上客户是在访问代理对象，实际代理对象中访问中调用的是目">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【正谈12月】动态代理范式编程-Part1">
+<meta property="og:url" content="http://yoursite.com/2015/12/03/ZT12_2/index.html">
+<meta property="og:site_name" content="sabria">
+<meta property="og:description" content="一.代理模式###1.1 概念
+
+对其他对象提供一种代理以控制对这个对象的访问
+浅显理解一下：  
+A 需要访问 C 
+—&amp;gt;  
+A 通过 B 间接访问 到C
+其中的代理B和目标对象C都是实现同一个接口，因此他们可以都彼此了解。
+在某些情况下，一个客户不想或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作用。表面上客户是在访问代理对象，实际代理对象中访问中调用的是目">
+<meta property="og:image" content="http://i.imgur.com/FBNavuM.jpg">
+<meta property="og:image" content="http://i.imgur.com/UZEHkFf.png">
+<meta property="og:updated_time" content="2015-12-03T13:32:17.148Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【正谈12月】动态代理范式编程-Part1">
+<meta name="twitter:description" content="一.代理模式###1.1 概念
+
+对其他对象提供一种代理以控制对这个对象的访问
+浅显理解一下：  
+A 需要访问 C 
+—&amp;gt;  
+A 通过 B 间接访问 到C
+其中的代理B和目标对象C都是实现同一个接口，因此他们可以都彼此了解。
+在某些情况下，一个客户不想或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作用。表面上客户是在访问代理对象，实际代理对象中访问中调用的是目">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'hide'
+  };
+</script>
+
+    <title> 【正谈12月】动态代理范式编程-Part1 // sabria </title>
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+
+
+
+<div class="container one-column page-post-detail">
+    <div class="headband"></div>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">sabria</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+        </div>
+    </header>
+
+    <main id="main" class="main">
+        <div class="main-inner">
+            <div id="content" class="content">
+                
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              【正谈12月】动态代理范式编程-Part1
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-12-03T21:32:48+08:00" content="2015-12-03">
+            2015-12-03
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h2 id="一-代理模式">一.代理模式</h2><p>###1.1 概念</p>
+<p><img src="http://i.imgur.com/FBNavuM.jpg" alt=""></p>
+<p>对其他对象提供一种代理以控制对这个对象的访问</p>
+<p>浅显理解一下：  </p>
+<pre><code><span class="literal">A</span> 需要访问 C 
+</code></pre><p>—&gt;  </p>
+<pre><code>A 通过 <span class="keyword">B </span>间接访问 到C
+</code></pre><p>其中的代理B和目标对象C都是实现同一个接口，因此他们可以都彼此了解。</p>
+<p>在某些情况下，一个客户不想或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作用。表面上客户是在访问代理对象，实际代理对象中访问中调用的是目标对象的方法。</p>
+<h3 id="2-操作方案：">2.操作方案：</h3><p><img src="http://i.imgur.com/UZEHkFf.png" alt=""></p>
+<p>1.定义一个共同型接口</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">CommonInter</span>{                    
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSting</span>(<span class="params"></span>)</span>;        
+} 
+</code></pre><p>2.实际目标对象</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommonInterImp</span>  <span class="keyword">implements</span> <span class="title">CommonInter</span></span>{  
+
+    <span class="annotation">@Override</span>  
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSting</span><span class="params">()</span> </span>{  
+        System.out.println(<span class="string">"CommonInterImp"</span>);                
+    }  
+
+}      
+</code></pre><p>3.创建代理对象</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommProxy</span> <span class="keyword">implements</span> <span class="title">CommonInter</span> </span>{  
+
+    <span class="comment">//多态--持有接口实现对象的引用</span>
+    <span class="keyword">private</span> CommonInter commonInter;  
+
+    <span class="function"><span class="keyword">public</span> <span class="title">CommProxy</span><span class="params">()</span></span>{
+        <span class="comment">//默认是实现类commonInterImp</span>
+        <span class="keyword">this</span>.commonInter = <span class="keyword">new</span> commonInterImp();  
+    }  
+
+    <span class="function"><span class="keyword">public</span> <span class="title">CommProxy</span><span class="params">(CommonInter commonInter)</span></span>{ 
+        <span class="comment">//其他的任何一个实现类 </span>
+        <span class="keyword">this</span>.commonInter = commonInter;  
+    }  
+
+    <span class="annotation">@Override</span>  
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSting</span><span class="params">()</span> </span>{  
+        <span class="comment">//实际调用的是目标对象的doSting();              </span>
+        <span class="keyword">this</span>.commonInter.doSting();  
+
+    }        
+}
+</code></pre><p>4.调用</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>{
+     <span class="comment">//创建代理对象  </span>
+     CommProxy proxy = <span class="keyword">new</span> CommProxy();  
+     <span class="comment">//表面调用代理对象的方法，实际上代理中是调用的目标对象的方法  </span>
+     proxy.doSting();  
+}
+</code></pre><h2 id="二-动态代理">二.动态代理</h2><h3 id="2-1_概念">2.1 概念</h3><p>在某些情况下，我们A不希望或是不能直接访问对象 C，而是通过访问一个中介对象 B，由 B 去访问 C 达成目的，这种方式我们就称为代理。</p>
+<ul>
+<li><em>A：工作对象(Client)</em></li>
+<li><em>B：代理类(Proxy)</em></li>
+<li><em>C：被代理类，委托类，目标对象(RealObject)</em></li>
+</ul>
+<p>代理优点有：</p>
+<pre><code><span class="number">1.</span>隐藏目标对象的实现
+<span class="number">2.</span>解耦，不改变目标对象代码情况下做一些额外处理，比如添加初始判断及其他公共操作.
+</code></pre><p>一个非常典型的使用场景比如：<br>代理类：</p>
+<pre><code><span class="keyword">class</span> <span class="title">CommProxy</span> <span class="title">implements</span> <span class="title">CommInter</span>  {  
+    <span class="keyword">private</span> CommonInter impl;
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSting</span>(<span class="params"></span>)  </span>{  
+        <span class="keyword">if</span> (impl==<span class="keyword">null</span>)  {  
+            impl = <span class="keyword">new</span> commonInterImp();  
+        }  
+        doBefore();  
+        impl.doSting();  
+        doAfter();  
+    }  
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doBefore</span>(<span class="params"></span>)  </span>{  
+        System.<span class="keyword">out</span>.println(<span class="string">"前置处理！"</span>);  
+    }  
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doAfter</span>(<span class="params"></span>)  </span>{  
+        System.<span class="keyword">out</span>.println(<span class="string">"后置处理！"</span>);  
+    }  
+}
+</code></pre><p>静态代理：代理类在程序运行前已经存在的代理方式称为静态代理。</p>
+<p>动态代理：代理类在程序运行前不存在、运行时由程序动态生成的代理方式称为动态代理。</p>
+<h3 id="2-2_实现动态代理包括三步：">2.2 实现动态代理包括三步：</h3><p>(1). 新建目标对象；</p>
+<p>(2). 实现InvocationHandler接口，这是负责连接代理类和目标对象的中间类必须实现的接口；</p>
+<p>(3). 通过Proxy类新建代理类对象。</p>
+<p>本质：<br>动态代理实现实际是双层的静态代理，开发者提供了目标对象C，程序动态生成了代理类 A：$Proxy。开发者还需要提供一个实现了InvocationHandler的子类 B。B它其实是连接程序自动生成的动态代理类 A 和目标对象 C</p>
+<p>工作对象—》调用程序生成的动态代理A—》调用链接子类B—》目标对象C</p>
+<h3 id="2-3_几个API参数的含义：">2.3 几个API参数的含义：</h3><p>1.public Object invoke(Object proxy, Method method, Object[] args)  </p>
+<pre><code>* <span class="variable">@param</span> proxy 在其上调用方法的代理实例,通过 Proxy.<span class="function">newProxyInstance</span>() 生成的代理类对象：&amp;Proxy
+* <span class="variable">@param</span> method 对应于在代理对象&amp;Proxy上调用的接口方法的 Method 实例
+* <span class="variable">@param</span> args &amp;Proxy对象的method的参数，如果没有，设为null
+</code></pre><p>2.Object result = method.invoke(obj,args);  </p>
+<pre><code>* <span class="variable">@param</span> Object receiver 执行这个方法的对象owner,一般创建动态代理时指定的目标对象
+* <span class="variable">@param</span> Object... args 方法上的参数
+</code></pre><p>3.Proxy.newProxyInstance(cls.getClassLoader(),cls.getInterfaces(),new ProxyInvocationHandler(obj));  </p>
+<pre><code>* <span class="variable">@param</span> ClassLoader loader loader表示目标对象的类加载器
+* <span class="variable">@param</span> Class&lt;?&gt;[] interfaces interfaces表示目标对象的接口，生成代理类时需要实现这些接口
+* <span class="variable">@param</span> InvocationHandler h是InvocationHandler实现类对象，负责连接动态代理类和目标对象的中间类
+</code></pre><h3 id="2-4_动态代理范例：">2.4 动态代理范例：</h3><p>1.新建目标对象：</p>
+<pre><code><span class="comment">//共同接口对象</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">CommonInter</span> </span>{
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doString</span><span class="params">()</span></span>;
+}
+
+<span class="comment">//目标对象</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommonInterImp</span> <span class="keyword">implements</span> <span class="title">CommonInter</span></span>{
+    <span class="annotation">@Override</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doString</span><span class="params">()</span> </span>{
+        System.out.print(<span class="string">"CommonInterImp---doString()"</span>);
+
+    }
+}    
+</code></pre><p>2.动态角色实现InvocationHandler 接口，它将动态生成代理类。</p>
+<pre><code>public class <span class="type">ProxyInvocationHandler</span> implements <span class="type">InvocationHandler</span>{
+
+    private <span class="type">Object</span> obj;
+
+    /**
+     * 这里传进来的就是目标对象,它要去调用invoke方法
+     * @param obj
+     */
+    <span class="type">ProxyInvocationHandler</span>(<span class="type">Object</span> obj){
+        this.obj=obj;
+    }
+
+
+    /**
+     *
+     * @param proxy   在其上调用方法的代理实例,通过 <span class="type">Proxy</span>.newProxyInstance() 生成的代理类对象
+     * @param <span class="keyword">method</span>  代理对象被调用的函数
+     * @param args    代理对象被调用的函数的参数，如果没有，设为null
+     * @<span class="keyword">return</span>
+     * @throws <span class="type">Throwable</span>
+     */
+    @<span class="type">Override</span>
+    public <span class="type">Object</span> invoke(<span class="type">Object</span> proxy, <span class="type">Method</span> <span class="keyword">method</span>, <span class="type">Object</span>[] args) throws <span class="type">Throwable</span> {
+        //前置操作
+        doBefore();
+        /**
+         * @param <span class="type">Object</span> receiver 执行这个方法的对象owner,一般创建动态代理时指定的目标对象
+         * @param <span class="type">Object</span>... args 方法上的参数
+         */
+        <span class="type">Object</span> <span class="literal">result</span>=<span class="keyword">method</span>.invoke(obj,args);
+        //后置操作
+        doAfter();
+        <span class="keyword">return</span> <span class="literal">result</span>;
+    }
+
+    /**
+     * 工厂
+     * @param obj
+     * @<span class="keyword">return</span>
+     */
+    public <span class="keyword">static</span>  <span class="type">Object</span> factory(<span class="type">Object</span> obj){
+        <span class="type">Class</span>&lt;?&gt; cls = obj.getClass();
+        /**
+         * @param <span class="type">ClassLoader</span> loader loader表示类加载器
+         * @param <span class="type">Class</span>&lt;?&gt;[] interfaces 表示委托类的接口，生成代理类时需要实现这些接口
+         * @param <span class="type">InvocationHandler</span> invocationHandler h是<span class="type">InvocationHandler</span>实现类对象，负责连接代理类和委托类的中间类
+         */
+        <span class="keyword">return</span> <span class="type">Proxy</span>.newProxyInstance(cls.getClassLoader(),cls.getInterfaces(),new <span class="type">ProxyInvocationHandler</span>(obj));
+    }
+
+
+    private <span class="type">void</span> doBefore() {
+        <span class="type">System</span>.<span class="keyword">out</span>.print(<span class="string">"doBefore"</span>);
+    }
+
+    private <span class="type">void</span> doAfter() {
+        <span class="type">System</span>.<span class="keyword">out</span>.print(<span class="string">"doAfter"</span>);
+    }
+}
+</code></pre><p>3.通过 Proxy 类静态函数生成代理对象</p>
+<pre><code>/<span class="keyword">*</span><span class="keyword">*</span>
+ <span class="keyword">*</span> 工厂
+ <span class="keyword">*</span> <span class="comment">@param obj</span>
+ <span class="keyword">*</span> <span class="comment">@return</span>
+ <span class="keyword">*</span>/
+public static  Object factory(Object obj){
+    Class<span class="variable">&lt;?&gt;</span> cls = obj.getClass();
+    /<span class="keyword">*</span><span class="keyword">*</span>
+    <span class="keyword">*</span> <span class="comment">@param ClassLoader loader loader表示目标对象的类加载器</span>
+    <span class="keyword">*</span> <span class="comment">@param Class&lt;?&gt;[] interfaces 表示目标对象的接口，生成代理类时需要实现这些接口</span>
+    <span class="keyword">*</span> <span class="comment">@param InvocationHandler invocationHandler h是InvocationHandler实现类对象，负责连接代理类和委托类的中间类</span>
+    <span class="keyword">*</span>/
+    return Proxy.newProxyInstance(cls.getClassLoader(),cls.getInterfaces(),new ProxyInvocationHandler(obj));
+}
+</code></pre><p>4.调用：</p>
+<pre><code><span class="keyword">private</span> void getDynamicProxy<span class="literal">()</span> {
+    <span class="type">CommonInterImp</span> commonInterImp = <span class="keyword">new</span> <span class="type">CommonInterImp</span><span class="literal">()</span>;
+    <span class="type">CommonInter</span> tiny = (<span class="type">CommonInter</span>)<span class="type">ProxyInvocationHandler</span>.factory(commonInterImp);
+    tiny.doString<span class="literal">()</span>;
+}
+</code></pre><h3 id="2-5_动态代理在Android中应用的本质">2.5 动态代理在Android中应用的本质</h3><p>所接触到的开源项目中,动态代理都是为封装代码而存在，它将我们需求完成的操作，都通过一句话调用完成：</p>
+<p>比如原始HTTP请求Retrofit</p>
+<blockquote>
+<p>拼接请求 —URL发送HTTP请求—获取JSON —解析JSON为Bean对象 —&gt;显示数据</p>
+</blockquote>
+<p>Retrofit的动态代理封装了:</p>
+<blockquote>
+<p>URL发送HTTP请求—&gt; 获取JSON —&gt; 解析JSON为Bean对象</p>
+</blockquote>
+<p>变成:</p>
+<blockquote>
+<p>拼接请求 — Retrofit 动态代理 invoke() 完成 通用操作 —&gt;显示数据</p>
+</blockquote>
+<p>当你调用Retrofit时你要完成的只不过是拼接请求,而后Retrofit的动态代理invoke中完成<br>“使用OKHttp完成网络请求，获取JSON并解析为Bean对象返回”的操作.</p>
+<p>最终目的是为了：“代码结构的简化,封装优良调用”的目的.</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/12/02/ZT12_1/" rel="next">【正谈12月】取之于开源,必回归于开源</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+            </div>
+
+            
+
+            
+              <div class="comments" id="comments">
+                
+              </div>
+            
+        </div>
+
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/avatar.jpg" alt="熊伟xiongwei" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">熊伟xiongwei</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">重新发现、定义并创造这个世界...</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">20</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xiaomeixw" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.sabria.net/" target="_blank">anotherblog</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/1561605537" target="_blank">weibo</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-代理模式"><span class="nav-number">1.</span> <span class="nav-text">一.代理模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-操作方案："><span class="nav-number">1.1.</span> <span class="nav-text">2.操作方案：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-动态代理"><span class="nav-number">2.</span> <span class="nav-text">二.动态代理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1_概念"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2_实现动态代理包括三步："><span class="nav-number">2.2.</span> <span class="nav-text">2.2 实现动态代理包括三步：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3_几个API参数的含义："><span class="nav-number">2.3.</span> <span class="nav-text">2.3 几个API参数的含义：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4_动态代理范例："><span class="nav-number">2.4.</span> <span class="nav-text">2.4 动态代理范例：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5_动态代理在Android中应用的本质"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 动态代理在Android中应用的本质</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">熊伟xiongwei</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+        </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+</div>
+
+<script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.4"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.4"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.4" id="motion.global"></script>
+
+
+
+  <script type="text/javascript" src="/js/search-toggle.js"></script>
+
+
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.4" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (CONFIG.sidebar === 'always') {
+            displaySidebar();
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+<!-- lazyload -->
+<script type="text/javascript" src="/js/lazyload.js"></script>
+<script type="text/javascript">
+    jQuery(function () {
+        jQuery("#posts img").lazyload({
+            placeholder: "/images/loading.gif",
+            effect: "fadeIn"
+        });
+    });
+</script>
+</body>
+</html>

@@ -63,7 +63,10 @@
 <meta property="og:image" content="http://i.imgur.com/FzNLPWu.png">
 <meta property="og:image" content="http://i.imgur.com/VcsEvHW.png">
 <meta property="og:image" content="http://i.imgur.com/wmxE2dP.png">
-<meta property="og:updated_time" content="2015-12-02T14:32:08.171Z">
+<meta property="og:image" content="http://i.imgur.com/8qv5q7v.png">
+<meta property="og:image" content="http://i.imgur.com/ojjA6ZW.png">
+<meta property="og:image" content="http://i.imgur.com/ekharB3.png">
+<meta property="og:updated_time" content="2015-12-03T13:35:22.585Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【正谈12月】取之于开源,必回归于开源">
 <meta name="twitter:description" content="优雅的开源代码到Github,并提供Jcenter下载
@@ -223,11 +226,11 @@
 Properties properties = <span class="keyword">new</span> Properties()
 properties.load(<span class="keyword">project</span>.rootProject.<span class="keyword">file</span>(<span class="string">'local.properties'</span>).newDataInputStream())
 
-version = <span class="string">"1.0.0"</span><span class="comment">//发布的library的版本号</span>
+version = <span class="string">"1.0.0"</span><span class="comment">//发布的library的版本号,这个比较关键！！！</span>
 
-<span class="keyword">def</span> siteUrl = <span class="string">'https://github.com/meilishenqi/GradeBar'</span>      <span class="comment">// 项目的主页(可随意)</span>
-<span class="keyword">def</span> gitUrl = <span class="string">'https://github.com/meilishenqi/GradeBar'</span>      <span class="comment">// Git仓库的url(可碎语)</span>
-<span class="keyword">group</span> = <span class="string">"com.mlm.gradebar"</span>    <span class="comment">// 这里是groupId ,必须填写  一般填唯一的包名</span>
+<span class="keyword">def</span> siteUrl = <span class="string">'https://github.com/meilishenqi/GradeBar'</span>      <span class="comment">// 项目的主页(可随意，建议填library的github地址)</span>
+<span class="keyword">def</span> gitUrl = <span class="string">'https://github.com/meilishenqi/GradeBar'</span>      <span class="comment">// Git仓库的url(可随意，建议填library的github地址)</span>
+<span class="keyword">group</span> = <span class="string">"com.mlm.gradebar"</span>    <span class="comment">// 这里是groupId ,必须填写(建议填唯一的包名)</span>
 
 bintray {
     user = properties.getProperty(<span class="string">"bintray.user"</span>) <span class="comment">//读取 local.properties 文件里面的 bintray.user</span>
@@ -253,7 +256,7 @@ bintray {
             <span class="keyword">project</span> {
                 packaging <span class="string">'aar'</span>
                 // <span class="keyword">Add</span> your description here
-                <span class="keyword">name</span> <span class="string">'Android BounceProgressBar Widget'</span>     //项目描述
+                <span class="keyword">name</span> <span class="string">'The library is a custom view about "Personal center consumption points" in our old version app'</span>     //项目描述
                 <span class="keyword">url</span> siteUrl
                 // <span class="keyword">Set</span> your license
                 licenses {
@@ -264,9 +267,9 @@ bintray {
                 }
                 developers {
                     developer {
-                        <span class="keyword">id</span> <span class="string">'zhaoyanjun'</span>        //填写开发者的一些基本信息
-                        <span class="keyword">name</span> <span class="string">'zhaoyanjun'</span>    //填写开发者的一些基本信息
-                        email <span class="string">'1643915516@qq.com'</span>   //填写开发者的一些基本信息
+                        <span class="keyword">id</span> <span class="string">'xiaomeixw'</span>        //开发者的基本信息(建议填自己名称)
+                        <span class="keyword">name</span> <span class="string">'xiaomeixw'</span>    //开发者基本信息(建议填自己名称)
+                        email <span class="string">'jpxw007@gmail.com'</span>   //开发者基本信息(建议填自己名称)
                     }
                 }
                 scm {
@@ -283,7 +286,7 @@ bintray {
 </code></pre><p><img src="http://i.imgur.com/8VHsif4.png" alt=""></p>
 <pre><code><span class="label">gradlew</span> <span class="keyword">bintrayUpload </span>
 </code></pre><p><img src="http://i.imgur.com/oslP3wf.png" alt=""></p>
-<p>然后再bintray中查看：</p>
+<p>然后在bintray中查看：</p>
 <p><img src="http://i.imgur.com/t2Ojkon.png" alt=""></p>
 <p>6.点击Add to JCenter 添加到JCenter,然后填写信息</p>
 <p><img src="http://i.imgur.com/FzNLPWu.png" alt=""></p>
@@ -315,9 +318,9 @@ bintray {
                 }
                 developers {
                     developer {
-                        <span class="keyword">id</span> <span class="string">'xiaomeixw'</span>        //填写开发者的一些基本信息
-                        <span class="keyword">name</span> <span class="string">'xiaomeixw'</span>    //填写开发者的一些基本信息
-                        email <span class="string">'jpxw007@gmail.com'</span>   //填写开发者的一些基本信息
+                        <span class="keyword">id</span> <span class="string">'xiaomeixw'</span>        //开发者基本信息
+                        <span class="keyword">name</span> <span class="string">'xiaomeixw'</span>    //开发者基本信息
+                        email <span class="string">'jpxw007@gmail.com'</span>   //开发者基本信息
                     }
                 }
                 scm {
@@ -332,7 +335,7 @@ bintray {
 </code></pre><p>然后命令行重新：</p>
 <pre><code>gradlew <span class="keyword">install</span>
 </code></pre><p>问题：2 在cmd或者Android的命令行中运行gradlew install</p>
-<p>FAILURE: Build failed with an exception.  编码问题</p>
+<p>FAILURE: Build failed with an exception.  提示出现编码问题</p>
 <p><img src="http://i.imgur.com/wmxE2dP.png" alt=""></p>
 <p>解决方案：library的build.gradle中添加：</p>
 <pre><code><span class="comment">//</span>
@@ -349,7 +352,175 @@ javadoc {
         links <span class="string">"http://docs.oracle.com/javase/7/docs/api"</span>
     }
 }
-</code></pre></span>
+</code></pre><p>问题：3 Add To JCenter被拒绝<br>bintray需要四个基本文件才可以提供上传到JCenter服务：</p>
+<p><img src="http://i.imgur.com/8qv5q7v.png" alt=""></p>
+<ul>
+<li><em>pom.xml</em></li>
+<li><em>.aar file</em></li>
+<li><em>sources jar</em></li>
+<li><em>javadoc jar</em></li>
+</ul>
+<p><img src="http://i.imgur.com/ojjA6ZW.png" alt=""><br>但我第一个上传的版本只有2个文件，还需要sources.jar和javadoc.jar</p>
+<p>解决方案在library的build.gradle中添加相关gradle的任务：</p>
+<p><a href="http://stackoverflow.com/questions/11474729/how-to-build-sources-jar-with-gradle" target="_blank" rel="external">http://stackoverflow.com/questions/11474729/how-to-build-sources-jar-with-gradle</a></p>
+<p>添加生成source.jar 任务：</p>
+<pre><code><span class="keyword">task</span> sourcesJar(type: Jar) {
+    <span class="keyword">from</span> android.<span class="keyword">sourceSets</span>.main.java.srcDirs
+    classifier = <span class="string">'sources'</span>
+}
+</code></pre><p>添加生成javadoc.jar 任务：</p>
+<pre><code><span class="keyword">task</span> javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = <span class="string">'javadoc'</span>
+    <span class="keyword">from</span> javadoc.<span class="keyword">destinationDir</span>
+}
+</code></pre><p>最后：</p>
+<pre><code><span class="title">artifacts</span> {
+    <span class="title">archives</span> javadocJar
+    archives sourcesJar
+}
+</code></pre><p>再次重新 </p>
+<pre><code>gradlew <span class="keyword">install</span>
+</code></pre><p>然后上传</p>
+<pre><code><span class="label">gradlew</span> <span class="keyword">bintrayUpload </span>
+</code></pre><p>如果这次运行提示：</p>
+<ul>
+<li>What went wrong:<br>Execution failed for task ‘:library:bintrayUpload’.<br>org.apache.http.conn.HttpHostConnectException: Connection to <a href="https://api.bintray.com" target="_blank" rel="external">https://api.bintray.com</a> refused</li>
+</ul>
+<p>很简单,删除bintray上第一次上传的，然后重新上传运行一次.</p>
+<p><img src="http://i.imgur.com/ekharB3.png" alt=""></p>
+<p>然后Add To JCenter就可以了</p>
+<p>最后附录library的完整build.gradle</p>
+<pre><code>apply plugin: <span class="string">'com.android.library'</span>
+apply plugin: <span class="string">'com.jfrog.bintray'</span><span class="comment">//improtant</span>
+apply plugin: <span class="string">'com.github.dcendents.android-maven'</span><span class="comment">//for javadoc-task</span>
+
+
+android {
+    compileSdkVersion <span class="number">22</span>
+    buildToolsVersion <span class="string">"22.0.1"</span>
+
+    defaultConfig {
+        minSdkVersion <span class="number">14</span>
+        targetSdkVersion <span class="number">22</span>
+        versionCode <span class="number">1</span>
+        versionName <span class="string">"1.0"</span>
+    }
+    buildTypes {
+        release {
+            minifyEnabled <span class="keyword">false</span>
+            proguardFiles getDefaultProguardFile(<span class="string">'proguard-android.txt'</span>), <span class="string">'proguard-rules.pro'</span>
+        }
+    }
+}
+
+<span class="keyword">dependencies</span> {
+    <span class="keyword">compile</span> <span class="keyword">fileTree</span>(dir: <span class="string">'libs'</span>, <span class="keyword">include</span>: [<span class="string">'*.jar'</span>])
+}
+
+<span class="comment">//important</span>
+<span class="keyword">task</span> javadoc(type: Javadoc) {
+    <span class="keyword">source</span> = android.<span class="keyword">sourceSets</span>.main.java.srcDirs
+    <span class="keyword">classpath</span> += <span class="keyword">project</span>.files(android.getBootClasspath().<span class="keyword">join</span>(<span class="keyword">File</span>.pathSeparator))
+}
+javadoc {
+    <span class="keyword">options</span>{
+        encoding <span class="string">"UTF-8"</span>
+        charSet <span class="string">'UTF-8'</span>
+        author <span class="keyword">true</span>
+        version <span class="keyword">true</span>
+        links <span class="string">"http://docs.oracle.com/javase/7/docs/api"</span>
+    }
+}
+
+<span class="comment">//important 自动生成pom.xml文件</span>
+version = <span class="string">"1.0.0"</span><span class="comment">//发布的library的版本号</span>
+
+<span class="keyword">def</span> siteUrl = <span class="string">'https://github.com/meilishenqi/GradeBar'</span>      <span class="comment">// 项目的主页(可随意)</span>
+<span class="keyword">def</span> gitUrl = <span class="string">'https://github.com/meilishenqi/GradeBar'</span>      <span class="comment">// Git仓库的url(可随意)</span>
+<span class="keyword">group</span> = <span class="string">"com.mlm.gradebar"</span>    <span class="comment">// 这里是groupId ,必须填写(建议填包名)</span>
+
+install {
+    <span class="keyword">repositories</span>.mavenInstaller {
+        <span class="comment">// This generates POM.xml with proper parameters</span>
+        pom {
+            <span class="keyword">project</span> {
+                packaging <span class="string">'aar'</span>
+                <span class="comment">// Add your description here</span>
+                name <span class="string">'The library is a custom view about "Personal center consumption points" in our old version app'</span>     <span class="comment">//项目描述</span>
+                url siteUrl
+                <span class="comment">// Set your license</span>
+                licenses {
+                    license {
+                        name <span class="string">'The Apache Software License, Version 2.0'</span>
+                        url <span class="string">'http://www.apache.org/licenses/LICENSE-2.0.txt'</span>
+                    }
+                }
+                developers {
+                    developer {
+                        id <span class="string">'xiaomeixw'</span>        <span class="comment">//开发者基本信息</span>
+                        name <span class="string">'xiaomeixw'</span>    <span class="comment">//开发者基本信息</span>
+                        email <span class="string">'jpxw007@gmail.com'</span>   <span class="comment">//开发者基本信息</span>
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+
+<span class="comment">//生成source.jar</span>
+<span class="keyword">task</span> sourcesJar(type: Jar) {
+    <span class="keyword">from</span> android.<span class="keyword">sourceSets</span>.main.java.srcDirs
+    classifier = <span class="string">'sources'</span>
+}
+
+<span class="comment">//生成javadocJar</span>
+<span class="keyword">task</span> javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = <span class="string">'javadoc'</span>
+    <span class="keyword">from</span> javadoc.<span class="keyword">destinationDir</span>
+}
+
+<span class="keyword">artifacts</span> {
+    archives sourcesJar
+    archives javadocJar
+}
+
+
+
+<span class="comment">//important读取 local.properties 文件里面的 bintray.user和bintray.apikey</span>
+Properties properties = <span class="keyword">new</span> Properties()
+properties.load(<span class="keyword">project</span>.rootProject.<span class="keyword">file</span>(<span class="string">'local.properties'</span>).newDataInputStream())
+
+
+bintray {
+    user = properties.getProperty(<span class="string">"bintray.user"</span>)
+    key = properties.getProperty(<span class="string">"bintray.apikey"</span>)
+
+    <span class="keyword">configurations</span> = [<span class="string">'archives'</span>]
+    pkg {
+        repo = <span class="string">"maven"</span>
+        <span class="keyword">group</span> = <span class="keyword">group</span>
+        name = <span class="string">"gradebar"</span><span class="comment">//发布到JCenter上的项目名字，必须填写</span>
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = [<span class="string">"Apache-2.0"</span>]
+        publish = <span class="keyword">true</span>
+    }
+}
+</code></pre><p>问题四：gradlew install 和 gradlew bintrayUpload 每次都要运行吗？</p>
+<p>不是，gradlew install只在第一次运行,如果你提供了完整了四个文件，就无需再运行.</p>
+<p>如果要更新version,只需要修改library的build.grade的</p>
+<pre><code><span class="keyword">version</span> = <span class="string">"1.0.0"</span><span class="comment">//发布的library的版本号</span>
+</code></pre><p>为</p>
+<pre><code><span class="keyword">version</span> = <span class="string">"1.0.1"</span><span class="comment">//发布的library的版本号</span>
+</code></pre><p>然后</p>
+<pre><code><span class="label">gradlew</span> <span class="keyword">bintrayUpload </span>
+</code></pre><p>就可以了，发布完成，也不需要 add jcenter, bintray会自动帮你更新version.</p>
+</span>
       
     </div>
 
@@ -359,6 +530,8 @@ javadoc {
       
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/12/03/ZT12_2/" rel="prev">【正谈12月】动态代理范式编程-Part1</a>
             
           </div>
 
@@ -427,7 +600,7 @@ javadoc {
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">19</span>
+              <span class="site-state-item-count">20</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
