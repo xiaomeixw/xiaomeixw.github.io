@@ -841,6 +841,472 @@ bintray {
           
           
             
+              <a class="post-title-link" href="/2015/11/16/ZT11_2/" itemprop="url">
+                【正谈11月】链式调用模式封装
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-11-16T22:32:48+08:00" content="2015-11-16">
+            2015-11-16
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody"><p>链式调用模式封装</p>
+<p>链式调用以点链形态表现API,最大的优势在于封装接口,API接口简单、使用方便,能够快速的记忆以及快速的拓展API。</p>
+<pre><code><span class="tag">Tom</span><span class="class">.with</span>(<span class="tag">context</span>)
+      <span class="class">.analyze</span>(<span class="tag">image</span>)
+          <span class="class">.perform</span>(<span class="tag">calculus</span>)
+                  <span class="class">.showMe</span>(<span class="tag">answer</span>);
+</code></pre><blockquote>
+<p>It’s like saying: “Tom, analyze this image, perform some calculus and give me the answer!”</p>
+</blockquote>
+<p>链式调用又分为：</p>
+<ul>
+<li><p><em>单类链式调用</em>：链式调用的元素都在单个类中完成操作.</p>
+</li>
+<li><p><em>多类间链式调用</em>：链式调用的元素分布在多个类之间跳转完成.</p>
+</li>
+<li><p><em>Bilder链式调用</em>：以Builder模式的API风格完成调用.</p>
+</li>
+</ul>
+<h2 id="一-_Single-Chain单类链式调用">一. Single-Chain单类链式调用</h2><p><a href="https://github.com/jcmore2/BannerTime/blob/master/bannertime/src/main/java/com/jcmore2/bannertime/BannerTime.java" title="https://github.com/jcmore2/BannerTime/blob/master/bannertime/src/main/java/com/jcmore2/bannertime/BannerTime.java" target="_blank" rel="external">https://github.com/jcmore2/BannerTime/blob/master/bannertime/src/main/java/com/jcmore2/bannertime/BannerTime.java</a></p>
+<pre><code>BannerTime.init<span class="params">(this)</span>
+             .shownTime<span class="params">(<span class="number">4000</span>)</span>
+             .hiddenTime<span class="params">(<span class="number">3000</span>)</span>
+             .imageBanner<span class="params">(<span class="string">"http://pre03.deviantart.net/2aa0/th/pre/f/2012/321/d/1/african_landscape_by_dasflon-d5l9t7c.jpg"</span>)</span>
+             .withKOButton<span class="params">()</span>
+             .withKOButton<span class="params">()</span>
+                        .show<span class="params">()</span>;
+</code></pre><p>Single-Chain是指单个类中完成链式调用的构建,它的核心元素就在于:</p>
+<pre><code><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> MainClass <span class="title">doString</span>(<span class="params">String <span class="keyword">value</span></span>) </span>{
+    <span class="keyword">return</span> sInstance;
+}
+</code></pre><p>返回该类的对象实体.然后通过该对象实体不断的调用里面的方法.每个方法都返回的是对象的实体.</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SingleChain</span> {
+
+    <span class="keyword">private</span> <span class="keyword">static</span> SingleChain sInstance;
+    <span class="keyword">private</span> <span class="keyword">static</span> Context mContext;
+
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> shownTime ;
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> hiddenTime ;
+    <span class="keyword">private</span> <span class="keyword">static</span> String imageBanner ;
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> okVisibility;
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> koVisibility;
+
+    <span class="function"><span class="keyword">private</span> <span class="title">SingleChain</span>(<span class="params">Context context</span>) </span>{
+        <span class="keyword">try</span> {
+            <span class="keyword">if</span> (context == <span class="keyword">null</span>) {
+                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Cant init, context must not be null"</span>);
+            }
+        } <span class="keyword">catch</span> (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SingleChain <span class="title">with</span>(<span class="params">Context context</span>)</span>{
+        <span class="keyword">if</span>(sInstance == <span class="keyword">null</span>){
+            sInstance = <span class="keyword">new</span> SingleChain(context);
+        }
+        mContext=context;
+        <span class="keyword">return</span> sInstance;
+    }
+
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SingleChain <span class="title">shownTime</span>(<span class="params"><span class="keyword">int</span> time</span>) </span>{
+        shownTime=time;
+        <span class="keyword">return</span> sInstance;
+    }
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SingleChain <span class="title">hiddenTime</span>(<span class="params"><span class="keyword">int</span> time</span>) </span>{
+        hiddenTime=time;
+        <span class="keyword">return</span> sInstance;
+    }
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SingleChain <span class="title">imageBanner</span>(<span class="params">String url</span>) </span>{
+        imageBanner=url;
+        <span class="keyword">return</span> sInstance;
+    }
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SingleChain <span class="title">withOKButton</span>(<span class="params"></span>) </span>{
+        okVisibility= View.VISIBLE;
+        <span class="keyword">return</span> sInstance;
+    }
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SingleChain <span class="title">withKOButton</span>(<span class="params"></span>) </span>{
+        koVisibility = View.VISIBLE;
+        <span class="keyword">return</span> sInstance;
+    }
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">show</span>(<span class="params"></span>) </span>{
+
+        <span class="keyword">if</span> (sInstance == <span class="keyword">null</span>) <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"It´ necessary call '.with()' method"</span>);
+
+
+        createDialog();
+    }
+
+    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">createDialog</span>(<span class="params"></span>) </span>{
+        <span class="comment">//......</span>
+        hanlder content；
+        <span class="comment">//......</span>
+    }
+
+}
+</code></pre><h2 id="二-_multi-Chain单类链式调用">二. multi-Chain单类链式调用</h2><p><a href="https://github.com/xiaomeixw/HappyKandy" title="https://github.com/xiaomeixw/HappyKandy" target="_blank" rel="external">https://github.com/xiaomeixw/HappyKandy</a></p>
+<pre><code><span class="tag">HappyKandy</span>
+        <span class="class">.load</span>(<span class="tag">bean</span><span class="class">.getImage</span>())
+                <span class="class">.setAspectRatio</span>(1<span class="class">.68f</span>)
+                        <span class="class">.setGifTrue</span>()
+                            <span class="class">.into</span>(<span class="tag">draweeView</span>);
+</code></pre><p>multi-Chain是指多个类中之间完成链式调用的构建,它的核心元素就在于:</p>
+<pre><code><span class="keyword">Class</span> A  ---&gt;  <span class="keyword">Class</span> B ---&gt; <span class="keyword">Class</span> C
+</code></pre><p>其中Class A 和 Class B 都只是封装,真正起代码处理作用的还是Class C:</p>
+<p>FrescoManager:</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> FrescoManager {
+
+
+    /**
+     * Initialize Fresco <span class="keyword">in</span> Application
+     */
+    <span class="keyword">public</span>  <span class="keyword">static</span> <span class="keyword">void</span> initFresco(Application application){
+        Fresco.initialize(application);
+    }
+
+
+    /**
+     * Fresco not support relative path,should Absolute path need URI's scheme like <span class="string">"http://"</span> <span class="keyword">or</span> <span class="string">"file://"</span>
+     * @param url  (web_image)            http:<span class="comment">//</span>
+     *             (local_image)            file:<span class="comment">//</span>
+     *             (Content provider)   content:<span class="comment">//</span>
+     *             (asset_image)   asset:<span class="comment">//</span>
+     *             (res_iamge)     res:<span class="comment">//package/R.drawable.ic_launcher</span>
+     * @<span class="keyword">return</span>
+     */
+    <span class="keyword">public</span> <span class="keyword">static</span> FrescoCreator load(String url){
+
+        FrescoRetriever retriever = FrescoRetriever.get();
+        <span class="keyword">return</span> retriever.get(url);
+    }
+
+}
+</code></pre><p>FrescoRetriever:</p>
+<pre><code>public class FrescoRetriever {
+
+   <span class="keyword"> private</span><span class="keyword"> static</span><span class="keyword"> final</span> FrescoRetriever<span class="instruction"> instance </span>=<span class="instruction"> new </span>FrescoRetriever(<span class="function">)</span>;
+
+   <span class="keyword"> private</span> volatile FrescoCreator frescoCreator;
+
+   <span class="keyword"> public</span><span class="keyword"> static</span> FrescoRetriever<span class="function"> get(</span><span class="function">)</span> {
+       <span class="instruction"> return </span>instance;
+    }
+
+   <span class="keyword"> public</span> FrescoCreator<span class="function"> get(</span>String url<span class="function">)</span> {
+       <span class="instruction"> return </span>getFrescoUrl(url<span class="function">)</span>;
+    }
+
+   <span class="keyword"> private</span> FrescoCreator<span class="function"> getFrescoUrl(</span>String url<span class="function">)</span> {
+       <span class="instruction"> return </span>new<span class="function"> FrescoCreator(</span>url<span class="function">)</span>;
+    }
+
+}
+</code></pre><p>FrescoCreator：</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> FrescoCreator {
+
+    <span class="comment">/**
+     * Http or File Url，must begin with http:// or file://
+     */</span>
+    <span class="keyword">private</span> String mUrl;
+    <span class="comment">/**The image control*/</span>
+    <span class="comment">//private SimpleDraweeView mImageView;</span>
+    <span class="comment">/**
+     * Aspect ratio
+     */</span>
+    <span class="keyword">private</span> <span class="keyword">float</span> mRatio = <span class="number">0.0f</span>;
+    <span class="comment">/**
+     * whether show gif
+     */</span>
+    <span class="keyword">private</span> boolean mGif = <span class="literal">false</span>;
+    <span class="comment">/**
+     * whether set JPEG Progressive shows
+     */</span>
+    <span class="keyword">private</span> boolean mProJpeg = <span class="literal">false</span>;
+    <span class="comment">/**
+     * whether set crop
+     */</span>
+    <span class="keyword">private</span> boolean mCenterCrop = <span class="literal">false</span>;
+    <span class="comment">/**
+     * whether  set  Aspect ratio
+     */</span>
+    <span class="keyword">private</span> boolean mRsize = <span class="literal">false</span>;
+
+
+    <span class="keyword">private</span> <span class="keyword">int</span> mWidth;
+    <span class="keyword">private</span> <span class="keyword">int</span> mHeight;
+
+    FrescoCreator(String url) {
+        <span class="keyword">this</span>.mUrl = url;
+    }
+
+
+    <span class="function"><span class="keyword">public</span> FrescoCreator <span class="title">setAspectRatio</span><span class="params">(<span class="keyword">float</span> ratio)</span> </span>{
+        <span class="keyword">this</span>.mRatio = ratio;
+        <span class="keyword">return</span> <span class="keyword">this</span>;
+    }
+
+    <span class="function"><span class="keyword">public</span> FrescoCreator <span class="title">setGifTrue</span><span class="params">()</span> </span>{
+        <span class="keyword">this</span>.mGif = <span class="literal">true</span>;
+        <span class="keyword">return</span> <span class="keyword">this</span>;
+    }
+
+    <span class="function"><span class="keyword">public</span> FrescoCreator <span class="title">setProgressiveJPEGTrue</span><span class="params">()</span> </span>{
+        <span class="keyword">this</span>.mProJpeg = <span class="literal">true</span>;
+        <span class="keyword">return</span> <span class="keyword">this</span>;
+    }
+
+    <span class="function"><span class="keyword">public</span> FrescoCreator <span class="title">placeholder</span><span class="params">(<span class="keyword">int</span> drawable)</span> </span>{
+        <span class="keyword">this</span>.mPlaceholder = drawable;
+        <span class="keyword">return</span> <span class="keyword">this</span>;
+    }
+
+    <span class="function"><span class="keyword">public</span> FrescoCreator <span class="title">fail</span><span class="params">(<span class="keyword">int</span> drawable)</span> </span>{
+        <span class="keyword">this</span>.mFailImg = drawable;
+        <span class="keyword">return</span> <span class="keyword">this</span>;
+    }
+
+
+    <span class="function"><span class="keyword">public</span> FrescoCreator <span class="title">error</span><span class="params">(<span class="keyword">int</span> drawable)</span> </span>{
+        <span class="keyword">this</span>.mErrorImg = drawable;
+        <span class="keyword">return</span> <span class="keyword">this</span>;
+    }
+
+    <span class="function"><span class="keyword">public</span> FrescoCreator <span class="title">centerCrop</span><span class="params">()</span> </span>{
+        <span class="keyword">this</span>.mCenterCrop = <span class="literal">true</span>;
+        <span class="keyword">return</span> <span class="keyword">this</span>;
+    }
+
+
+    <span class="function"><span class="keyword">public</span> FrescoCreator <span class="title">resize</span><span class="params">(<span class="keyword">int</span> width, <span class="keyword">int</span> height)</span> </span>{
+        <span class="keyword">this</span>.mRsize = <span class="literal">true</span>;
+        <span class="keyword">this</span>.mWidth = width;
+        <span class="keyword">this</span>.mHeight = height;
+        <span class="keyword">return</span> <span class="keyword">this</span>;
+    }
+
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">into</span><span class="params">(SimpleDraweeView imageView)</span> </span>{
+        Uri uri = getCommonUri(imageView);
+        <span class="keyword">if</span> (!mGif) {
+            <span class="keyword">if</span> (mRsize) {
+
+                ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri)
+                        .setResizeOptions(<span class="keyword">new</span> ResizeOptions(mWidth, mHeight))
+                        .build();
+                DraweeController controller = Fresco.newDraweeControllerBuilder()
+                        .setImageRequest(request)
+                        .build();
+                imageView.setController(controller);
+
+
+            } <span class="keyword">else</span> {
+                imageView.setImageURI(uri);
+            }
+
+        } <span class="keyword">else</span> {
+            DraweeController controller = getGifController(imageView, uri);
+            imageView.setController(controller);
+        }
+
+    }
+}
+</code></pre><h2 id="三-_Builder模式链式调用">三. Builder模式链式调用</h2><p>构造器和静态工厂的问题在于无法友善的拓展大量的可选参数.<br>对于参数，一般采用重叠构造器的方法处理，这种过多的参数面临代码难于编写和维护.</p>
+<p>构造器多参</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> People {
+
+    <span class="keyword">private</span> <span class="built_in">String</span> mName;<span class="comment">// required</span>
+    <span class="keyword">private</span> <span class="built_in">String</span> mSex;<span class="comment">// required</span>
+
+    <span class="keyword">private</span> <span class="built_in">String</span> mAddress;<span class="comment">// optional</span>
+    <span class="keyword">private</span> <span class="built_in">String</span> mAge;<span class="comment">// optional</span>
+    <span class="keyword">private</span> <span class="built_in">String</span> mProject;<span class="comment">// optional</span>
+    <span class="keyword">private</span> <span class="built_in">String</span> mFat;<span class="comment">// optional</span>
+
+    <span class="keyword">public</span> People(<span class="built_in">String</span> name, <span class="built_in">String</span> sex) {
+        <span class="keyword">this</span>(name, sex, <span class="string">"USA"</span>);
+    }
+
+    <span class="keyword">public</span> People(<span class="built_in">String</span> name, <span class="built_in">String</span> sex, <span class="built_in">String</span> address) {
+        <span class="keyword">this</span>(name, sex, address, <span class="string">"20"</span>);
+    }
+
+    <span class="keyword">public</span> People(<span class="built_in">String</span> name, <span class="built_in">String</span> sex, <span class="built_in">String</span> address, <span class="built_in">String</span> age) {
+        <span class="keyword">this</span>(name, sex, address, age, <span class="string">"shopping,movie,travel"</span>);
+    }
+
+    <span class="keyword">public</span> People(<span class="built_in">String</span> name, <span class="built_in">String</span> sex, <span class="built_in">String</span> address, <span class="built_in">String</span> age, 
+                    <span class="built_in">String</span> project) {
+        <span class="keyword">this</span>(name, sex, address, age, project, <span class="string">"0"</span>);
+    }
+
+    <span class="keyword">public</span> People(<span class="built_in">String</span> name, <span class="built_in">String</span> sex, <span class="built_in">String</span> address, <span class="built_in">String</span> age, 
+                    <span class="built_in">String</span> project, <span class="built_in">String</span> fat) {
+        <span class="keyword">this</span>.mName = name;
+        <span class="keyword">this</span>.mSex = sex;
+        <span class="keyword">this</span>.mAddress = address;
+        <span class="keyword">this</span>.mAge = age;
+        <span class="keyword">this</span>.mProject = project;
+        <span class="keyword">this</span>.mFat = fat;
+    }
+
+}   
+</code></pre><p>调用：</p>
+<pre><code>People people = <span class="keyword">new</span> People(<span class="string">"Tony"</span>, <span class="string">"man"</span>, <span class="string">" 13 Liverpool Road, 
+</span>            Islington, London, London, N1 <span class="number">0</span>RW<span class="string">", "</span><span class="number">32</span><span class="string">", "</span><span class="keyword">read</span><span class="string">", "</span><span class="number">50</span>kg");
+</code></pre><p>构造器和静态工厂的问题在于无法友善的拓展大量的可选参数.</p>
+<p>所以Builder模式应运而生：</p>
+<ul>
+<li><em>1.它主要在于将参数分成两种类型，一种是必须的参数，一种是非必需参数;</em></li>
+<li><em>2.必需型参数，要做null值判断，同事如果用户外部没有传入，那么就会builder中启用默认型参数;</em></li>
+<li><em>3.非必需型可以有也可以无.</em></li>
+</ul>
+<h2 id="3-1_ExportBuilder">3.1 ExportBuilder</h2><p>不在class中封装Builder,new Builder的操作是在外部(引用API时)直接处理</p>
+<h2 id="3-2_PcakageBuilder">3.2 PcakageBuilder</h2><p>直接在calss中封装builder,外部直接不在处理new Builder操作</p>
+<p><a href="https://github.com/square/picasso/blob/master/picasso/src/main/java/com/squareup/picasso/Picasso.java" title="https://github.com/square/picasso/blob/master/picasso/src/main/java/com/squareup/picasso/Picasso.java" target="_blank" rel="external">https://github.com/square/picasso/blob/master/picasso/src/main/java/com/squareup/picasso/Picasso.java</a></p>
+<pre><code>Picasso.<span class="function"><span class="title">with</span><span class="params">(context)</span></span>
+  .<span class="function"><span class="title">load</span><span class="params">(url)</span></span>
+  .<span class="function"><span class="title">resize</span><span class="params">(<span class="number">50</span>, <span class="number">50</span>)</span></span>
+  .<span class="function"><span class="title">centerCrop</span><span class="params">()</span></span>
+  .<span class="function"><span class="title">into</span><span class="params">(imageView)</span></span>
+</code></pre><blockquote>
+<p>Picasso.with—&gt;new Builder(context)中进行必要参数的非空判断—&gt;.build()进行非必要参数的null赋值—&gt;new Picasso()—&gt;load(url)—&gt;new RequestCreator();</p>
+</blockquote>
+<p><img src="http://i.imgur.com/WiG5Hdh.png" alt=""></p>
+<p>Picasso.class:</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Picasso</span> </span>{
+
+    <span class="keyword">static</span> <span class="keyword">volatile</span> Picasso singleton = <span class="keyword">null</span>;
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Picasso <span class="title">with</span><span class="params">(Context context)</span> </span>{
+        <span class="keyword">if</span> (singleton == <span class="keyword">null</span>) {
+          <span class="keyword">synchronized</span> (Picasso.class) {
+            <span class="keyword">if</span> (singleton == <span class="keyword">null</span>) {
+              singleton = <span class="keyword">new</span> Builder(context).build();              
+            }
+          }
+        }
+        <span class="keyword">return</span> singleton;
+      }
+
+     <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Builder</span> </span>{
+        <span class="keyword">private</span> <span class="keyword">final</span> Context context;<span class="comment">// required 必须型参数</span>
+
+        <span class="keyword">private</span> Downloader downloader;<span class="comment">// optional 非必须型参数</span>
+        <span class="keyword">private</span> ExecutorService service;<span class="comment">// optional 非必须型参数</span>
+
+        ......
+
+        <span class="function"><span class="keyword">public</span> <span class="title">Builder</span><span class="params">(Context context)</span> </span>{
+          <span class="comment">//对必须型参数进行null值报错</span>
+          <span class="keyword">if</span> (context == <span class="keyword">null</span>) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Context must not be null."</span>);
+          }
+
+          <span class="keyword">this</span>.context = context.getApplicationContext();
+        }
+
+        <span class="function"><span class="keyword">public</span> Builder <span class="title">downloader</span><span class="params">(Downloader downloader)</span> </span>{
+          <span class="keyword">if</span> (downloader == <span class="keyword">null</span>) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Downloader must not be null."</span>);
+          }
+          <span class="keyword">if</span> (<span class="keyword">this</span>.downloader != <span class="keyword">null</span>) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Downloader already set."</span>);
+          }
+          <span class="keyword">this</span>.downloader = downloader;
+          <span class="keyword">return</span> <span class="keyword">this</span>;
+        }
+
+        .......
+
+        <span class="function"><span class="keyword">public</span> Picasso <span class="title">build</span><span class="params">()</span> </span>{
+          Context context = <span class="keyword">this</span>.context;
+
+          <span class="comment">//对于非必须性参数进行null赋值</span>
+          <span class="keyword">if</span> (downloader == <span class="keyword">null</span>) {
+            downloader = Utils.createDefaultDownloader(context);
+          }
+
+          <span class="keyword">if</span> (service == <span class="keyword">null</span>) {
+            service = <span class="keyword">new</span> PicassoExecutorService();
+          }
+
+          .....
+
+          <span class="keyword">return</span> <span class="keyword">new</span> Picasso(context, dispatcher, cache, listener, transformer, requestHandlers, stats,
+              defaultBitmapConfig, indicatorsEnabled, loggingEnabled);
+        }
+      }
+
+    <span class="function"><span class="keyword">public</span> RequestCreator <span class="title">load</span><span class="params">(String path)</span> </span>{
+        <span class="keyword">if</span> (path == <span class="keyword">null</span>) {
+          <span class="keyword">return</span> <span class="keyword">new</span> RequestCreator(<span class="keyword">this</span>, <span class="keyword">null</span>, <span class="number">0</span>);
+        }
+        <span class="keyword">if</span> (path.trim().length() == <span class="number">0</span>) {
+          <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Path must not be empty."</span>);
+        }
+        <span class="keyword">return</span> load(Uri.parse(path));
+      }
+
+}  
+</code></pre></span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/2015/10/23/ZT11_1/" itemprop="url">
                 【正谈10月】Explore NoSql on Android
               </a>
@@ -1997,84 +2463,11 @@ vpi_attrs.xml
 
 
     
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2015/09/12/JK/" itemprop="url">
-                【计划9月】准备上线RCMS专题
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2015-09-12T00:34:48+08:00" content="2015-09-12">
-            2015-09-12
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h2 id="准备上线一个栏目：RCMS">准备上线一个栏目：RCMS</h2><pre><code>Read <span class="list">(<span class="keyword">Code</span> Thinking)</span> Change Myself Style
-</code></pre><p>准备上线的三个系列为：</p>
-<pre><code><span class="blockquote">&gt; Java Puzzlers</span>
-
-<span class="blockquote">&gt; Java Concurrency in Practice</span>
-
-<span class="blockquote">&gt; Effective Java</span>
-</code></pre><p>&emsp;&emsp;系列的原作者皆是Joshua Bloch,三本书都和Android没有直接的关键联系，但确是进阶代码范式编程的核心思维,很多优秀的Android开源架构都基于这些思维模式，所以总结出来。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/09/12/JK/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">&raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">&raquo;</a>
   </nav>
 
 
@@ -2109,7 +2502,7 @@ vpi_attrs.xml
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">20</span>
+              <span class="site-state-item-count">21</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
