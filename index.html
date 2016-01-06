@@ -152,6 +152,71 @@
           
           
             
+              <a class="post-title-link" href="/2016/01/06/ZTN01_2/" itemprop="url">
+                未命名
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2016-01-06T23:48:57+08:00" content="2016-01-06">
+            2016-01-06
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody"><p>title 【杂谈1月】JobSchedule即将开源<br>date 2016-01-06 23:47:48</p>
+<h2 id="tags">tags </h2><p>即将重磅开源Android后台线程调度类库:JobSchedule</p>
+<p>先上一张1个月前画的Jobschedule草图流程.为了这个开源框架准备了1个多月的时间,希望可以为android开源做出贡献.</p>
+<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/766556IMG_0085.JPG" alt=""></p>
+</span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/2016/01/06/ZTN01_1/" itemprop="url">
                 未命名
               </a>
@@ -3052,85 +3117,6 @@ vpi_attrs.xml
 
 
     
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2015/10/03/MVP_1/" itemprop="url">
-                【范式10月】Android-MVP范式编程(一)
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2015-10-03T01:05:48+08:00" content="2015-10-03">
-            2015-10-03
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>我将保证MVP核心范式编程的文章将不少于5篇文章，在我还没有正式给MVP下定义前，我相信一个优秀的范例将非常有效的让我们对MVP有一个非常深入的了解。</p>
-<p>首先让我们搭建一个基础MVP架构的目录，然后我们逐步解析MVP的含义，并最终完成一套符合The Clean Architecture核心思想的MVP架构封装。这里将是MVP范式编程的第一个章节,我将通过一个层级范例来解构MVP。</p>
-<h2 id="解析MVP层级范例">解析MVP层级范例</h2><p><img src="http://i.imgur.com/larhurt.png" alt=""></p>
-<p>mvp的分层我们按照model-presenter-view三个包级别分层，这样的分层将非常方便于各层级的关系展示。</p>
-<p>MODEL:</p>
-<pre><code>model包中装载的是我们通常所谓的java-bean对象，这些model对象继承Parcelable实现序列化。
-</code></pre><p>PRESENTER:</p>
-<pre><code>presenter包中装载的是我们的逻辑处理对象，它将沟通<span class="built_in">view</span>，并获取后台逻辑数据，将json解析为model对象，并根据数据请求的结果最终通知<span class="built_in">view</span>层完成UI的更新.
-</code></pre><p>VIEW:</p>
-<pre><code><span class="built_in">view</span>包中装载两个组成部分，一个是接口abstract-<span class="built_in">view</span>，它将沟通activity-<span class="built_in">view</span>和presenter，里面定义的都是等待activity-<span class="built_in">view</span>实现的逻辑方法。  另一个是activity-<span class="built_in">view</span>，它将完成<span class="built_in">view</span>的所有实现。
-</code></pre><p>MVP本质：</p>
-<p>1.将view和data抽象分离处理，原activity中的两个组成部分：界面和数据逻辑分别放在view和presenter层级中。</p>
-<p>2.view层主要是原activity的界面层级。它将分成两个组成部分，一个为activity-view(实际View业务处理)，另一个为abstract-view(定义抽象方法完成view层与presenter层沟通);</p>
-<p>3.presenter层主要是原activity的数据逻辑层级。它将完成后台的数据逻辑请求，并将json转成model，通过请求的数据结果，将model返回给view层级，完成UI界面的更新。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/10/03/MVP_1/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -3170,7 +3156,7 @@ vpi_attrs.xml
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-count">23</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
