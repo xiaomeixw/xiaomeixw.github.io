@@ -37,40 +37,46 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
 
 
-<meta name="description" content="title 【正谈1月】Java线程范式编程 Part-1date 2015-12-03 22:57:48
-tags Java线程范式编程 Part-1
+<meta name="description" content="Java线程范式编程 Part-1
 1. 创建线程三方案
 通过扩展Thread类来创建多线程:
   new MyThread(Runnable).start();
 
 通过实现Runnable接口来创建多线程:
-  new Thread(new MyRunnable()).start">
+  new Thread(new MyRunnable()).start();
+
+通过实现callable接口
+  class MyTask implements Callable  exe">
 <meta property="og:type" content="article">
-<meta property="og:title" content="sabria">
-<meta property="og:url" content="http://yoursite.com/2016/01/06/ZTN01_1/index.html">
+<meta property="og:title" content="【正谈1月】Java线程范式编程 Part-1">
+<meta property="og:url" content="http://yoursite.com/2015/12/03/ZTN01_1/index.html">
 <meta property="og:site_name" content="sabria">
-<meta property="og:description" content="title 【正谈1月】Java线程范式编程 Part-1date 2015-12-03 22:57:48
-tags Java线程范式编程 Part-1
+<meta property="og:description" content="Java线程范式编程 Part-1
 1. 创建线程三方案
 通过扩展Thread类来创建多线程:
   new MyThread(Runnable).start();
 
 通过实现Runnable接口来创建多线程:
-  new Thread(new MyRunnable()).start">
+  new Thread(new MyRunnable()).start();
+
+通过实现callable接口
+  class MyTask implements Callable  exe">
 <meta property="og:image" content="http://i.imgur.com/WHpT8Md.png">
 <meta property="og:image" content="http://i.imgur.com/m0w8V3G.png">
 <meta property="og:image" content="http://i.imgur.com/XlyzjrH.png">
-<meta property="og:updated_time" content="2016-01-06T14:57:58.294Z">
+<meta property="og:updated_time" content="2016-01-06T15:54:25.262Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="sabria">
-<meta name="twitter:description" content="title 【正谈1月】Java线程范式编程 Part-1date 2015-12-03 22:57:48
-tags Java线程范式编程 Part-1
+<meta name="twitter:title" content="【正谈1月】Java线程范式编程 Part-1">
+<meta name="twitter:description" content="Java线程范式编程 Part-1
 1. 创建线程三方案
 通过扩展Thread类来创建多线程:
   new MyThread(Runnable).start();
 
 通过实现Runnable接口来创建多线程:
-  new Thread(new MyRunnable()).start">
+  new Thread(new MyRunnable()).start();
+
+通过实现callable接口
+  class MyTask implements Callable  exe">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -80,7 +86,7 @@ tags Java线程范式编程 Part-1
   };
 </script>
 
-    <title>  // sabria </title>
+    <title> 【正谈1月】Java线程范式编程 Part-1 // sabria </title>
 </head>
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 <!--[if lte IE 8]>
@@ -175,7 +181,7 @@ tags Java线程范式编程 Part-1
           
           
             
-              
+              【正谈1月】Java线程范式编程 Part-1
             
           
         </h1>
@@ -184,8 +190,8 @@ tags Java线程范式编程 Part-1
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2016-01-06T22:58:55+08:00" content="2016-01-06">
-            2016-01-06
+          <time itemprop="dateCreated" datetime="2015-12-03T22:57:48+08:00" content="2015-12-03">
+            2015-12-03
           </time>
         </span>
 
@@ -203,8 +209,7 @@ tags Java线程范式编程 Part-1
       
 
       
-        <span itemprop="articleBody"><p>title 【正谈1月】Java线程范式编程 Part-1<br>date 2015-12-03 22:57:48</p>
-<h2 id="tags">tags </h2><p>Java线程范式编程 Part-1</p>
+        <span itemprop="articleBody"><p>Java线程范式编程 Part-1</p>
 <h2 id="1-_创建线程三方案">1. 创建线程三方案</h2><ul>
 <li><p><em>通过扩展Thread类来创建多线程:</em></p>
 <p>  new MyThread(Runnable).start();</p>
@@ -898,7 +903,7 @@ System.out.println<span class="params">(<span class="string">"task运行结果"<
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/01/06/ZTN01_2/" rel="prev"></a>
+              <a href="/2016/01/06/ZTN01_2/" rel="prev">【杂谈1月】JobSchedule即将开源</a>
             
           </div>
 
@@ -1023,7 +1028,7 @@ System.out.println<span class="params">(<span class="string">"task运行结果"<
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#tags"><span class="nav-number">1.</span> <span class="nav-text">tags </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-_创建线程三方案"><span class="nav-number">2.</span> <span class="nav-text">1. 创建线程三方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-_关键字volatile"><span class="nav-number">3.</span> <span class="nav-text">2. 关键字volatile</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-_关键字join"><span class="nav-number">4.</span> <span class="nav-text">3. 关键字join</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-_LockObject_加锁机制"><span class="nav-number">5.</span> <span class="nav-text">4. LockObject 加锁机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-_ThreadPool线程池"><span class="nav-number">6.</span> <span class="nav-text">5. ThreadPool线程池</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1_ExecutorService的生命周期"><span class="nav-number">7.</span> <span class="nav-text">6-1 ExecutorService的生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-_pool-execute_和_pool-submit"><span class="nav-number">8.</span> <span class="nav-text">6-2. pool.execute 和 pool.submit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-_Callable、Future和FutureTask"><span class="nav-number">9.</span> <span class="nav-text">7. Callable、Future和FutureTask</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-_队列Queue"><span class="nav-number">10.</span> <span class="nav-text">8. 队列Queue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-_消费者生产者模式"><span class="nav-number">11.</span> <span class="nav-text">9. 消费者生产者模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#何为生产消费者模式:"><span class="nav-number">11.1.</span> <span class="nav-text">何为生产消费者模式:</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-_创建线程三方案"><span class="nav-number">1.</span> <span class="nav-text">1. 创建线程三方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-_关键字volatile"><span class="nav-number">2.</span> <span class="nav-text">2. 关键字volatile</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-_关键字join"><span class="nav-number">3.</span> <span class="nav-text">3. 关键字join</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-_LockObject_加锁机制"><span class="nav-number">4.</span> <span class="nav-text">4. LockObject 加锁机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-_ThreadPool线程池"><span class="nav-number">5.</span> <span class="nav-text">5. ThreadPool线程池</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1_ExecutorService的生命周期"><span class="nav-number">6.</span> <span class="nav-text">6-1 ExecutorService的生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-_pool-execute_和_pool-submit"><span class="nav-number">7.</span> <span class="nav-text">6-2. pool.execute 和 pool.submit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-_Callable、Future和FutureTask"><span class="nav-number">8.</span> <span class="nav-text">7. Callable、Future和FutureTask</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-_队列Queue"><span class="nav-number">9.</span> <span class="nav-text">8. 队列Queue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-_消费者生产者模式"><span class="nav-number">10.</span> <span class="nav-text">9. 消费者生产者模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#何为生产消费者模式:"><span class="nav-number">10.1.</span> <span class="nav-text">何为生产消费者模式:</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
