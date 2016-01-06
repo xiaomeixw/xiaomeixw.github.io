@@ -152,6 +152,751 @@
           
           
             
+              <a class="post-title-link" href="/2016/01/06/ZTN01_1/" itemprop="url">
+                未命名
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2016-01-06T22:58:55+08:00" content="2016-01-06">
+            2016-01-06
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody"><p>title 【正谈1月】Java线程范式编程 Part-1<br>date 2015-12-03 22:57:48</p>
+<h2 id="tags">tags </h2><p>Java线程范式编程 Part-1</p>
+<h2 id="1-_创建线程三方案">1. 创建线程三方案</h2><ul>
+<li><p><em>通过扩展Thread类来创建多线程:</em></p>
+<p>  new MyThread(Runnable).start();</p>
+</li>
+<li><p><em>通过实现Runnable接口来创建多线程:</em></p>
+<p>  new Thread(new MyRunnable()).start();</p>
+</li>
+<li><p><em>通过实现callable<t>接口</t></em></p>
+<p>  class MyTask implements Callable<t><br>  executor.submit(MyTask);</t></p>
+</li>
+</ul>
+<p>方案一和方案二都是没有返回值的,方案三有返回值.</p>
+<blockquote>
+<p>扩展Thread类:</p>
+</blockquote>
+<p>1.匿名方案</p>
+<pre><code><span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() {
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
+        Utils.runContent(MainActivity.<span class="keyword">this</span>);
+    }
+}).start();
+</code></pre><p>2.class方案</p>
+<pre><code><span class="keyword">new</span> <span class="type">RunnerThread</span>().start();
+
+<span class="class"><span class="keyword">class</span> <span class="title">RunnerThread</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">Thread</span> {</span>
+    <span class="annotation">@Override</span>
+    public void run() {
+        <span class="type">Utils</span>.runContent(<span class="type">MainActivity</span>.<span class="keyword">this</span>);
+    }
+}
+</code></pre><blockquote>
+<p>实现Runnable接口</p>
+</blockquote>
+<pre><code><span class="keyword">new</span> Thread(<span class="keyword">new</span> RunnerRunnable()).start();
+
+<span class="class"><span class="keyword">class</span> <span class="title">RunnerRunnable</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>{
+
+    <span class="annotation">@Override</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
+        Utils.runContent(MainActivity.<span class="keyword">this</span>);
+    }
+}
+</code></pre><blockquote>
+<p>实现callable<t>接口</t></p>
+</blockquote>
+<pre><code>ExecutorService pool = Executors.newCachedThreadPool();
+WorkCallable workCallable = <span class="keyword">new</span> WorkCallable();
+Future&lt;Integer&gt; future = pool.submit(workCallable);
+Utils.log(<span class="string">"Future运行结果:="</span>+integer);
+
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WorkCallable</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Integer</span>&gt; </span>{
+    @Override
+    <span class="keyword">public</span> Integer call() throws Exception {
+        Thread.sleep(<span class="number">1000</span>);
+        <span class="keyword">int</span> <span class="keyword">sum</span> = <span class="number">0</span>;
+        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) {
+            <span class="keyword">sum</span> = <span class="keyword">sum</span> + i;
+        }
+        <span class="keyword">return</span> <span class="keyword">sum</span>;
+    }
+}
+</code></pre><h2 id="2-_关键字volatile">2. 关键字volatile</h2><blockquote>
+<p>它访问的是原数据而不是拷贝的变量数据</p>
+</blockquote>
+<p> 线程为了提高效率，将某成员变量(如A)拷贝了一份（如B），线程中对A的访问其实访问的是B。<br> 只在某些动作时才进行A和B的同步。因此存在A和B不一致的情况。volatile就是用来避免这种情况的。<br> volatile告诉jvm， 它所修饰的变量不保留拷贝，直接访问主内存中的（也就是上面说的A)</p>
+<p>使用环境场景:主要用在判断变量线程安全方面.</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">volatileKeyWord</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">Thread</span> {</span>
+
+    <span class="keyword">private</span>  volatile boolean isRunning = <span class="literal">true</span>;
+
+    <span class="annotation">@Override</span>
+    public void run() {
+        <span class="keyword">while</span> (isRunning) {
+            <span class="type">Log</span>.i(<span class="type">TAG</span>,<span class="string">"Running"</span>+<span class="type">Thread</span>.currentThread().getName());             
+            <span class="keyword">try</span> {
+                <span class="type">Thread</span>.sleep(<span class="number">50</span>);
+            } <span class="keyword">catch</span> (<span class="type">InterruptedException</span> e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public  void shutDown() {
+        isRunning = <span class="literal">false</span>;
+    }
+}
+</code></pre><h2 id="3-_关键字join">3. 关键字join</h2><blockquote>
+<p>3.1 概念:</p>
+</blockquote>
+<p>thread.Join把指定的线程加入到当前线程，可以将两个交替执行的线程合并为顺序执行的线程。比如在线程B中调用了线程A的Join()方法，直到线程A执行完毕后，才会继续执行线程B。</p>
+<blockquote>
+<p>3.2 使用:</p>
+</blockquote>
+<p>join是Thread类的一个方法，启动线程后直接调用.</p>
+<pre><code><span class="type">Thread</span> t = <span class="keyword">new</span> <span class="type">AThread</span><span class="literal">()</span>; 
+t.start<span class="literal">()</span>; 
+t.join<span class="literal">()</span>;
+</code></pre><blockquote>
+<p>3.3 为什么要用join()方法:</p>
+</blockquote>
+<p>在很多情况下，主线程生成并起动了子线程，如果子线程里要进行大量的耗时的运算，主线程往往将于子线程之前结束，但是如果主线程处理完其他的事务后，需要用到子线程的处理结果，也就是主线程需要等待子线程执行完成之后再结束，这个时候就要用到join()方法了。</p>
+<p>“等待该线程终止”，这里需要理解的就是该线程是指的主线程等待子线程的终止。也就是在子线程调用了join()方法后面的代码，只有等到子线程结束了才能执行。</p>
+<blockquote>
+<p>3.4 Code:</p>
+</blockquote>
+<pre><code><span class="keyword">private</span> <span class="keyword">int</span> count =<span class="number">0</span>;
+<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ThreadJoin</span><span class="params">()</span> </span>{
+    Thread thread1 = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() {
+        @<span class="function">Override
+        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
+            <span class="keyword">for</span> (<span class="keyword">int</span> i =<span class="number">0</span> ; i &lt;<span class="number">10</span> ; i ++){
+                increment(Thread.currentThread().getName());
+            }
+        }
+    });
+    thread1.start();
+
+    Thread thread2 = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() {
+        @<span class="function">Override
+        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
+            <span class="keyword">for</span> (<span class="keyword">int</span> i =<span class="number">0</span> ; i &lt;<span class="number">10</span> ; i ++){
+                increment(Thread.currentThread().getName());
+            }
+        }
+    });
+
+
+    <span class="keyword">try</span> {
+        thread1.join();
+        thread2.start();
+        thread2.join();
+    } <span class="keyword">catch</span> (InterruptedException e) {
+        e.printStackTrace();
+    }
+
+    Utils.<span class="built_in">log</span>(<span class="string">"Count is: "</span> + count);
+
+}
+</code></pre><p>LogCat：</p>
+<pre><code><span class="number">12</span>-<span class="number">16</span> <span class="number">17</span>:<span class="number">28</span>:<span class="number">37.478</span>  <span class="number">24623</span>-<span class="number">24661</span>/sabria.demo.threadpractice I/MainActivity﹕ Thread in Progress: Thread-<span class="number">37224</span> and count is: <span class="number">1</span>
+<span class="number">12</span>-<span class="number">16</span> <span class="number">17</span>:<span class="number">28</span>:<span class="number">37.478</span>  <span class="number">24623</span>-<span class="number">24661</span>/sabria.demo.threadpractice I/MainActivity﹕ Thread in Progress: Thread-<span class="number">37224</span> and count is: <span class="number">2</span>
+<span class="number">12</span>-<span class="number">16</span> <span class="number">17</span>:<span class="number">28</span>:<span class="number">37.478</span>  <span class="number">24623</span>-<span class="number">24661</span>/sabria.demo.threadpractice I/MainActivity﹕ Thread in Progress: Thread-<span class="number">37224</span> and count is: <span class="number">3</span>
+<span class="number">12</span>-<span class="number">16</span> <span class="number">17</span>:<span class="number">28</span>:<span class="number">37.478</span>  <span class="number">24623</span>-<span class="number">24661</span>/sabria.demo.threadpractice I/MainActivity﹕ Thread in Progress: Thread-<span class="number">37224</span> and count is: <span class="number">4</span>
+<span class="number">12</span>-<span class="number">16</span> <span class="number">17</span>:<span class="number">28</span>:<span class="number">37.478</span>  <span class="number">24623</span>-<span class="number">24661</span>/sabria.demo.threadpractice I/MainActivity﹕ Thread in Progress: Thread-<span class="number">37224</span> and count is: <span class="number">5</span>
+<span class="number">12</span>-<span class="number">16</span> <span class="number">17</span>:<span class="number">28</span>:<span class="number">37.478</span>  <span class="number">24623</span>-<span class="number">24661</span>/sabria.demo.threadpractice I/MainActivity﹕ Thread in Progress: Thread-<span class="number">37224</span> and count is: <span class="number">6</span>
+<span class="number">12</span>-<span class="number">16</span> <span class="number">17</span>:<span class="number">28</span>:<span class="number">37.478</span>  <span class="number">24623</span>-<span class="number">24661</span>/sabria.demo.threadpractice I/MainActivity﹕ Thread in Progress: Thread-<span class="number">37224</span> and count is: <span class="number">7</span>
+<span class="number">12</span>-<span class="number">16</span> <span class="number">17</span>:<span class="number">28</span>:<span class="number">37.478</span>  <span class="number">24623</span>-<span class="number">24661</span>/sabria.demo.threadpractice I/MainActivity﹕ Thread in Progress: Thread-<span class="number">37224</span> and count is: <span class="number">8</span>
+<span class="number">12</span>-<span class="number">16</span> <span class="number">17</span>:<span class="number">28</span>:<span class="number">37.478</span>  <span class="number">24623</span>-<span class="number">24661</span>/sabria.demo.threadpractice I/MainActivity﹕ Thread in Progress: Thread-<span class="number">37224</span> and count is: <span class="number">9</span>
+<span class="number">12</span>-<span class="number">16</span> <span class="number">17</span>:<span class="number">28</span>:<span class="number">37.478</span>  <span class="number">24623</span>-<span class="number">24661</span>/sabria.demo.threadpractice I/MainActivity﹕ Thread in Progress: Thread-<span class="number">37224</span> and count is: <span class="number">10</span>
+<span class="number">12</span>-<span class="number">16</span> <span class="number">17</span>:<span class="number">28</span>:<span class="number">37.478</span>  <span class="number">24623</span>-<span class="number">24662</span>/sabria.demo.threadpractice I/MainActivity﹕ Thread in Progress: Thread-<span class="number">37225</span> and count is: <span class="number">11</span>
+<span class="number">12</span>-<span class="number">16</span> <span class="number">17</span>:<span class="number">28</span>:<span class="number">37.478</span>  <span class="number">24623</span>-<span class="number">24662</span>/sabria.demo.threadpractice I/MainActivity﹕ Thread in Progress: Thread-<span class="number">37225</span> and count is: <span class="number">12</span>
+<span class="number">12</span>-<span class="number">16</span> <span class="number">17</span>:<span class="number">28</span>:<span class="number">37.478</span>  <span class="number">24623</span>-<span class="number">24662</span>/sabria.demo.threadpractice I/MainActivity﹕ Thread in Progress: Thread-<span class="number">37225</span> and count is: <span class="number">13</span>
+<span class="number">12</span>-<span class="number">16</span> <span class="number">17</span>:<span class="number">28</span>:<span class="number">37.478</span>  <span class="number">24623</span>-<span class="number">24662</span>/sabria.demo.threadpractice I/MainActivity﹕ Thread in Progress: Thread-<span class="number">37225</span> and count is: <span class="number">14</span>
+<span class="number">12</span>-<span class="number">16</span> <span class="number">17</span>:<span class="number">28</span>:<span class="number">37.478</span>  <span class="number">24623</span>-<span class="number">24662</span>/sabria.demo.threadpractice I/MainActivity﹕ Thread in Progress: Thread-<span class="number">37225</span> and count is: <span class="number">15</span>
+<span class="number">12</span>-<span class="number">16</span> <span class="number">17</span>:<span class="number">28</span>:<span class="number">37.478</span>  <span class="number">24623</span>-<span class="number">24662</span>/sabria.demo.threadpractice I/MainActivity﹕ Thread in Progress: Thread-<span class="number">37225</span> and count is: <span class="number">16</span>
+<span class="number">12</span>-<span class="number">16</span> <span class="number">17</span>:<span class="number">28</span>:<span class="number">37.478</span>  <span class="number">24623</span>-<span class="number">24662</span>/sabria.demo.threadpractice I/MainActivity﹕ Thread in Progress: Thread-<span class="number">37225</span> and count is: <span class="number">17</span>
+<span class="number">12</span>-<span class="number">16</span> <span class="number">17</span>:<span class="number">28</span>:<span class="number">37.478</span>  <span class="number">24623</span>-<span class="number">24662</span>/sabria.demo.threadpractice I/MainActivity﹕ Thread in Progress: Thread-<span class="number">37225</span> and count is: <span class="number">18</span>
+<span class="number">12</span>-<span class="number">16</span> <span class="number">17</span>:<span class="number">28</span>:<span class="number">37.478</span>  <span class="number">24623</span>-<span class="number">24662</span>/sabria.demo.threadpractice I/MainActivity﹕ Thread in Progress: Thread-<span class="number">37225</span> and count is: <span class="number">19</span>
+<span class="number">12</span>-<span class="number">16</span> <span class="number">17</span>:<span class="number">28</span>:<span class="number">37.478</span>  <span class="number">24623</span>-<span class="number">24662</span>/sabria.demo.threadpractice I/MainActivity﹕ Thread in Progress: Thread-<span class="number">37225</span> and count is: <span class="number">20</span>
+<span class="number">12</span>-<span class="number">16</span> <span class="number">17</span>:<span class="number">28</span>:<span class="number">37.478</span>  <span class="number">24623</span>-<span class="number">24623</span>/sabria.demo.threadpractice I/MainActivity﹕ Count is: <span class="number">20</span>
+</code></pre><h2 id="4-_LockObject_加锁机制">4. LockObject 加锁机制</h2><blockquote>
+<p>4.1 锁机制目的:</p>
+</blockquote>
+<p>保证了同步代码在同一时刻只有一个线程在执行。<br>类比于:厕所,在同一时刻只有一个人在使用，多人想进入,里面有一个人在用,其他人必需排队.那个在使用的人,通过厕所门的锁来保证只有自己在使用.</p>
+<p>4.2 锁机制方案</p>
+<ul>
+<li><p><em>1. 在需要同步的方法的方法签名中加入synchronized关键字。</em></p>
+<pre><code> <span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="function"><span class="keyword">void</span> <span class="title">synMethod</span><span class="params">()</span> </span>{
+    <span class="comment">//方法体</span>
+}
+</code></pre></li>
+<li><p><em>2. 使用synchronized块对需要进行同步的代码段进行同步。</em></p>
+<pre><code><span class="keyword">public</span> <span class="function"><span class="keyword">int</span> <span class="title">synMethod</span><span class="params">()</span></span>{
+    <span class="keyword">synchronized</span>(syncObject) {
+      <span class="comment">//一次只能有一个线程进入</span>
+    }
+}
+</code></pre></li>
+<li><p><em>3. 使用JDK 5中提供的java.util.concurrent.lock包中的Lock对象。</em></p>
+<pre><code><span class="keyword">private</span> Lock <span class="keyword">lock</span> = <span class="keyword">new</span> ReentrantLock();
+<span class="keyword">private</span> Condition notFull = <span class="keyword">lock</span>.newCondition();
+</code></pre></li>
+</ul>
+<p>4.3 线程安全就是说多线程访问同一代码，不会产生不确定的结果。</p>
+<p>并行和并发区别</p>
+<p>1、并行是指两者同时执行一件事，比如赛跑，两个人都在不停的往前跑；<br>2、并发是指资源有限的情况下，两者交替轮流使用资源，比如一段路(单核CPU资源)同时只能过一个人，A走一段后，让给B，B用完继续给A ，交替使用，目的是提高效率</p>
+<h2 id="5-_ThreadPool线程池">5. ThreadPool线程池</h2><pre><code>ExecutorService executor = Executors.newFixedThreadPool(5)<span class="comment">;</span>
+pool.execute(workRunnable)<span class="comment">;</span>
+</code></pre><blockquote>
+<p>固定大小的线程池:</p>
+</blockquote>
+<pre><code>ExecutorService executor = Executors.newFixedThreadPool(<span class="number">5</span>);
+</code></pre><p>我们创建了包含5个工作线程的固定大小线程池。然后，我们向线程池提交10个任务。由于线程池的大小是5，因此首先会启动5个工作线程，其他任务将进行等待。一旦有任务结束，工作线程会从等待队列中挑选下一个任务并开始执行。</p>
+<blockquote>
+<p>单任务线程池:</p>
+</blockquote>
+<pre><code>ExecutorService pool = Executors.newSingleThreadExecutor()<span class="comment">;</span>
+</code></pre><p>我们创建了包含1个工作线程的固定大小线程池.由于线程池的大小是1，因此首先会启动1个工作线程，其他任务将进行等待。一旦有任务结束，工作线程会从等待队列中挑选下一个任务并开始执行。</p>
+<blockquote>
+<p>可变尺寸的线程池:</p>
+</blockquote>
+<pre><code>ExecutorService pool = Executors.newCachedThreadPool()<span class="comment">;</span>
+</code></pre><p>execute多少个runnable就运行多少个任务</p>
+<blockquote>
+<p>延迟连接池:</p>
+</blockquote>
+<pre><code>ScheduledExecutorService pool = Executors.newScheduledThreadPool(<span class="number">2</span>);
+pool.schedule(runnable, <span class="number">10</span>, TimeUnit.MILLISECONDS);
+
+延迟多久后执行任务
+</code></pre><blockquote>
+<p>自定义线程池:</p>
+</blockquote>
+<pre><code>ThreadPoolExecutor
+<span class="keyword">public</span> ThreadPoolExecutor(<span class="keyword">int</span> corePoolSize,
+                          <span class="keyword">int</span> maximumPoolSize,
+                          <span class="keyword">long</span> keepAliveTime,
+                          TimeUnit unit,
+                          BlockingQueue&lt;Runnable&gt; workQueue)
+</code></pre><p>用给定的初始参数和默认的线程工厂及处理程序创建新的 ThreadPoolExecutor。使用 Executors 工厂方法之一比使用此通用构造方法方便得多。<br>参数：</p>
+<pre><code>corePoolSize - 池中所保存的线程数，包括空闲线程。
+maximumPoolSize - 池中允许的最大线程数。
+keepAliveTime - 当线程数大于核心时，此为终止前多余的空闲线程等待新任务的最长时间。
+unit - keepAliveTime 参数的时间单位。
+workQueue - 执行前用于保持任务的队列。此队列仅保持由<span class="instruction"> execute </span>方法提交的 Runnable 任务。
+</code></pre><p>抛出：<br>IllegalArgumentException - 如果 corePoolSize 或 keepAliveTime 小于零，或者 maximumPoolSize 小于或等于零，或者 corePoolSize 大于 maximumPoolSize。</p>
+<p>NullPointerException - 如果 workQueue 为 null</p>
+<p>AsyncTask的线程池:</p>
+<pre><code><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CPU_COUNT = Runtime.getRuntime().availableProcessors();
+<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CORE_POOL_SIZE = CPU_COUNT + <span class="number">1</span>;
+<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAXIMUM_POOL_SIZE = CPU_COUNT * <span class="number">2</span> + <span class="number">1</span>;
+<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> KEEP_ALIVE = <span class="number">1</span>;
+<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ThreadFactory sThreadFactory = <span class="keyword">new</span> ThreadFactory() {
+    <span class="keyword">private</span> <span class="keyword">final</span> AtomicInteger mCount = <span class="keyword">new</span> AtomicInteger(<span class="number">1</span>);
+
+    <span class="keyword">public</span> <span class="function">Thread <span class="title">newThread</span><span class="params">(Runnable r)</span> </span>{
+        <span class="keyword">return</span> <span class="keyword">new</span> Thread(r, <span class="string">"AsyncTask #"</span> + mCount.getAndIncrement());
+    }
+};
+<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> BlockingQueue&lt;Runnable&gt; sPoolWorkQueue =
+        <span class="keyword">new</span> LinkedBlockingQueue&lt;&gt;(<span class="number">128</span>);
+</code></pre><h2 id="6-1_ExecutorService的生命周期">6-1 ExecutorService的生命周期</h2><p>ExecutorService的生命周期有3种状态:运行、关闭和已终止.</p>
+<ul>
+<li><p><em>void shutdown()</em> ： 平缓的关闭,不再接收新任务,同时等待已经提交的任务执行完成–包括那些还未开始执行的任务.</p>
+</li>
+<li><p><em>List<runnable> shutdownNow()</runnable></em> ： 执行粗暴的关闭,将尝试取消所有运行中的任务,并且不再启动队列中尚未开始开始执行的任务.</p>
+</li>
+<li><p><em>boolean awaitTermination(timeout,unit)</em> : 这个方法有两个参数，一个是timeout即超时时间，另一个是unit即时间单位。这个方法会使线程等待timeout时长，当超过timeout时间后，会监测ExecutorService是否已经关闭，若关闭则返回true，否则返回false。一般情况下会和shutdown方法组合使用。</p>
+<pre><code> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> throws IOException, InterruptedException </span>{   
+    ExecutorService executor = Executors.newFixedThreadPool(<span class="number">2</span>);   
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) {   
+        Runnable run = <span class="keyword">new</span> Runnable() {   
+            @<span class="function">Override  
+            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{   
+                System.out.println(<span class="string">"thread start"</span>);   
+            }   
+        };   
+        executor.execute(run);   
+    }   
+    executor.shutdown();   
+    <span class="keyword">try</span> {
+        executor.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS); 
+    } <span class="keyword">catch</span> (InterruptedException ignored) {
+    }        
+    System.out.println(<span class="string">"all thread complete"</span>);   
+} 
+</code></pre></li>
+<li><p><em>boolean isShutdown()</em> ： 这个方法在ExecutorService关闭后返回true，否则返回false.</p>
+</li>
+<li><p><em>boolean isTerminated()</em> ： 这个方法会校验ExecutorService当前的状态是否为“TERMINATED”即关闭状态，当为“TERMINATED”时返回true否则返回false</p>
+</li>
+</ul>
+<p>所以我们在执行完成submit()/execute()后,最好显示的调用shutdown():</p>
+<pre><code>executor.submit/execute(worker)<span class="comment">;</span>
+executor.shutdown()<span class="comment">;</span>
+executor.awaitTermination(1, TimeUnit.DAYS)<span class="comment">;</span>
+</code></pre><h2 id="6-2-_pool-execute_和_pool-submit">6-2. pool.execute 和 pool.submit</h2><p>pool.execute(workRunnable); 和 pool.submit(callback/workRunnable)区别</p>
+<ul>
+<li><em>a.接收的参数不一样</em></li>
+<li><em>b.submit有返回值，而execute没有</em></li>
+<li><em>c.submit方便Exception处理</em></li>
+</ul>
+<p>code:</p>
+<pre><code><span class="keyword">Future</span>&lt;?&gt; <span class="keyword">future</span> = THREAD_POOL_EXECUTOR.submit(workRunnable);
+<span class="keyword">future</span>.get();<span class="comment">//获取任务执行结果</span>
+</code></pre><h2 id="7-_Callable、Future和FutureTask">7. Callable、Future和FutureTask</h2><p>创建线程的2种方式，一种是直接继承Thread，另外一种就是实现Runnable接口.<br>这2种方式都有一个缺陷就是：在执行完任务之后无法获取执行结果.</p>
+<blockquote>
+<p>7.1 callbakc</p>
+</blockquote>
+<p>//call()函数返回的类型就是传递进来的V类型<br>public interface Callable<v> {<br>    V call() throws Exception;<br>}</v></p>
+<p>怎么使用Callable呢？一般情况下是配合ExecutorService来使用的，在ExecutorService接口中声明了若干个submit方法的重载版本.</p>
+<p><t> Future<t> submit(Callable<t> task);</t></t></t></p>
+<blockquote>
+<p>7.2 future</p>
+</blockquote>
+<p>Future就是对于具体的Runnable或者Callable任务的执行结果进行取消、查询是否完成、获取结果。必要时可以通过get方法获取执行结果，该方法会阻塞直到任务返回结果。</p>
+<p>1）判断任务是否完成；<br>2）能够中断任务；<br>3）能够获取任务执行结果。</p>
+<p>因为Future只是一个接口，所以是无法直接用来创建对象使用的，因此就有了下面的FutureTask。FutureTask是Future接口的一个唯一实现类.</p>
+<blockquote>
+<p>7.3 futureTask</p>
+</blockquote>
+<p>FutureTask类实现了RunnableFuture接口</p>
+<pre><code>public <span class="class"><span class="keyword">class</span> <span class="title">FutureTask</span><span class="inheritance">&lt;<span class="parent">V</span></span>&gt; <span class="title">implements</span> <span class="title">RunnableFuture</span><span class="inheritance">&lt;<span class="parent">V</span></span>&gt;</span>
+</code></pre><p>RunnableFuture继承了Runnable接口和Future接口，而FutureTask实现了RunnableFuture接口。所以它既可以作为Runnable被线程执行，又可以作为Future得到Callable的返回值。</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">RunnableFuture</span>&lt;<span class="title">V</span>&gt; <span class="keyword">extends</span> <span class="title">Runnable</span>, <span class="title">Future</span>&lt;<span class="title">V</span>&gt; </span>{
+    <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;
+}
+</code></pre><p>FutureTask提供了2个构造器：</p>
+<pre><code>public <span class="type">FutureTask</span>(<span class="type">Callable</span>&lt;V&gt; callable) {
+}
+public <span class="type">FutureTask</span>(<span class="type">Runnable</span> runnable, V <span class="literal">result</span>) {
+}
+</code></pre><blockquote>
+<p>7.4 使用</p>
+</blockquote>
+<p>Callable+Future获取执行结果：</p>
+<pre><code><span class="type">ExecutorService</span> executor = <span class="type">Executors</span>.newCachedThreadPool();
+<span class="type">Future</span>&lt;<span class="type">Integer</span>&gt; <span class="literal">result</span> = executor.submit(task);
+<span class="type">System</span>.<span class="keyword">out</span>.println(<span class="string">"task运行结果"</span>+<span class="literal">result</span>.get());
+</code></pre><p>使用Callable+FutureTask获取执行结果：</p>
+<pre><code>ExecutorService executor = Executors.newCachedThreadPool<span class="params">()</span>;
+FutureTask&lt;Integer&gt; futureTask = new FutureTask&lt;Integer&gt;<span class="params">(task)</span>;
+executor.submit<span class="params">(futureTask)</span>;
+System.out.println<span class="params">(<span class="string">"task运行结果"</span>+futureTask.get<span class="params">()</span>)</span>;
+</code></pre><p>或者：</p>
+<pre><code>FutureTask&lt;<span class="built_in">Integer</span>&gt; futureTask = <span class="literal">new</span> FutureTask&lt;<span class="built_in">Integer</span>&gt;(task);
+<span class="keyword">Thread</span> <span class="keyword">thread</span> = <span class="literal">new</span> <span class="keyword">Thread</span>(futureTask);
+<span class="keyword">thread</span><span class="built_in">.</span>start();
+</code></pre><p>注意这种方式和第一种方式效果是类似的，只不过一个使用的是ExecutorService，一个使用的是Thread</p>
+<p>System.out.println(“task运行结果”+futureTask.get());</p>
+<p>其中的task代码：</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Task</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Integer</span>&gt;</span>{
+    @Override
+    <span class="keyword">public</span> Integer call() throws Exception {
+        System.out.println(<span class="string">"子线程在进行计算"</span>);
+        Thread.sleep(<span class="number">3000</span>);
+        <span class="keyword">int</span> <span class="keyword">sum</span> = <span class="number">0</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">100</span>;i++)
+            <span class="keyword">sum</span> += i;
+        <span class="keyword">return</span> <span class="keyword">sum</span>;
+    }
+}
+</code></pre><h2 id="8-_队列Queue">8. 队列Queue</h2><blockquote>
+<p>8.1 概念:</p>
+</blockquote>
+<p>多数生产消费模型的首选数据结构就是队列(先进先出)。Java提供的线程安全的Queue可以分为阻塞队列和非阻塞队列，<br>其中阻塞队列的典型例子是BlockingQueue，非阻塞队列的典型例子是ConcurrentLinkedQueue，<br>在实际应用中要根据实际需要选用阻塞队列BlockingQueue或者非阻塞队列ConcurrentLinkedQueue。</p>
+<p>Queue是什么就不需要多说了吧，一句话：队列是先进先出。相对的，栈是后进先出。</p>
+<p>BlockingQueue 一个接口，Java5提供了不同的现实，如ArrayBlockingQueue和LinkedBlockingQueue，两者都是先进先出（FIFO）顺序。<br>而ArrayLinkedQueue是自然有界的，LinkedBlockingQueue可选的边界。</p>
+<p>LinkedBlockingQueue<br>由于LinkedBlockingQueue实现是线程安全的，实现了先进先出等特性，是作为生产者消费者的首选，<br>LinkedBlockingQueue 可以指定容量，也可以不指定，不指定的话，默认最大是Integer.MAX_VALUE，<br>其中主要用到put和take方法，put方法在队列满的时候会阻塞直到有队列成员被消费，take方法在队列空的时候会阻塞，直到有队列成员被放进来。</p>
+<p>ConcurrentLinkedQueue<br>ConcurrentLinkedQueue是Queue的一个安全实现．Queue中元素按FIFO原则进行排序．采用CAS操作，来保证元素的一致性。<br>LinkedBlockingQueue是一个线程安全的阻塞队列，它实现了BlockingQueue接口，<br>BlockingQueue接口继承自java.util.Queue接口，并在这个接口的基础上增加了take和put方法，这两个方法正是队列操作的阻塞版本。</p>
+<p>ArrayBlockingQueue是一个由数组支持的有界阻塞队列。此队列按 FIFO（先进先出）原则对元素进行排序。队列的头部 是在队列中存在时间最长的元素.<br>队列的尾部 是在队列中存在时间最短的元素。新元素插入到队列的尾部，队列获取操作则是从队列头部开始获得元素。</p>
+<p>Queue:</p>
+<p>1.ArrayDeque, （数组双端队列）<br>2.PriorityQueue, （优先级队列）<br>3.ConcurrentLinkedQueue, （基于链表的并发队列）<br>4.DelayQueue, （延期阻塞队列）（阻塞队列实现了BlockingQueue接口）<br>5.ArrayBlockingQueue, （基于数组的并发阻塞队列）<br>6.LinkedBlockingQueue, （基于链表的FIFO阻塞队列）<br>7.LinkedBlockingDeque, （基于链表的FIFO双端阻塞队列）<br>8.PriorityBlockingQueue, （带优先级的无界阻塞队列）<br>9.SynchronousQueue （并发同步阻塞队列）</p>
+<p><a href="http://blog.csdn.net/tayanxunhua/article/details/20962307" target="_blank" rel="external">http://blog.csdn.net/tayanxunhua/article/details/20962307</a></p>
+<h2 id="9-_消费者生产者模式">9. 消费者生产者模式</h2><p>一个线程生产,另一个线程消费.</p>
+<h3 id="何为生产消费者模式:">何为生产消费者模式:</h3><p>某个模块负责产生数据，这些数据由另一个模块来负责处理（此处的模块是广义的，可以是类、函数、线程、进程等）。产生数据的模块，就形象地称为生产者；而处理数据的模块，就称为消费者。该模式还需要有一个缓冲区处于生产者和消费者之间，作为一个中介。生产者把数据放入缓冲区，而消费者从缓冲区取出数据。</p>
+<p>作用:生产者消费者模式是通过一个容器来解决生产者和消费者的强耦合问题。生产者和消费者彼此之间不直接通讯，而通过阻塞队列来进行通讯，所以生产者生产完数据之后不用等待消费者处理，直接扔给阻塞队列，消费者不找生产者要数据，而是直接从阻塞队列里取，阻塞队列就相当于一个缓冲区，平衡了生产者和消费者的处理能力。</p>
+<p>这个阻塞队列就是用来给生产者和消费者解耦的。</p>
+<p><img src="http://i.imgur.com/WHpT8Md.png" alt=""></p>
+<p>阻塞指的是暂停一个线程的执行以等待某个条件发生.</p>
+<p>基于阻塞队列构建的消费者-生成者模式中,当数据生成时,生成者将数据放入队列,而当消费者准备处理数据时，将从队列中取出数据.<br>生成者和消费者都不需要知道对方的标识或数量，他们只与队列或者缓冲区打交道.</p>
+<p><img src="http://i.imgur.com/m0w8V3G.png" alt="一个工作队列"></p>
+<p>洗盘工将洗好的盘子放在盘架上,而烘盘工从盘架上取出盘子并把他们烘干。盘架相当于阻塞队列:如果盘架上没有盘子，那么消费者(烘盘工)会一直等到，直到有盘子需要烘干.如果盘架满了,那么那么生成者(洗盘工)会停止清洗直到盘架上有更多的空间。<br>在这里每个工人只需要与盘架打交道,不需要知道有多少生产者或消费者,或者谁生成了某个指定的工作项.</p>
+<p>生成者和消费者的角色是相对的,在某个环境中的消费者在另一个环境中可能会成为生成者。</p>
+<p><img src="http://i.imgur.com/XlyzjrH.png" alt=""></p>
+<p>烘盘工匠消费洗干净的盘子，而产生烘干的盘子，第三人“放盘工”将会把所有烘干的盘子放入厨房橱柜中。在这种情况下烘干盘子的工人既是消费者，也是生成者，从而产生了两个共享的工作队列.每个队列都可能阻塞烘干工作的运行.</p>
+<p>生产者与消费者模型中，要保证以下几点： </p>
+<ul>
+<li>1 同一时间内只能有一个生产者生产     生产方法加锁sychronized </li>
+<li>2 同一时间内只能有一个消费者消费     消费方法加锁sychronized </li>
+<li>3 生产者生产的同时消费者不能消费     生产方法加锁sychronized </li>
+<li>4 消费者消费的同时生产者不能生产     消费方法加锁sychronized </li>
+<li>5 共享空间空时消费者不能继续消费     消费前循环判断是否为空，空的话将该线程wait，释放锁允许其他同步方法执行 </li>
+<li>6 共享空间满时生产者不能继续生产     生产前循环判断是否为满，满的话将该线程wait，释放锁允许其他同步方法执行    </li>
+</ul>
+<p>a.经典的方法是使用wait和notify方法在生产者和消费者线程中合作；</p>
+<p>b.使用阻塞队列。支持阻塞的方法put()和take()</p>
+<p><a href="http://www.cnblogs.com/linjiqin/archive/2013/05/30/3108188.html" target="_blank" rel="external">http://www.cnblogs.com/linjiqin/archive/2013/05/30/3108188.html</a></p>
+<p><a href="http://www.cnblogs.com/dolphin0520/p/3920385.html" target="_blank" rel="external">http://www.cnblogs.com/dolphin0520/p/3920385.html</a></p>
+<blockquote>
+<p>9.1 使用 wait和notify 模拟生产消费者模式</p>
+</blockquote>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> waitNotifyPC {
+
+    <span class="keyword">private</span> <span class="keyword">int</span> queueSize = <span class="number">10</span>;
+    <span class="keyword">private</span> PriorityQueue&lt;Integer&gt; <span class="built_in">queue</span> = <span class="keyword">new</span> PriorityQueue&lt;&gt;(queueSize);
+
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startwaitNoticyPC</span><span class="params">()</span></span>{
+        <span class="keyword">new</span> Producer().start();
+        <span class="keyword">new</span> Consumer().start();
+    }
+
+    <span class="keyword">class</span> Consumer extends Thread{
+        @<span class="function">Override
+        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
+            consume();
+        }
+
+        <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">consume</span><span class="params">()</span> </span>{
+            <span class="keyword">while</span> (<span class="literal">true</span>){
+                synchronized (<span class="built_in">queue</span>){
+                    <span class="keyword">while</span> (<span class="built_in">queue</span>.size()==<span class="number">0</span>){
+                        <span class="keyword">try</span> {
+                            Utils.<span class="built_in">log</span>(<span class="string">"队列空，等待数据"</span>);
+                            <span class="built_in">queue</span>.wait();
+                        } <span class="keyword">catch</span> (InterruptedException e) {
+                            e.printStackTrace();
+                            <span class="built_in">queue</span>.notify();
+                        }
+                    }
+                    <span class="comment">//每次都移走首元素</span>
+                    <span class="built_in">queue</span>.poll();
+                    <span class="built_in">queue</span>.notify();
+                    Utils.<span class="built_in">log</span>(<span class="string">"从队列取走一个元素，队列剩余"</span> + <span class="built_in">queue</span>.size() + <span class="string">"个元素"</span>);
+                }
+            }
+        }
+    }
+
+    <span class="keyword">class</span> Producer extends Thread{
+        @<span class="function">Override
+        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
+            produce();
+        }
+
+        <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">produce</span><span class="params">()</span> </span>{
+            <span class="keyword">while</span> (<span class="literal">true</span>){
+                synchronized (<span class="built_in">queue</span>){
+                    <span class="keyword">while</span> (<span class="built_in">queue</span>.size() == queueSize){
+                        <span class="keyword">try</span> {
+                            Utils.<span class="built_in">log</span>(<span class="string">"队列满，等待有空余空间"</span>);
+                            <span class="built_in">queue</span>.wait();
+                        } <span class="keyword">catch</span> (InterruptedException e) {
+                            e.printStackTrace();
+                            <span class="built_in">queue</span>.notify();
+                        }
+                    }
+                    <span class="built_in">queue</span>.offer(<span class="number">1</span>);<span class="comment">//每次插入一个元素</span>
+                    <span class="built_in">queue</span>.notify();
+                    Utils.<span class="built_in">log</span>(<span class="string">"向队列取中插入一个元素，队列剩余空间："</span> + (queueSize - <span class="built_in">queue</span>.size()));
+
+                }
+            }
+        }
+    }
+
+
+
+
+}
+</code></pre><p>LogCat:</p>
+<pre><code><span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">59</span>:<span class="number">28.929</span>    <span class="number">4438</span>-<span class="number">4497</span>/sabria.demo.threadpractice I/MainActivity﹕ 队列空，等待数据
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">59</span>:<span class="number">28.929</span>    <span class="number">4438</span>-<span class="number">4495</span>/sabria.demo.threadpractice I/MainActivity﹕ 向队列取中插入一个元素，队列剩余空间：<span class="number">9</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">59</span>:<span class="number">28.929</span>    <span class="number">4438</span>-<span class="number">4497</span>/sabria.demo.threadpractice I/MainActivity﹕ 从队列取走一个元素，队列剩余<span class="number">0</span>个元素
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">59</span>:<span class="number">28.929</span>    <span class="number">4438</span>-<span class="number">4497</span>/sabria.demo.threadpractice I/MainActivity﹕ 队列空，等待数据
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">59</span>:<span class="number">28.929</span>    <span class="number">4438</span>-<span class="number">4495</span>/sabria.demo.threadpractice I/MainActivity﹕ 向队列取中插入一个元素，队列剩余空间：<span class="number">9</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">59</span>:<span class="number">28.929</span>    <span class="number">4438</span>-<span class="number">4495</span>/sabria.demo.threadpractice I/MainActivity﹕ 向队列取中插入一个元素，队列剩余空间：<span class="number">8</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">59</span>:<span class="number">28.929</span>    <span class="number">4438</span>-<span class="number">4495</span>/sabria.demo.threadpractice I/MainActivity﹕ 向队列取中插入一个元素，队列剩余空间：<span class="number">7</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">59</span>:<span class="number">28.929</span>    <span class="number">4438</span>-<span class="number">4495</span>/sabria.demo.threadpractice I/MainActivity﹕ 向队列取中插入一个元素，队列剩余空间：<span class="number">6</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">59</span>:<span class="number">28.929</span>    <span class="number">4438</span>-<span class="number">4495</span>/sabria.demo.threadpractice I/MainActivity﹕ 向队列取中插入一个元素，队列剩余空间：<span class="number">5</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">59</span>:<span class="number">28.929</span>    <span class="number">4438</span>-<span class="number">4495</span>/sabria.demo.threadpractice I/MainActivity﹕ 向队列取中插入一个元素，队列剩余空间：<span class="number">4</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">59</span>:<span class="number">28.929</span>    <span class="number">4438</span>-<span class="number">4497</span>/sabria.demo.threadpractice I/MainActivity﹕ 从队列取走一个元素，队列剩余<span class="number">5</span>个元素
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">59</span>:<span class="number">28.929</span>    <span class="number">4438</span>-<span class="number">4497</span>/sabria.demo.threadpractice I/MainActivity﹕ 从队列取走一个元素，队列剩余<span class="number">4</span>个元素
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">59</span>:<span class="number">28.929</span>    <span class="number">4438</span>-<span class="number">4497</span>/sabria.demo.threadpractice I/MainActivity﹕ 从队列取走一个元素，队列剩余<span class="number">3</span>个元素
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">59</span>:<span class="number">28.929</span>    <span class="number">4438</span>-<span class="number">4497</span>/sabria.demo.threadpractice I/MainActivity﹕ 从队列取走一个元素，队列剩余<span class="number">2</span>个元素
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">59</span>:<span class="number">28.929</span>    <span class="number">4438</span>-<span class="number">4497</span>/sabria.demo.threadpractice I/MainActivity﹕ 从队列取走一个元素，队列剩余<span class="number">1</span>个元素
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">59</span>:<span class="number">28.929</span>    <span class="number">4438</span>-<span class="number">4497</span>/sabria.demo.threadpractice I/MainActivity﹕ 从队列取走一个元素，队列剩余
+</code></pre><p>9.2 使用Condition模拟生产消费者模式</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> conditionPC {
+
+    <span class="keyword">private</span> <span class="keyword">int</span> queueSize = <span class="number">10</span>;
+    <span class="keyword">private</span> PriorityQueue&lt;Integer&gt; <span class="built_in">queue</span> = <span class="keyword">new</span> PriorityQueue&lt;&gt;(queueSize);
+    <span class="keyword">private</span> Lock lock = <span class="keyword">new</span> ReentrantLock();
+    <span class="keyword">private</span> Condition notFull = lock.newCondition();
+    <span class="keyword">private</span> Condition notEmpty = lock.newCondition();
+
+
+    <span class="comment">/**
+     *
+
+     */</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startConditionPC</span><span class="params">()</span> </span>{
+        <span class="keyword">new</span> Product().start();
+
+        <span class="keyword">new</span> Consumer().start();
+
+    }
+
+
+    <span class="keyword">class</span> Product extends Thread {
+        @<span class="function">Override
+        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
+            produce();
+        }
+
+        <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">produce</span><span class="params">()</span> </span>{
+            <span class="keyword">while</span> (<span class="literal">true</span>) {
+                lock.lock();
+
+                <span class="keyword">try</span> {
+                    <span class="keyword">while</span> (<span class="built_in">queue</span>.size() == queueSize) {
+
+                        <span class="keyword">try</span> {
+                            Utils.<span class="built_in">log</span>(<span class="string">"队列满，等待有空余空间"</span>);
+                            notFull.await();
+                        } <span class="keyword">catch</span> (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    <span class="built_in">queue</span>.offer(<span class="number">1</span>);<span class="comment">//每次插入一个元素</span>
+                    notEmpty.signal();<span class="comment">//对应Object的notify()</span>
+                    Utils.<span class="built_in">log</span>(<span class="string">"向队列取中插入一个元素，队列剩余空间："</span> + (queueSize - <span class="built_in">queue</span>.size()));
+                } finally {
+                    lock.unlock();
+                }
+
+
+            }
+
+
+        }
+    }
+
+    <span class="keyword">class</span> Consumer extends Thread{
+
+        @<span class="function">Override
+        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
+            consume();
+        }
+
+        <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">consume</span><span class="params">()</span> </span>{
+
+            <span class="keyword">while</span> (<span class="literal">true</span>){
+                lock.lock();
+
+
+                <span class="keyword">try</span> {
+
+                    <span class="comment">//队列不为空,就取poll,为空就await</span>
+                    <span class="keyword">while</span> (<span class="built_in">queue</span>.size()==<span class="number">0</span>){
+
+                        <span class="keyword">try</span> {
+
+                            Utils.<span class="built_in">log</span>(<span class="string">"队列满，等待有空余空间"</span>);
+                            notEmpty.await();
+
+                        } <span class="keyword">catch</span> (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+
+                    <span class="built_in">queue</span>.poll();
+                    notFull.signal();
+
+                    Utils.<span class="built_in">log</span>(<span class="string">"从队列取走一个元素，队列剩余"</span>+<span class="built_in">queue</span>.size()+<span class="string">"个元素"</span>);
+
+                }finally {
+                    lock.unlock();
+                }
+            }
+        }
+    }
+
+
+}
+</code></pre><p>LogCat:</p>
+<pre><code><span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">812</span>/sabria.demo.threadpractice I/MainActivity﹕ 向队列取中插入一个元素，队列剩余空间：<span class="number">9</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">812</span>/sabria.demo.threadpractice I/MainActivity﹕ 向队列取中插入一个元素，队列剩余空间：<span class="number">8</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">812</span>/sabria.demo.threadpractice I/MainActivity﹕ 向队列取中插入一个元素，队列剩余空间：<span class="number">7</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">812</span>/sabria.demo.threadpractice I/MainActivity﹕ 向队列取中插入一个元素，队列剩余空间：<span class="number">6</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">812</span>/sabria.demo.threadpractice I/MainActivity﹕ 向队列取中插入一个元素，队列剩余空间：<span class="number">5</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">812</span>/sabria.demo.threadpractice I/MainActivity﹕ 向队列取中插入一个元素，队列剩余空间：<span class="number">4</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">812</span>/sabria.demo.threadpractice I/MainActivity﹕ 向队列取中插入一个元素，队列剩余空间：<span class="number">3</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">812</span>/sabria.demo.threadpractice I/MainActivity﹕ 向队列取中插入一个元素，队列剩余空间：<span class="number">2</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">812</span>/sabria.demo.threadpractice I/MainActivity﹕ 向队列取中插入一个元素，队列剩余空间：<span class="number">1</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">812</span>/sabria.demo.threadpractice I/MainActivity﹕ 向队列取中插入一个元素，队列剩余空间：<span class="number">0</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">812</span>/sabria.demo.threadpractice I/MainActivity﹕ 队列满，等待有空余空间
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">813</span>/sabria.demo.threadpractice I/MainActivity﹕ 从队列取走一个元素，队列剩余<span class="number">9</span>个元素
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">813</span>/sabria.demo.threadpractice I/MainActivity﹕ 从队列取走一个元素，队列剩余<span class="number">8</span>个元素
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">813</span>/sabria.demo.threadpractice I/MainActivity﹕ 从队列取走一个元素，队列剩余<span class="number">7</span>个元素
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">813</span>/sabria.demo.threadpractice I/MainActivity﹕ 从队列取走一个元素，队列剩余<span class="number">6</span>个元素
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">813</span>/sabria.demo.threadpractice I/MainActivity﹕ 从队列取走一个元素，队列剩余<span class="number">5</span>个元素
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">813</span>/sabria.demo.threadpractice I/MainActivity﹕ 从队列取走一个元素，队列剩余<span class="number">4</span>个元素
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">813</span>/sabria.demo.threadpractice I/MainActivity﹕ 从队列取走一个元素，队列剩余<span class="number">3</span>个元素
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">813</span>/sabria.demo.threadpractice I/MainActivity﹕ 从队列取走一个元素，队列剩余<span class="number">2</span>个元素
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">813</span>/sabria.demo.threadpractice I/MainActivity﹕ 从队列取走一个元素，队列剩余<span class="number">1</span>个元素
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">813</span>/sabria.demo.threadpractice I/MainActivity﹕ 从队列取走一个元素，队列剩余<span class="number">0</span>个元素
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">813</span>/sabria.demo.threadpractice I/MainActivity﹕ 队列满，等待有空余空间
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">812</span>/sabria.demo.threadpractice I/MainActivity﹕ 向队列取中插入一个元素，队列剩余空间：<span class="number">9</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">812</span>/sabria.demo.threadpractice I/MainActivity﹕ 向队列取中插入一个元素，队列剩余空间：<span class="number">8</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">812</span>/sabria.demo.threadpractice I/MainActivity﹕ 向队列取中插入一个元素，队列剩余空间：<span class="number">7</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">812</span>/sabria.demo.threadpractice I/MainActivity﹕ 向队列取中插入一个元素，队列剩余空间：<span class="number">6</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">812</span>/sabria.demo.threadpractice I/MainActivity﹕ 向队列取中插入一个元素，队列剩余空间：<span class="number">5</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">812</span>/sabria.demo.threadpractice I/MainActivity﹕ 向队列取中插入一个元素，队列剩余空间：<span class="number">4</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">812</span>/sabria.demo.threadpractice I/MainActivity﹕ 向队列取中插入一个元素，队列剩余空间：<span class="number">3</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">812</span>/sabria.demo.threadpractice I/MainActivity﹕ 向队列取中插入一个元素，队列剩余空间：<span class="number">2</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">812</span>/sabria.demo.threadpractice I/MainActivity﹕ 向队列取中插入一个元素，队列剩余空间：<span class="number">1</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">812</span>/sabria.demo.threadpractice I/MainActivity﹕ 向队列取中插入一个元素，队列剩余空间：<span class="number">0</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">16</span>:<span class="number">54</span>:<span class="number">26.759</span>      <span class="number">774</span>-<span class="number">812</span>/sabria.demo.threadpractice I/MainActivity﹕ 队列满，等待有空余空间
+......
+</code></pre><blockquote>
+<p>9.3 使用阻塞队列模式模拟生成消费者模式:</p>
+</blockquote>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> PCMechanism {
+
+    BlockingQueue&lt;Integer&gt; <span class="built_in">queue</span> = <span class="keyword">new</span> ArrayBlockingQueue&lt;Integer&gt;(<span class="number">10</span>);
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startPcM</span><span class="params">()</span></span>{
+
+        Thread thread1 = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() {
+            @<span class="function">Override
+            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
+                <span class="keyword">try</span> {
+                    producer();
+                } <span class="keyword">catch</span> (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        Thread thread2 = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() {
+            @<span class="function">Override
+            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
+                <span class="keyword">try</span> {
+                    consumer();
+                } <span class="keyword">catch</span> (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        thread1.start();
+        thread2.start();
+
+
+    }
+
+
+
+    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">producer</span><span class="params">()</span> throws InterruptedException </span>{
+        Random random = <span class="keyword">new</span> Random();
+        <span class="keyword">while</span> (<span class="literal">true</span>){
+            <span class="built_in">queue</span>.put(random.nextInt(<span class="number">100</span>));
+        }
+
+    }
+
+    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">consumer</span><span class="params">()</span> throws InterruptedException </span>{
+        Random random = <span class="keyword">new</span> Random();
+        <span class="keyword">while</span> (<span class="literal">true</span>){
+            Thread.sleep(<span class="number">100</span>);
+            <span class="keyword">if</span> (random.nextInt(<span class="number">10</span>) == <span class="number">0</span>) {
+                Integer value =  <span class="built_in">queue</span>.take();
+                Utils.<span class="built_in">log</span>(<span class="string">"Taken value: "</span> + value + <span class="string">"; Queue size is: "</span> + <span class="built_in">queue</span>.size());
+            }
+        }
+    }
+
+
+}
+</code></pre><p>LogCat:</p>
+<pre><code><span class="number">12</span>-<span class="number">17</span> <span class="number">17</span>:<span class="number">07</span>:<span class="number">50.499</span>    <span class="number">9132</span>-<span class="number">9220</span>/sabria.demo.threadpractice I/MainActivity﹕ Taken value: <span class="number">37</span>; Queue size is: <span class="number">10</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">17</span>:<span class="number">07</span>:<span class="number">50.699</span>    <span class="number">9132</span>-<span class="number">9220</span>/sabria.demo.threadpractice I/MainActivity﹕ Taken value: <span class="number">2</span>; Queue size is: <span class="number">9</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">17</span>:<span class="number">07</span>:<span class="number">50.999</span>    <span class="number">9132</span>-<span class="number">9220</span>/sabria.demo.threadpractice I/MainActivity﹕ Taken value: <span class="number">77</span>; Queue size is: <span class="number">10</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">17</span>:<span class="number">07</span>:<span class="number">51.199</span>    <span class="number">9132</span>-<span class="number">9220</span>/sabria.demo.threadpractice I/MainActivity﹕ Taken value: <span class="number">47</span>; Queue size is: <span class="number">10</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">17</span>:<span class="number">07</span>:<span class="number">52.909</span>    <span class="number">9132</span>-<span class="number">9220</span>/sabria.demo.threadpractice I/MainActivity﹕ Taken value: <span class="number">40</span>; Queue size is: <span class="number">9</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">17</span>:<span class="number">07</span>:<span class="number">53.699</span>    <span class="number">9132</span>-<span class="number">9220</span>/sabria.demo.threadpractice I/MainActivity﹕ Taken value: <span class="number">57</span>; Queue size is: <span class="number">9</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">17</span>:<span class="number">07</span>:<span class="number">56.319</span>    <span class="number">9132</span>-<span class="number">9220</span>/sabria.demo.threadpractice I/MainActivity﹕ Taken value: <span class="number">76</span>; Queue size is: <span class="number">9</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">17</span>:<span class="number">07</span>:<span class="number">56.519</span>    <span class="number">9132</span>-<span class="number">9220</span>/sabria.demo.threadpractice I/MainActivity﹕ Taken value: <span class="number">39</span>; Queue size is: <span class="number">10</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">17</span>:<span class="number">07</span>:<span class="number">57.029</span>    <span class="number">9132</span>-<span class="number">9220</span>/sabria.demo.threadpractice I/MainActivity﹕ Taken value: <span class="number">70</span>; Queue size is: <span class="number">10</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">17</span>:<span class="number">07</span>:<span class="number">58.019</span>    <span class="number">9132</span>-<span class="number">9220</span>/sabria.demo.threadpractice I/MainActivity﹕ Taken value: <span class="number">13</span>; Queue size is: <span class="number">10</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">17</span>:<span class="number">07</span>:<span class="number">59.829</span>    <span class="number">9132</span>-<span class="number">9220</span>/sabria.demo.threadpractice I/MainActivity﹕ Taken value: <span class="number">51</span>; Queue size is: <span class="number">9</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">17</span>:<span class="number">08</span>:<span class="number">00.229</span>    <span class="number">9132</span>-<span class="number">9220</span>/sabria.demo.threadpractice I/MainActivity﹕ Taken value: <span class="number">48</span>; Queue size is: <span class="number">9</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">17</span>:<span class="number">08</span>:<span class="number">00.539</span>    <span class="number">9132</span>-<span class="number">9220</span>/sabria.demo.threadpractice I/MainActivity﹕ Taken value: <span class="number">76</span>; Queue size is: <span class="number">9</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">17</span>:<span class="number">08</span>:<span class="number">01.839</span>    <span class="number">9132</span>-<span class="number">9220</span>/sabria.demo.threadpractice I/MainActivity﹕ Taken value: <span class="number">54</span>; Queue size is: <span class="number">10</span>
+<span class="number">12</span>-<span class="number">17</span> <span class="number">17</span>:<span class="number">08</span>:<span class="number">02.949</span>    <span class="number">9132</span>-<span class="number">9220</span>/sabria.demo.threadpractice I/MainActivity﹕ Taken value: <span class="number">34</span>; Queue size is: <span class="number">9</span>
+......
+</code></pre></span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/2015/12/03/ZT12_2/" itemprop="url">
                 【正谈12月】动态代理范式编程-Part1
               </a>
@@ -1307,85 +2052,6 @@ bintray {
           
           
             
-              <a class="post-title-link" href="/2015/10/23/ZT11_1/" itemprop="url">
-                【正谈10月】Explore NoSql on Android
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2015-10-23T23:45:48+08:00" content="2015-10-23">
-            2015-10-23
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h2 id="一-前言">一.前言</h2><p>D.Richard Hipp不曾想到在这一年他萌芽的轻量级数据库居然诞生在一条漂泊在大海的军舰上，这个诞生于2000年8月的Sqlite数据库由13万行C代码构成,轻量简洁稳定的优势特点,使它经过多年的发展成为Google&amp;Apple在移动端上探索数据库的核心主力，广泛而且大量的被使用。9年后,也就是2009年，NoSql形态数据库被逐渐推上历史的舞蹈核心，Mongodb在服务端架构数据库中大行其道，许多中小型数据库均开始由MySql转向更友好形态的Mongodb.而此时距离iphone1代发布已经过去了整整2年。<br>尽管如此，但在移动端领域NoSql形态数据库仍然还是处于萌芽起步阶段，在写这篇博客时我不经问自己:在Android上探索NoSql型数据库是否为时尚早?也许我们仍然需要时间来检验这个问题和它可能存在的标准答案！</p>
-<h2 id="二-何为Nosql">二.何为Nosql</h2><p>泛指非关系型的数据库，关系数据库关注在关系上，NoSQL关注在存储上。<br>NoSQL数据库种类繁多，但是一个共同的特点都是去掉了关系数据库的关系型特性。数据之间无关系，容易扩展。<br>当前主流四种主要形态的NoSql型数据库：</p>
-<ul>
-<li><em>键值（key-value）比如：Oracle BDB</em></li>
-<li><em>列存储数据库 比如：HBase</em></li>
-<li><em>文档型数据库 比如：MongoDb</em></li>
-<li><em>图形(Graph)数据库 比如：Infinite Graph</em></li>
-</ul>
-<p>主流的Nosql型数据库在Android端的探索主要是以key-value键值对的形式存在。这一类数据库主要会使用到一个哈希表，这个表中有一个特定的键和一个指针指向特定的数据。Key/value模型对于IT系统来说的优势在于简单、易部署。但是如果DBA只对部分值进行查询或更新的时候，Key/value就显得效率低下了。</p>
-<p>使用场景：</p>
-<ul>
-<li><em>1.取代SP存储；</em></li>
-<li><em>2.用于缓存场景.</em></li>
-</ul>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/10/23/ZT11_1/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
               <a class="post-title-link" href="/2015/10/23/LB_D/" itemprop="url">
                 【杂谈10月】Library-Everyday-Gitbook上线
               </a>
@@ -1442,6 +2108,85 @@ bintray {
 </code></pre><p>&emsp;&emsp;下面是这三天的AndroidEveryday，算是Demo小样，博客中也雅俗共赏下咯，看看和github的排版有什么不同。</p>
           <div class="post-more-link text-center">
             <a class="btn" href="/2015/10/23/LB_D/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/2015/10/23/ZT11_1/" itemprop="url">
+                【正谈10月】Explore NoSql on Android
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-10-23T23:45:48+08:00" content="2015-10-23">
+            2015-10-23
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h2 id="一-前言">一.前言</h2><p>D.Richard Hipp不曾想到在这一年他萌芽的轻量级数据库居然诞生在一条漂泊在大海的军舰上，这个诞生于2000年8月的Sqlite数据库由13万行C代码构成,轻量简洁稳定的优势特点,使它经过多年的发展成为Google&amp;Apple在移动端上探索数据库的核心主力，广泛而且大量的被使用。9年后,也就是2009年，NoSql形态数据库被逐渐推上历史的舞蹈核心，Mongodb在服务端架构数据库中大行其道，许多中小型数据库均开始由MySql转向更友好形态的Mongodb.而此时距离iphone1代发布已经过去了整整2年。<br>尽管如此，但在移动端领域NoSql形态数据库仍然还是处于萌芽起步阶段，在写这篇博客时我不经问自己:在Android上探索NoSql型数据库是否为时尚早?也许我们仍然需要时间来检验这个问题和它可能存在的标准答案！</p>
+<h2 id="二-何为Nosql">二.何为Nosql</h2><p>泛指非关系型的数据库，关系数据库关注在关系上，NoSQL关注在存储上。<br>NoSQL数据库种类繁多，但是一个共同的特点都是去掉了关系数据库的关系型特性。数据之间无关系，容易扩展。<br>当前主流四种主要形态的NoSql型数据库：</p>
+<ul>
+<li><em>键值（key-value）比如：Oracle BDB</em></li>
+<li><em>列存储数据库 比如：HBase</em></li>
+<li><em>文档型数据库 比如：MongoDb</em></li>
+<li><em>图形(Graph)数据库 比如：Infinite Graph</em></li>
+</ul>
+<p>主流的Nosql型数据库在Android端的探索主要是以key-value键值对的形式存在。这一类数据库主要会使用到一个哈希表，这个表中有一个特定的键和一个指针指向特定的数据。Key/value模型对于IT系统来说的优势在于简单、易部署。但是如果DBA只对部分值进行查询或更新的时候，Key/value就显得效率低下了。</p>
+<p>使用场景：</p>
+<ul>
+<li><em>1.取代SP存储；</em></li>
+<li><em>2.用于缓存场景.</em></li>
+</ul>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/10/23/ZT11_1/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -2386,83 +3131,6 @@ vpi_attrs.xml
 
 
     
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2015/09/16/15September/" itemprop="url">
-                【开源9月】September
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2015-09-16T22:13:48+08:00" content="2015-09-16">
-            2015-09-16
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>包含如下内容：</p>
-<pre><code>开源推荐
-
-<span class="keyword">APP</span>推荐
-
-优秀文章推荐
-
-点评开源
-</code></pre><blockquote>
-<p>If you have interest in these libraries you can visit <a href="https://github.com/stars/xiaomeixw">my github’s stars</a> </p>
-</blockquote>
-<h2 id="<!-more->">
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/09/16/15September/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2502,7 +3170,7 @@ vpi_attrs.xml
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">21</span>
+              <span class="site-state-item-count">22</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -2565,7 +3233,7 @@ vpi_attrs.xml
             <div class="copyright" >
   
   &copy; &nbsp; 
-  <span itemprop="copyrightYear">2015</span>
+  <span itemprop="copyrightYear">2016</span>
   <span class="with-love">
     <i class="icon-heart"></i>
   </span>
