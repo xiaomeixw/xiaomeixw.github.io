@@ -1,0 +1,892 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+    
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.4"/>
+
+
+    <meta name="description" content="重新发现、定义并创造这个世界..." />
+
+
+
+  <meta name="keywords" content="Hexo,next" />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
+
+
+<meta name="description" content="Android注解范式编程Part1
+一.概念1.1 含义:Android的注解是来源于Java本身,它相当于一种标记,加上这种标记后就等于给程序打上了一种“注释和解读”。java编译器和程序可以通过反射来获取此标记,然后根据定义的这个注解的“动作代码”去执行相应的操作。
+1.2 注解的定义格式：@头注释
+@interface自定义{
+    属性元素...
+}
+注解的格式由三个部分组成:
+
+1.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【正谈1月】Android注解范式编程Part1">
+<meta property="og:url" content="http://yoursite.com/2016/01/11/ZTN01_3/index.html">
+<meta property="og:site_name" content="sabria">
+<meta property="og:description" content="Android注解范式编程Part1
+一.概念1.1 含义:Android的注解是来源于Java本身,它相当于一种标记,加上这种标记后就等于给程序打上了一种“注释和解读”。java编译器和程序可以通过反射来获取此标记,然后根据定义的这个注解的“动作代码”去执行相应的操作。
+1.2 注解的定义格式：@头注释
+@interface自定义{
+    属性元素...
+}
+注解的格式由三个部分组成:
+
+1.">
+<meta property="og:image" content="http://i.imgur.com/ldqqewB.png">
+<meta property="og:updated_time" content="2016-01-12T17:31:04.811Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【正谈1月】Android注解范式编程Part1">
+<meta name="twitter:description" content="Android注解范式编程Part1
+一.概念1.1 含义:Android的注解是来源于Java本身,它相当于一种标记,加上这种标记后就等于给程序打上了一种“注释和解读”。java编译器和程序可以通过反射来获取此标记,然后根据定义的这个注解的“动作代码”去执行相应的操作。
+1.2 注解的定义格式：@头注释
+@interface自定义{
+    属性元素...
+}
+注解的格式由三个部分组成:
+
+1.">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'hide'
+  };
+</script>
+
+    <title> 【正谈1月】Android注解范式编程Part1 // sabria </title>
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+
+
+
+<div class="container one-column page-post-detail">
+    <div class="headband"></div>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">sabria</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+        </div>
+    </header>
+
+    <main id="main" class="main">
+        <div class="main-inner">
+            <div id="content" class="content">
+                
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              【正谈1月】Android注解范式编程Part1
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2016-01-11T21:32:09+08:00" content="2016-01-11">
+            2016-01-11
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>Android注解范式编程Part1</p>
+<h2 id="一-概念">一.概念</h2><h3 id="1-1_含义:">1.1 含义:</h3><p>Android的注解是来源于Java本身,它相当于一种标记,加上这种标记后就等于给程序打上了一种“注释和解读”。java编译器和程序可以通过反射来获取此标记,然后根据定义的这个注解的“动作代码”去执行相应的操作。</p>
+<h3 id="1-2_注解的定义格式：">1.2 注解的定义格式：</h3><pre><code>@头注释
+<span class="variable">@interface</span>自定义{
+    属性元素...
+}
+</code></pre><p>注解的格式由三个部分组成:</p>
+<ul>
+<li><em>1.@头注释：说明该注解的使用标注环境和场景；</em></li>
+<li><em>2.@interface修饰：定义为该对象为自定义注解对象；</em></li>
+<li><em>3.属性元素 ： 类似于参数(对象)量概念。</em></li>
+</ul>
+<p>比如下面的一个最简单的注解格式：</p>
+<pre><code><span class="keyword">public</span> @<span class="class"><span class="keyword">interface</span> <span class="title">MyAnnotation</span> </span>{
+    <span class="comment">//......</span>
+}
+</code></pre><p>或者一个更复杂的:</p>
+<pre><code><span class="annotation">@Retention</span>(RetentionPolicy.RUNTIME)
+<span class="annotation">@Target</span>(ElementType.METHOD)
+<span class="annotation">@Documented</span>
+<span class="keyword">public</span> <span class="annotation">@interface</span> GET {
+    String value() <span class="keyword">default</span> <span class="string">""</span>;
+}
+</code></pre><h3 id="1-3_注解的书写格式：">1.3 注解的书写格式：</h3><p>也就是如何去用注解：</p>
+<pre><code><span class="decorator">@ + 英文关键词</span>
+</code></pre><p>比如Java提供给我们覆写方法的注解“@Override”，上面示例的使用为@MyAnnotation和@GET.</p>
+<h3 id="1-4_系统提供的三个标准注解">1.4 系统提供的三个标准注解</h3><ul>
+<li><em>@Override，表示当前的方法定义将覆盖超类中的方法。</em>    </li>
+<li><em>@Deprecated，使用了注解为它的元素编译器将发出警告，因为注解@Deprecated是不赞成使用的代码，被弃用的代码。</em></li>
+<li><em>@SuppressWarnings，关闭不当编译器警告信息。</em></li>
+</ul>
+<h2 id="二-自定义注解">二.自定义注解</h2><p>系统提供的三个标准注解是无法满足Android开发的生产环境的,所以我们必须自定义注解,然后解析该注解标识的对象(类、方法、字段等),完成相应业务逻辑.</p>
+<p>Java为我们提供了一个元注解的概念,它的作用就是负责标注其他注解,去自定义该注解的工作范围和使用场景.</p>
+<h3 id="2-1_元注解">2.1 元注解</h3><p>Java5.0定义了4个标准的meta-annotation类型，它们被用来提供对自定义的annotation类型作说明。</p>
+<ul>
+<li>1.@Target ： 告知注解可以用于什么地方;</li>
+<li>2.@Retention : </li>
+<li>3.@Documented</li>
+<li>4.@Inherited</li>
+</ul>
+<h4 id="2-1-1_@Target">2.1.1 @Target</h4><p>作用:告知注解可以用于什么地方.</p>
+<p>书写格式:</p>
+<pre><code>@<span class="function"><span class="title">Target</span><span class="params">(ElementType.METHOD)</span></span>
+</code></pre><p>可选的ElementType参数有：</p>
+<pre><code>ElemenetType<span class="class">.CONSTRUCTOR</span>      构造器声明 
+ElemenetType<span class="class">.FIELD</span>          　域声明（包括 enum 实例） 
+ElemenetType<span class="class">.LOCAL_VARIABLE</span>   局部变量声明 
+ElemenetType<span class="class">.METHOD</span>           方法声明 
+ElemenetType<span class="class">.PACKAGE</span>          包声明 
+ElemenetType<span class="class">.PARAMETER</span>        参数声明 
+ElemenetType<span class="class">.TYPE</span>          　 类，接口（包括注解类型）或enum声明
+</code></pre><h4 id="2-1-2_@Retention">2.1.2 @Retention</h4><p>作用:表示需要在什么级别保存该注解信息.</p>
+<p>书写格式:</p>
+<pre><code>@<span class="function"><span class="title">Retention</span><span class="params">(RetentionPolicy.RUNTIME)</span></span>
+</code></pre><p>可选的RetentionPolicy参数包括：</p>
+<pre><code>RetentionPolicy<span class="class">.SOURCE</span> 　　　   注解将被编译器丢弃 
+RetentionPolicy<span class="class">.CLASS</span> 　　　　　 注解在class文件中可用，但会被VM丢弃 
+RetentionPolicy<span class="class">.RUNTIME</span> 　　　  VM将在运行期也保留注释，因此可以通过反射机制读取注解的信息。
+</code></pre><p>同时根据级别的不同我们也将产生两种不同的注解时处理模式:</p>
+<pre><code>RetentionPolicy               |<span class="string"> Describe                          </span>|<span class="string"> Chinese     </span>|<span class="string">  Example
+------------------------------</span>|<span class="string"> --------------------------------- </span>|<span class="string"> ---------   </span>|<span class="string"> ---------- 
+RetentionPolicy.RUNTIME       </span>|<span class="string"> Run Time Annotation Processor     </span>|<span class="string"> 运行时注解   </span>|<span class="string"> Retrofit
+RetentionPolicy.CLASS         </span>|<span class="string"> Compile Time Annotation Processor </span>|<span class="string"> 编译时注解   </span>|<span class="string"> ButterKnife</span>
+</code></pre><p>两者最大的区别在于:RTAP是运行时才会去操作注解,而CTAP是编译时就根据注解生成新的类对象或者完成了注解操作.<br>所以CTAP的性能十分优良,而RTAP则由于大量反射的使用导致性能受限.但CTAP的代码书写要相对于RTAP复杂很多,两者各有优势,具体的范例我为在Part2中提供出来，会做专门的比较。</p>
+<h4 id="2-1-3_@Document">2.1.3 @Document</h4><p>作用:表示需要在什么级别保存该注解信息.</p>
+<p>书写格式:</p>
+<pre><code><span class="annotation">@Document</span>
+</code></pre><h4 id="2-1-4_@Inherited">2.1.4 @Inherited</h4><p>作用:允许子类继承父类中的注解(class级别).</p>
+<p>书写格式:</p>
+<pre><code><span class="annotation">@Inherited</span>
+</code></pre><h3 id="2-2_注解的元素(属性)">2.2 注解的元素(属性)</h3><p>注解的元素看起来就像接口的方法，唯一的区别在于可以为其制定默认值。没有元素的注解称为标记注解。</p>
+<p>注解属性的类型只能是如下类型：</p>
+<ul>
+<li>String类型</li>
+<li>8大基本数据类型</li>
+<li>Class类型</li>
+<li>枚举类型</li>
+<li>注解类型</li>
+<li>以上类型的一维数组</li>
+</ul>
+<p>示例:</p>
+<pre><code><span class="annotation">@Target</span>(ElementType.METHOD)
+<span class="annotation">@Retention</span>(RetentionPolicy.RUNTIME)
+<span class="keyword">public</span> <span class="annotation">@interface</span> User {
+      <span class="keyword">public</span> <span class="function">String <span class="title">id</span><span class="params">()</span></span>;
+      <span class="keyword">public</span> String description() <span class="keyword">default</span> <span class="string">"defalut description"</span>;
+}
+</code></pre><p>或者:</p>
+<pre><code><span class="annotation">@Retention</span>(RetentionPolicy.RUNTIME)
+<span class="annotation">@Target</span>(ElementType.METHOD)
+<span class="keyword">public</span> <span class="annotation">@interface</span> Subscribe {
+
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Mode</span></span>{
+        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> Main = <span class="number">0</span>;
+        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> Backgroud = <span class="number">1</span>;
+    }
+
+    <span class="function"><span class="keyword">int</span> <span class="title">mode</span><span class="params">()</span> <span class="keyword">default</span> Mode.Main</span>;
+    <span class="function">String <span class="title">queue</span><span class="params">()</span> <span class="keyword">default</span> "GLOBAL"</span>;
+}
+</code></pre><p>使用:</p>
+<pre><code><span class="at_rule">@<span class="keyword">Subscribe(mode=</span> Subscribe.Mode.Backgroud)
+public void <span class="function">onProcessData</span>(ProcessData data) </span>{
+    <span class="tag">mGlobalBus</span><span class="class">.post</span>(<span class="tag">new</span> <span class="tag">ProgressStatusEvent</span>(<span class="tag">i</span> + 1, <span class="tag">data</span><span class="class">.totalSteps</span>,<span class="tag">data</span><span class="class">.rank</span>));            
+}
+</code></pre><p>关于注解的元素,不一定在使用注解时都必须赋值,甚至可以标注注解时一个元素都不赋值.比如:</p>
+<pre><code> @<span class="function">Subscribe
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onProgressStatusEvent</span>(<span class="params">ProgressStatusEvent <span class="keyword">event</span></span>) </span>{
+    mProgressStatusEvent = <span class="keyword">event</span>;
+    <span class="keyword">int</span> rank = <span class="keyword">event</span>.rank;
+    mProgressBar0.setMax(<span class="keyword">event</span>.totalSteps);
+    mProgressBar0.setProgress(<span class="keyword">event</span>.step);        
+}
+</code></pre><h2 id="3-设置注解并解析注解">3.设置注解并解析注解</h2><p>所谓设置注解也就是使用和标注自定义注解</p>
+<p>比如自定义的注解:</p>
+<pre><code><span class="annotation">@Target</span>(ElementType.METHOD)
+<span class="annotation">@Retention</span>(RetentionPolicy.RUNTIME)
+<span class="keyword">public</span> <span class="annotation">@interface</span> UserInfo {
+      <span class="keyword">public</span> <span class="function">String <span class="title">id</span><span class="params">()</span></span>;
+      <span class="keyword">public</span> String description() <span class="keyword">default</span> <span class="string">"defalut description"</span>;
+}
+</code></pre><p>使用它如下：</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PasswordUtils</span> </span>{    
+
+    <span class="annotation">@UserInfo</span>(id = <span class="number">47</span>, description = <span class="string">"Passwords must contain at least one numeric"</span>)
+    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">validatePassword</span><span class="params">(String password)</span> </span>{
+           <span class="keyword">return</span> (password.matches(<span class="string">"\\w*\\d\\w*"</span>));
+    }    
+
+}
+</code></pre><p>那么我们如何去解析这段注解：</p>
+<blockquote>
+<p>解决方案 : 通过注解处理器得到注解。<br>从原理上讲，注解处理器就是通过反射机制获取被检查方法上的注解信息，然后根据注解元素的值进行特定的处理。</p>
+</blockquote>
+<p>四个核心API:</p>
+<p><img src="http://i.imgur.com/ldqqewB.png" width="80%"> </p>
+<p>示例:</p>
+<pre><code><span class="keyword">private</span> <span class="keyword">void</span> getAnno() {
+    <span class="comment">//拿被注解方法上的</span>
+    <span class="keyword">for</span> (Method m : PasswordUtils.<span class="keyword">class</span>.getDeclaredMethods()) {
+        <span class="keyword">boolean</span> hasAnnotation = m.isAnnotationPresent(UserInfo.<span class="keyword">class</span>);
+        <span class="comment">/**
+         * 判断方法中是否有指定注解类型的注解
+         */</span>
+        <span class="keyword">if</span> (hasAnnotation) {
+            <span class="comment">//拿到注解类</span>
+            UserInfo annotation = m.getAnnotation(UserInfo.<span class="keyword">class</span>);
+            <span class="keyword">if</span> (annotation != <span class="keyword">null</span>) {
+                <span class="comment">//这样就拿到了定义的值:47</span>
+                String id = annotation.id();
+                String <span class="keyword">description</span> = annotation.<span class="keyword">description</span>();
+                Toast.makeText(MainActivity.<span class="keyword">this</span>,<span class="string">"id="</span>+id+<span class="string">"/description="</span>+<span class="keyword">description</span>,Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+}
+</code></pre><p>代码见:<a href="https://github.com/xiaomeixw/AndroidDemo/blob/master/annotationdemo/src/main/java/sabria/demo/annotationdemo/MainActivity.java#L18" target="_blank" rel="external">AndroidDemo</a></p>
+<h2 id="4-不同类型的拿法(运行时注解)">4.不同类型的拿法(运行时注解)</h2><p>这里特指运行时注解的处理方案,关于编译时注解我会给专门的part内容进行描述</p>
+<p>定义注解：</p>
+<pre><code><span class="annotation">@Target</span>({ElementType.TYPE,ElementType.METHOD,ElementType.FIELD,ElementType.CONSTRUCTOR})
+<span class="annotation">@Retention</span>(RetentionPolicy.RUNTIME)
+<span class="keyword">public</span> <span class="annotation">@interface</span> MyAnno {
+    <span class="function">String <span class="title">name</span><span class="params">()</span> </span>;
+    <span class="function"><span class="keyword">int</span> <span class="title">id</span><span class="params">()</span> <span class="keyword">default</span> 0</span>;
+    <span class="function">Class&lt;Long&gt; <span class="title">gid</span><span class="params">()</span></span>;
+}
+</code></pre><p>使用注解：</p>
+<pre><code><span class="annotation">@MyAnno</span>(name=<span class="string">"type"</span>,gid=Long.<span class="keyword">class</span>)
+使用了类注解
+public <span class="class"><span class="keyword">class</span> <span class="title">UserAnnotation</span> </span>{
+
+    <span class="comment">//字段</span>
+    <span class="annotation">@TestA</span>(name=<span class="string">"param"</span>,id=<span class="number">1</span>,gid=Long.<span class="keyword">class</span>) <span class="comment">// 使用了类成员注解</span>
+    private Integer age;
+
+    <span class="comment">//构造器</span>
+    <span class="annotation">@TestA</span>(name=<span class="string">"construct"</span>,id=<span class="number">2</span>,gid=Long.<span class="keyword">class</span>)<span class="comment">// 使用了构造方法注解</span>
+    public UserAnnotation() {
+    }
+
+    <span class="comment">//方法a，b，c</span>
+    <span class="annotation">@TestA</span>(name=<span class="string">"public method"</span>, id=<span class="number">3</span>, gid=Long.<span class="keyword">class</span>)<span class="comment">// 使用了 public 方法注解</span>
+    public <span class="keyword">void</span> a() {
+        <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt; m = <span class="keyword">new</span> HashMap&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt;(<span class="number">0</span>);
+    }
+
+    <span class="annotation">@TestA</span>(name=<span class="string">"protected method"</span>, id=<span class="number">4</span>, gid=Long.<span class="keyword">class</span>)<span class="comment">//protected 方法注解</span>
+    protected <span class="keyword">void</span> b() { 
+        <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt; m = <span class="keyword">new</span> HashMap&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt;(<span class="number">0</span>);
+    }
+
+    <span class="annotation">@TestA</span>(name=<span class="string">"private method "</span> , id = <span class="number">5</span>, gid=Long.<span class="keyword">class</span>) <span class="comment">// private 方法注解</span>
+    private <span class="keyword">void</span> c(){
+        <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt; m = <span class="keyword">new</span> HashMap&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt;(<span class="number">0</span>);
+    }
+
+    public <span class="keyword">void</span> b(Integer a){ 
+    }
+}
+</code></pre><p>解析注解:</p>
+<h3 id="4-1_解析类上注解">4.1 解析类上注解</h3><pre><code>private void parseTypeAnnotation<span class="params">()</span> throws ClassNotFoundException{
+    <span class="comment">//先找到类</span>
+    Class clazz = Class.forName<span class="params">(<span class="string">"sabria.demo.annotationdemo.getanno.UserAnnotation"</span>)</span>;
+    <span class="comment">//拿到注解器</span>
+    Annotation[] annotations = clazz.getAnnotations<span class="params">()</span>;
+    <span class="keyword">for</span> <span class="params">(Annotation annotation : annotations)</span> {
+        <span class="comment">//拿到类上的注解对象</span>
+        MyAnno testA = <span class="params">(MyAnno)</span> annotation;
+        say<span class="params">(<span class="string">"type name = "</span> + clazz.getName<span class="params">()</span> + <span class="string">"  |  id = "</span> + testA.id<span class="params">()</span> + <span class="string">"  |  name = "</span> + testA.name<span class="params">()</span> + <span class="string">"  |  　　　　　　　　　　　　　　　　　　　　gid = "</span> + testA.gid<span class="params">()</span>)</span>;
+    }
+}
+</code></pre><p>打印如下:</p>
+<blockquote>
+<p>01-11 15:24:57.414  25515-25515/sabria.demo.annotationdemo I/MainActivity﹕ type name = sabria.demo.annotationdemo.getanno.UserAnnotation  |  id = 0  |  name = type  | gid = class java.lang.Long</p>
+</blockquote>
+<h3 id="4-2_解析方法上注解">4.2 解析方法上注解</h3><pre><code>private <span class="type">void</span> parseMethodAnnotation() {
+    //拿到<span class="type">UserAnnotation</span>类中的所有方法
+    <span class="type">Method</span>[] methods = <span class="type">UserAnnotation</span>.class.getDeclaredMethods();
+    //一个一个方法判断
+    <span class="keyword">for</span> (<span class="type">Method</span> <span class="keyword">method</span> : methods) {
+         /*
+         * 判断方法中是否有指定注解类型的注解
+         * 方法上面是否有@<span class="type">MyAnno</span>
+         */
+        boolean hasAnnotation = <span class="keyword">method</span>.isAnnotationPresent(<span class="type">MyAnno</span>.class);
+        <span class="keyword">if</span>(hasAnnotation){
+            //有的话,拿注解器
+            <span class="type">MyAnno</span> annotation = <span class="keyword">method</span>.getAnnotation(<span class="type">MyAnno</span>.class);
+            say(<span class="string">"method name = "</span> + <span class="keyword">method</span>.getName() + <span class="string">"  |  id = "</span> +
+                    annotation.id() + <span class="string">"  |  description = "</span> + annotation.name() + <span class="string">"  |  gid = "</span> + annotation.gid());
+        }
+    }
+}
+</code></pre><p>打印如下:</p>
+<blockquote>
+<p>01-11 15:24:57.424  25515-25515/sabria.demo.annotationdemo I/MainActivity﹕ method name = a  |  id = 3  |  description = public method  |  gid = class java.lang.Long</p>
+<p>01-11 15:24:57.434  25515-25515/sabria.demo.annotationdemo I/MainActivity﹕ method name = b  |  id = 4  |  description = protected method  |  gid = class java.lang.Long</p>
+<p>01-11 15:24:57.434  25515-25515/sabria.demo.annotationdemo I/MainActivity﹕ method name = c  |  id = 5  |  description = private method   |  gid = class java.lang.Long</p>
+</blockquote>
+<h3 id="4-3_解析构造器上注解">4.3 解析构造器上注解</h3><pre><code><span class="keyword">private</span> <span class="built_in">void</span> parseConstructAnnotation() {
+    Constructor[] constructors = UserAnnotation.class.getConstructors();
+    <span class="keyword">for</span> (Constructor <span class="constructor"><span class="keyword">constructor</span> : constructors) </span>{
+            <span class="comment">/*
+             * 判断构造方法中是否有指定注解类型的注解
+             */</span>
+        <span class="built_in">boolean</span> hasAnnotation = <span class="constructor"><span class="keyword">constructor</span>.isAnnotationPresent(MyAnno.class);
+        if(hasAnnotation)</span>{
+                 <span class="comment">/*
+                 * 根据注解类型返回方法的指定类型注解
+                 */</span>
+            MyAnno annotation = (MyAnno) <span class="constructor"><span class="keyword">constructor</span>.getAnnotation(MyAnno.class);
+            say("<span class="keyword">constructor</span> = " + <span class="keyword">constructor</span>.getName()
+                    + "   |   id = " + annotation.id() + "  |  description = "
+                    + annotation.name() + "  |   gid= "+annotation.gid());
+        }
+    }
+}</span>
+</code></pre><p>打印如下:</p>
+<blockquote>
+<p>01-11 15:30:08.984  30046-30046/sabria.demo.annotationdemo I/MainActivity﹕ constructor = sabria.demo.annotationdemo.getanno.UserAnnotation   |   id = 2  |  description = construct  |   gid= class java.lang.Long</p>
+</blockquote>
+<h3 id="4-4_解析字段上注解">4.4 解析字段上注解</h3><pre><code>private void parseFieldAnnotation<span class="params">()</span> {
+
+    <span class="comment">//1.拿这个类上的所有字段</span>
+    Field[] fields = UserAnnotation.class.getDeclaredFields<span class="params">()</span>;
+    <span class="keyword">for</span> <span class="params">(Field field : fields)</span> {
+        <span class="comment">//2.该字段上是否有注解</span>
+        boolean hasAnnotation = field.isAnnotationPresent<span class="params">(MyAnno.class)</span>;
+        <span class="keyword">if</span><span class="params">(hasAnnotation)</span>{
+            <span class="comment">//3.拿到注解器对象</span>
+            MyAnno annotation = field.getAnnotation<span class="params">(MyAnno.class)</span>;
+            say<span class="params">(<span class="string">"Field = "</span> + field.getName<span class="params">()</span>
+                    + <span class="string">"  |  id = "</span> + annotation.id<span class="params">()</span> + <span class="string">"  |  description = "</span>
+                    + annotation.name<span class="params">()</span> + <span class="string">"  |  gid= "</span>+annotation.gid<span class="params">()</span>)</span>;
+        }
+    }
+
+}
+</code></pre><p>打印如下:</p>
+<blockquote>
+<p>01-11 15:30:08.994  30046-30046/sabria.demo.annotationdemo I/MainActivity﹕ Field = age  |  id = 1  |  description = param  |  gid= class java.lang.Long</p>
+</blockquote>
+<p>代码见:</p>
+<p>总结:</p>
+<ul>
+<li>1.拿这个类上的方法或字段;</li>
+<li>2.判断方法或者字段上是否有给注解;</li>
+<li>3.拿到注解对象,获取值</li>
+</ul>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/13/ZTN01_4/" rel="prev">【杂谈1月】Android注解范式编程Part2</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/06/ZTN01_2/" rel="next">【杂谈1月】JobSchedule即将开源</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+            </div>
+
+            
+
+            
+              <div class="comments" id="comments">
+                
+              </div>
+            
+        </div>
+
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/avatar.jpg" alt="熊伟xiongwei" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">熊伟xiongwei</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">重新发现、定义并创造这个世界...</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xiaomeixw" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.sabria.net/" target="_blank">anotherblog</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/1561605537" target="_blank">weibo</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-概念"><span class="nav-number">1.</span> <span class="nav-text">一.概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1_含义:"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 含义:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2_注解的定义格式："><span class="nav-number">1.2.</span> <span class="nav-text">1.2 注解的定义格式：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3_注解的书写格式："><span class="nav-number">1.3.</span> <span class="nav-text">1.3 注解的书写格式：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4_系统提供的三个标准注解"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 系统提供的三个标准注解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-自定义注解"><span class="nav-number">2.</span> <span class="nav-text">二.自定义注解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1_元注解"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 元注解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1_@Target"><span class="nav-number">2.1.1.</span> <span class="nav-text">2.1.1 @Target</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-2_@Retention"><span class="nav-number">2.1.2.</span> <span class="nav-text">2.1.2 @Retention</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3_@Document"><span class="nav-number">2.1.3.</span> <span class="nav-text">2.1.3 @Document</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-4_@Inherited"><span class="nav-number">2.1.4.</span> <span class="nav-text">2.1.4 @Inherited</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2_注解的元素(属性)"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 注解的元素(属性)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-设置注解并解析注解"><span class="nav-number">3.</span> <span class="nav-text">3.设置注解并解析注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-不同类型的拿法(运行时注解)"><span class="nav-number">4.</span> <span class="nav-text">4.不同类型的拿法(运行时注解)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1_解析类上注解"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 解析类上注解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2_解析方法上注解"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 解析方法上注解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3_解析构造器上注解"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 解析构造器上注解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4_解析字段上注解"><span class="nav-number">4.4.</span> <span class="nav-text">4.4 解析字段上注解</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">熊伟xiongwei</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+        </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+</div>
+
+<script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.4"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.4"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.4" id="motion.global"></script>
+
+
+
+  <script type="text/javascript" src="/js/search-toggle.js"></script>
+
+
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.4" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (CONFIG.sidebar === 'always') {
+            displaySidebar();
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+<!-- lazyload -->
+<script type="text/javascript" src="/js/lazyload.js"></script>
+<script type="text/javascript">
+    jQuery(function () {
+        jQuery("#posts img").lazyload({
+            placeholder: "/images/loading.gif",
+            effect: "fadeIn"
+        });
+    });
+</script>
+</body>
+</html>

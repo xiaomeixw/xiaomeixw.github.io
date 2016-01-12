@@ -152,6 +152,675 @@
           
           
             
+              <a class="post-title-link" href="/2016/01/13/ZTN01_4/" itemprop="url">
+                【杂谈1月】Android注解范式编程Part2
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2016-01-13T01:32:12+08:00" content="2016-01-13">
+            2016-01-13
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody"><p>Android注解范式编程Part2</p>
+<p>如果你做过JavaEE开发,你应该知道一个概念，叫:DI(依赖注入),依赖注入是Spring的核心思想,它将对象的创建交给Spring来进行管理,在初始化整个Java-web时,初始化在Spring的配置文件中的一批对象,当代码中需要对象时,只要直接从Spring中获取,而不需要自己去new.同时ClassA中如果需要的是ClassB对象,spring配置文件中也是有相应的对象ref引用的。</p>
+<p>如果单纯这个说Spring这个概念的话，因为很多Android同仁也没有做过JavaEE的开始，所以最终决定还是在<br>Part2中专门抽一个小节给点Spring的概念简述.</p>
+<h2 id="一-Spring简述">一.Spring简述</h2><p>Spring是Interface21公司开源的轻量级的JavaEE开发框架。它主要是控制Web三层架构的Service层的操作,它的核心是控制反转（IoC）和面向切面（AOP）。</p>
+<p>控制反转（IoC）：应用本身不负责依赖对象的创建及维护。也就是在应用本身不new对象。由Spring等IOC容器来处理对象的创建与维护。这个含义在某种程度上也就是DI(依赖注入)。具体的差异我会专门有文章讨论,这里不做过多描述。</p>
+<p>面向切面编程（AOP）：通过预编译方式和运行期动态代理实现程序功能的统一维护的一种技术。AOP思想：在程序员编写代码时，随时动态的插入、删除这些系统服务性代码(如事务)。它的本质：动态代理。(spring使用的不是JDK的动态代理，而是使用个cglib第三方动态代理。)</p>
+<p>Spring中最重要的是Bean对象的注入方案问题,理论上有三种解决方案:<br>比如：如何将到PersonDao对象注入PersonService中？</p>
+<ul>
+<li>通过属性+set方法(接口)</li>
+<li>通过属性+构造器</li>
+<li>使用字段Field注解的方法(注解的方式)</li>
+</ul>
+<p>这里我就以方案一来处理,其他如果描述过多了，还影响我们讨论Android有关的知识。</p>
+<p>PersonServiceBean对象:将PersonDao对象注入PersonService中</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PersonServiceBean</span> <span class="keyword">implements</span> <span class="title">PersonService</span> </span>{
+
+    <span class="keyword">private</span> PersonDao personDao;
+
+    <span class="function"><span class="keyword">public</span> PersonDao <span class="title">getPersonDao</span><span class="params">()</span></span>{
+        <span class="keyword">return</span> personDao;
+    }
+
+    <span class="function">Public <span class="keyword">void</span> <span class="title">setPersonDao</span><span class="params">(PersonDao personDao)</span></span>{
+        <span class="keyword">this</span>.personDao=personDao;
+    }
+
+}
+</code></pre><p>Spring配置文件:ref</p>
+<pre><code>&lt;bean id=<span class="string">"personDao"</span> class =<span class="string">"sabria.demo.annotationdemo.dao.impl.PersonDao"</span>&gt;&lt;/bean&gt;
+&lt;bean id=<span class="string">"personService"</span> class =<span class="string">"sabria.demo.annotationdemo.service.impl.PersonServiceBean"</span>&gt;
+    &lt;property name=<span class="string">"personDao"</span> <span class="keyword">ref</span>=<span class="string">"personDao"</span>&gt;&lt;/property&gt;
+&lt;/bean&gt;
+</code></pre><p>我们看到Spring.xml文件在配置personService时,指定了一个ref引用”personDao”，然后它指向”sabria.demo.annotationdemo.dao.impl.PersonDaoBean”,这样就完成通过属性+set方法的方案来完成引用对象的注入。</p>
+<p>我们看到在Spring中极度简化了对象的创建以及“对象中对其他对象”的引用。而这种思想在Android中也大行其道,在Android端有3个非常成熟的方案在践行DI：Dagger、RoboGuice和ButterKnife.在这里我们不会去谈论这些成熟方案的范例使用或者是源代码解读,在Part2中我们要回归这些library的本质去探究“运行时注解和编译时注解”，而这才是这些DI框架的核心元素。</p>
+<h2 id="二-运行时注解">二.运行时注解</h2><p>我们在使用ButterKnife时尝试简化findViewById操作,</p>
+<h2 id="三-编译时注解">三.编译时注解</h2><pre><code><span class="at_rule">@<span class="keyword">Retention(RetentionPolicy.CLASS)</span>
+@<span class="function">Target</span>(</span>{ <span class="tag">ElementType</span><span class="class">.FIELD</span>, <span class="tag">ElementType</span><span class="class">.TYPE</span> })
+<span class="tag">public</span> <span class="at_rule">@<span class="keyword">interface</span> InjectView</span>{
+    <span class="tag">int</span> <span class="tag">value</span>();
+}
+</code></pre><p>相对于类似<a href="https://github.com/wyouflf/xUtils/blob/192c2a886c2d467e50718c6e469de63696f5cded/library/src/com/lidroid/xutils/ViewUtils.java#L89" target="_blank" rel="external">xUtils</a>、<a href="https://github.com/yanchenko/droidparts/blob/4382976a54e7ccd5c2c3a25c7acbd7cae2c6030e/droidparts/src/org/droidparts/Injector.java#L100" target="_blank" rel="external">Droidparts</a>这样开源了多年的框架集成的运行时注解模块而言，编译时注解由于是直接将代码在编译时期就生成，所以它完全不存在性能损耗上的问题,在很大程度上，我们应该避免使用任何运行时注解框架。</p>
+<p>我们还是来以解决findViewById来处理编译时注解。在这之后我会给一些API的总结,以方便去攥写更大型的编译时注解框架。</p>
+<h3 id="3-1_编译时注解类的操作步骤：">3.1 编译时注解类的操作步骤：</h3><p>1.新建java工程：new module—&gt;Java Library,该library主要是做编译时注解解读工作。</p>
+<p><img src="http://i.imgur.com/9CcBl33.png" alt=""></p>
+<p>2.继承AbstractProcessor:</p>
+<p>类上加上这两个注解：</p>
+<ul>
+<li>@SupportedAnnotationTypes的值为当前类支持的注解的完整类路径，支持通配符。</li>
+<li>@SupportedSourceVersion 标识该处理器支持的源码版本</li>
+</ul>
+<pre><code><span class="annotation">@SupportedAnnotationTypes</span>(<span class="string">"com.sabria.noinject.InjectView"</span>)
+<span class="annotation">@SupportedSourceVersion</span>(<span class="type">SourceVersion</span>.<span class="type">RELEASE_6</span>)
+public <span class="class"><span class="keyword">class</span> <span class="title">NoKnifeProcessor</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">AbstractProcessor</span> {</span>            
+    <span class="annotation">@Override</span>
+    public boolean process(<span class="type">Set</span>&lt;? <span class="keyword">extends</span> <span class="type">TypeElement</span>&gt; annotations, <span class="type">RoundEnvironment</span> roundEnv) {
+        <span class="keyword">return</span> <span class="literal">false</span>;
+    }                
+}
+</code></pre><p>注:Eclipse如果找不到AbstractProcessor，记得右键build-path add library把jdk加进来.<br>AS中： import javax.annotation.processing.AbstractProcessor;</p>
+<p>3.创建resources,然后在里面创建META-INF/services/javax.annotation.processing.Processor文件.</p>
+<p>里面填上自己自定义注解解析器的全路径包类名</p>
+<p><img src="http://i.imgur.com/2W3JfOi.png" alt=""></p>
+<p><img src="http://i.imgur.com/RzqXI3a.png" alt=""></p>
+<p>4.Eclipse需要把导出为Jar,AS的话就直接引用</p>
+<p><img src="http://i.imgur.com/cK9ZeNh.png" alt=""></p>
+<h3 id="3-2_编译时注解的分包架构">3.2 编译时注解的分包架构</h3><p>我将采用3包机制来处理,如果你研习过Butterknife，它采用的是四包机制.</p>
+<p><img src="http://i.imgur.com/6YkMUsr.png" alt=""></p>
+<p>Butterknife的四包架构：</p>
+<ul>
+<li><p>butterknife-annotations  注解包,包中是所有的注解类对象</p>
+<pre><code><span class="variable">@Retention</span>(CLASS)
+<span class="variable">@Target</span>(FIELD)
+public <span class="variable">@interface</span> Unbinder {
+}
+</code></pre></li>
+<li><p>butterknife-compiler  解析包,也就是通过javac生成的编译class类.</p>
+</li>
+</ul>
+<pre><code><span class="annotation">@AutoService</span>(<span class="type">Processor</span>.<span class="keyword">class</span>)
+public <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ButterKnifeProcessor</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">AbstractProcessor</span> {</span>
+}
+</code></pre><ul>
+<li><p>butterknife 绑定包 与Activity等生命周期绑定,注入Activity(以及它里面的注解标识)到解析器中。</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ButterKnife</span> </span>{        
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">void</span> <span class="title">bind</span><span class="params">(@NonNull Activity <span class="keyword">target</span>)</span> </span>{
+        bind(<span class="keyword">target</span>, <span class="keyword">target</span>, Finder.ACTIVITY);
+      }        
+}
+</code></pre></li>
+<li><p>butterknife-sample 自然就是使用注解的Application应用</p>
+<pre><code>public <span class="class"><span class="keyword">class</span> <span class="title">SimpleActivity</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">Activity</span> {</span>
+
+    <span class="annotation">@Bind</span>(<span class="type">R</span>.id.title) <span class="type">TextView</span> title;
+
+     <span class="annotation">@Override</span> <span class="keyword">protected</span> void onCreate(<span class="type">Bundle</span> savedInstanceState) {
+        <span class="keyword">super</span>.onCreate(savedInstanceState);
+        setContentView(<span class="type">R</span>.layout.simple_activity);
+
+        <span class="type">ButterKnife</span>.bind(<span class="keyword">this</span>);
+
+        title.setText(<span class="string">"Butter Knife"</span>);
+
+      }
+}
+</code></pre></li>
+</ul>
+<p>那所谓的三包机制，其实就是将注解包和绑定包放在一个包架构中，我这里实行三包相比较于四包是因为彼此的依赖关系更简单些，但没四包机制清晰。具体你在做自己框架时是启用四包还是三包，看个人喜好。</p>
+<p><img src="http://i.imgur.com/Edp17GW.png" alt=""></p>
+<ul>
+<li><p>no-inject-api 包中含有注解来InjectView 和 绑定类 NoKnife</p>
+</li>
+<li><p>no-inject-process 包中含有NoKnifeProcessor解析类</p>
+</li>
+<li><p>app 包就是使用运行时注解应用</p>
+</li>
+</ul>
+<h3 id="3-3_攥写注解类和绑定类">3.3 攥写注解类和绑定类</h3><p>在讲述part2章节重点的攥写编译时注解类Processor前，我们先完成no-inject-api包的工作:</p>
+<p>创建在com.sabria.noinject包InjectView注解类:指定RetentionPolicy为CLASS级别.</p>
+<pre><code><span class="annotation">@Retention</span>(RetentionPolicy.CLASS)
+<span class="annotation">@Target</span>(ElementType.FIELD)
+<span class="keyword">public</span> <span class="annotation">@interface</span> InjectView {
+    <span class="function"><span class="keyword">int</span> <span class="title">value</span><span class="params">()</span></span>;
+}
+</code></pre><p>然后再main下创建一个包api的包，该包中再创建com.sabria.noinject，NoKnife类</p>
+<pre><code>public class <span class="type">NoKnife</span> {   
+
+    public <span class="keyword">static</span> <span class="type">void</span> inject(<span class="type">Activity</span> target) {
+        <span class="type">Log</span>.e(<span class="type">NoKnife</span>.class.getCanonicalName(), <span class="string">"I AM ON INJECT"</span>);
+        <span class="keyword">try</span> {
+            final <span class="type">Class</span> clazz = <span class="type">Class</span>.forName(target.getClass().getCanonicalName() + <span class="string">"$$NoKnife"</span>);
+            final <span class="type">Method</span> <span class="keyword">method</span> = clazz.getDeclaredMethod(<span class="string">"inject"</span>, target.getClass());
+            <span class="keyword">method</span>.setAccessible(<span class="literal">true</span>);
+            <span class="keyword">method</span>.invoke(clazz.newInstance(), target);
+        } catch (<span class="type">ClassNotFoundException</span> e) {
+            e.printStackTrace();
+        } catch (<span class="type">NoSuchMethodException</span> e) {
+            e.printStackTrace();
+        } catch (<span class="type">InvocationTargetException</span> e) {
+            e.printStackTrace();
+        } catch (<span class="type">IllegalAccessException</span> e) {
+            e.printStackTrace();
+        } catch (<span class="type">InstantiationException</span> e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>它的工作很简单，就是拿到一个叫:MainActivity$$NoKnife.calss,然后破解形态的拿给类里面的一个叫inject()的方法，然后method.invoke(clazz.newInstance(), target)去执行这个inject()方法。</p>
+<p>你会很奇怪,我怎么有个类叫MainActivity$$NoKnife.calss，然后我怎么知道这个类里面有个叫inject()的方法。保持住这个求知的疑问，我们在3.4中解读。</p>
+<p>在实际开发中绑定类(包)一般是最后去完成的，这里放到最前面卖关子是为了更好的去理解3.4中的内容。</p>
+<p>我们先来解决一个你在创建NoKnife时你会遇到的问题，因为AndroidStudio只是将在java包中创建的类为源代码类，非sources的包创建会直接无法被识别。所以将注解包和绑定包放在一个包结构中就需要指定绑定包的path路径为soruces：</p>
+<pre><code><span class="name">sourceSets</span> {
+    <span class="keyword">main</span>.java.srcDirs += [<span class="string">'src/main/api'</span>]
+}
+</code></pre><p><img src="http://i.imgur.com/jHtEqaw.png" alt=""></p>
+<h3 id="3-4_攥写解析类Processor">3.4 攥写解析类Processor</h3><p>####3.4.1 基础解读</p>
+<p><img src="http://i.imgur.com/ikidrvC.png" alt=""></p>
+<p>3.1中已经描述了Processor类的创建过程，这里不再做说明,我们来详细解读下(Abstract)Processor类.</p>
+<pre><code><span class="tag">public</span> <span class="tag">class</span> <span class="tag">MyProcessor</span> <span class="tag">extends</span> <span class="tag">AbstractProcessor</span> {
+
+    <span class="variable">@Override</span>
+    public synchronized void <span class="function">init</span>(ProcessingEnvironment env){ }
+
+    <span class="variable">@Override</span>
+    public boolean <span class="function">process</span>(Set&lt;? extends TypeElement&gt; annoations, RoundEnvironment env) { }
+
+    <span class="variable">@Override</span>
+    public Set&lt;String&gt; <span class="function">getSupportedAnnotationTypes</span>() { }
+
+    <span class="variable">@Override</span>
+    public SourceVersion <span class="function">getSupportedSourceVersion</span>() { }
+
+}
+</code></pre><p>讲解：<br>1.init(ProcessingEnvironment env): 每一个注解处理器类都必须有一个空的构造函数。ProcessingEnviroment提供很多有用的工具类Elements, Types和Filer。</p>
+<p>2.process(Set&lt;? extends TypeElement&gt; annotations, RoundEnvironment env)：处理器的主函数main()，写你的扫描、评估和处理注解的代码，以及生成Java文件。输入参数RoundEnviroment，可以让你查询出包含特定注解的被注解元素。</p>
+<p>3.getSupportedAnnotationTypes()：这个注解处理器是注册给哪个注解的。也就是自定义的那个注解类.</p>
+<p>4.getSupportedSourceVersion()：用来指定你使用的Java版本。通常这里返回SourceVersion.latestSupported()。</p>
+<p>继承于AbstractProcessor，然后会必需要求实现process()方法，其他的三个方法非必需实现，且在Java1.7上有更简单的实现方式(注解实现)。</p>
+<p>Java1.7:getSupportedSourceVersion和getSupportedAnnotationTypes可以使用注解来解决</p>
+<pre><code><span class="variable">@SupportedSourceVersion</span>(SourceVersion.<span class="function">latestSupported</span>())
+<span class="variable">@SupportedAnnotationTypes</span>({
+   <span class="comment">// 合法注解全名的集合</span>
+ })
+public class MyProcessor extends AbstractProcessor {
+
+    <span class="variable">@Override</span>
+    public synchronized void <span class="function">init</span>(ProcessingEnvironment env){ }
+
+    <span class="variable">@Override</span>
+    public boolean <span class="function">process</span>(Set&lt;? extends TypeElement&gt; annoations, RoundEnvironment env) { }
+}
+</code></pre><p>所以范例：</p>
+<pre><code>public <span class="class"><span class="keyword">class</span> <span class="title">LittleKnifeProcessor</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">AbstractProcessor</span> {</span>
+
+    <span class="annotation">@Override</span>
+    public <span class="type">SourceVersion</span> getSupportedSourceVersion() {
+        <span class="keyword">return</span> <span class="type">SourceVersion</span>.latestSupported();
+    }
+
+    <span class="annotation">@Override</span>
+    public <span class="type">Set</span>&lt;<span class="type">String</span>&gt; getSupportedAnnotationTypes() {
+        <span class="type">LinkedHashSet</span>&lt;<span class="type">String</span>&gt; annotataions = <span class="keyword">new</span> <span class="type">LinkedHashSet</span>&lt;&gt;();
+        annotataions.add(<span class="type">InjectView</span>.<span class="keyword">class</span>.getCanonicalName());
+        <span class="keyword">return</span> annotataions;
+    }
+
+    <span class="annotation">@Override</span>
+    public boolean process(<span class="type">Set</span>&lt;? <span class="keyword">extends</span> <span class="type">TypeElement</span>&gt; annoations, <span class="type">RoundEnvironment</span> env) { }
+
+}
+</code></pre><p>或者：</p>
+<pre><code><span class="annotation">@SupportedAnnotationTypes</span>(<span class="string">"com.sabria.noinject.InjectView"</span>)
+<span class="annotation">@SupportedSourceVersion</span>(<span class="type">SourceVersion</span>.<span class="type">RELEASE_6</span>)
+public <span class="class"><span class="keyword">class</span> <span class="title">LittleKnifeProcessor</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">AbstractProcessor</span> {</span>
+
+    <span class="annotation">@Override</span>
+    public boolean process(<span class="type">Set</span>&lt;? <span class="keyword">extends</span> <span class="type">TypeElement</span>&gt; annoations, <span class="type">RoundEnvironment</span> env) { }
+
+}
+</code></pre><p>这也就代表着我们只需要处理init()和process()方法，而init()方法则相对比较固定，它一般提供工具类Elements, Types和Filer。</p>
+<pre><code> <span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(ProcessingEnvironment processingEnv)</span> </span>{
+    <span class="keyword">super</span>.init(processingEnv);
+    Types typeUtils = processingEnv.getTypeUtils();
+    Elements elementUtils = processingEnv.getElementUtils();
+    Filer filer = processingEnv.getFiler();
+    Messager messager = processingEnv.getMessager();
+}
+</code></pre><p>首先我们对一个概念做解读:<a href="http://www.apihome.cn/api/java/Element.html" target="_blank" rel="external">Element</a>，在javax.lang.model.element包下：</p>
+<blockquote>
+<p>public interface Element<br>表示一个程序元素，比如包、类或者方法。每个元素都表示一个静态的语言级构造（不表示虚拟机的运行时构造）。</p>
+</blockquote>
+<p>这个概念很难理解，是的，因为我们很少去开发会用到类似API，所以你先浅显的理解为它是包，或者是类，又可以是方法就行了，它是一个一个的程序元素。</p>
+<p>我们来一个一个看这四个帮助类:</p>
+<ul>
+<li><p>TypeUtils 处理<a href="http://www.766.com/doc/javax/lang/model/type/class-use/TypeMirror.html" target="_blank" rel="external">TypeMirror(表示 Java 编程语言中的类型。这些类型包括基本类型、声明类型（类和接口类型）、数组类型、类型变量和 null 类型。还可以表示通配符类型参数、executable 的签名和返回类型，以及对应于包和关键字 void 的伪类型。)</a>的帮助类，它有asElement()、isSubtype()等方法</p>
+</li>
+<li><p>ElementUtils 它包含很多Elements(一组Element)的帮助类信息，它有getPackageElement()、getTypeElement()、getPackageOf()方法。</p>
+</li>
+<li><p>Filer 创建文件</p>
+</li>
+<li><p>Messager 异常消息提醒</p>
+</li>
+</ul>
+<p>####3.4.2 process()方法中常用API解读</p>
+<pre><code><span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">process</span><span class="params">(Set&lt;? <span class="keyword">extends</span> TypeElement&gt; annotations, RoundEnvironment roundEnv)</span> </span>{
+}
+</code></pre><p>1.获取所有含有@InjectView注解的Elements.</p>
+<pre><code>roundEnv.<span class="function"><span class="title">getElementsAnnotatedWith</span><span class="params">(InjectView.class)</span></span>
+</code></pre><p>返回的结果:Element元素的Set集合Set&lt;? extends Element&gt; annotatedElements</p>
+<p>2.判断被标注@InjectView的Element是否是Class</p>
+<pre><code>annotatedElement.<span class="function"><span class="title">getKind</span><span class="params">()</span></span> != ElementKind.CLASS
+</code></pre><p>3.如果annotatedElement是ElementKind.CLASS，那么在某种程度上我们就可以直接将它当成TypeElement</p>
+<pre><code>TypeElement typeElement = <span class="list">(<span class="keyword">TypeElement</span>)</span> annotatedElement<span class="comment">;</span>
+</code></pre><p>4.判断classElement是否是被Public修饰</p>
+<pre><code>classElement.<span class="function"><span class="title">getModifiers</span><span class="params">()</span></span>.<span class="function"><span class="title">contains</span><span class="params">(Modifier.PUBLIC)</span></span>
+</code></pre><p>5.从Element元素的Set集合迭代出一个Element后,拿它的包名</p>
+<pre><code>final String packageName = processingEnv.getElementUtils<span class="params">()</span>.getPackageOf<span class="params">(firstAnnotatedElement)</span>.toString<span class="params">()</span>;
+</code></pre></span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/2016/01/11/ZTN01_3/" itemprop="url">
+                【正谈1月】Android注解范式编程Part1
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2016-01-11T21:32:09+08:00" content="2016-01-11">
+            2016-01-11
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody"><p>Android注解范式编程Part1</p>
+<h2 id="一-概念">一.概念</h2><h3 id="1-1_含义:">1.1 含义:</h3><p>Android的注解是来源于Java本身,它相当于一种标记,加上这种标记后就等于给程序打上了一种“注释和解读”。java编译器和程序可以通过反射来获取此标记,然后根据定义的这个注解的“动作代码”去执行相应的操作。</p>
+<h3 id="1-2_注解的定义格式：">1.2 注解的定义格式：</h3><pre><code>@头注释
+<span class="variable">@interface</span>自定义{
+    属性元素...
+}
+</code></pre><p>注解的格式由三个部分组成:</p>
+<ul>
+<li><em>1.@头注释：说明该注解的使用标注环境和场景；</em></li>
+<li><em>2.@interface修饰：定义为该对象为自定义注解对象；</em></li>
+<li><em>3.属性元素 ： 类似于参数(对象)量概念。</em></li>
+</ul>
+<p>比如下面的一个最简单的注解格式：</p>
+<pre><code><span class="keyword">public</span> @<span class="class"><span class="keyword">interface</span> <span class="title">MyAnnotation</span> </span>{
+    <span class="comment">//......</span>
+}
+</code></pre><p>或者一个更复杂的:</p>
+<pre><code><span class="annotation">@Retention</span>(RetentionPolicy.RUNTIME)
+<span class="annotation">@Target</span>(ElementType.METHOD)
+<span class="annotation">@Documented</span>
+<span class="keyword">public</span> <span class="annotation">@interface</span> GET {
+    String value() <span class="keyword">default</span> <span class="string">""</span>;
+}
+</code></pre><h3 id="1-3_注解的书写格式：">1.3 注解的书写格式：</h3><p>也就是如何去用注解：</p>
+<pre><code><span class="decorator">@ + 英文关键词</span>
+</code></pre><p>比如Java提供给我们覆写方法的注解“@Override”，上面示例的使用为@MyAnnotation和@GET.</p>
+<h3 id="1-4_系统提供的三个标准注解">1.4 系统提供的三个标准注解</h3><ul>
+<li><em>@Override，表示当前的方法定义将覆盖超类中的方法。</em>    </li>
+<li><em>@Deprecated，使用了注解为它的元素编译器将发出警告，因为注解@Deprecated是不赞成使用的代码，被弃用的代码。</em></li>
+<li><em>@SuppressWarnings，关闭不当编译器警告信息。</em></li>
+</ul>
+<h2 id="二-自定义注解">二.自定义注解</h2><p>系统提供的三个标准注解是无法满足Android开发的生产环境的,所以我们必须自定义注解,然后解析该注解标识的对象(类、方法、字段等),完成相应业务逻辑.</p>
+<p>Java为我们提供了一个元注解的概念,它的作用就是负责标注其他注解,去自定义该注解的工作范围和使用场景.</p>
+<h3 id="2-1_元注解">2.1 元注解</h3><p>Java5.0定义了4个标准的meta-annotation类型，它们被用来提供对自定义的annotation类型作说明。</p>
+<ul>
+<li>1.@Target ： 告知注解可以用于什么地方;</li>
+<li>2.@Retention : </li>
+<li>3.@Documented</li>
+<li>4.@Inherited</li>
+</ul>
+<h4 id="2-1-1_@Target">2.1.1 @Target</h4><p>作用:告知注解可以用于什么地方.</p>
+<p>书写格式:</p>
+<pre><code>@<span class="function"><span class="title">Target</span><span class="params">(ElementType.METHOD)</span></span>
+</code></pre><p>可选的ElementType参数有：</p>
+<pre><code>ElemenetType<span class="class">.CONSTRUCTOR</span>      构造器声明 
+ElemenetType<span class="class">.FIELD</span>          　域声明（包括 enum 实例） 
+ElemenetType<span class="class">.LOCAL_VARIABLE</span>   局部变量声明 
+ElemenetType<span class="class">.METHOD</span>           方法声明 
+ElemenetType<span class="class">.PACKAGE</span>          包声明 
+ElemenetType<span class="class">.PARAMETER</span>        参数声明 
+ElemenetType<span class="class">.TYPE</span>          　 类，接口（包括注解类型）或enum声明
+</code></pre><h4 id="2-1-2_@Retention">2.1.2 @Retention</h4><p>作用:表示需要在什么级别保存该注解信息.</p>
+<p>书写格式:</p>
+<pre><code>@<span class="function"><span class="title">Retention</span><span class="params">(RetentionPolicy.RUNTIME)</span></span>
+</code></pre><p>可选的RetentionPolicy参数包括：</p>
+<pre><code>RetentionPolicy<span class="class">.SOURCE</span> 　　　   注解将被编译器丢弃 
+RetentionPolicy<span class="class">.CLASS</span> 　　　　　 注解在class文件中可用，但会被VM丢弃 
+RetentionPolicy<span class="class">.RUNTIME</span> 　　　  VM将在运行期也保留注释，因此可以通过反射机制读取注解的信息。
+</code></pre><p>同时根据级别的不同我们也将产生两种不同的注解时处理模式:</p>
+<pre><code>RetentionPolicy               |<span class="string"> Describe                          </span>|<span class="string"> Chinese     </span>|<span class="string">  Example
+------------------------------</span>|<span class="string"> --------------------------------- </span>|<span class="string"> ---------   </span>|<span class="string"> ---------- 
+RetentionPolicy.RUNTIME       </span>|<span class="string"> Run Time Annotation Processor     </span>|<span class="string"> 运行时注解   </span>|<span class="string"> Retrofit
+RetentionPolicy.CLASS         </span>|<span class="string"> Compile Time Annotation Processor </span>|<span class="string"> 编译时注解   </span>|<span class="string"> ButterKnife</span>
+</code></pre><p>两者最大的区别在于:RTAP是运行时才会去操作注解,而CTAP是编译时就根据注解生成新的类对象或者完成了注解操作.<br>所以CTAP的性能十分优良,而RTAP则由于大量反射的使用导致性能受限.但CTAP的代码书写要相对于RTAP复杂很多,两者各有优势,具体的范例我为在Part2中提供出来，会做专门的比较。</p>
+<h4 id="2-1-3_@Document">2.1.3 @Document</h4><p>作用:表示需要在什么级别保存该注解信息.</p>
+<p>书写格式:</p>
+<pre><code><span class="annotation">@Document</span>
+</code></pre><h4 id="2-1-4_@Inherited">2.1.4 @Inherited</h4><p>作用:允许子类继承父类中的注解(class级别).</p>
+<p>书写格式:</p>
+<pre><code><span class="annotation">@Inherited</span>
+</code></pre><h3 id="2-2_注解的元素(属性)">2.2 注解的元素(属性)</h3><p>注解的元素看起来就像接口的方法，唯一的区别在于可以为其制定默认值。没有元素的注解称为标记注解。</p>
+<p>注解属性的类型只能是如下类型：</p>
+<ul>
+<li>String类型</li>
+<li>8大基本数据类型</li>
+<li>Class类型</li>
+<li>枚举类型</li>
+<li>注解类型</li>
+<li>以上类型的一维数组</li>
+</ul>
+<p>示例:</p>
+<pre><code><span class="annotation">@Target</span>(ElementType.METHOD)
+<span class="annotation">@Retention</span>(RetentionPolicy.RUNTIME)
+<span class="keyword">public</span> <span class="annotation">@interface</span> User {
+      <span class="keyword">public</span> <span class="function">String <span class="title">id</span><span class="params">()</span></span>;
+      <span class="keyword">public</span> String description() <span class="keyword">default</span> <span class="string">"defalut description"</span>;
+}
+</code></pre><p>或者:</p>
+<pre><code><span class="annotation">@Retention</span>(RetentionPolicy.RUNTIME)
+<span class="annotation">@Target</span>(ElementType.METHOD)
+<span class="keyword">public</span> <span class="annotation">@interface</span> Subscribe {
+
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Mode</span></span>{
+        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> Main = <span class="number">0</span>;
+        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> Backgroud = <span class="number">1</span>;
+    }
+
+    <span class="function"><span class="keyword">int</span> <span class="title">mode</span><span class="params">()</span> <span class="keyword">default</span> Mode.Main</span>;
+    <span class="function">String <span class="title">queue</span><span class="params">()</span> <span class="keyword">default</span> "GLOBAL"</span>;
+}
+</code></pre><p>使用:</p>
+<pre><code><span class="at_rule">@<span class="keyword">Subscribe(mode=</span> Subscribe.Mode.Backgroud)
+public void <span class="function">onProcessData</span>(ProcessData data) </span>{
+    <span class="tag">mGlobalBus</span><span class="class">.post</span>(<span class="tag">new</span> <span class="tag">ProgressStatusEvent</span>(<span class="tag">i</span> + 1, <span class="tag">data</span><span class="class">.totalSteps</span>,<span class="tag">data</span><span class="class">.rank</span>));            
+}
+</code></pre><p>关于注解的元素,不一定在使用注解时都必须赋值,甚至可以标注注解时一个元素都不赋值.比如:</p>
+<pre><code> @<span class="function">Subscribe
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onProgressStatusEvent</span>(<span class="params">ProgressStatusEvent <span class="keyword">event</span></span>) </span>{
+    mProgressStatusEvent = <span class="keyword">event</span>;
+    <span class="keyword">int</span> rank = <span class="keyword">event</span>.rank;
+    mProgressBar0.setMax(<span class="keyword">event</span>.totalSteps);
+    mProgressBar0.setProgress(<span class="keyword">event</span>.step);        
+}
+</code></pre><h2 id="3-设置注解并解析注解">3.设置注解并解析注解</h2><p>所谓设置注解也就是使用和标注自定义注解</p>
+<p>比如自定义的注解:</p>
+<pre><code><span class="annotation">@Target</span>(ElementType.METHOD)
+<span class="annotation">@Retention</span>(RetentionPolicy.RUNTIME)
+<span class="keyword">public</span> <span class="annotation">@interface</span> UserInfo {
+      <span class="keyword">public</span> <span class="function">String <span class="title">id</span><span class="params">()</span></span>;
+      <span class="keyword">public</span> String description() <span class="keyword">default</span> <span class="string">"defalut description"</span>;
+}
+</code></pre><p>使用它如下：</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PasswordUtils</span> </span>{    
+
+    <span class="annotation">@UserInfo</span>(id = <span class="number">47</span>, description = <span class="string">"Passwords must contain at least one numeric"</span>)
+    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">validatePassword</span><span class="params">(String password)</span> </span>{
+           <span class="keyword">return</span> (password.matches(<span class="string">"\\w*\\d\\w*"</span>));
+    }    
+
+}
+</code></pre><p>那么我们如何去解析这段注解：</p>
+<blockquote>
+<p>解决方案 : 通过注解处理器得到注解。<br>从原理上讲，注解处理器就是通过反射机制获取被检查方法上的注解信息，然后根据注解元素的值进行特定的处理。</p>
+</blockquote>
+<p>四个核心API:</p>
+<p><img src="http://i.imgur.com/ldqqewB.png" width="80%"> </p>
+<p>示例:</p>
+<pre><code><span class="keyword">private</span> <span class="keyword">void</span> getAnno() {
+    <span class="comment">//拿被注解方法上的</span>
+    <span class="keyword">for</span> (Method m : PasswordUtils.<span class="keyword">class</span>.getDeclaredMethods()) {
+        <span class="keyword">boolean</span> hasAnnotation = m.isAnnotationPresent(UserInfo.<span class="keyword">class</span>);
+        <span class="comment">/**
+         * 判断方法中是否有指定注解类型的注解
+         */</span>
+        <span class="keyword">if</span> (hasAnnotation) {
+            <span class="comment">//拿到注解类</span>
+            UserInfo annotation = m.getAnnotation(UserInfo.<span class="keyword">class</span>);
+            <span class="keyword">if</span> (annotation != <span class="keyword">null</span>) {
+                <span class="comment">//这样就拿到了定义的值:47</span>
+                String id = annotation.id();
+                String <span class="keyword">description</span> = annotation.<span class="keyword">description</span>();
+                Toast.makeText(MainActivity.<span class="keyword">this</span>,<span class="string">"id="</span>+id+<span class="string">"/description="</span>+<span class="keyword">description</span>,Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+}
+</code></pre><p>代码见:<a href="https://github.com/xiaomeixw/AndroidDemo/blob/master/annotationdemo/src/main/java/sabria/demo/annotationdemo/MainActivity.java#L18" target="_blank" rel="external">AndroidDemo</a></p>
+<h2 id="4-不同类型的拿法(运行时注解)">4.不同类型的拿法(运行时注解)</h2><p>这里特指运行时注解的处理方案,关于编译时注解我会给专门的part内容进行描述</p>
+<p>定义注解：</p>
+<pre><code><span class="annotation">@Target</span>({ElementType.TYPE,ElementType.METHOD,ElementType.FIELD,ElementType.CONSTRUCTOR})
+<span class="annotation">@Retention</span>(RetentionPolicy.RUNTIME)
+<span class="keyword">public</span> <span class="annotation">@interface</span> MyAnno {
+    <span class="function">String <span class="title">name</span><span class="params">()</span> </span>;
+    <span class="function"><span class="keyword">int</span> <span class="title">id</span><span class="params">()</span> <span class="keyword">default</span> 0</span>;
+    <span class="function">Class&lt;Long&gt; <span class="title">gid</span><span class="params">()</span></span>;
+}
+</code></pre><p>使用注解：</p>
+<pre><code><span class="annotation">@MyAnno</span>(name=<span class="string">"type"</span>,gid=Long.<span class="keyword">class</span>)
+使用了类注解
+public <span class="class"><span class="keyword">class</span> <span class="title">UserAnnotation</span> </span>{
+
+    <span class="comment">//字段</span>
+    <span class="annotation">@TestA</span>(name=<span class="string">"param"</span>,id=<span class="number">1</span>,gid=Long.<span class="keyword">class</span>) <span class="comment">// 使用了类成员注解</span>
+    private Integer age;
+
+    <span class="comment">//构造器</span>
+    <span class="annotation">@TestA</span>(name=<span class="string">"construct"</span>,id=<span class="number">2</span>,gid=Long.<span class="keyword">class</span>)<span class="comment">// 使用了构造方法注解</span>
+    public UserAnnotation() {
+    }
+
+    <span class="comment">//方法a，b，c</span>
+    <span class="annotation">@TestA</span>(name=<span class="string">"public method"</span>, id=<span class="number">3</span>, gid=Long.<span class="keyword">class</span>)<span class="comment">// 使用了 public 方法注解</span>
+    public <span class="keyword">void</span> a() {
+        <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt; m = <span class="keyword">new</span> HashMap&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt;(<span class="number">0</span>);
+    }
+
+    <span class="annotation">@TestA</span>(name=<span class="string">"protected method"</span>, id=<span class="number">4</span>, gid=Long.<span class="keyword">class</span>)<span class="comment">//protected 方法注解</span>
+    protected <span class="keyword">void</span> b() { 
+        <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt; m = <span class="keyword">new</span> HashMap&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt;(<span class="number">0</span>);
+    }
+
+    <span class="annotation">@TestA</span>(name=<span class="string">"private method "</span> , id = <span class="number">5</span>, gid=Long.<span class="keyword">class</span>) <span class="comment">// private 方法注解</span>
+    private <span class="keyword">void</span> c(){
+        <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt; m = <span class="keyword">new</span> HashMap&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt;(<span class="number">0</span>);
+    }
+
+    public <span class="keyword">void</span> b(Integer a){ 
+    }
+}
+</code></pre><p>解析注解:</p>
+<h3 id="4-1_解析类上注解">4.1 解析类上注解</h3><pre><code>private void parseTypeAnnotation<span class="params">()</span> throws ClassNotFoundException{
+    <span class="comment">//先找到类</span>
+    Class clazz = Class.forName<span class="params">(<span class="string">"sabria.demo.annotationdemo.getanno.UserAnnotation"</span>)</span>;
+    <span class="comment">//拿到注解器</span>
+    Annotation[] annotations = clazz.getAnnotations<span class="params">()</span>;
+    <span class="keyword">for</span> <span class="params">(Annotation annotation : annotations)</span> {
+        <span class="comment">//拿到类上的注解对象</span>
+        MyAnno testA = <span class="params">(MyAnno)</span> annotation;
+        say<span class="params">(<span class="string">"type name = "</span> + clazz.getName<span class="params">()</span> + <span class="string">"  |  id = "</span> + testA.id<span class="params">()</span> + <span class="string">"  |  name = "</span> + testA.name<span class="params">()</span> + <span class="string">"  |  　　　　　　　　　　　　　　　　　　　　gid = "</span> + testA.gid<span class="params">()</span>)</span>;
+    }
+}
+</code></pre><p>打印如下:</p>
+<blockquote>
+<p>01-11 15:24:57.414  25515-25515/sabria.demo.annotationdemo I/MainActivity﹕ type name = sabria.demo.annotationdemo.getanno.UserAnnotation  |  id = 0  |  name = type  | gid = class java.lang.Long</p>
+</blockquote>
+<h3 id="4-2_解析方法上注解">4.2 解析方法上注解</h3><pre><code>private <span class="type">void</span> parseMethodAnnotation() {
+    //拿到<span class="type">UserAnnotation</span>类中的所有方法
+    <span class="type">Method</span>[] methods = <span class="type">UserAnnotation</span>.class.getDeclaredMethods();
+    //一个一个方法判断
+    <span class="keyword">for</span> (<span class="type">Method</span> <span class="keyword">method</span> : methods) {
+         /*
+         * 判断方法中是否有指定注解类型的注解
+         * 方法上面是否有@<span class="type">MyAnno</span>
+         */
+        boolean hasAnnotation = <span class="keyword">method</span>.isAnnotationPresent(<span class="type">MyAnno</span>.class);
+        <span class="keyword">if</span>(hasAnnotation){
+            //有的话,拿注解器
+            <span class="type">MyAnno</span> annotation = <span class="keyword">method</span>.getAnnotation(<span class="type">MyAnno</span>.class);
+            say(<span class="string">"method name = "</span> + <span class="keyword">method</span>.getName() + <span class="string">"  |  id = "</span> +
+                    annotation.id() + <span class="string">"  |  description = "</span> + annotation.name() + <span class="string">"  |  gid = "</span> + annotation.gid());
+        }
+    }
+}
+</code></pre><p>打印如下:</p>
+<blockquote>
+<p>01-11 15:24:57.424  25515-25515/sabria.demo.annotationdemo I/MainActivity﹕ method name = a  |  id = 3  |  description = public method  |  gid = class java.lang.Long</p>
+<p>01-11 15:24:57.434  25515-25515/sabria.demo.annotationdemo I/MainActivity﹕ method name = b  |  id = 4  |  description = protected method  |  gid = class java.lang.Long</p>
+<p>01-11 15:24:57.434  25515-25515/sabria.demo.annotationdemo I/MainActivity﹕ method name = c  |  id = 5  |  description = private method   |  gid = class java.lang.Long</p>
+</blockquote>
+<h3 id="4-3_解析构造器上注解">4.3 解析构造器上注解</h3><pre><code><span class="keyword">private</span> <span class="built_in">void</span> parseConstructAnnotation() {
+    Constructor[] constructors = UserAnnotation.class.getConstructors();
+    <span class="keyword">for</span> (Constructor <span class="constructor"><span class="keyword">constructor</span> : constructors) </span>{
+            <span class="comment">/*
+             * 判断构造方法中是否有指定注解类型的注解
+             */</span>
+        <span class="built_in">boolean</span> hasAnnotation = <span class="constructor"><span class="keyword">constructor</span>.isAnnotationPresent(MyAnno.class);
+        if(hasAnnotation)</span>{
+                 <span class="comment">/*
+                 * 根据注解类型返回方法的指定类型注解
+                 */</span>
+            MyAnno annotation = (MyAnno) <span class="constructor"><span class="keyword">constructor</span>.getAnnotation(MyAnno.class);
+            say("<span class="keyword">constructor</span> = " + <span class="keyword">constructor</span>.getName()
+                    + "   |   id = " + annotation.id() + "  |  description = "
+                    + annotation.name() + "  |   gid= "+annotation.gid());
+        }
+    }
+}</span>
+</code></pre><p>打印如下:</p>
+<blockquote>
+<p>01-11 15:30:08.984  30046-30046/sabria.demo.annotationdemo I/MainActivity﹕ constructor = sabria.demo.annotationdemo.getanno.UserAnnotation   |   id = 2  |  description = construct  |   gid= class java.lang.Long</p>
+</blockquote>
+<h3 id="4-4_解析字段上注解">4.4 解析字段上注解</h3><pre><code>private void parseFieldAnnotation<span class="params">()</span> {
+
+    <span class="comment">//1.拿这个类上的所有字段</span>
+    Field[] fields = UserAnnotation.class.getDeclaredFields<span class="params">()</span>;
+    <span class="keyword">for</span> <span class="params">(Field field : fields)</span> {
+        <span class="comment">//2.该字段上是否有注解</span>
+        boolean hasAnnotation = field.isAnnotationPresent<span class="params">(MyAnno.class)</span>;
+        <span class="keyword">if</span><span class="params">(hasAnnotation)</span>{
+            <span class="comment">//3.拿到注解器对象</span>
+            MyAnno annotation = field.getAnnotation<span class="params">(MyAnno.class)</span>;
+            say<span class="params">(<span class="string">"Field = "</span> + field.getName<span class="params">()</span>
+                    + <span class="string">"  |  id = "</span> + annotation.id<span class="params">()</span> + <span class="string">"  |  description = "</span>
+                    + annotation.name<span class="params">()</span> + <span class="string">"  |  gid= "</span>+annotation.gid<span class="params">()</span>)</span>;
+        }
+    }
+
+}
+</code></pre><p>打印如下:</p>
+<blockquote>
+<p>01-11 15:30:08.994  30046-30046/sabria.demo.annotationdemo I/MainActivity﹕ Field = age  |  id = 1  |  description = param  |  gid= class java.lang.Long</p>
+</blockquote>
+<p>代码见:</p>
+<p>总结:</p>
+<ul>
+<li>1.拿这个类上的方法或字段;</li>
+<li>2.判断方法或者字段上是否有给注解;</li>
+<li>3.拿到注解对象,获取值</li>
+</ul>
+</span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/2016/01/06/ZTN01_2/" itemprop="url">
                 【杂谈1月】JobSchedule即将开源
               </a>
@@ -2876,245 +3545,6 @@ listCall.enqueue(<span class="keyword">new</span> <span class="type">Callback</s
 
 
     
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2015/10/07/ZT10_2/" itemprop="url">
-                【正谈10月】框架的规范（一）
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2015-10-07T21:01:48+08:00" content="2015-10-07">
-            2015-10-07
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody"><p>框架的规范</p>
-<pre><code>/<span class="keyword">*</span><span class="keyword">*</span>
- <span class="keyword">*</span> Created by xiongwei &amp; lele,An Android project Engineer.
- <span class="keyword">*</span> Date:2015-08-14  12:27
- <span class="keyword">*</span> Base on Meilimei.com (PHP Service)
- <span class="keyword">*</span> Describe:   FrescoManager.getInstance().load(url).into(imageview);
- <span class="keyword">*</span> Version:1.0
- <span class="keyword">*</span> Open source
- <span class="keyword">*</span>/
-</code></pre><h2 id="前言">前言</h2><p><img src="http://i.imgur.com/gssxZrg.png" alt=""></p>
-<p>&emsp;&emsp;2个月前，我和我的同事赵小(亦)乐童鞋在公司决策者的支持下决定彻底放弃Eclipse版本的美丽神器，准备开始着手搭建基于Android studio的Android基础开发框架。在这之前我们的旧版本美丽神器我们开发了整整一年多，但却一直都是松散的架构体系，性能极度低下。我和赵小乐童鞋都是各自为核心构建各自喜欢的架构和开发模块，导致我们会经常将一个模型工具类按照我们自己的思路反复构建两次。而这次我们决定结束这样松散的架构体系，共同启用一套共同搭建的Android开发框架。这套框架要彼此适合我们各自的使用习惯且应该具有极高的规范性、拓展性和可复制型。一年的共同合作让我们拥有了很好的默契和一致认可的开发习惯，这为这套框架的开发提供了坚实的基础和合作默契。也是时候公开我们探究的一些核心元素了。</p>
-<p>&emsp;&emsp;Android的框架一直在被不断的探索和发觉，基于“基础Android传统的模式”，“MVP模式”或者“MVVP模式”不断的成为争论的观点。在探究最初新架构时我本意推行MVP的架构模式，但考虑强行推行MVP将导致原有的代码基本需要重写，复用部分将非常少。这将导致我们很难在11月底推出基于MD风格的美丽神器Android端。而MVVP则目前因为data-binding尚不能友好的支持向下兼容，且单向绑定表明Google还有很大的潜力将其转变为双向绑定(开源社区的library早已双向绑定许久)，而此后的代码模块，将导致双向绑定推出后，又要动用时间资源成本重新编排Xml和代码模块。因此均不是最佳选项。</p>
-<p>&emsp;&emsp;如果我们一直纠结于使用那种The Clean Architecture架构作为基础时，不妨回到一些很显著的事实上来：其实谷歌官方一直以来没有使用MVP或者MVVP架构，就是考虑到核心模块的过大改动，将使得之前所做的很多成熟模式均带来转变的成本冗余，谷歌官方也需要更多的时间来架构新的java表层框架。我们最终决定保守的处理这次架构的选择，仍然决定使用Android传统的模式。因此依托于当前成熟的Library将成为关键，即便如此，我们也要将许多的核心模块封装成套，在纯Activity(Fragment/View)界面将“节俭化”为最小最少代码。</p>
-<p>&emsp;&emsp;彻底开源这套框架，将使得我面临“泄露公司资源”的道德风险，而曲线救国般的展示只言片语的思维核心，将有助于避免这种道德上的风险。因此我们不会开源这套框架，而我将展示我们是如何将一个千万级别下载百万用户的APP，如何完成从Eclipse转到Android studio，从SVN转向Git，同时完成一套核心框架的开发，以及践行MD风格设计的过程，我想这才是最重要的部分，难道“思想”不比“愚钝的代码”更重要吗？！</p>
-<p>&emsp;&emsp;这里将是第一部节，这部分将描述框架的规范。我将保障全部文章将不少于10篇，并保证自己一定倾囊相授核心思想，并在开源思想和保守公司资源中做出道德平衡。</p>
-<h2 id="框架规范：命名">框架规范：命名</h2><p>&emsp;&emsp;一套优秀的框架最开始并不是要去抉择选用何种library库，不是要实现那种架构模式，也不应该是直接上手分包搭建框架。它应该是一套基础的框架规范命名。这将能够使得多人协作时大家能够彼此按照一个基础的约定来攥写代码，而这种代码必须在命名上就是可以维护且可以被一眼识别的。</p>
-<p>&emsp;&emsp;在旧版本美丽神器中，我和赵小乐童鞋就吃了很多的亏，我们直接上手代码，直接攥写xml文件，彼此没有足够的约定俗成，而核心注释的缺失也加重了我们彼此交流的时间成本。不过好在一直以来我们分工明确，产品模块清晰，因此也没有造成太大的障碍。而这次为了避免这样的情况出现。我们专门在一次内部技术沟通会议时花了一下午确定了这一套约束体系。</p>
-<p>&emsp;&emsp;也许你会问，直接按照google官方的那些sample命名或者随便找篇网上人写的android命名规范去准守不就行。这里也是我特殊要站出来说明的问题，首先，纸上得来终是浅。其次，不是所有的规范都可以随意套用，不根据自己项目的实际，不根据彼此程序员开发习惯就这样照搬，终不是适合自己的。最后，规范也是人自己定义的，没有人说这个就是正确的，那个就一定是错的。对于一个程序员来说保持自己的思想和正确习惯比准守纸上理论更重要。</p>
-<h3 id="一-xml命名">一.xml命名</h3><h4 id="1-_Layout布局的命名">1. Layout布局的命名</h4><p>我们将布局的命名定义为3个结构名+1个补充名</p>
-<pre><code>形态名_模块名_布局名<span class="comment">(_补充名...)</span>
-</code></pre><hr>
-<p>所谓形态名是指layout布局是属于那种界面形态表现，它取值于下面的4个值中</p>
-<pre><code><span class="title">activity</span>    fragment     view      util      
-</code></pre><p>我们认为形态名越少越好，所以当我给出这四个取值时，你其实就明白了这里的形态究竟含义如何。一个界面，我们可以用activity实现，也可以用fragment实现，也可以是一个直接的view，同时增加一个util作为其他类型的补充，它将专门来表示include界面或者一些可复用的基础界面。</p>
-<hr>
-<p>所谓模块名是指根据你的产品业务实际的命名，所以它不是固定的！比如美丽神器就包含四个主产品模块，分别是觅 – 圈 – 惠 – 我 ， 因此我们对应的模块命名为如下取值。</p>
-<pre><code>mi            quan         hui        me        <span class="function"><span class="title">base</span><span class="params">(include)</span></span>
-</code></pre><p>注意的是util的前缀形态名不受模块影响，所以util的模块名一般是base(include)，base(include)仅且而且必须对于util形态名！</p>
-<hr>
-<p>所谓布局名是指这个layout的用途，它可能是listview，也可能是popup，也可能是自己定义的一些名称类，因此这里的部分是最自由的。</p>
-<hr>
-<p>补充名会根据布局名来处理，它不是必须的，它是布局名的补充。并且可以一直添加。</p>
-<p>比如以下命名为规范范例：</p>
-<pre><code>activity_mi_ins_new<span class="class">.xml</span>
-fragment_hui_listview_adapter<span class="class">.xml</span>    
-view_hui_shangou_isnowing_listview<span class="class">.xml</span>
-util_base_listview<span class="class">.xml</span>
-util_include_head.xml
-</code></pre><p>举例2：fragment形态名   hui模块名    listview布局名    adapter补充名    见名知义：这个layout布局是fragment形态，它属于惠模块，它是一个listview的adapter条目。<br>举例3：view形态名   hui模块名    shangou布局名    isnowing和listview补充名    见名知义：这个layout布局是view形态，它属于惠模块，它是惠模块下属的闪购模块正在展示部分的条目布局。</p>
-<p>&emsp;&emsp;从layout命名你可以一窥我们想化繁为简的思想体现，我们不想在xml中命名中太着重于各种不同的控件标注，我们力争从最简单的角度去划分，这不仅仅是因为android控件有n多种，同时我们想用最简单的命名就能够见名知其为何种布局形态，它代表的产品逻辑，以及它着重刻画的是含义。我们将命名的含义进行了盘活且不拘礼于现有的命名规范。这里的核心就在于我们给予布局名很大的随意性权限，也正是这种无拘束性导致更灵活的命名。</p>
-<h4 id="2-_Drawable或者Mipmap图片命名">2. Drawable或者Mipmap图片命名</h4><p>&emsp;&emsp;在早期我们命名图片资源时，我们启用的是</p>
-<pre><code>模块名_icon数字
-</code></pre><p>比如惠模块的，取名就是hui_icon01一直向后添加。当时这样命名的原因也是因为是为了防止反编译res包后图片资源直接把反编译者拿出使用，摸棱两可的命名基本上很难被反编译后使用，增加反编译盗图的难度(但不管如何，如果人家想盗你图，你即使再命名混乱，我想也是没什么卵用的！)。</p>
-<p>而现在我们开始直接将模块名去掉，我们的保证图片资源直接从icon0开始，如果是测试的图片直接用test0开始(测试图片是指最终会在正式发行时删除的占位图片)。</p>
-<pre><code>icon12
-<span class="built_in">test</span>2
-</code></pre><p>在这里我其实蛮建议你使用我们之前的命名方案的，因为它能够更好的区分模块，在多人协同时方便不同的模块人员管理自己的图片资源(毕竟自己上传了哪些图片自己还是比较清楚的)。同时为防止盗图增加难度。</p>
-<p>比如以下命名为规范范例：</p>
-<pre><code>hui_ico<span class="label">n1</span>
-mi_ico<span class="label">n21</span>
-</code></pre><p>或者</p>
-<pre><code>icon1
-<span class="built_in">test</span>12
-</code></pre><h4 id="3-资源包">3.资源包</h4><p>全小写是基本原则，这个不需要多强调。中间使用_划分</p>
-<hr>
-<p>anim包中：</p>
-<pre><code>动画类型_方向
-</code></pre><p>注：方向是可以一直添加的</p>
-<p>比如以下命名为规范范例：</p>
-<pre><code>fade<span class="number">_</span><span class="keyword">in</span>
-slide<span class="number">_</span><span class="keyword">in</span><span class="number">_f</span>rom<span class="number">_</span>bottom
-<span class="keyword">out</span><span class="number">_</span>to<span class="number">_</span>right
-</code></pre><hr>
-<p>color包中：</p>
-<pre><code>颜色类型_color
-</code></pre><p>比如以下命名为规范范例：</p>
-<pre><code>gary_color
-</code></pre><hr>
-<p>menu包中：</p>
-<pre><code>menu_开头
-</code></pre><p>比如以下命名为规范范例：</p>
-<pre><code>menu_toolbar_mainpage
-</code></pre><h4 id="4-value包命名">4.value包命名</h4><p>value包中一般含有attrs ids colors dimens styles等，但是我们知道我们在引用第三方的一些自定义控件时，它也有自己的value包，我们不建议你将这些自定义的value中的值粘贴复制到xml内容中，建议你分多个值包。比如我们自己有attrs.xml，引用的第三方的pulltorefresh有attrs.xml。</p>
-<p>所以面对此时的正确命名是：</p>
-<pre><code>my_attrs<span class="class">.xml</span>
-pull_to_refresh_attrs<span class="class">.xml</span>
-fab_attrs<span class="class">.xml</span>
-vpi_attrs.xml
-</code></pre><p>colors.xml、ids、dimens、styles和theme也按照各自不同的xml名去处理。</p>
-<p>这样做最大的好处就在于，分开不同的资源定义，它将非常方便于我们随时替换不同的第三方自定义控件。</p>
-<p>而对于xml里面的命名，不管是哪种xml类型，对于外层的标识同一用大写开头，里面的item同一小写开头，驼峰</p>
-<pre><code><span class="tag">&lt;<span class="title">style</span> <span class="attribute">name</span>=<span class="value">"CustomTabPageIndicator"</span> <span class="attribute">parent</span>=<span class="value">"Widget.TabPageIndicator"</span>&gt;</span><span class="css">
-    &lt;<span class="tag">item</span> <span class="tag">name</span>="<span class="rule"><span class="attribute">android</span>:<span class="value">fadingEdgeLength<span class="string">"&gt;8dp&lt;/item&gt;
-</span></span></span></span><span class="tag">&lt;/<span class="title">style</span>&gt;</span>
-
-
- <span class="tag">&lt;<span class="title">declare-styleable</span> <span class="attribute">name</span>=<span class="value">"PagerSlidingTabStrip"</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">attr</span> <span class="attribute">name</span>=<span class="value">"pstsIndicatorColor"</span> <span class="attribute">format</span>=<span class="value">"color"</span> /&gt;</span>
-<span class="tag">&lt;/<span class="title">declare-styleable</span>&gt;</span>
-</code></pre><p>当然item你也可用用下划线的方式来处理，也是没问题的</p>
-<pre><code>&lt;declare-styleable name=<span class="string">"PagerSlidingTabStrip"</span>&gt;
-    &lt;attr name=<span class="string">"psts_indicator_color"</span> format=<span class="string">"color"</span> /&gt;
-&lt;/declare-styleable&gt;
-
-&lt;<span class="attribute">color</span> name=<span class="string">"result_view"</span>&gt;<span class="hexcolor">#b00000</span>00&lt;/<span class="attribute">color</span>&gt;
-</code></pre><h4 id="5-_xml文件中id命名">5. xml文件中id命名</h4><p>waiting for upload , Continue tomorrow….</p>
-<h3 id="二-类中命名">二.类中命名</h3><h4 id="1-_类中基础命名">1. 类中基础命名</h4><h4 id="2-_类中方法命名">2. 类中方法命名</h4><h3 id="三-分包结构">三.分包结构</h3><h3 id="四-QuickUtils枢纽">四.QuickUtils枢纽</h3><h3 id="五-Application初始化">五.Application初始化</h3></span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2015/10/06/ZT10_1/" itemprop="url">
-                【杂谈10月】程序员眼中的Material Design
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2015-10-06T23:13:48+08:00" content="2015-10-06">
-            2015-10-06
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>程序员的角度的Material Design</p>
-<h2 id="前言">前言</h2><p>&emsp;&emsp;这是一篇给予设计品读的文章，只是从程序员角度告知设计同仁何为Material Design设计。2个月前，我们决定将美丽神器APP-android端全部翻新，不仅要完成从Eclipse转到AS，基础框架也将全部自己重建与设计，同时设计风格也将遵循MD的设计风格而存在。这是一项艰巨的任务，而让设计同仁在ios设计风格的熏陶下，理解MD风格将是其中最为艰难的部分，因此这篇文章最初是在一次与设计同仁的技术交流会议上总结的，现在开放出来也希望可以帮到更多的设计同仁去理解。</p>
-<p><img src="http://i.imgur.com/MNgSWGg.png" alt=""></p>
-<p>中文网站：<a href="http://wiki.jikexueyuan.com/project/material-design/" title="http://wiki.jikexueyuan.com/project/material-design/">http://wiki.jikexueyuan.com/project/material-design/</a></p>
-<p>英文(翻墙)：<a href="http://www.google.com/design/spec/material-design/" title="http://www.google.com/design/spec/material-design/">http://www.google.com/design/spec/material-design/</a></p>
-<p>设计总结：<a href="http://www.uisdc.com/comprehensive-material-design-note" title="http://www.uisdc.com/comprehensive-material-design-note">http://www.uisdc.com/comprehensive-material-design-note</a></p>
-<p>几个可以参考的android-app(demo) : </p>
-<p>最美应用   最美壁纸    最美创意</p>
-<p>印象笔记   什么值得买  aisen </p>
-<p>pocket casts  网易云音乐  materialcat  </p>
-<h2 id="一-了解">一.了解</h2><p>&emsp;&emsp;Material Design：纸墨设计风格，诞生于2014年6月google 2014/IO大会。 涉及到了跨平台和设备的视觉,动态,交互设计等方面。Material Design对排版、材质、配色、光效、间距、文字大小、交互方式、动画轨迹都做出了建议，以帮助设计者设计出符合Material Design风格的应用。</p>
-<iframe height=498 width=510 src="http://player.youku.com/embed/XNzMxNzUyNzQ0" frameborder=0 allowfullscreen></iframe>
-
-<p>Material Design演示</p>
-<p>&emsp;&emsp;Material Design的灵感来自于对纸和墨水的研究,基于触觉现实感.并且它还在继续地发展扩充,有很大的想象空间.</p>
-<p>&emsp;&emsp;基于现实,让材料的表面和边缘提供视觉线索. 熟悉的触觉属性可以帮助用户快速地明白正在发生什么.</p>
-<p>&emsp;&emsp;光,表面和运动的一些基本规则是很关键性的因素,它们可以传达物体在空间如何存在,运动和交互.运动是很关键的因素,可以吸引注意力和保持连续性. 反馈需要微小但是清晰, 转换需要有效率但是还要保持连贯.</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/10/06/ZT10_1/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -3154,7 +3584,7 @@ vpi_attrs.xml
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">23</span>
+              <span class="site-state-item-count">25</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

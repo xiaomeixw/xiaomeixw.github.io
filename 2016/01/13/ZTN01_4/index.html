@@ -1,0 +1,845 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+    
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.4"/>
+
+
+    <meta name="description" content="重新发现、定义并创造这个世界..." />
+
+
+
+  <meta name="keywords" content="Hexo,next" />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
+
+
+<meta name="description" content="Android注解范式编程Part2
+如果你做过JavaEE开发,你应该知道一个概念，叫:DI(依赖注入),依赖注入是Spring的核心思想,它将对象的创建交给Spring来进行管理,在初始化整个Java-web时,初始化在Spring的配置文件中的一批对象,当代码中需要对象时,只要直接从Spring中获取,而不需要自己去new.同时ClassA中如果需要的是ClassB对象,spring配置文件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【杂谈1月】Android注解范式编程Part2">
+<meta property="og:url" content="http://yoursite.com/2016/01/13/ZTN01_4/index.html">
+<meta property="og:site_name" content="sabria">
+<meta property="og:description" content="Android注解范式编程Part2
+如果你做过JavaEE开发,你应该知道一个概念，叫:DI(依赖注入),依赖注入是Spring的核心思想,它将对象的创建交给Spring来进行管理,在初始化整个Java-web时,初始化在Spring的配置文件中的一批对象,当代码中需要对象时,只要直接从Spring中获取,而不需要自己去new.同时ClassA中如果需要的是ClassB对象,spring配置文件">
+<meta property="og:image" content="http://i.imgur.com/9CcBl33.png">
+<meta property="og:image" content="http://i.imgur.com/2W3JfOi.png">
+<meta property="og:image" content="http://i.imgur.com/RzqXI3a.png">
+<meta property="og:image" content="http://i.imgur.com/cK9ZeNh.png">
+<meta property="og:image" content="http://i.imgur.com/6YkMUsr.png">
+<meta property="og:image" content="http://i.imgur.com/Edp17GW.png">
+<meta property="og:image" content="http://i.imgur.com/jHtEqaw.png">
+<meta property="og:image" content="http://i.imgur.com/ikidrvC.png">
+<meta property="og:updated_time" content="2016-01-12T17:32:32.109Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【杂谈1月】Android注解范式编程Part2">
+<meta name="twitter:description" content="Android注解范式编程Part2
+如果你做过JavaEE开发,你应该知道一个概念，叫:DI(依赖注入),依赖注入是Spring的核心思想,它将对象的创建交给Spring来进行管理,在初始化整个Java-web时,初始化在Spring的配置文件中的一批对象,当代码中需要对象时,只要直接从Spring中获取,而不需要自己去new.同时ClassA中如果需要的是ClassB对象,spring配置文件">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'hide'
+  };
+</script>
+
+    <title> 【杂谈1月】Android注解范式编程Part2 // sabria </title>
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+
+
+
+<div class="container one-column page-post-detail">
+    <div class="headband"></div>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">sabria</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+        </div>
+    </header>
+
+    <main id="main" class="main">
+        <div class="main-inner">
+            <div id="content" class="content">
+                
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              【杂谈1月】Android注解范式编程Part2
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2016-01-13T01:32:12+08:00" content="2016-01-13">
+            2016-01-13
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>Android注解范式编程Part2</p>
+<p>如果你做过JavaEE开发,你应该知道一个概念，叫:DI(依赖注入),依赖注入是Spring的核心思想,它将对象的创建交给Spring来进行管理,在初始化整个Java-web时,初始化在Spring的配置文件中的一批对象,当代码中需要对象时,只要直接从Spring中获取,而不需要自己去new.同时ClassA中如果需要的是ClassB对象,spring配置文件中也是有相应的对象ref引用的。</p>
+<p>如果单纯这个说Spring这个概念的话，因为很多Android同仁也没有做过JavaEE的开始，所以最终决定还是在<br>Part2中专门抽一个小节给点Spring的概念简述.</p>
+<h2 id="一-Spring简述">一.Spring简述</h2><p>Spring是Interface21公司开源的轻量级的JavaEE开发框架。它主要是控制Web三层架构的Service层的操作,它的核心是控制反转（IoC）和面向切面（AOP）。</p>
+<p>控制反转（IoC）：应用本身不负责依赖对象的创建及维护。也就是在应用本身不new对象。由Spring等IOC容器来处理对象的创建与维护。这个含义在某种程度上也就是DI(依赖注入)。具体的差异我会专门有文章讨论,这里不做过多描述。</p>
+<p>面向切面编程（AOP）：通过预编译方式和运行期动态代理实现程序功能的统一维护的一种技术。AOP思想：在程序员编写代码时，随时动态的插入、删除这些系统服务性代码(如事务)。它的本质：动态代理。(spring使用的不是JDK的动态代理，而是使用个cglib第三方动态代理。)</p>
+<p>Spring中最重要的是Bean对象的注入方案问题,理论上有三种解决方案:<br>比如：如何将到PersonDao对象注入PersonService中？</p>
+<ul>
+<li>通过属性+set方法(接口)</li>
+<li>通过属性+构造器</li>
+<li>使用字段Field注解的方法(注解的方式)</li>
+</ul>
+<p>这里我就以方案一来处理,其他如果描述过多了，还影响我们讨论Android有关的知识。</p>
+<p>PersonServiceBean对象:将PersonDao对象注入PersonService中</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PersonServiceBean</span> <span class="keyword">implements</span> <span class="title">PersonService</span> </span>{
+
+    <span class="keyword">private</span> PersonDao personDao;
+
+    <span class="function"><span class="keyword">public</span> PersonDao <span class="title">getPersonDao</span><span class="params">()</span></span>{
+        <span class="keyword">return</span> personDao;
+    }
+
+    <span class="function">Public <span class="keyword">void</span> <span class="title">setPersonDao</span><span class="params">(PersonDao personDao)</span></span>{
+        <span class="keyword">this</span>.personDao=personDao;
+    }
+
+}
+</code></pre><p>Spring配置文件:ref</p>
+<pre><code>&lt;bean id=<span class="string">"personDao"</span> class =<span class="string">"sabria.demo.annotationdemo.dao.impl.PersonDao"</span>&gt;&lt;/bean&gt;
+&lt;bean id=<span class="string">"personService"</span> class =<span class="string">"sabria.demo.annotationdemo.service.impl.PersonServiceBean"</span>&gt;
+    &lt;property name=<span class="string">"personDao"</span> <span class="keyword">ref</span>=<span class="string">"personDao"</span>&gt;&lt;/property&gt;
+&lt;/bean&gt;
+</code></pre><p>我们看到Spring.xml文件在配置personService时,指定了一个ref引用”personDao”，然后它指向”sabria.demo.annotationdemo.dao.impl.PersonDaoBean”,这样就完成通过属性+set方法的方案来完成引用对象的注入。</p>
+<p>我们看到在Spring中极度简化了对象的创建以及“对象中对其他对象”的引用。而这种思想在Android中也大行其道,在Android端有3个非常成熟的方案在践行DI：Dagger、RoboGuice和ButterKnife.在这里我们不会去谈论这些成熟方案的范例使用或者是源代码解读,在Part2中我们要回归这些library的本质去探究“运行时注解和编译时注解”，而这才是这些DI框架的核心元素。</p>
+<h2 id="二-运行时注解">二.运行时注解</h2><p>我们在使用ButterKnife时尝试简化findViewById操作,</p>
+<h2 id="三-编译时注解">三.编译时注解</h2><pre><code><span class="at_rule">@<span class="keyword">Retention(RetentionPolicy.CLASS)</span>
+@<span class="function">Target</span>(</span>{ <span class="tag">ElementType</span><span class="class">.FIELD</span>, <span class="tag">ElementType</span><span class="class">.TYPE</span> })
+<span class="tag">public</span> <span class="at_rule">@<span class="keyword">interface</span> InjectView</span>{
+    <span class="tag">int</span> <span class="tag">value</span>();
+}
+</code></pre><p>相对于类似<a href="https://github.com/wyouflf/xUtils/blob/192c2a886c2d467e50718c6e469de63696f5cded/library/src/com/lidroid/xutils/ViewUtils.java#L89" target="_blank" rel="external">xUtils</a>、<a href="https://github.com/yanchenko/droidparts/blob/4382976a54e7ccd5c2c3a25c7acbd7cae2c6030e/droidparts/src/org/droidparts/Injector.java#L100" target="_blank" rel="external">Droidparts</a>这样开源了多年的框架集成的运行时注解模块而言，编译时注解由于是直接将代码在编译时期就生成，所以它完全不存在性能损耗上的问题,在很大程度上，我们应该避免使用任何运行时注解框架。</p>
+<p>我们还是来以解决findViewById来处理编译时注解。在这之后我会给一些API的总结,以方便去攥写更大型的编译时注解框架。</p>
+<h3 id="3-1_编译时注解类的操作步骤：">3.1 编译时注解类的操作步骤：</h3><p>1.新建java工程：new module—&gt;Java Library,该library主要是做编译时注解解读工作。</p>
+<p><img src="http://i.imgur.com/9CcBl33.png" alt=""></p>
+<p>2.继承AbstractProcessor:</p>
+<p>类上加上这两个注解：</p>
+<ul>
+<li>@SupportedAnnotationTypes的值为当前类支持的注解的完整类路径，支持通配符。</li>
+<li>@SupportedSourceVersion 标识该处理器支持的源码版本</li>
+</ul>
+<pre><code><span class="annotation">@SupportedAnnotationTypes</span>(<span class="string">"com.sabria.noinject.InjectView"</span>)
+<span class="annotation">@SupportedSourceVersion</span>(<span class="type">SourceVersion</span>.<span class="type">RELEASE_6</span>)
+public <span class="class"><span class="keyword">class</span> <span class="title">NoKnifeProcessor</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">AbstractProcessor</span> {</span>            
+    <span class="annotation">@Override</span>
+    public boolean process(<span class="type">Set</span>&lt;? <span class="keyword">extends</span> <span class="type">TypeElement</span>&gt; annotations, <span class="type">RoundEnvironment</span> roundEnv) {
+        <span class="keyword">return</span> <span class="literal">false</span>;
+    }                
+}
+</code></pre><p>注:Eclipse如果找不到AbstractProcessor，记得右键build-path add library把jdk加进来.<br>AS中： import javax.annotation.processing.AbstractProcessor;</p>
+<p>3.创建resources,然后在里面创建META-INF/services/javax.annotation.processing.Processor文件.</p>
+<p>里面填上自己自定义注解解析器的全路径包类名</p>
+<p><img src="http://i.imgur.com/2W3JfOi.png" alt=""></p>
+<p><img src="http://i.imgur.com/RzqXI3a.png" alt=""></p>
+<p>4.Eclipse需要把导出为Jar,AS的话就直接引用</p>
+<p><img src="http://i.imgur.com/cK9ZeNh.png" alt=""></p>
+<h3 id="3-2_编译时注解的分包架构">3.2 编译时注解的分包架构</h3><p>我将采用3包机制来处理,如果你研习过Butterknife，它采用的是四包机制.</p>
+<p><img src="http://i.imgur.com/6YkMUsr.png" alt=""></p>
+<p>Butterknife的四包架构：</p>
+<ul>
+<li><p>butterknife-annotations  注解包,包中是所有的注解类对象</p>
+<pre><code><span class="variable">@Retention</span>(CLASS)
+<span class="variable">@Target</span>(FIELD)
+public <span class="variable">@interface</span> Unbinder {
+}
+</code></pre></li>
+<li><p>butterknife-compiler  解析包,也就是通过javac生成的编译class类.</p>
+</li>
+</ul>
+<pre><code><span class="annotation">@AutoService</span>(<span class="type">Processor</span>.<span class="keyword">class</span>)
+public <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ButterKnifeProcessor</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">AbstractProcessor</span> {</span>
+}
+</code></pre><ul>
+<li><p>butterknife 绑定包 与Activity等生命周期绑定,注入Activity(以及它里面的注解标识)到解析器中。</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ButterKnife</span> </span>{        
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">void</span> <span class="title">bind</span><span class="params">(@NonNull Activity <span class="keyword">target</span>)</span> </span>{
+        bind(<span class="keyword">target</span>, <span class="keyword">target</span>, Finder.ACTIVITY);
+      }        
+}
+</code></pre></li>
+<li><p>butterknife-sample 自然就是使用注解的Application应用</p>
+<pre><code>public <span class="class"><span class="keyword">class</span> <span class="title">SimpleActivity</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">Activity</span> {</span>
+
+    <span class="annotation">@Bind</span>(<span class="type">R</span>.id.title) <span class="type">TextView</span> title;
+
+     <span class="annotation">@Override</span> <span class="keyword">protected</span> void onCreate(<span class="type">Bundle</span> savedInstanceState) {
+        <span class="keyword">super</span>.onCreate(savedInstanceState);
+        setContentView(<span class="type">R</span>.layout.simple_activity);
+
+        <span class="type">ButterKnife</span>.bind(<span class="keyword">this</span>);
+
+        title.setText(<span class="string">"Butter Knife"</span>);
+
+      }
+}
+</code></pre></li>
+</ul>
+<p>那所谓的三包机制，其实就是将注解包和绑定包放在一个包架构中，我这里实行三包相比较于四包是因为彼此的依赖关系更简单些，但没四包机制清晰。具体你在做自己框架时是启用四包还是三包，看个人喜好。</p>
+<p><img src="http://i.imgur.com/Edp17GW.png" alt=""></p>
+<ul>
+<li><p>no-inject-api 包中含有注解来InjectView 和 绑定类 NoKnife</p>
+</li>
+<li><p>no-inject-process 包中含有NoKnifeProcessor解析类</p>
+</li>
+<li><p>app 包就是使用运行时注解应用</p>
+</li>
+</ul>
+<h3 id="3-3_攥写注解类和绑定类">3.3 攥写注解类和绑定类</h3><p>在讲述part2章节重点的攥写编译时注解类Processor前，我们先完成no-inject-api包的工作:</p>
+<p>创建在com.sabria.noinject包InjectView注解类:指定RetentionPolicy为CLASS级别.</p>
+<pre><code><span class="annotation">@Retention</span>(RetentionPolicy.CLASS)
+<span class="annotation">@Target</span>(ElementType.FIELD)
+<span class="keyword">public</span> <span class="annotation">@interface</span> InjectView {
+    <span class="function"><span class="keyword">int</span> <span class="title">value</span><span class="params">()</span></span>;
+}
+</code></pre><p>然后再main下创建一个包api的包，该包中再创建com.sabria.noinject，NoKnife类</p>
+<pre><code>public class <span class="type">NoKnife</span> {   
+
+    public <span class="keyword">static</span> <span class="type">void</span> inject(<span class="type">Activity</span> target) {
+        <span class="type">Log</span>.e(<span class="type">NoKnife</span>.class.getCanonicalName(), <span class="string">"I AM ON INJECT"</span>);
+        <span class="keyword">try</span> {
+            final <span class="type">Class</span> clazz = <span class="type">Class</span>.forName(target.getClass().getCanonicalName() + <span class="string">"$$NoKnife"</span>);
+            final <span class="type">Method</span> <span class="keyword">method</span> = clazz.getDeclaredMethod(<span class="string">"inject"</span>, target.getClass());
+            <span class="keyword">method</span>.setAccessible(<span class="literal">true</span>);
+            <span class="keyword">method</span>.invoke(clazz.newInstance(), target);
+        } catch (<span class="type">ClassNotFoundException</span> e) {
+            e.printStackTrace();
+        } catch (<span class="type">NoSuchMethodException</span> e) {
+            e.printStackTrace();
+        } catch (<span class="type">InvocationTargetException</span> e) {
+            e.printStackTrace();
+        } catch (<span class="type">IllegalAccessException</span> e) {
+            e.printStackTrace();
+        } catch (<span class="type">InstantiationException</span> e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>它的工作很简单，就是拿到一个叫:MainActivity$$NoKnife.calss,然后破解形态的拿给类里面的一个叫inject()的方法，然后method.invoke(clazz.newInstance(), target)去执行这个inject()方法。</p>
+<p>你会很奇怪,我怎么有个类叫MainActivity$$NoKnife.calss，然后我怎么知道这个类里面有个叫inject()的方法。保持住这个求知的疑问，我们在3.4中解读。</p>
+<p>在实际开发中绑定类(包)一般是最后去完成的，这里放到最前面卖关子是为了更好的去理解3.4中的内容。</p>
+<p>我们先来解决一个你在创建NoKnife时你会遇到的问题，因为AndroidStudio只是将在java包中创建的类为源代码类，非sources的包创建会直接无法被识别。所以将注解包和绑定包放在一个包结构中就需要指定绑定包的path路径为soruces：</p>
+<pre><code><span class="name">sourceSets</span> {
+    <span class="keyword">main</span>.java.srcDirs += [<span class="string">'src/main/api'</span>]
+}
+</code></pre><p><img src="http://i.imgur.com/jHtEqaw.png" alt=""></p>
+<h3 id="3-4_攥写解析类Processor">3.4 攥写解析类Processor</h3><p>####3.4.1 基础解读</p>
+<p><img src="http://i.imgur.com/ikidrvC.png" alt=""></p>
+<p>3.1中已经描述了Processor类的创建过程，这里不再做说明,我们来详细解读下(Abstract)Processor类.</p>
+<pre><code><span class="tag">public</span> <span class="tag">class</span> <span class="tag">MyProcessor</span> <span class="tag">extends</span> <span class="tag">AbstractProcessor</span> {
+
+    <span class="variable">@Override</span>
+    public synchronized void <span class="function">init</span>(ProcessingEnvironment env){ }
+
+    <span class="variable">@Override</span>
+    public boolean <span class="function">process</span>(Set&lt;? extends TypeElement&gt; annoations, RoundEnvironment env) { }
+
+    <span class="variable">@Override</span>
+    public Set&lt;String&gt; <span class="function">getSupportedAnnotationTypes</span>() { }
+
+    <span class="variable">@Override</span>
+    public SourceVersion <span class="function">getSupportedSourceVersion</span>() { }
+
+}
+</code></pre><p>讲解：<br>1.init(ProcessingEnvironment env): 每一个注解处理器类都必须有一个空的构造函数。ProcessingEnviroment提供很多有用的工具类Elements, Types和Filer。</p>
+<p>2.process(Set&lt;? extends TypeElement&gt; annotations, RoundEnvironment env)：处理器的主函数main()，写你的扫描、评估和处理注解的代码，以及生成Java文件。输入参数RoundEnviroment，可以让你查询出包含特定注解的被注解元素。</p>
+<p>3.getSupportedAnnotationTypes()：这个注解处理器是注册给哪个注解的。也就是自定义的那个注解类.</p>
+<p>4.getSupportedSourceVersion()：用来指定你使用的Java版本。通常这里返回SourceVersion.latestSupported()。</p>
+<p>继承于AbstractProcessor，然后会必需要求实现process()方法，其他的三个方法非必需实现，且在Java1.7上有更简单的实现方式(注解实现)。</p>
+<p>Java1.7:getSupportedSourceVersion和getSupportedAnnotationTypes可以使用注解来解决</p>
+<pre><code><span class="variable">@SupportedSourceVersion</span>(SourceVersion.<span class="function">latestSupported</span>())
+<span class="variable">@SupportedAnnotationTypes</span>({
+   <span class="comment">// 合法注解全名的集合</span>
+ })
+public class MyProcessor extends AbstractProcessor {
+
+    <span class="variable">@Override</span>
+    public synchronized void <span class="function">init</span>(ProcessingEnvironment env){ }
+
+    <span class="variable">@Override</span>
+    public boolean <span class="function">process</span>(Set&lt;? extends TypeElement&gt; annoations, RoundEnvironment env) { }
+}
+</code></pre><p>所以范例：</p>
+<pre><code>public <span class="class"><span class="keyword">class</span> <span class="title">LittleKnifeProcessor</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">AbstractProcessor</span> {</span>
+
+    <span class="annotation">@Override</span>
+    public <span class="type">SourceVersion</span> getSupportedSourceVersion() {
+        <span class="keyword">return</span> <span class="type">SourceVersion</span>.latestSupported();
+    }
+
+    <span class="annotation">@Override</span>
+    public <span class="type">Set</span>&lt;<span class="type">String</span>&gt; getSupportedAnnotationTypes() {
+        <span class="type">LinkedHashSet</span>&lt;<span class="type">String</span>&gt; annotataions = <span class="keyword">new</span> <span class="type">LinkedHashSet</span>&lt;&gt;();
+        annotataions.add(<span class="type">InjectView</span>.<span class="keyword">class</span>.getCanonicalName());
+        <span class="keyword">return</span> annotataions;
+    }
+
+    <span class="annotation">@Override</span>
+    public boolean process(<span class="type">Set</span>&lt;? <span class="keyword">extends</span> <span class="type">TypeElement</span>&gt; annoations, <span class="type">RoundEnvironment</span> env) { }
+
+}
+</code></pre><p>或者：</p>
+<pre><code><span class="annotation">@SupportedAnnotationTypes</span>(<span class="string">"com.sabria.noinject.InjectView"</span>)
+<span class="annotation">@SupportedSourceVersion</span>(<span class="type">SourceVersion</span>.<span class="type">RELEASE_6</span>)
+public <span class="class"><span class="keyword">class</span> <span class="title">LittleKnifeProcessor</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">AbstractProcessor</span> {</span>
+
+    <span class="annotation">@Override</span>
+    public boolean process(<span class="type">Set</span>&lt;? <span class="keyword">extends</span> <span class="type">TypeElement</span>&gt; annoations, <span class="type">RoundEnvironment</span> env) { }
+
+}
+</code></pre><p>这也就代表着我们只需要处理init()和process()方法，而init()方法则相对比较固定，它一般提供工具类Elements, Types和Filer。</p>
+<pre><code> <span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(ProcessingEnvironment processingEnv)</span> </span>{
+    <span class="keyword">super</span>.init(processingEnv);
+    Types typeUtils = processingEnv.getTypeUtils();
+    Elements elementUtils = processingEnv.getElementUtils();
+    Filer filer = processingEnv.getFiler();
+    Messager messager = processingEnv.getMessager();
+}
+</code></pre><p>首先我们对一个概念做解读:<a href="http://www.apihome.cn/api/java/Element.html" target="_blank" rel="external">Element</a>，在javax.lang.model.element包下：</p>
+<blockquote>
+<p>public interface Element<br>表示一个程序元素，比如包、类或者方法。每个元素都表示一个静态的语言级构造（不表示虚拟机的运行时构造）。</p>
+</blockquote>
+<p>这个概念很难理解，是的，因为我们很少去开发会用到类似API，所以你先浅显的理解为它是包，或者是类，又可以是方法就行了，它是一个一个的程序元素。</p>
+<p>我们来一个一个看这四个帮助类:</p>
+<ul>
+<li><p>TypeUtils 处理<a href="http://www.766.com/doc/javax/lang/model/type/class-use/TypeMirror.html" target="_blank" rel="external">TypeMirror(表示 Java 编程语言中的类型。这些类型包括基本类型、声明类型（类和接口类型）、数组类型、类型变量和 null 类型。还可以表示通配符类型参数、executable 的签名和返回类型，以及对应于包和关键字 void 的伪类型。)</a>的帮助类，它有asElement()、isSubtype()等方法</p>
+</li>
+<li><p>ElementUtils 它包含很多Elements(一组Element)的帮助类信息，它有getPackageElement()、getTypeElement()、getPackageOf()方法。</p>
+</li>
+<li><p>Filer 创建文件</p>
+</li>
+<li><p>Messager 异常消息提醒</p>
+</li>
+</ul>
+<p>####3.4.2 process()方法中常用API解读</p>
+<pre><code><span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">process</span><span class="params">(Set&lt;? <span class="keyword">extends</span> TypeElement&gt; annotations, RoundEnvironment roundEnv)</span> </span>{
+}
+</code></pre><p>1.获取所有含有@InjectView注解的Elements.</p>
+<pre><code>roundEnv.<span class="function"><span class="title">getElementsAnnotatedWith</span><span class="params">(InjectView.class)</span></span>
+</code></pre><p>返回的结果:Element元素的Set集合Set&lt;? extends Element&gt; annotatedElements</p>
+<p>2.判断被标注@InjectView的Element是否是Class</p>
+<pre><code>annotatedElement.<span class="function"><span class="title">getKind</span><span class="params">()</span></span> != ElementKind.CLASS
+</code></pre><p>3.如果annotatedElement是ElementKind.CLASS，那么在某种程度上我们就可以直接将它当成TypeElement</p>
+<pre><code>TypeElement typeElement = <span class="list">(<span class="keyword">TypeElement</span>)</span> annotatedElement<span class="comment">;</span>
+</code></pre><p>4.判断classElement是否是被Public修饰</p>
+<pre><code>classElement.<span class="function"><span class="title">getModifiers</span><span class="params">()</span></span>.<span class="function"><span class="title">contains</span><span class="params">(Modifier.PUBLIC)</span></span>
+</code></pre><p>5.从Element元素的Set集合迭代出一个Element后,拿它的包名</p>
+<pre><code>final String packageName = processingEnv.getElementUtils<span class="params">()</span>.getPackageOf<span class="params">(firstAnnotatedElement)</span>.toString<span class="params">()</span>;
+</code></pre></span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/11/ZTN01_3/" rel="next">【正谈1月】Android注解范式编程Part1</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+            </div>
+
+            
+
+            
+              <div class="comments" id="comments">
+                
+              </div>
+            
+        </div>
+
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/avatar.jpg" alt="熊伟xiongwei" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">熊伟xiongwei</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">重新发现、定义并创造这个世界...</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xiaomeixw" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.sabria.net/" target="_blank">anotherblog</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/1561605537" target="_blank">weibo</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-Spring简述"><span class="nav-number">1.</span> <span class="nav-text">一.Spring简述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-运行时注解"><span class="nav-number">2.</span> <span class="nav-text">二.运行时注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三-编译时注解"><span class="nav-number">3.</span> <span class="nav-text">三.编译时注解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1_编译时注解类的操作步骤："><span class="nav-number">3.1.</span> <span class="nav-text">3.1 编译时注解类的操作步骤：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2_编译时注解的分包架构"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 编译时注解的分包架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3_攥写注解类和绑定类"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 攥写注解类和绑定类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4_攥写解析类Processor"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 攥写解析类Processor</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">熊伟xiongwei</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+        </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+</div>
+
+<script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.4"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.4"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.4" id="motion.global"></script>
+
+
+
+  <script type="text/javascript" src="/js/search-toggle.js"></script>
+
+
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.4" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (CONFIG.sidebar === 'always') {
+            displaySidebar();
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+<!-- lazyload -->
+<script type="text/javascript" src="/js/lazyload.js"></script>
+<script type="text/javascript">
+    jQuery(function () {
+        jQuery("#posts img").lazyload({
+            placeholder: "/images/loading.gif",
+            effect: "fadeIn"
+        });
+    });
+</script>
+</body>
+</html>
