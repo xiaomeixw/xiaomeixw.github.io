@@ -45,6 +45,8 @@
 <meta property="og:site_name" content="sabria">
 <meta property="og:description" content="Android注解范式编程Part2
 如果你做过JavaEE开发,你应该知道一个概念，叫:DI(依赖注入),依赖注入是Spring的核心思想,它将对象的创建交给Spring来进行管理,在初始化整个Java-web时,初始化在Spring的配置文件中的一批对象,当代码中需要对象时,只要直接从Spring中获取,而不需要自己去new.同时ClassA中如果需要的是ClassB对象,spring配置文件">
+<meta property="og:image" content="http://i.imgur.com/ylsr9M3.png">
+<meta property="og:image" content="http://i.imgur.com/Cc4ZV7Y.png">
 <meta property="og:image" content="http://i.imgur.com/9CcBl33.png">
 <meta property="og:image" content="http://i.imgur.com/2W3JfOi.png">
 <meta property="og:image" content="http://i.imgur.com/RzqXI3a.png">
@@ -53,7 +55,13 @@
 <meta property="og:image" content="http://i.imgur.com/Edp17GW.png">
 <meta property="og:image" content="http://i.imgur.com/jHtEqaw.png">
 <meta property="og:image" content="http://i.imgur.com/ikidrvC.png">
-<meta property="og:updated_time" content="2016-01-12T17:32:32.109Z">
+<meta property="og:image" content="http://i.imgur.com/erlX5Eo.png">
+<meta property="og:image" content="http://i.imgur.com/iwWyKbV.png">
+<meta property="og:image" content="http://i.imgur.com/V4gyEuf.png">
+<meta property="og:image" content="http://i.imgur.com/5ZTOlQR.png">
+<meta property="og:image" content="http://i.imgur.com/sXFa1PU.png">
+<meta property="og:image" content="http://i.imgur.com/Kleyttb.png">
+<meta property="og:updated_time" content="2016-01-13T13:08:22.399Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【杂谈1月】Android注解范式编程Part2">
 <meta name="twitter:description" content="Android注解范式编程Part2
@@ -192,17 +200,17 @@
       
         <span itemprop="articleBody"><p>Android注解范式编程Part2</p>
 <p>如果你做过JavaEE开发,你应该知道一个概念，叫:DI(依赖注入),依赖注入是Spring的核心思想,它将对象的创建交给Spring来进行管理,在初始化整个Java-web时,初始化在Spring的配置文件中的一批对象,当代码中需要对象时,只要直接从Spring中获取,而不需要自己去new.同时ClassA中如果需要的是ClassB对象,spring配置文件中也是有相应的对象ref引用的。</p>
-<p>如果单纯这个说Spring这个概念的话，因为很多Android同仁也没有做过JavaEE的开始，所以最终决定还是在<br>Part2中专门抽一个小节给点Spring的概念简述.</p>
+<p>如果单纯说Spring概念的话，因为很多Android同仁也没有做过JavaEE的开发，所以最终决定还是在<br>Part2中专门抽一小节给Spring一点概念简述.</p>
 <h2 id="一-Spring简述">一.Spring简述</h2><p>Spring是Interface21公司开源的轻量级的JavaEE开发框架。它主要是控制Web三层架构的Service层的操作,它的核心是控制反转（IoC）和面向切面（AOP）。</p>
-<p>控制反转（IoC）：应用本身不负责依赖对象的创建及维护。也就是在应用本身不new对象。由Spring等IOC容器来处理对象的创建与维护。这个含义在某种程度上也就是DI(依赖注入)。具体的差异我会专门有文章讨论,这里不做过多描述。</p>
+<p>控制反转（IoC）：应用本身不负责依赖对象的创建及维护。也就是应用本身不new对象。由Spring等IOC容器来处理对象的创建与维护。这个含义在某种程度上也就是DI(依赖注入)。具体的差异我会专门有文章讨论,这里不做过多描述。</p>
 <p>面向切面编程（AOP）：通过预编译方式和运行期动态代理实现程序功能的统一维护的一种技术。AOP思想：在程序员编写代码时，随时动态的插入、删除这些系统服务性代码(如事务)。它的本质：动态代理。(spring使用的不是JDK的动态代理，而是使用个cglib第三方动态代理。)</p>
-<p>Spring中最重要的是Bean对象的注入方案问题,理论上有三种解决方案:<br>比如：如何将到PersonDao对象注入PersonService中？</p>
+<p>Spring中最重要的是Bean对象的注入方案问题,比如：如何将PersonDao对象注入PersonService中？<br>理论上有三种解决方案:</p>
 <ul>
 <li>通过属性+set方法(接口)</li>
 <li>通过属性+构造器</li>
 <li>使用字段Field注解的方法(注解的方式)</li>
 </ul>
-<p>这里我就以方案一来处理,其他如果描述过多了，还影响我们讨论Android有关的知识。</p>
+<p>这里我就以方案一来处理,其他如果描述过多了，本末倒置，还影响我们讨论Android有关的知识。</p>
 <p>PersonServiceBean对象:将PersonDao对象注入PersonService中</p>
 <pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PersonServiceBean</span> <span class="keyword">implements</span> <span class="title">PersonService</span> </span>{
 
@@ -224,15 +232,212 @@
 &lt;/bean&gt;
 </code></pre><p>我们看到Spring.xml文件在配置personService时,指定了一个ref引用”personDao”，然后它指向”sabria.demo.annotationdemo.dao.impl.PersonDaoBean”,这样就完成通过属性+set方法的方案来完成引用对象的注入。</p>
 <p>我们看到在Spring中极度简化了对象的创建以及“对象中对其他对象”的引用。而这种思想在Android中也大行其道,在Android端有3个非常成熟的方案在践行DI：Dagger、RoboGuice和ButterKnife.在这里我们不会去谈论这些成熟方案的范例使用或者是源代码解读,在Part2中我们要回归这些library的本质去探究“运行时注解和编译时注解”，而这才是这些DI框架的核心元素。</p>
-<h2 id="二-运行时注解">二.运行时注解</h2><p>我们在使用ButterKnife时尝试简化findViewById操作,</p>
+<p>现在让我们来讨论我们今天Part部分需要探究的主题,我们在使用类似butterknife这样的DI框架时时尝试简化findViewById操作：</p>
+<pre><code><span class="at_rule">@<span class="keyword">Bind(R.id.user)</span> EditText username</span>;
+</code></pre><p>这种简化操作将会使得类中结构清晰，不用过量书写findViewById,ButterKnife使用的是编译时注解。接下来的两个小节部分我们对于findViewById的这个简单的操作进行两种不同方式的注解处理，以此来更深入的去解读整个Android的注解构建。在Android注解范式编程Part3章节中我将使用part2中的核心知识来解读一个开源框架<a href="https://github.com/JoanZapata/android-asyncservice" target="_blank" rel="external">android-asyncservice</a>,届时你将会明白一个大型android的注解框架其实本质都非常简单,届时希望给你收获。</p>
+<h2 id="二-运行时注解">二.运行时注解</h2><pre><code><span class="annotation">@Target</span>(ElementType.FIELD)
+<span class="annotation">@Retention</span>(RetentionPolicy.RUNTIME)
+<span class="keyword">public</span> <span class="annotation">@interface</span> InjectView {
+    <span class="function"><span class="keyword">int</span> <span class="title">value</span><span class="params">()</span> <span class="keyword">default</span> 0</span>;
+}
+</code></pre><p>指定RetentionPolicy为RUNTIME模式,在初始化运行代码时或者运行每一个带有注解的activity等情况时均会执行对注解的操作。</p>
+<p><img src="http://i.imgur.com/ylsr9M3.png" alt=""></p>
+<p>实际上在处理运行时注解时最重要的也就是运行时“对@注解的代码”处理过程,如果你研读过Retrofit的源代码,你会发觉它的核心代码其实只是那个几行，其他的兼容代码(比如兼容Rxjava)都只是辅助，如果你还没有研习过，我建议你好好看看，我有一篇博客和源码对Retrofit的架构有很详细的解读：<a href="https://github.com/xiaomeixw/NoRetrofit/blob/master/library/src/main/java/mlm/noretrofit/library/core/RunTimeParser.java#L119" target="_blank" rel="external">GitHub地址</a>。</p>
+<p>回归主题上来，我们来完成ViewInject的操作</p>
+<pre><code>public class <span class="type">ViewInject</span> {
+
+    private <span class="keyword">static</span> final <span class="type">String</span> <span class="type">FIND_VIEW_BY_ID</span> = <span class="string">"findViewById"</span>;
+
+    public <span class="keyword">static</span> <span class="type">void</span> inject(<span class="type">Activity</span> activity){
+        <span class="type">Class</span>&lt;? extends <span class="type">Activity</span>&gt; aClass = activity.getClass();
+        <span class="type">Field</span>[] declaredFields = aClass.getDeclaredFields();
+        <span class="keyword">if</span>(declaredFields !=null &amp;&amp; declaredFields.length&gt;<span class="number">0</span>){
+            <span class="keyword">for</span>(<span class="type">Field</span> field : declaredFields){
+                <span class="type">InjectView</span> annotation = field.getAnnotation(<span class="type">InjectView</span>.class);
+                <span class="keyword">if</span>(annotation!=null){
+                    <span class="type">int</span> viewId = annotation.value();
+                    <span class="keyword">if</span>(viewId!= -<span class="number">1</span>){//defalut <span class="number">0</span>
+                        <span class="keyword">try</span> {
+                            //得到activity中的方法findViewById，参数二是参数的类型
+                            <span class="type">Method</span> <span class="keyword">method</span> = aClass.getMethod(<span class="type">FIND_VIEW_BY_ID</span>, <span class="type">int</span>.class);
+                            //通过<span class="keyword">method</span>.ivoke执行该方法，activity.findViewById方法方法的就是view对象
+                            <span class="type">Object</span> view = <span class="keyword">method</span>.invoke(activity, viewId);
+                            <span class="keyword">if</span>(view!=null){
+                                //根据属性名得到其<span class="type">Set</span>方法设置它的值，这里拿到的也就是tvRunId的<span class="type">set</span>方法。
+                                field.setAccessible(<span class="literal">true</span>);
+                                //得到指定的属性，并给该属性<span class="type">Filed</span>设置值。
+                                field.<span class="type">set</span>(activity,view);
+                            }
+                        } catch (<span class="type">NoSuchMethodException</span> e) {
+                            e.printStackTrace();
+                        } catch (<span class="type">InvocationTargetException</span> e) {
+                            e.printStackTrace();
+                        } catch (<span class="type">IllegalAccessException</span> e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+
+}
+</code></pre><p>代码非常的简单,我们拿到Activity，然后去拿该类的所有Filed字段，去看这个Filed上是否有一个叫@InjectView的注解,如果有我们此时通过反射getMethod再去拿Activity里面的一个叫public View findViewById(@IdRes int id)方法.然后method.invoke(activity, viewId)执行该方法(这里的viewId也就是你在注解中赋的值).执行完成会得到这个View对象,然后反射调用Filed的set方法将view设置给该Filed字段。</p>
+<p><img src="http://i.imgur.com/Cc4ZV7Y.png" alt=""></p>
+<p>MainActivity中调用ViewInject.inject(this);就可以了。</p>
+<pre><code>public <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">AppCompatActivity</span> {</span>
+
+    <span class="annotation">@InjectView</span>(<span class="type">R</span>.id.tvRunId)
+    <span class="type">TextView</span> tvRunId;
+
+    public void setTvRunId(<span class="type">TextView</span> tvRunId) {
+        <span class="type">Log</span>.i(<span class="string">"MainActivity"</span>,<span class="string">"-----setTvRunId------"</span>);
+        <span class="keyword">this</span>.tvRunId = tvRunId;
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">protected</span> void onCreate(<span class="type">Bundle</span> savedInstanceState) {
+        <span class="keyword">super</span>.onCreate(savedInstanceState);
+        setContentView(<span class="type">R</span>.layout.activity_main);
+        <span class="type">ViewInject</span>.inject(<span class="keyword">this</span>);
+        tvRunId.setText(<span class="string">"--------inject--------"</span>);
+    }
+
+
+}
+</code></pre><p>至此一个非常简单的运行时注解就完成了,因为运行时注解有很多性能上的问题，所以一般而言只要是运行时态的注解都是需要进行缓存处理的，只处理一次，然后将处理结果都缓存到集合中，根据集合中是否有来决定是否需要再次调用耗时的处理操作。Retrofit这样的运行时注解框架也是按照这个核心来尽量减少性能损耗的。</p>
+<pre><code> /**
+ * 利用动态代理获取<span class="type">Service</span>类对象
+ *
+ * @param apiEndpointUrl <span class="type">BaseUrl</span>地址
+ * @param serviceClass   <span class="type">ServiceAPI</span>
+ */
+public <span class="keyword">static</span> &lt;T&gt; T create(<span class="type">String</span> apiEndpointUrl, <span class="type">Class</span>&lt;T&gt; serviceClass) {
+
+    <span class="type">RetrofitLog</span>.i(<span class="string">"------Retrofit------"</span>);
+
+    T service;
+
+    //<span class="type">Service</span>类必须是接口
+    <span class="type">Utils</span>.checkServiceInter(serviceClass);
+
+    //<span class="type">Service</span>类上必须有注解@<span class="type">RetrofitAPI</span>标记
+    boolean mWithRetrofitMark = <span class="type">Utils</span>.checkHaveRetrofitAPI(serviceClass);
+
+    <span class="type">RetrofitLog</span>.i(<span class="string">"------service--mWithRetrofitMark----="</span>+mWithRetrofitMark);
+
+    <span class="keyword">if</span> (mWithRetrofitMark) {
+
+        //先从缓存中取,key是service的name
+        service = <span class="type">Utils</span>.getFromCache(serviceClass.getName());
+
+        <span class="type">RetrofitLog</span>.i(<span class="string">"------service--getFromCache----="</span>+service);
+
+        //<span class="type">TODO</span> 一不小心写成!=null,<span class="type">How</span> stupid I <span class="type">AM</span>!
+        <span class="keyword">if</span> (service == null) {
+
+
+            //动态代理去拿service类对象
+            service = (T) <span class="type">Proxy</span>.newProxyInstance(serviceClass.getClassLoader(), new <span class="type">Class</span>[]{serviceClass},
+                    new <span class="type">NoRetrofitHandler</span>(apiEndpointUrl)
+            );
+
+
+
+            //存入<span class="type">Service</span>-<span class="type">Map</span>集合中
+            T found = <span class="type">Utils</span>.putInCache(serviceClass.getName(), service);
+
+            //担心返回的是null,防止<span class="type">Null</span>指针异常
+            <span class="keyword">if</span> (found != null) {
+                service = found;
+            }
+
+            //然后分解service中的方法,存入另一个专门map集合中
+            setMethodDataCache(serviceClass, new <span class="type">OkHttpClient</span>());
+
+
+        }
+
+    } <span class="keyword">else</span> {
+        throw new <span class="type">IllegalArgumentException</span>(<span class="string">"need use @RetrofitAPI Mark service"</span>);
+    }
+
+
+    <span class="type">RetrofitLog</span>.i(<span class="string">"------service------"</span>+service);
+
+    <span class="keyword">return</span> service;
+
+
+}
+
+private <span class="keyword">static</span> <span class="type">void</span> setMethodDataCache(<span class="type">Class</span> serviceClass, <span class="type">OkHttpClient</span> okHttpClient) {
+    <span class="keyword">for</span>(<span class="type">Method</span> <span class="keyword">method</span> : serviceClass.getMethods()){
+
+        //public abstract mlm.noretrofit.<span class="type">JsonBean</span> mlm.noretrofit.<span class="type">SnakeService</span>.getBean2(java.util.<span class="type">Map</span>,java.util.<span class="type">Map</span>,java.util.<span class="type">Map</span>)
+        <span class="type">RetrofitLog</span>.i(<span class="string">"mMethod.setMethodDataCache()="</span>+<span class="keyword">method</span>);
+
+        //有@<span class="type">GET</span>和@<span class="type">POST</span>
+        <span class="keyword">if</span>(<span class="keyword">method</span>.isAnnotationPresent(<span class="type">GET</span>.class)||<span class="keyword">method</span>.isAnnotationPresent(<span class="type">POST</span>.class)){
+            //存入<span class="type">MethodCache</span>中
+            <span class="type">Utils</span>.putInMethodCache(<span class="keyword">method</span>,new <span class="type">RunTimeParser</span>(<span class="keyword">method</span>,okHttpClient));
+        }
+    }
+}
+
+ /**
+ * proxy表示下面<span class="number">2</span>.<span class="number">3</span> 通过 <span class="type">Proxy</span>.newProxyInstance() 生成的代理类对象。
+ * <span class="keyword">method</span>表示代理对象被调用的函数。
+ * args表示代理对象被调用的函数的参数。
+ *
+ * @param proxy
+ * @param <span class="keyword">method</span>
+ * @param args
+ * @<span class="keyword">return</span>
+ * @throws <span class="type">Throwable</span>
+ */
+@<span class="type">Override</span>
+public <span class="type">Object</span> invoke(<span class="type">Object</span> proxy, <span class="type">Method</span> <span class="keyword">method</span>, <span class="type">Object</span>[] args) throws <span class="type">Throwable</span> {
+
+    //从<span class="type">MethodCache</span>拿
+    <span class="type">RunTimeParser</span> runTimeParser = <span class="type">Utils</span>.getFromMethodCache(<span class="keyword">method</span>);
+
+
+    <span class="keyword">try</span> {
+        <span class="keyword">if</span> (runTimeParser != null) {
+            //将
+            <span class="keyword">return</span> runTimeParser.invoke(baseUrl, args);
+        } <span class="keyword">else</span> {
+            <span class="keyword">return</span> <span class="keyword">method</span>.invoke(this, args);
+        }
+    } catch (<span class="type">InvocationTargetException</span> e) {
+        throw e.getCause();
+
+    }
+
+
+}
+</code></pre><p><a href="https://github.com/xiaomeixw/NoRetrofit/blob/master/library/src/main/java/mlm/noretrofit/library/core/NoRetrofit.java#L30" target="_blank" rel="external">具体代码见NoRetrofit</a>。</p>
+<p>但即便如此，我仍然还是建议在个人编撰自己公司的Android注解架构时，使用编译时注解(中国国内开源的所有DI框架基本都是基于运行时注解,这个有点~~~遗憾+囧!)。我在前面提到的三个著名的DI框架都是基于编译时注解处理.</p>
+<ul>
+<li><p>roboguice <a href="https://github.com/roboguice/roboguice/blob/bf9043c5af085408a5d26ea8e5f857e8d0a9bdab/roboblender/src/main/java/roboguice/roboblender/RoboGuiceAnnotationProcessor.java#L25" target="_blank" rel="external">https://github.com/roboguice/roboguice/blob/bf9043c5af085408a5d26ea8e5f857e8d0a9bdab/roboblender/src/main/java/roboguice/roboblender/RoboGuiceAnnotationProcessor.java#L25</a></p>
+</li>
+<li><p>dagger <a href="https://github.com/square/dagger/blob/master/compiler/src/main/java/dagger/internal/codegen/InjectAdapterProcessor.java#L72" target="_blank" rel="external">https://github.com/square/dagger/blob/master/compiler/src/main/java/dagger/internal/codegen/InjectAdapterProcessor.java#L72</a></p>
+</li>
+<li><p>dagger2 <a href="https://github.com/google/dagger/blob/master/compiler/src/main/java/dagger/internal/codegen/ComponentProcessor.java#L47" target="_blank" rel="external">https://github.com/google/dagger/blob/master/compiler/src/main/java/dagger/internal/codegen/ComponentProcessor.java#L47</a> </p>
+</li>
+<li><p>ButterKnife <a href="https://github.com/JakeWharton/butterknife/blob/master/butterknife-compiler/src/main/java/butterknife/compiler/ButterKnifeProcessor.java#L72" target="_blank" rel="external">https://github.com/JakeWharton/butterknife/blob/master/butterknife-compiler/src/main/java/butterknife/compiler/ButterKnifeProcessor.java#L72</a></p>
+</li>
+</ul>
 <h2 id="三-编译时注解">三.编译时注解</h2><pre><code><span class="at_rule">@<span class="keyword">Retention(RetentionPolicy.CLASS)</span>
 @<span class="function">Target</span>(</span>{ <span class="tag">ElementType</span><span class="class">.FIELD</span>, <span class="tag">ElementType</span><span class="class">.TYPE</span> })
 <span class="tag">public</span> <span class="at_rule">@<span class="keyword">interface</span> InjectView</span>{
     <span class="tag">int</span> <span class="tag">value</span>();
 }
-</code></pre><p>相对于类似<a href="https://github.com/wyouflf/xUtils/blob/192c2a886c2d467e50718c6e469de63696f5cded/library/src/com/lidroid/xutils/ViewUtils.java#L89" target="_blank" rel="external">xUtils</a>、<a href="https://github.com/yanchenko/droidparts/blob/4382976a54e7ccd5c2c3a25c7acbd7cae2c6030e/droidparts/src/org/droidparts/Injector.java#L100" target="_blank" rel="external">Droidparts</a>这样开源了多年的框架集成的运行时注解模块而言，编译时注解由于是直接将代码在编译时期就生成，所以它完全不存在性能损耗上的问题,在很大程度上，我们应该避免使用任何运行时注解框架。</p>
+</code></pre><p>相对于类似<a href="https://github.com/wyouflf/xUtils/blob/192c2a886c2d467e50718c6e469de63696f5cded/library/src/com/lidroid/xutils/ViewUtils.java#L89" target="_blank" rel="external">xUtils</a>、<a href="https://github.com/yanchenko/droidparts/blob/4382976a54e7ccd5c2c3a25c7acbd7cae2c6030e/droidparts/src/org/droidparts/Injector.java#L100" target="_blank" rel="external">Droidparts</a>、<a href="https://github.com/cymcsg/UltimateAndroid" target="_blank" rel="external">UltimateAndroid</a>这样开源了多年的框架集成的运行时注解模块而言，编译时注解由于是直接将代码在编译时期就生成，所以它完全不存在性能损耗上的问题,在很大程度上，我们应该避免使用任何运行时注解框架。</p>
 <p>我们还是来以解决findViewById来处理编译时注解。在这之后我会给一些API的总结,以方便去攥写更大型的编译时注解框架。</p>
-<h3 id="3-1_编译时注解类的操作步骤：">3.1 编译时注解类的操作步骤：</h3><p>1.新建java工程：new module—&gt;Java Library,该library主要是做编译时注解解读工作。</p>
+<h3 id="3-1_编译时注解包(类)的操作步骤：">3.1 编译时注解包(类)的操作步骤：</h3><p>1.新建java工程：new module—&gt;Java Library,该library主要是做编译时注解解读工作。</p>
 <p><img src="http://i.imgur.com/9CcBl33.png" alt=""></p>
 <p>2.继承AbstractProcessor:</p>
 <p>类上加上这两个注解：</p>
@@ -313,7 +518,7 @@ public <span class="keyword">final</span> <span class="class"><span class="keywo
 <span class="keyword">public</span> <span class="annotation">@interface</span> InjectView {
     <span class="function"><span class="keyword">int</span> <span class="title">value</span><span class="params">()</span></span>;
 }
-</code></pre><p>然后再main下创建一个包api的包，该包中再创建com.sabria.noinject，NoKnife类</p>
+</code></pre><p>然后再main下创建一个包api，该包中再创建com.sabria.noinject，NoKnife类</p>
 <pre><code>public class <span class="type">NoKnife</span> {   
 
     public <span class="keyword">static</span> <span class="type">void</span> inject(<span class="type">Activity</span> target) {
@@ -336,7 +541,7 @@ public <span class="keyword">final</span> <span class="class"><span class="keywo
         }
     }
 }
-</code></pre><p>它的工作很简单，就是拿到一个叫:MainActivity$$NoKnife.calss,然后破解形态的拿给类里面的一个叫inject()的方法，然后method.invoke(clazz.newInstance(), target)去执行这个inject()方法。</p>
+</code></pre><p>它的工作很简单，就是拿到一个叫:MainActivity$$NoKnife.calss,然后破解形态的拿类里面的一个叫inject()的方法，然后method.invoke(clazz.newInstance(), target)去执行这个inject()方法。</p>
 <p>你会很奇怪,我怎么有个类叫MainActivity$$NoKnife.calss，然后我怎么知道这个类里面有个叫inject()的方法。保持住这个求知的疑问，我们在3.4中解读。</p>
 <p>在实际开发中绑定类(包)一般是最后去完成的，这里放到最前面卖关子是为了更好的去理解3.4中的内容。</p>
 <p>我们先来解决一个你在创建NoKnife时你会遇到的问题，因为AndroidStudio只是将在java包中创建的类为源代码类，非sources的包创建会直接无法被识别。所以将注解包和绑定包放在一个包结构中就需要指定绑定包的path路径为soruces：</p>
@@ -362,10 +567,17 @@ public <span class="keyword">final</span> <span class="class"><span class="keywo
     public SourceVersion <span class="function">getSupportedSourceVersion</span>() { }
 
 }
-</code></pre><p>讲解：<br>1.init(ProcessingEnvironment env): 每一个注解处理器类都必须有一个空的构造函数。ProcessingEnviroment提供很多有用的工具类Elements, Types和Filer。</p>
-<p>2.process(Set&lt;? extends TypeElement&gt; annotations, RoundEnvironment env)：处理器的主函数main()，写你的扫描、评估和处理注解的代码，以及生成Java文件。输入参数RoundEnviroment，可以让你查询出包含特定注解的被注解元素。</p>
-<p>3.getSupportedAnnotationTypes()：这个注解处理器是注册给哪个注解的。也就是自定义的那个注解类.</p>
-<p>4.getSupportedSourceVersion()：用来指定你使用的Java版本。通常这里返回SourceVersion.latestSupported()。</p>
+</code></pre><p>讲解：</p>
+<ul>
+<li><p>1.init(ProcessingEnvironment env):ProcessingEnviroment提供很多有用的工具类Elements, Types和Filer。</p>
+</li>
+<li><p>2.process(Set&lt;? extends TypeElement&gt; annotations, RoundEnvironment env)：处理器的主函数main()，写你的扫描、评估和处理注解的代码，以及生成Java文件。输入参数RoundEnviroment，可以让你查询出包含特定注解的被注解元素。</p>
+</li>
+<li><p>3.getSupportedAnnotationTypes()：这个注解处理器是注册给哪个注解的。也就是自定义的那个注解类.</p>
+</li>
+<li><p>4.getSupportedSourceVersion()：用来指定你使用的Java版本。通常这里返回SourceVersion.latestSupported()。</p>
+</li>
+</ul>
 <p>继承于AbstractProcessor，然后会必需要求实现process()方法，其他的三个方法非必需实现，且在Java1.7上有更简单的实现方式(注解实现)。</p>
 <p>Java1.7:getSupportedSourceVersion和getSupportedAnnotationTypes可以使用注解来解决</p>
 <pre><code><span class="variable">@SupportedSourceVersion</span>(SourceVersion.<span class="function">latestSupported</span>())
@@ -417,14 +629,50 @@ public <span class="class"><span class="keyword">class</span> <span class="title
     Filer filer = processingEnv.getFiler();
     Messager messager = processingEnv.getMessager();
 }
-</code></pre><p>首先我们对一个概念做解读:<a href="http://www.apihome.cn/api/java/Element.html" target="_blank" rel="external">Element</a>，在javax.lang.model.element包下：</p>
+</code></pre><p>####3.4.2 Element解读</p>
+<p>首先我们对一个概念做解读:<a href="http://www.apihome.cn/api/java/Element.html" target="_blank" rel="external">Element</a>，在javax.lang.model.element包下：</p>
 <blockquote>
 <p>public interface Element<br>表示一个程序元素，比如包、类或者方法。每个元素都表示一个静态的语言级构造（不表示虚拟机的运行时构造）。</p>
 </blockquote>
 <p>这个概念很难理解，是的，因为我们很少去开发会用到类似API，所以你先浅显的理解为它是包，或者是类，又可以是方法就行了，它是一个一个的程序元素。</p>
+<p>同时正是因为Element涵盖了很广范畴意义的元素，所以我们以一个很常见的类来将Element进行划分</p>
+<pre><code><span class="keyword">package</span> com.sabria.noinject.process;  <span class="comment">// PackageElement</span>
+
+<span class="keyword">import</span> java.io.Serializable;
+
+<span class="comment">/**
+ * Created by xiongwei,An Android project Engineer.
+ * Date:2016-01-12  14:44
+ * Base on Meilimei.com (PHP Service)
+ * Describe:
+ * Version:1.0
+ * Open source
+ */</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ElementDemo</span> <span class="keyword">implements</span> <span class="title">Serializable</span></span>{ <span class="comment">//TypeElement</span>
+
+    <span class="keyword">private</span> <span class="keyword">int</span> num;      <span class="comment">// VariableElement</span>
+
+    <span class="function"><span class="keyword">public</span> <span class="title">ElementDemo</span><span class="params">()</span> </span>{   <span class="comment">//ExecuteableElement</span>
+    }
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setNum</span><span class="params">(<span class="keyword">int</span> num)</span> </span>{<span class="comment">// ExecuteableElement   其中的int num 参数是TypeElement</span>
+        <span class="keyword">this</span>.num = num;
+    }
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getNum</span><span class="params">()</span> </span>{<span class="comment">// ExecuteableElement</span>
+        <span class="keyword">return</span> num;
+    }
+}
+</code></pre><p>在Java的API文档中描述的比较清晰彼此的继承关系:</p>
+<p><img src="http://i.imgur.com/erlX5Eo.png" alt=""></p>
+<p><a href="http://www.oschina.net/uploads/doc/javase-6-doc-api-zh_CN/javax/lang/model/element/PackageElement.html" target="_blank" rel="external">javax.lang.model.element.PackageElement</a>：表示一个”包程序”元素。提供对有关”包”及其”成员”的信息的访问。(更简单点理解就是：package信息)</p>
+<p><a href="http://www.oschina.net/uploads/doc/javase-6-doc-api-zh_CN/javax/lang/model/element/TypeElement.html" target="_blank" rel="external">javax.lang.model.element.TypeElement</a>：表示一个类或接口元素，提供对有关”类型及其成员”的信息的访问 (更简单点理解就是：类或者接口)</p>
+<p><a href="http://www.oschina.net/uploads/doc/javase-6-doc-api-zh_CN/javax/lang/model/element/VariableElement.html" target="_blank" rel="external">javax.lang.model.element.VariableElement</a>：表示一个字段、enum 常量、方法或构造方法参数、局部变量或异常参数。(更简单点理解就是：Field字段)</p>
+<p><a href="http://www.oschina.net/uploads/doc/javase-6-doc-api-zh_CN/javax/lang/model/element/ExecutableElement.html" target="_blank" rel="external">javax.lang.model.element.ExecutableElement</a>：表示某个类或接口的方法、构造方法或初始化程序（静态或实例），包括注释类型元素。(更简单点理解就是：方法或者构造函数)</p>
+<p>####3.4.3 init()继续解读</p>
 <p>我们来一个一个看这四个帮助类:</p>
 <ul>
-<li><p>TypeUtils 处理<a href="http://www.766.com/doc/javax/lang/model/type/class-use/TypeMirror.html" target="_blank" rel="external">TypeMirror(表示 Java 编程语言中的类型。这些类型包括基本类型、声明类型（类和接口类型）、数组类型、类型变量和 null 类型。还可以表示通配符类型参数、executable 的签名和返回类型，以及对应于包和关键字 void 的伪类型。)</a>的帮助类，它有asElement()、isSubtype()等方法</p>
+<li><p>TypeUtils 处理<a href="http://www.766.com/doc/javax/lang/model/type/class-use/TypeMirror.html" target="_blank" rel="external">TypeMirror</a>的帮助类，它有asElement()、isSubtype()等方法</p>
 </li>
 <li><p>ElementUtils 它包含很多Elements(一组Element)的帮助类信息，它有getPackageElement()、getTypeElement()、getPackageOf()方法。</p>
 </li>
@@ -433,7 +681,8 @@ public <span class="class"><span class="keyword">class</span> <span class="title
 <li><p>Messager 异常消息提醒</p>
 </li>
 </ul>
-<p>####3.4.2 process()方法中常用API解读</p>
+<p>何为TypeMirror：表示 Java 编程语言中的类型。这些类型包括基本类型、声明类型（类和接口类型）、数组类型、类型变量和 null 类型。还可以表示通配符类型参数、executable 的签名和返回类型，以及对应于包和关键字 void 的伪类型。</p>
+<p>####3.4.4 process()方法中常用基础API解读</p>
 <pre><code><span class="annotation">@Override</span>
 <span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">process</span><span class="params">(Set&lt;? <span class="keyword">extends</span> TypeElement&gt; annotations, RoundEnvironment roundEnv)</span> </span>{
 }
@@ -442,13 +691,361 @@ public <span class="class"><span class="keyword">class</span> <span class="title
 </code></pre><p>返回的结果:Element元素的Set集合Set&lt;? extends Element&gt; annotatedElements</p>
 <p>2.判断被标注@InjectView的Element是否是Class</p>
 <pre><code>annotatedElement.<span class="function"><span class="title">getKind</span><span class="params">()</span></span> != ElementKind.CLASS
-</code></pre><p>3.如果annotatedElement是ElementKind.CLASS，那么在某种程度上我们就可以直接将它当成TypeElement</p>
+</code></pre><p>3.如果annotatedElement是ElementKind.CLASS，那么在某种程度上我们就可以直接将它当成TypeElement(仔细看我上面给的3.4.2 关于Element的概念,我们的TypeElement的含义就是类或者接口,所以判断为ElementKind.CLASS后就可以强转)</p>
 <pre><code>TypeElement typeElement = <span class="list">(<span class="keyword">TypeElement</span>)</span> annotatedElement<span class="comment">;</span>
 </code></pre><p>4.判断classElement是否是被Public修饰</p>
 <pre><code>classElement.<span class="function"><span class="title">getModifiers</span><span class="params">()</span></span>.<span class="function"><span class="title">contains</span><span class="params">(Modifier.PUBLIC)</span></span>
 </code></pre><p>5.从Element元素的Set集合迭代出一个Element后,拿它的包名</p>
 <pre><code>final String packageName = processingEnv.getElementUtils<span class="params">()</span>.getPackageOf<span class="params">(firstAnnotatedElement)</span>.toString<span class="params">()</span>;
-</code></pre></span>
+</code></pre><p>API远不止5个,但对于这个findViewById已经足够了,在Part3中我会根据实践框架专门讲解其他的API。</p>
+<p>####3.4.5 process()内部解读</p>
+<pre><code>private <span class="literal">static</span> <span class="keyword">final</span> <span class="built_in">String</span> LITTLE_KNIFE_TAG = <span class="string">"$$NoKnife"</span>;
+
+<span class="annotation">@Override</span>
+public boolean process(<span class="built_in">Set</span>&lt;? <span class="keyword">extends</span> TypeElement&gt; annotations, RoundEnvironment roundEnv) {
+
+    <span class="comment">//1.去拿所有的含有@InjectView的元素Element</span>
+    <span class="keyword">final</span> <span class="built_in">Set</span>&lt;? <span class="keyword">extends</span> <span class="built_in">Element</span>&gt; annotatedElements = roundEnv
+            .getElementsAnnotatedWith(InjectView.<span class="keyword">class</span>);
+
+    <span class="comment">//2.判断size</span>
+    <span class="keyword">if</span> (annotatedElements.size() &gt; <span class="number">0</span>) {
+
+        <span class="comment">//迭代set</span>
+        <span class="keyword">final</span> <span class="built_in">Element</span> firstAnnotatedElement = annotatedElements.iterator().next();
+
+        <span class="comment">//获得Activity的包名称</span>
+        <span class="keyword">final</span> <span class="built_in">String</span> packageName = processingEnv.getElementUtils().getPackageOf(firstAnnotatedElement).toString();
+
+        <span class="comment">//获得Activity的名称          </span>
+        <span class="keyword">final</span> <span class="built_in">String</span> hostActivityName = firstAnnotatedElement.getEnclosingElement().getSimpleName().toString();
+
+        <span class="comment">//3.给compile-time 生成的 .java 文件 取一个名称 ： 比如 MainActivity$$NoKnife </span>
+        <span class="keyword">final</span> <span class="built_in">String</span> newSourceName = hostActivityName + LITTLE_KNIFE_TAG;
+
+        <span class="comment">//4.使用JavaWriter来攥写这个java文件    </span>
+        <span class="keyword">try</span> {
+            JavaWriter writer = createWriter(newSourceName);
+            <span class="comment">//攥写这个.class的头部包有关信息</span>
+            createHeader(annotatedElements, packageName, writer);
+            <span class="comment">//攥写class名称</span>
+            beginType(newSourceName, writer);
+            <span class="comment">//攥写.class的方法</span>
+            beginMethod(hostActivityName, writer);
+            <span class="comment">//攥写findViewById()</span>
+            emitStatements(annotatedElements, hostActivityName, writer);
+            <span class="comment">//关闭JavaWrite</span>
+            emitClose(writer);
+        } <span class="keyword">catch</span> (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    <span class="keyword">return</span> <span class="keyword">false</span>;
+}
+</code></pre><p>我们来看这个process()究竟在干什么：</p>
+<p>第一步：这个process()会拿到编译时的所有的类文件去找这些类文件有哪些类文件里面有@InjectView注解；</p>
+<p>第二步:迭代找到使用@InjectView注解的Activity,然后获取这个Activity的包名和class名;</p>
+<p>第三步:给我们要生成的一个新的.class文件取个文件名，文件名我们命名为：hostActivityName + “$$NoKnife”; <strong>所以这一步就告诉了我们要生成一个新的class类，这个类名会比如为：MainActivity$$NoKnife 。 这就是为什么绑定类会让我去找一个类叫MainActivity$$NoKnife.class.</strong></p>
+<pre><code><span class="keyword">final</span> <span class="keyword">Class</span> clazz = <span class="keyword">Class</span>.forName(<span class="type">target</span>.getClass().getCanonicalName() + <span class="string">"$$NoKnife"</span>);
+</code></pre><p>第四步:使用JavaWriter来攥写这个java文件。</p>
+<p>####3.4.6 JavaWriter</p>
+<p><a href="https://github.com/square/javapoet/releases" target="_blank" rel="external">JavaWriter</a>由大神级公司<a href="https://github.com/square" target="_blank" rel="external">Square</a>开源,官网上的说明如下：</p>
+<pre><code>A Java API <span class="keyword">for</span> generating <span class="class">.java</span> source files.
+</code></pre><p>很直白的解读:专用于来生成.java文件.  很简单理解：就是你之前是自己一行一行的自己写.java代码，现在你已经预知你这个.java文件是怎么样的了(有哪些类，有哪些元素，有哪些方法)，那么你就让程序JavaWriter来帮你写这个.java文件.</p>
+<p>在4 Dec 2014,Square公司发布完javawriter-2.5.1后.javawriter被重构并改名为<a href="https://github.com/square/javapoet" target="_blank" rel="external">javapoet</a>。截至到目前已发布到javapoet-1.5.1 。javapoet的使用在API上要相比较于javawriter简化很多。所以推荐你以后使用javapoet。</p>
+<p>由于javawriter相关主页和API被撤换,在 javapoet上已经找不到API文档了，你可以访问如下路径去查看javawriter使用和源码。</p>
+<p><a href="https://github.com/DirtyUnicorns/android_external_square_javawriter/tree/6cd498aeb47375a58bc2f3cb647d36edca647c90" target="_blank" rel="external">https://github.com/DirtyUnicorns/android_external_square_javawriter/tree/6cd498aeb47375a58bc2f3cb647d36edca647c90</a></p>
+<pre><code>writer.emitPackage<span class="params">(<span class="string">"com.example"</span>)</span>       <span class="comment">//写包名</span>
+    .beginType<span class="params">(<span class="string">"com.example.Person"</span>, <span class="string">"class"</span>, EnumSet.of<span class="params">(PUBLIC, FINAL)</span>)</span>   <span class="comment">//写class名</span>
+    .emitField<span class="params">(<span class="string">"String"</span>, <span class="string">"firstName"</span>, EnumSet.of<span class="params">(PRIVATE)</span>)</span>    <span class="comment">//写字段</span>
+    .emitField<span class="params">(<span class="string">"String"</span>, <span class="string">"lastName"</span>, EnumSet.of<span class="params">(PRIVATE)</span>)</span>     <span class="comment">//写字段</span>
+    .emitJavadoc<span class="params">(<span class="string">"Returns the person's full name."</span>)</span>           <span class="comment">//写doc注释</span>
+    .beginMethod<span class="params">(<span class="string">"String"</span>, <span class="string">"getName"</span>, EnumSet.of<span class="params">(PUBLIC)</span>)</span>     <span class="comment">//写方法</span>
+    .emitStatement<span class="params">(<span class="string">"return firstName + \" \" + lastName"</span>)</span>     <span class="comment">//写返回</span>
+    .endMethod<span class="params">()</span>                                              
+    .endType<span class="params">()</span>;
+</code></pre><p>攥写出来.java类内容为如下:</p>
+<pre><code>package com.example;
+
+public final class <span class="keyword">Person</span> {
+  private String firstName;
+  private String lastName;
+  /**
+   * Returns the <span class="keyword">person</span>'s full name.
+   */
+  public String getName() {
+    return firstName + <span class="string">" "</span> + lastName;
+  }
+}
+</code></pre><p>javawriter就是很简单的将你要写的每一行代码都转化成程序自己去写,一行一行对应。</p>
+<p>所以我们继续回到原来的示例中来看process()里面的JavaWriter究竟做了什么：</p>
+<pre><code><span class="comment">//创建JavaWriter</span>
+ JavaWriter writer = createWriter<span class="params">(newSourceName)</span>;
+<span class="comment">//攥写这个.class的头部包有关信息</span>
+createHeader<span class="params">(annotatedElements, packageName, writer)</span>;
+<span class="comment">//攥写class名称</span>
+beginType<span class="params">(newSourceName, writer)</span>;
+<span class="comment">//攥写.class的方法</span>
+beginMethod<span class="params">(hostActivityName, writer)</span>;
+<span class="comment">//攥写findViewById()</span>
+emitStatements<span class="params">(annotatedElements, hostActivityName, writer)</span>;
+<span class="comment">//关闭JavaWrite</span>
+emitClose<span class="params">(writer)</span>;
+</code></pre><p>1.创建JavaWriter： createWriter(.java文件的类名)</p>
+<pre><code><span class="keyword">private</span> JavaWriter <span class="built_in">createWriter</span>(<span class="keyword">String</span> newSourceName) <span class="keyword">throws</span> IOException {
+    <span class="keyword">final</span> JavaFileObject sourceFile = processingEnv.getFiler().createSourceFile(newSourceName);
+    <span class="keyword">return</span> <span class="keyword">new</span> JavaWriter(sourceFile.openWriter());
+}
+</code></pre><p>2.createHeader写包写导入</p>
+<pre><code>/
+<span class="built_in">*</span> 最终写成的是如下内容:
+<span class="built_in">*</span> 
+<span class="built_in">*</span> package sabria.noinject;
+<span class="built_in">*</span> 
+<span class="built_in">*</span> <span class="built_in">import</span> android.widget.TextView;
+<span class="built_in">*</span> <span class="built_in">import</span> sabria.noinject.MainActivity;
+<span class="built_in">*</span>
+<span class="built_in">*</span>/
+private void createHeader<span class="params">(Set&lt;? extends Element&gt; annotatedElements, String packageName,
+                          JavaWriter writer)</span>
+        throws IOException {
+    <span class="comment">//1.写PackageName</span>
+    writer.emitPackage<span class="params">(packageName)</span>;              
+    Map&lt;String, Element&gt; nonRepeatedImports = new HashMap&lt;&gt;<span class="params">()</span>;
+
+    <span class="keyword">for</span> <span class="params">(Element element : annotatedElements)</span> {
+        TypeMirror elementType = element.asType<span class="params">()</span>;         
+        <span class="keyword">if</span> <span class="params">(isSubtypeOfType<span class="params">(elementType, <span class="string">"android.view.View"</span>)</span>)</span> {
+            nonRepeatedImports.put<span class="params">(element.asType<span class="params">()</span>.toString<span class="params">()</span>, element)</span>;
+        } <span class="keyword">else</span> {
+            processingEnv.getMessager<span class="params">()</span>
+                    .printMessage<span class="params">(Diagnostic.Kind.ERROR, String.format<span class="params">(
+                            <span class="string">"Variable: %s, is not of a type that subclasses android.view.View. @%s can only be used with Views"</span>,
+                            element.getSimpleName<span class="params">()</span>.toString<span class="params">()</span>,
+                            InjectView.class.getSimpleName<span class="params">()</span>)</span>)</span>;
+        }
+    }
+    <span class="keyword">for</span> <span class="params">(String importString : nonRepeatedImports.keySet<span class="params">()</span>)</span> {
+        <span class="comment">//2.写导包</span>
+        writer.emitImports<span class="params">(importString)</span>;
+    }
+}
+</code></pre><p>3.beginType写class名称</p>
+<pre><code>/**
+* 最终写成的是如下内容:
+* public class MainActivity$<span class="variable">$LittleKnife</span> {}
+*/
+private void beginType(String newSourceName, JavaWriter writer) throws IOException {
+    writer.beginType(newSourceName, <span class="string">"class"</span>, EnumSet.of(Modifier.PUBLIC));
+}
+</code></pre><p>4.beginMethod写method名称</p>
+<pre><code><span class="comment"><span class="markdown">/**
+<span class="bullet">* </span>最终写成的是如下内容:
+<span class="bullet">* </span>public void inject(MainActivity target) {}
+*/</span></span>
+private <span class="keyword">void</span> beginMethod(<span class="built_in">String</span> hostActivityname, JavaWriter writer) throws IOException {
+    writer.beginMethod(<span class="string">"void"</span>, <span class="string">"inject"</span>, EnumSet.of(Modifier.PUBLIC), hostActivityname,
+            <span class="string">"target"</span>);
+}
+</code></pre><p>注意这里: 我们在beginMethod方法中给方法的命名就是inject()。这也就能解释为什么要找MainActivity$$NoKnife.calss，然后通过反射去执行这个类里面有个叫inject()的方法。</p>
+<p>5.emitStatements写method中内容</p>
+<pre><code><span class="comment">/**
+* 最终写成的是如下内容:
+* target.textView = (TextView)target.findViewById(2131492944);
+*/</span>
+private void emitStatements(<span class="operator"><span class="keyword">Set</span>&lt;? extends <span class="keyword">Element</span>&gt; annotatedElements, <span class="keyword">String</span> hostActivityname,
+                            JavaWriter writer) throws IOException {
+    <span class="keyword">for</span> (<span class="keyword">Element</span> <span class="keyword">element</span> : annotatedElements) {
+        writer.emitStatement(<span class="string">"(("</span> + hostActivityname + <span class="string">")target)."</span> + <span class="keyword">element</span>
+                .getSimpleName().toString() + <span class="string">" = "</span> + <span class="string">"("</span> + <span class="keyword">element</span>.asType()
+                .toString() + <span class="string">")target.findViewById("</span> + <span class="keyword">element</span>.getAnnotation(InjectView.<span class="keyword">class</span>)
+                .<span class="keyword">value</span>() + <span class="string">")"</span>);</span>
+    }
+}
+</code></pre><p>6.关闭JavaWrite</p>
+<pre><code><span class="keyword">private</span> <span class="function"><span class="keyword">void</span> <span class="title">emitClose</span><span class="params">(JavaWriter writer)</span> <span class="keyword">throws</span> IOException </span>{
+    writer.endMethod();
+    writer.endType();
+    writer.close();
+}
+</code></pre><p>####3.4.7 生成.class</p>
+<p>首先我们先去搞清楚编译时注解完成后，生成的.class文件究竟在哪里？</p>
+<p>关于这个问题我曾在<a href="https://github.com/JakeWharton/butterknife/issues/408" target="_blank" rel="external">GitHub</a>上询问过JakeWharton,他表示根据java开发环境和操作系统不同而有所不同(It depends on which Java compiler you are using and which build system you are using).如果你使用的是AndroidStudio你其实可以在如下的路径中找到该.class文件:</p>
+<p><img src="http://i.imgur.com/iwWyKbV.png" alt=""></p>
+<p>比如我的路径:<br>C:\Users\win7\Documents\GitHub\NoInject\app\build\intermediates\classes\debug\sabria\noinject</p>
+<p>我们来做比对：</p>
+<p><img src="http://i.imgur.com/V4gyEuf.png" alt=""></p>
+<h4 id="3-4-8_流程再走一遍">3.4.8 流程再走一遍</h4><p>经过上面的几个过程，我们已经完成了findViewById的编译时注解代码部分，我们接着以“最终代码流向”的方式总结下整体的流程,并对本质做解读.</p>
+<p><img src="http://i.imgur.com/5ZTOlQR.png" alt=""></p>
+<p>其实在流程图中我们其实很明显的看到，NoKnife.inject(this)其实只是去执行了所有View的findViewById()操作,经过这样一个流程简化了形式上的书写，其实我们回归到本质去看ButterKnife：</p>
+<blockquote>
+<p>其实只是把以前findViewById()这行代码隐藏到了编译时生成的一个新的.class文件中,在onCreate()的NoKnife.inject(this)时去执行这个新的.class文件中生成的一批findViewById()代码。</p>
+</blockquote>
+<h4 id="3-4-9_一些小细节和技巧">3.4.9 一些小细节和技巧</h4><p>1.技巧1：让工具帮你自动创建META-INF/services/javax.annotation.processing.Processor文件</p>
+<blockquote>
+<p>答:使用谷歌的注解帮助类：<a href="https://github.com/google/auto/tree/master/service" target="_blank" rel="external">@AutoService</a>.你只需要引入该类，然后再Processor类上打注解@AutoService即可自己帮你生成javax.annotation.processing.Processor文件。</p>
+</blockquote>
+<p>2.技巧2：注解中Processor类中尽量不能有GBK的中文注释,具体你自己在实际操作中会遇到该情况的.</p>
+<p>3.技巧3：尽量使用@SupportedSourceVersion和@SupportedAnnotationTypes代替继承后要覆写的方法</p>
+<p>4.技巧4：包结构的划分</p>
+<p>建议四包结构,如果你熟练了,三包也是比较推荐的.<br>我将我的三包的build.gradle文件展示下，你好清楚彼此的依存关系：</p>
+<ul>
+<li><p>no-inject-api 包（它是android - library类型module）的build.gradle:</p>
+<pre><code>apply plugin: <span class="string">'com.android.library'</span>
+
+android {
+    compileSdkVersion <span class="number">23</span>
+    buildToolsVersion <span class="string">"23.0.1"</span>
+
+    defaultConfig {
+        minSdkVersion <span class="number">15</span>
+        targetSdkVersion <span class="number">23</span>
+        versionCode <span class="number">1</span>
+        versionName <span class="string">"1.0"</span>
+    }
+    buildTypes {
+        release {
+            minifyEnabled <span class="keyword">false</span>
+            proguardFiles getDefaultProguardFile(<span class="string">'proguard-android.txt'</span>), <span class="string">'proguard-rules.pro'</span>
+        }
+    }
+
+    <span class="keyword">sourceSets</span> {
+        main.java.srcDirs += [<span class="string">'src/main/api'</span>]
+    }
+}
+
+<span class="keyword">dependencies</span> {
+    <span class="keyword">compile</span> <span class="keyword">fileTree</span>(dir: <span class="string">'libs'</span>, <span class="keyword">include</span>: [<span class="string">'*.jar'</span>])
+    <span class="keyword">compile</span> <span class="string">'com.squareup:javawriter:2.5.0'</span>
+}
+</code></pre></li>
+<li><p>no-inject-process 包(它是java代码类型module)的build.gradle:</p>
+<pre><code><span class="title">apply</span> plugin: <span class="string">'java'</span>
+
+sourceSets {
+    <span class="title">main</span> {
+        <span class="title">java</span> {
+            <span class="title">srcDirs</span> =  [<span class="string">'src/main/java'</span>, <span class="string">'../no-inject-api/src/main/java'</span>]
+        }
+
+    }
+}
+</code></pre></li>
+</ul>
+<pre><code><span class="keyword">dependencies</span> {
+    <span class="keyword">compile</span> <span class="keyword">fileTree</span>(dir: <span class="string">'libs'</span>, <span class="keyword">include</span>: [<span class="string">'*.jar'</span>])
+    <span class="keyword">compile</span> <span class="keyword">project</span>(<span class="string">':no-inject-api'</span>)
+}
+</code></pre><p>注意这里指定了no-inject-api/src/main/java 为 source root.</p>
+<ul>
+<li>app 包(它是Android应用module类型)的build.gradle:</li>
+</ul>
+<pre><code><span class="keyword">buildscript</span> {
+    <span class="keyword">repositories</span> {
+        mavenCentral()
+    }
+    <span class="keyword">dependencies</span> {
+        <span class="keyword">classpath</span> <span class="string">'com.android.tools.build:gradle:1.2.3'</span>
+        <span class="keyword">classpath</span> <span class="string">'com.neenbedankt.gradle.plugins:android-apt:1.+'</span>
+    }
+}
+apply plugin: <span class="string">'android'</span>
+apply plugin: <span class="string">'android-apt'</span>
+
+
+<span class="keyword">buildscript</span> {
+    <span class="keyword">repositories</span> {
+        jcenter()
+    }
+    <span class="keyword">dependencies</span> {
+        <span class="comment">// the latest version of the android-apt plugin</span>
+        <span class="keyword">classpath</span> <span class="string">'com.neenbedankt.gradle.plugins:android-apt:1.4'</span>
+    }
+}
+
+
+android {
+    compileSdkVersion <span class="number">23</span>
+    buildToolsVersion <span class="string">"23.0.1"</span>
+
+    defaultConfig {
+        applicationId <span class="string">"sabria.noinject"</span>
+        minSdkVersion <span class="number">15</span>
+        targetSdkVersion <span class="number">23</span>
+        versionCode <span class="number">1</span>
+        versionName <span class="string">"1.0"</span>
+    }
+}
+
+<span class="keyword">dependencies</span> {
+    <span class="keyword">compile</span> <span class="keyword">fileTree</span>(dir: <span class="string">'libs'</span>, <span class="keyword">include</span>: [<span class="string">'*.jar'</span>])
+    <span class="keyword">compile</span> <span class="string">'com.android.support:appcompat-v7:23.1.0'</span>
+    <span class="keyword">compile</span> <span class="keyword">project</span>(<span class="string">':no-inject-api'</span>)
+    apt  <span class="keyword">project</span>(<span class="string">':no-inject-process'</span>)
+}
+</code></pre><p>5.技巧5：注解生成的类文件在</p>
+<p>比如:SimpleActivity$$ViewBinder.class文件在：<br>C:\AndroidStudio\opensource\butterknife-master\butterknife-sample\build\intermediates\classes\debug\com\example\butterknife</p>
+<p>6.技巧6: 异常报错的处理？</p>
+<p>答:首先我们需要明白,在process()中抛出一个异常，那么运行注解处理器的JVM将会崩溃（就像其他Java应用一样）。因此在init()中，我们会获得了一个Messager对象的引用。这个Messager对象提供给注解处理器一个报告错误、警告以及提示信息的途径。</p>
+<pre><code>public void error(Element e, String msg) {
+    messager.printMessage(Diagnostic.<span class="keyword">Kind</span>.ERROR, msg, e);
+  }
+</code></pre><p>7.技巧7：如果我有多个Processor解析类,javax.annotation.processing.Processor要怎么写:</p>
+<p>答:我们以dagger的为例,直接在该文件中依次换行排布.</p>
+<p><img src="http://i.imgur.com/sXFa1PU.png" alt=""></p>
+<p>8.你可能会遇到的一个BUG:</p>
+<pre><code>java.lang.IllegalAccessException: access <span class="keyword">to</span> <span class="type">class</span> <span class="keyword">not</span> allowed 
+</code></pre><p>从而导致textView.setText(“SUCCESS”)的空指针异常。</p>
+<p>这种情况一般是发生在反射时访问了一个private修饰的类或字段或方法,或者类、字段或方法上没有修饰符，此时的包层级就是属于defalut，只允许同一包中的类可以访问。</p>
+<p>谈到这里就引深下:</p>
+<p><img src="http://i.imgur.com/Kleyttb.png" alt=""></p>
+<p>注意：Java的访问控制是停留在编译层的，也就是它不会在.class文件中留下任何的痕迹，只在编译的时候进行访问控制的检查。其实，通过反射的手段，是可以访问任何包下任何类中的成员，例如，访问类的私有成员也是可能的。</p>
+<p>区别：</p>
+<p>-（1）public：可以被所有其他类所访问。</p>
+<p>-（2）private：只能被自己访问和修改。</p>
+<p>-（3）protected：自身，子类及同一个包中类可以访问。</p>
+<p>-（4）default（默认）：同一包中的类可以访问，声明时没有加修饰符，认为是friendly。</p>
+<p>然后探究下反射的权限问题:</p>
+<ul>
+<li><p>public的static的方法：没有任何权限问题，getMethod()就可以满足，根本不用getDeclaredMethod出马，更不用setAccessiable(true)</p>
+</li>
+<li><p>public的非静态的方法：没有任何权限问题，getMethod()就可以满足，根本不用getDeclaredMethod出马，更不用setAccessiable(true)，但是，在invoke时，第一个参数必须是具体的某一个对象，static的可要可不要</p>
+</li>
+<li><p>protected的非静态方法：必须使用getDeclaredMethod，不能使用getMethod，不用设置setAccessiable(true)</p>
+</li>
+<li><p>friendly的非静态方法：必须使用getDeclaredMethod，不能使用getMethod，不用设置setAccessiable(true)</p>
+</li>
+<li><p>private的非静态方法：必须使用getDeclaredMethod，不能使用getMethod，必须设置setAccessiable(true)</p>
+</li>
+</ul>
+<p>然后我们回归到我发生这个bug的问题上来:</p>
+<p>首先：textView.setText(“SUCCESS”)报空指针，肯定是textView为null,也就是说findViewById都没有执行，经过断点调试,发觉在执行NoKnife.inject(activity)时</p>
+<pre><code><span class="keyword">final</span> <span class="keyword">Class</span> clazz = <span class="keyword">Class</span>.forName(<span class="type">target</span>.getClass().getCanonicalName() + <span class="string">"$$NoKnife"</span>);
+</code></pre><p>报了IllegalAccessException异常。</p>
+<p>然后我去分析生成的MainActivity$$LittleKnife.class发现</p>
+<pre><code>class MainActivity$<span class="variable">$LittleKnife</span> {
+}
+</code></pre><p>MainActivity$$LittleKnife.class默认的是修饰属性defalut,也就是同一包中类才可以访问。</p>
+<p>此时我才觉悟到这很可能是包名的问题导致的：</p>
+<p>app的包名: sabria.noinject</p>
+<p>no-inject-api的包名： com.sabria.noinject</p>
+<p>no-inject-process的包名: com.sabria.noinject.process</p>
+<p>三个包的包名完全不同，也就表示这三个包中的类是完全不能互相访问的，解决方案有两种：</p>
+<p>1.将三个包的包名修改为相同；</p>
+<p>2.javaWrite在write class名时给个PUBLIC的修饰:</p>
+<pre><code>writer.<span class="keyword">begin</span><span class="variable">Type</span>(new<span class="variable">SourceName</span>, <span class="string">"class"</span>);
+</code></pre><p>修改为了:</p>
+<pre><code><span class="tag">writer</span><span class="class">.beginType</span>(<span class="tag">newSourceName</span>, "<span class="tag">class</span>", <span class="tag">EnumSet</span><span class="class">.of</span>(<span class="tag">Modifier</span><span class="class">.PUBLIC</span>));
+</code></pre><p>最后生成的MainActivity$$LittleKnife也就是public修饰的了。</p>
+<pre><code>public class MainActivity$<span class="variable">$LittleKnife</span> {
+}
+</code></pre><p>BUG解决.</p>
+<hr>
+<p>至此注解范式编程的Part2章节攥写完成,如果你对part3很有兴趣，希望你可以好好自己在代码层面上去操作今天part2的”编译时注解的部分代码”,你会发觉这是一个很有趣的过程。《注解范式编程Part3部分-解构大型注解框架<a href="https://github.com/JoanZapata/android-asyncservice" target="_blank" rel="external">android-asyncservice</a>》敬请期待。</p>
+</span>
       
     </div>
 
@@ -582,7 +1179,7 @@ public <span class="class"><span class="keyword">class</span> <span class="title
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-Spring简述"><span class="nav-number">1.</span> <span class="nav-text">一.Spring简述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-运行时注解"><span class="nav-number">2.</span> <span class="nav-text">二.运行时注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三-编译时注解"><span class="nav-number">3.</span> <span class="nav-text">三.编译时注解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1_编译时注解类的操作步骤："><span class="nav-number">3.1.</span> <span class="nav-text">3.1 编译时注解类的操作步骤：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2_编译时注解的分包架构"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 编译时注解的分包架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3_攥写注解类和绑定类"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 攥写注解类和绑定类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4_攥写解析类Processor"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 攥写解析类Processor</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-Spring简述"><span class="nav-number">1.</span> <span class="nav-text">一.Spring简述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-运行时注解"><span class="nav-number">2.</span> <span class="nav-text">二.运行时注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三-编译时注解"><span class="nav-number">3.</span> <span class="nav-text">三.编译时注解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1_编译时注解包(类)的操作步骤："><span class="nav-number">3.1.</span> <span class="nav-text">3.1 编译时注解包(类)的操作步骤：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2_编译时注解的分包架构"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 编译时注解的分包架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3_攥写注解类和绑定类"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 攥写注解类和绑定类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4_攥写解析类Processor"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 攥写解析类Processor</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-8_流程再走一遍"><span class="nav-number">3.4.1.</span> <span class="nav-text">3.4.8 流程再走一遍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-9_一些小细节和技巧"><span class="nav-number">3.4.2.</span> <span class="nav-text">3.4.9 一些小细节和技巧</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
