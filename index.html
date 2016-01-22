@@ -152,6 +152,384 @@
           
           
             
+              <a class="post-title-link" href="/2016/01/22/ZTN01_5/" itemprop="url">
+                【杂谈1月】H5与APP交互错疑
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2016-01-22T16:24:12+08:00" content="2016-01-22">
+            2016-01-22
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody"><p>H5与APP交互错疑：</p>
+<p>一般APP与H5的交互分为2个主要的交互组成:</p>
+<ul>
+<li>1.APP和H5互相调用并传递数据;</li>
+</ul>
+<p>比较实用的场景为:点击广告Banner进入H5界面商品列表，然后点击里面的一个商品，打开的是APP的产品详情界面。这个需求比较知名的比如是京东APP端的“掌上秒杀”：该界面为H5，点击后进入的商品详情为原生的详情界面。</p>
+<ul>
+<li>2.浏览器H5调出APP。</li>
+</ul>
+<p>比较实用的场景为:浏览器打开H5界面，该界面在3-5秒后会自动打开你的APP相关的界面。这个需求比较知名的比如：百度贴吧，浏览器中打开的是某一个贴吧的页面，5秒后手机里面的百度贴吧APP的相应原生界面就会被唤起。</p>
+<h2 id="一-H5与APP交互">一.H5与APP交互</h2><p>产品层面需求：</p>
+<p>1.进入APP的H5界面商品列表,点击H5的列表的某一个商品后,进入App的特惠详情界面</p>
+<p>2.H5同事要求我如果跳转成功后,必需告知它跳转成功.</p>
+<hr>
+<p>先贴出H5的最后测试成功的代码:</p>
+<pre><code><span class="doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;<span class="title">html</span> <span class="attribute">lang</span>=<span class="value">"en"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">head</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">charset</span>=<span class="value">"UTF-8"</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">head</span>&gt;</span> 
+<span class="tag">&lt;<span class="title">body</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">center</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">br</span> /&gt;</span><span class="tag">&lt;<span class="title">br</span> /&gt;</span><span class="tag">&lt;<span class="title">br</span> /&gt;</span><span class="tag">&lt;<span class="title">br</span> /&gt;</span><span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"aa"</span>&gt;</span><span class="tag">&lt;<span class="title">button</span> <span class="attribute">onclick</span>=<span class="value">"dian()"</span>&gt;</span>点我点我点我点我<span class="tag">&lt;/<span class="title">button</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span><span class="tag">&lt;<span class="title">br</span> /&gt;</span><span class="tag">&lt;<span class="title">br</span> /&gt;</span><span class="tag">&lt;<span class="title">br</span> /&gt;</span><span class="tag">&lt;<span class="title">br</span> /&gt;</span><span class="tag">&lt;<span class="title">br</span> /&gt;</span><span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"aa"</span>&gt;</span><span class="tag">&lt;<span class="title">button</span> <span class="attribute">onclick</span>=<span class="value">"pay()"</span>&gt;</span>下单<span class="tag">&lt;/<span class="title">button</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">center</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"webview_ios2.php"</span>&gt;</span>1111111<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"result"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
+  <span class="comment">//判断访问终端</span>
+  <span class="keyword">var</span> browser={
+      versions:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>{
+          <span class="keyword">var</span> u = navigator.userAgent, app = navigator.appVersion;
+          <span class="keyword">return</span> {
+              trident: u.indexOf(<span class="string">'Trident'</span>) &gt; -<span class="number">1</span>, <span class="comment">//IE内核</span>
+              presto: u.indexOf(<span class="string">'Presto'</span>) &gt; -<span class="number">1</span>, <span class="comment">//opera内核</span>
+              webKit: u.indexOf(<span class="string">'AppleWebKit'</span>) &gt; -<span class="number">1</span>, <span class="comment">//苹果、谷歌内核</span>
+              gecko: u.indexOf(<span class="string">'Gecko'</span>) &gt; -<span class="number">1</span> &amp;&amp; u.indexOf(<span class="string">'KHTML'</span>) == -<span class="number">1</span>,<span class="comment">//火狐内核</span>
+              mobile: !!u.match(<span class="regexp">/AppleWebKit.*Mobile.*/</span>), <span class="comment">//是否为移动终端</span>
+              ios: !!u.match(<span class="regexp">/\(i[^;]+;( U;)? CPU.+Mac OS X/</span>), <span class="comment">//ios终端</span>
+              android: u.indexOf(<span class="string">'Android'</span>) &gt; -<span class="number">1</span> || u.indexOf(<span class="string">'Linux'</span>) &gt; -<span class="number">1</span>, <span class="comment">//android终端或者uc浏览器</span>
+              iPhone: u.indexOf(<span class="string">'iPhone'</span>) &gt; -<span class="number">1</span> , <span class="comment">//是否为iPhone或者QQHD浏览器</span>
+              iPad: u.indexOf(<span class="string">'iPad'</span>) &gt; -<span class="number">1</span>, <span class="comment">//是否iPad</span>
+              webApp: u.indexOf(<span class="string">'Safari'</span>) == -<span class="number">1</span>, <span class="comment">//是否web应该程序，没有头部与底部</span>
+              weixin: u.indexOf(<span class="string">'MicroMessenger'</span>) &gt; -<span class="number">1</span>, <span class="comment">//是否微信 （2015-01-22新增）</span>
+              qq: u.match(<span class="regexp">/\sQQ/i</span>) == <span class="string">" qq"</span> <span class="comment">//是否QQ</span>
+          };
+      }(),
+      language:(navigator.browserLanguage || navigator.language).toLowerCase()
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">dian</span> (<span class="params"></span>) </span>{
+    <span class="keyword">if</span>(browser.versions.android){
+      <span class="keyword">var</span> data = <span class="string">'{"hui":"710"}'</span>;
+     <span class="comment">//js调用android本地方法</span>
+      <span class="keyword">var</span> result = <span class="built_in">window</span>.AndroidTehuiInfo.hui(data);
+      <span class="comment">//alert(JSON.stringify(result));</span>
+    }
+  }
+
+  <span class="comment">//android调用js的方法</span>
+  <span class="function"><span class="keyword">function</span> <span class="title">interactive</span>(<span class="params">a</span>)</span>{
+      alert(a)  
+        <span class="built_in">document</span>.getElementById(<span class="string">"result"</span>).innerHTML=a;  
+   }  
+  </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+</code></pre><p>解决问题一:点击H5商品列表,进入APP原生商品详情</p>
+<p>这里涉及到的就是:JS调用android原生方法</p>
+<p>我和同事约定:通过传递json串的方案来处理数据:所以表示js调用android原生方法，传递json串数据给我.</p>
+<p>首先H5同事定义一个调用android原生的方法:</p>
+<pre><code>function dian () {
+   <span class="keyword">if</span>(browser.versions.android){
+     <span class="keyword">var</span> data = '{<span class="string">"hui"</span>:<span class="string">"710"</span>}';
+    //js调用本地方法
+     <span class="keyword">var</span> <span class="literal">result</span> = window.<span class="type">AndroidTehuiInfo</span>.hui(data);
+     //alert(<span class="type">JSON</span>.stringify(<span class="literal">result</span>));
+   }
+ }
+</code></pre><p>这点代码的业务逻辑就是:JS调用android原始的类AndroidTehuiInfo它下面的hui()方法，该原生方法的参数是json串(也就是string字符串).这里的json串就告诉我点击H5列表的这个商品的id值，要我展示具体哪一个商品的原生APP详情界面.</p>
+<p>那么对于这段话,android端要如何配合:</p>
+<p>首先:<br>1.要让webview支持js</p>
+<pre><code>mWebView.getSettings<span class="params">()</span>.setJavaScriptEnabled<span class="params">(<span class="literal">true</span>)</span>;  
+</code></pre><p>2.和js中指定的类和方法对应上:</p>
+<pre><code><span class="comment">//Object是JS调用本地的类的对象，name是对象的别名，在JS可以用这个别名+点语法+方法名就可以调用本地的方法。</span>
+web.addJavascriptInterface(<span class="keyword">object</span>,<span class="string">"name"</span>);
+</code></pre><p>那么这个js方法对应这个就是:</p>
+<pre><code><span class="tag">web</span><span class="class">.addJavascriptInterface</span>(<span class="tag">activity</span><span class="class">.androidTehuiInfo</span>,"<span class="tag">AndroidTehuiInfo</span>");
+</code></pre><p>3.然后我们android端要书写一个方法hui(data)对应js，记得方法上标注: @JavascriptInterface</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AndroidTehuiInfo</span> </span>{
+
+    <span class="keyword">private</span> Activity activity;
+
+    <span class="keyword">private</span> WebView web;
+
+    <span class="function"><span class="keyword">public</span> <span class="title">AndroidTehuiInfo</span><span class="params">(Activity activity,WebView web)</span> </span>{
+        <span class="keyword">this</span>.web=web;
+        <span class="keyword">this</span>.activity = activity;
+    }
+
+
+    <span class="annotation">@JavascriptInterface</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">hui</span><span class="params">(String data)</span> </span>{
+        <span class="keyword">try</span> {
+            <span class="comment">//这里就是解析js传给我的json串，我解析它，然后知道了特惠商品的id值是多少?</span>
+            JSONObject json = <span class="keyword">new</span> JSONObject(data);
+            String id = json.getString(<span class="string">"hui"</span>);
+            Intent intent = <span class="keyword">new</span> Intent(activity, HuiProdcutDetailActivity.class);
+            intent.putExtra(<span class="string">"hui"</span>, id);
+            activity.startActivity(intent);
+        } <span class="keyword">catch</span> (Exception e) {
+            e.printStackTrace();
+            sendFailInfoToJs();
+        }
+    }
+
+}
+</code></pre><p>自此:JS调用Android端原生方法就完成.</p>
+<p>解决问题二: 跳转成功后告知H5同事,我android跳转成功了.</p>
+<p>这里实际上涉及到的就是:Android调用JS的方法。</p>
+<p>首先H5同事书写方法:</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">interactive</span><span class="params">(a)</span>{</span>
+    alert<span class="params">(a)</span>  
+      document.getElementById<span class="params">(<span class="string">"result"</span>)</span>.innerHTML=a;  
+ }  
+</code></pre><p>这里的方法命名interactive(参数)是我们彼此约定的,因为待会我android端必需要用到,否则怎么知道究竟调用哪个方法.</p>
+<p>android端要如何配合:</p>
+<p>1.在跳转成功的地方返回成功的json串给JS:</p>
+<p>json：{“result”:”true”}</p>
+<pre><code><span class="keyword">private</span> <span class="keyword">void</span> sendOkInfoToJs() {
+    <span class="keyword">final</span> <span class="keyword">JSONObject</span> json = <span class="keyword">new</span> <span class="keyword">JSONObject</span>();
+    <span class="keyword">try</span> {
+        json.put(<span class="string">"result"</span>, <span class="string">"true"</span>);            
+        web.loadUrl(<span class="string">"javascript:interactive('"</span> + json.toString() + <span class="string">"')"</span>);         
+    } <span class="keyword">catch</span> (JSONException e) {
+        e.printStackTrace();
+    }
+
+}
+</code></pre><p>2.loadUrl加载本地js的方法interactive(var),传递过去的参数就是我的json串.</p>
+<pre><code><span class="tag">web</span><span class="class">.loadUrl</span>("<span class="rule"><span class="attribute">javascript</span>:<span class="value"><span class="function">interactive</span>(<span class="string">'" + json.toString() + "'</span>)<span class="string">");     </span></span></span>
+</code></pre><p>然后收到json串的H5同事就去做他自己的业务逻辑.</p>
+<p>但是在有些机型上你会发觉Logcat报错:</p>
+<blockquote>
+<p>java.lang.Throwable: A WebView method was called on thread ‘JavaBridge’. All WebView methods must be called on the same thread. (Expected Looper Looper (main, tid 1) {42da1250} called on Looper (JavaBridge, tid 51131) {42e13150}, FYI main Looper is Looper (main, tid 1) {42da1250})</p>
+</blockquote>
+<p>原因:在js调用后的Java回调线程并不是同一线程。</p>
+<p>解决方案:将</p>
+<pre><code><span class="tag">web</span><span class="class">.loadUrl</span>("<span class="rule"><span class="attribute">javascript</span>:<span class="value"><span class="function">interactive</span>(<span class="string">'" + json.toString() + "'</span>)<span class="string">"); </span></span></span>
+</code></pre><p>post到同一个线程中去执行:</p>
+<pre><code>web.post(<span class="keyword">new</span> Runnable() {
+            <span class="annotation">@Override</span>
+            <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
+                web.loadUrl(<span class="string">"javascript:interactive('"</span> + json.toString() + <span class="string">"')"</span>);
+            }
+        });
+</code></pre><p>所以AndroidTehuiInfo类完整代码如下：</p>
+<pre><code><span class="keyword">package</span> com.work.beauty.js;
+
+<span class="keyword">import</span> android.app.Activity;
+<span class="keyword">import</span> android.content.Intent;
+<span class="keyword">import</span> android.webkit.JavascriptInterface;
+<span class="keyword">import</span> android.webkit.WebView;
+
+<span class="keyword">import</span> com.work.beauty.HuiProdcutDetailActivity;
+
+<span class="keyword">import</span> org.json.JSONException;
+<span class="keyword">import</span> org.json.JSONObject;
+
+<span class="comment">/**
+ * Created by xiongwei,An Android project Engineer.
+ * Date:2015-12-22  12:04
+ * Base on Meilimei.com (PHP Service)
+ * Describe:
+ * Version:1.0
+ * Open source
+ */</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AndroidTehuiInfo</span> </span>{
+
+    <span class="keyword">private</span> Activity activity;
+
+    <span class="keyword">private</span> WebView web;
+
+    <span class="function"><span class="keyword">public</span> <span class="title">AndroidTehuiInfo</span><span class="params">(Activity activity, WebView web)</span> </span>{
+        <span class="keyword">this</span>.web = web;
+        <span class="keyword">this</span>.activity = activity;
+    }
+
+
+    <span class="annotation">@JavascriptInterface</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">hui</span><span class="params">(String data)</span> </span>{
+        <span class="keyword">try</span> {
+            JSONObject json = <span class="keyword">new</span> JSONObject(data);
+            String id = json.getString(<span class="string">"hui"</span>);
+            Intent intent = <span class="keyword">new</span> Intent(activity, HuiProdcutDetailActivity.class);
+            intent.putExtra(<span class="string">"hui"</span>, id);
+            activity.startActivity(intent);
+            <span class="comment">//Android告知JS:告知浏览器现在正常打开了</span>
+            sendOkInfoToJs();
+        } <span class="keyword">catch</span> (Exception e) {
+            e.printStackTrace();
+            sendFailInfoToJs();
+        }
+    }
+
+
+    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">sendOkInfoToJs</span><span class="params">()</span> </span>{
+        <span class="keyword">final</span> JSONObject json = <span class="keyword">new</span> JSONObject();
+        <span class="keyword">try</span> {
+            json.put(<span class="string">"result"</span>, <span class="string">"true"</span>);
+            web.post(<span class="keyword">new</span> Runnable() {
+                <span class="annotation">@Override</span>
+                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
+                    web.loadUrl(<span class="string">"javascript:interactive('"</span> + json.toString() + <span class="string">"')"</span>);
+                }
+            });
+
+        } <span class="keyword">catch</span> (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">sendFailInfoToJs</span><span class="params">()</span> </span>{
+        JSONObject json = <span class="keyword">new</span> JSONObject();
+        <span class="keyword">try</span> {
+            json.put(<span class="string">"result"</span>, <span class="string">"false"</span>);
+            web.post(<span class="keyword">new</span> Runnable() {
+                <span class="annotation">@Override</span>
+                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
+                    <span class="comment">//java.lang.Throwable: e.A WebView method was called on thread 'JavaBridge'. All WebView methods must be called on the same thread. (Expected Looper Looper (main, tid 1) {42da1250} called on Looper (JavaBridge, tid 51131) {42e13150}, FYI main Looper is Looper (main, tid 1) {42da1250})</span>
+                    web.loadUrl(<span class="string">"javascript:interactive('"</span> + json.toString() + <span class="string">"')"</span>);
+                }
+            });
+
+        } <span class="keyword">catch</span> (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+}
+</code></pre><h2 id="二-一个诡异的显示问题">二.一个诡异的显示问题</h2><p>问题:在APP上展示H5的双12活动后，点击其中的一个项目的“拼一单“后,进入的H5详情界面无法正常显示内容，为一片空白。</p>
+<p>经过APP端跟踪代码发现Logcat显示信息如下:</p>
+<pre><code><span class="list">[<span class="keyword">INFO:CONSOLE</span><span class="list">(<span class="keyword">635</span>)</span>] <span class="string">"Uncaught TypeError: Cannot read property 'dianji' of null"</span>, source: http://m.meilimei.com/zt/20151212/ <span class="list">(<span class="keyword">635</span>)</span></span>
+</code></pre><p>定位到项目的H5界面为：</p>
+<p><img src="http://i.imgur.com/PHy2eLx.png" alt=""></p>
+<p>通过字面意思解读为”dianji”是null,没有被赋值.</p>
+<p>而后继续通过关键词”chromium”在Logcat中发现：</p>
+<pre><code><span class="number">12</span>-<span class="number">03</span> <span class="number">10</span>:<span class="number">59</span>:<span class="number">03.031</span>  <span class="number">29477</span>-<span class="number">29477</span>/com.work.beauty Iromium﹕ [INFO:CONSOLE(<span class="number">635</span>)] <span class="string">"Uncaught TypeError: Cannot read property 'dianji' of null"</span>, source: http:<span class="comment">//m.meilimei.com/zt/20151212/ (635)</span>
+<span class="number">12</span>-<span class="number">03</span> <span class="number">10</span>:<span class="number">59</span>:<span class="number">28.671</span>  <span class="number">29477</span>-<span class="number">29477</span>/com.work.beauty Iromium﹕ [INFO:CONSOLE(<span class="number">635</span>)] <span class="string">"Uncaught TypeError: Cannot read property 'dianji' of null"</span>, source: http:<span class="comment">//m.meilimei.com/zt/20151212/ (635)</span>
+<span class="number">12</span>-<span class="number">03</span> <span class="number">10</span>:<span class="number">59</span>:<span class="number">30.561</span>  <span class="number">29477</span>-<span class="number">29477</span>/com.work.beauty Iromium﹕ [INFO:CONSOLE(<span class="number">10</span>)] <span class="string">"The key "</span>minimal-ui<span class="string">" is not recognized and ignored."</span>, source: http:<span class="comment">//m.meilimei.com/wx/#!/store/tehui/4425 (10)</span>
+<span class="number">12</span>-<span class="number">03</span> <span class="number">10</span>:<span class="number">59</span>:<span class="number">31.101</span>  <span class="number">29477</span>-<span class="number">29477</span>/com.work.beauty Iromium﹕ [INFO:CONSOLE(<span class="number">90</span>)] <span class="string">"Uncaught TypeError: Cannot call method 'getItem' of null"</span>, source: http:<span class="comment">//m.meilimei.com/wx/skin/js/app.js (90)</span>
+</code></pre><p>追踪：<a href="http://m.meilimei.com/wx/skin/js/app.js的getItem()方法,也是null,导致APP内部的webview无法获取值" target="_blank" rel="external">http://m.meilimei.com/wx/skin/js/app.js的getItem()方法,也是null,导致APP内部的webview无法获取值</a>.</p>
+<p><img src="http://i.imgur.com/8NM6yKq.png" alt=""></p>
+<p>发现问题后向H5同事反馈，同事表示该字段”dianji”和getItem()为读取的Local storage中的,初始化赋值是在其中.</p>
+<p>经过Chrome浏览器调试发现：</p>
+<p>view-source:<a href="http://m.meilimei.com/zt/20151212/" target="_blank" rel="external">http://m.meilimei.com/zt/20151212/</a>  F12后发现Local storage</p>
+<p><img src="http://i.imgur.com/hEWp3tU.png" alt=""></p>
+<p>然后继续跟踪 <a href="http://m.meilimei.com/wx/skin/js/app.js" target="_blank" rel="external">http://m.meilimei.com/wx/skin/js/app.js</a>  发觉所有的初始化Local storage都在其中赋值:</p>
+<p><img src="http://i.imgur.com/MErAb1U.png" alt=""></p>
+<p>问题已经发觉，如何解决：<br>解决方案非常简单，问题既然是在于app内部的Webview无法读取Local Storage,那么读取该值就可以了：</p>
+<pre><code>....
+getLocalStroge<span class="params">(activity,web)</span>;
+web.loadUrl<span class="params">(url)</span>
+...
+
+private static void getLocalStroge<span class="params">(Activity activity, WebView mWebView)</span>{
+    mWebView.getSettings<span class="params">()</span>.setDomStorageEnabled<span class="params">(<span class="literal">true</span>)</span>;
+    mWebView.getSettings<span class="params">()</span>.setAppCacheMaxSize<span class="params">(<span class="number">1024</span>*<span class="number">1024</span>*<span class="number">8</span>)</span>;
+    String appCachePath = activity.getApplicationContext<span class="params">()</span>.getCacheDir<span class="params">()</span>.getAbsolutePath<span class="params">()</span>;
+    mWebView.getSettings<span class="params">()</span>.setAppCachePath<span class="params">(appCachePath)</span>;
+    mWebView.getSettings<span class="params">()</span>.setAllowFileAccess<span class="params">(<span class="literal">true</span>)</span>;
+    mWebView.getSettings<span class="params">()</span>.setAppCacheEnabled<span class="params">(<span class="literal">true</span>)</span>;
+}
+</code></pre><h2 id="三-浏览器打开APP">三.浏览器打开APP</h2><p>需求:在android浏览器上，打开含有美丽神器的H5页面，就要跳转到相应的APP原生界面。</p>
+<p>解决方案:</p>
+<p>android端需要与H5端共同约定一个intent-filter的scheme</p>
+<pre><code><span class="tag">&lt;<span class="title">activity</span>
+        <span class="attribute">android:name</span>=<span class="value">"com.work.beauty.NewShowLRActivity"</span>
+        <span class="attribute">android:label</span>=<span class="value">"@string/app_name"</span>
+        <span class="attribute">android:theme</span>=<span class="value">"@style/AppSplashTran"</span>
+        <span class="attribute">android:exported</span>=<span class="value">"true"</span>
+        <span class="attribute">android:alwaysRetainTaskState</span>=<span class="value">"true"</span>
+        <span class="attribute">android:screenOrientation</span>=<span class="value">"portrait"</span> &gt;</span>
+        <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.action.MAIN"</span> /&gt;</span>
+
+            <span class="tag">&lt;<span class="title">category</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.category.LAUNCHER"</span> /&gt;</span>
+        <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span>
+
+        <span class="comment">&lt;!-- for web call --&gt;</span>
+        <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">data</span> <span class="attribute">android:scheme</span>=<span class="value">"meilishenqi"</span>/&gt;</span>
+
+            <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.action.VIEW"</span> /&gt;</span>
+            <span class="tag">&lt;<span class="title">category</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.category.DEFAULT"</span> /&gt;</span>
+            <span class="tag">&lt;<span class="title">category</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.category.BROWSABLE"</span> /&gt;</span>
+        <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">activity</span>&gt;</span>
+</code></pre><p>我们约定的scheme为meilishenqi.</p>
+<p>H5同仁的界面约定格式操作如下：</p>
+<pre><code>&lt;a href=<span class="string">"<span class="subst">[scheme]</span>://<span class="subst">[host]</span>/<span class="subst">[path]</span>?<span class="subst">[query]</span>"</span>&gt;启动应用程序&lt;/a&gt; 
+</code></pre><p>此处的scheme需要与APP指定的android:scheme=”meilishenqi”相同.</p>
+<p>参数解释:</p>
+<ul>
+<li><p>scheme：判别启动的App。 </p>
+</li>
+<li><p>host：hose地址</p>
+</li>
+<li><p>path：传值时必须的key     </p>
+</li>
+<li><p>query：获取值的Key和Value  </p>
+</li>
+</ul>
+<p>关于这块由于我在去年和H5工程师测试的时候大约等待10秒后才能调起APP，存在比较长时间的延迟。后来由于需求变更，继续测试的计划耽搁，等待以后完成测试后补充完成该功能描述。</p>
+<p>我会在测试完成后补充完解决方案….</p>
+</span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/2016/01/13/ZTN01_4/" itemprop="url">
                 【杂谈1月】Android注解范式编程Part2
               </a>
@@ -185,7 +563,7 @@
         
           <span itemprop="articleBody"><p>Android注解范式编程Part2</p>
 <p>如果你做过JavaEE开发,你应该知道一个概念，叫:DI(依赖注入),依赖注入是Spring的核心思想,它将对象的创建交给Spring来进行管理,在初始化整个Java-web时,初始化在Spring的配置文件中的一批对象,当代码中需要对象时,只要直接从Spring中获取,而不需要自己去new.同时ClassA中如果需要的是ClassB对象,spring配置文件中也是有相应的对象ref引用的。</p>
-<p>如果单纯说Spring概念的话，因为很多Android同仁也没有做过JavaEE的开发，所以最终决定还是在<br>Part2中专门抽一小节给Spring一点概念简述.</p>
+<p>如果单纯说Spring概念的话，因为很多Android同仁也没有做过JavaEE的开发，所以最终决定还是在Part2中专门抽一小节给Spring一点概念简述.</p>
 <h2 id="一-Spring简述">一.Spring简述</h2><p>Spring是Interface21公司开源的轻量级的JavaEE开发框架。它主要是控制Web三层架构的Service层的操作,它的核心是控制反转（IoC）和面向切面（AOP）。</p>
 <p>控制反转（IoC）：应用本身不负责依赖对象的创建及维护。也就是应用本身不new对象。由Spring等IOC容器来处理对象的创建与维护。这个含义在某种程度上也就是DI(依赖注入)。具体的差异我会专门有文章讨论,这里不做过多描述。</p>
 <p>面向切面编程（AOP）：通过预编译方式和运行期动态代理实现程序功能的统一维护的一种技术。AOP思想：在程序员编写代码时，随时动态的插入、删除这些系统服务性代码(如事务)。它的本质：动态代理。(spring使用的不是JDK的动态代理，而是使用个cglib第三方动态代理。)</p>
@@ -215,7 +593,7 @@
 &lt;bean id=<span class="string">"personService"</span> class =<span class="string">"sabria.demo.annotationdemo.service.impl.PersonServiceBean"</span>&gt;
     &lt;property name=<span class="string">"personDao"</span> <span class="keyword">ref</span>=<span class="string">"personDao"</span>&gt;&lt;/property&gt;
 &lt;/bean&gt;
-</code></pre><p>我们看到Spring.xml文件在配置personService时,指定了一个ref引用”personDao”，然后它指向”sabria.demo.annotationdemo.dao.impl.PersonDaoBean”,这样就完成通过属性+set方法的方案来完成引用对象的注入。</p>
+</code></pre><p>我们看到Spring.xml文件在配置personService时,指定了一个ref引用”personDao”，然后它指向”sabria.demo.annotationdemo.dao.impl.PersonDao”,这样就完成通过属性+set方法的方案来完成引用对象的注入。</p>
 <p>我们看到在Spring中极度简化了对象的创建以及“对象中对其他对象”的引用。而这种思想在Android中也大行其道,在Android端有3个非常成熟的方案在践行DI：Dagger、RoboGuice和ButterKnife.在这里我们不会去谈论这些成熟方案的范例使用或者是源代码解读,在Part2中我们要回归这些library的本质去探究“运行时注解和编译时注解”，而这才是这些DI框架的核心元素。</p>
 <p>现在让我们来讨论我们今天Part部分需要探究的主题,我们在使用类似butterknife这样的DI框架时时尝试简化findViewById操作：</p>
 <pre><code><span class="at_rule">@<span class="keyword">Bind(R.id.user)</span> EditText username</span>;
@@ -1018,7 +1396,7 @@ android {
 <p>app的包名: sabria.noinject</p>
 <p>no-inject-api的包名： com.sabria.noinject</p>
 <p>no-inject-process的包名: com.sabria.noinject.process</p>
-<p>三个包的包名完全不同，也就表示这三个包中的类是完全不能互相访问的，解决方案有两种：</p>
+<p>三个包的包名完全不同，也就表示这三个包中的类是完全不能互相访问defalut修饰类的，解决方案有两种：</p>
 <p>1.将三个包的包名修改为相同；</p>
 <p>2.javaWrite在write class名时给个PUBLIC的修饰:</p>
 <pre><code>writer.<span class="keyword">begin</span><span class="variable">Type</span>(new<span class="variable">SourceName</span>, <span class="string">"class"</span>);
@@ -1029,7 +1407,7 @@ android {
 }
 </code></pre><p>BUG解决.</p>
 <hr>
-<p>至此注解范式编程的Part2章节攥写完成,如果你对part3很有兴趣，希望你可以好好自己在代码层面上去操作今天part2的”编译时注解的部分代码”,你会发觉这是一个很有趣的过程。《注解范式编程Part3部分-解构大型注解框架<a href="https://github.com/JoanZapata/android-asyncservice" target="_blank" rel="external">android-asyncservice</a>》敬请期待。</p>
+<p>至此注解范式编程的Part2章节攥写完成,如果你对part3很有兴趣，希望你可以好好自己在代码层面上去操作今天part2的”编译时注解的部分代码”,你会发觉这是一个很有趣的过程。《注解范式编程Part3部分-解构大型注解框架<a href="https://github.com/JoanZapata/android-asyncservice" target="_blank" rel="external">android-asyncservice</a>》waiting…..</p>
 </span>
         
       
@@ -3529,611 +3907,6 @@ bintray {
 
 
     
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2015/10/19/ZT10_3_S/" itemprop="url">
-                【正谈10月】Square技术架构
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2015-10-19T22:45:48+08:00" content="2015-10-19">
-            2015-10-19
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody"><p>一个由Square搭建的‘OK’框架，将构造一套有效的Android架构开发。</p>
-<h2 id="背景">背景</h2><p>2015年4月9日Android界的大神Jake Wharton参加Droidcon MTL 2015大会，在会议上他向Andorid开发者展示了Square公司的一套成熟架构，这套架构他们开源并完善了3年多，演讲的主题也便是我们今天要讨论的核心问题：A Few ‘Ok’ Libraries in Square。</p>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/Image%201111113.png" alt=""><br>(话说J神在Square的伙食是不是越来越好了？呵呵{笑脸}…)</p>
-<h2 id="A_Few_‘Ok’_Libraries_in_Square">A Few ‘Ok’ Libraries in Square</h2><p><img src="http://i.imgur.com/C3G1yXh.png" alt=""></p>
-<blockquote>
-<p>*金字塔塔底由Okio替代并延伸java-io;</p>
-<p>*网络数据请求层由Okhttp取代HttpClient和HttpURLConnection;</p>
-<p>*Json数据转换层由Moshi替代原生json解析;</p>
-<p>*表层代码调用层由Retrofit实现REST-API列表。</p>
-</blockquote>
-<p>======================<br>|    Name  |  Author  |  Description |<br>|    —   |  —     |  —         |<br>|   <a href="https://github.com/square/okio" target="_blank" rel="external">okio</a>    |    <a href="https://github.com/square" target="_blank" rel="external">square</a>    |    [A modern I/O API for Java]    |<br>|   <a href="https://github.com/square/okhttp" target="_blank" rel="external">okhttp</a>    |    <a href="https://github.com/square" target="_blank" rel="external">square</a>    |    [An HTTP+SPDY client for Android and Java applications]    |   <a href="https://github.com/square/moshi" target="_blank" rel="external">moshi</a>    |    <a href="https://github.com/square" target="_blank" rel="external">square</a>    |    [A modern JSON library for Android and Java]   |   <a href="https://github.com/square/retrofit" target="_blank" rel="external">retrofit2</a>    |    <a href="https://github.com/square" target="_blank" rel="external">square</a>    |    [Type-safe HTTP client for Android and Java by Square]        |</p>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/Image222222%204.png" alt=""></p>
-<p>这是整体的架构图,四个部成：</p>
-<ul>
-<li><p>1.DroidconMtl:这个其实不是组成部分，是J神经常技术交流的一个大会的名称，它是加拿大非常有名的一个Android技术交流大会。称它为Android-I/O大会都不为过。所以实际这里的组成是四个包的封装，然后执行调用网络请求代码，也就是我们的代码层面上的东西。这个层级我会给完整的source-demo和notice-tips。</p>
-</li>
-<li><p>2.Retrofit:调用Retrofit的异步请求逻辑后，封装的是<t>-pojo对象，向下发送逻辑请求。(架构自身完成代码)</t></p>
-</li>
-<li><p>3.Moshi层，包含Moshi架构本身，以及和Ohttp关联的MoshiConverter解析器。(架构自身完成代码)</p>
-</li>
-<li><p>4.OKhttp层，就是网络数据的请求层，将请求通过socket最终发送到服务端。(架构自身完成代码)</p>
-</li>
-</ul>
-<p>This talk will be an in-depth look at Okio—a tiny library for interacting with bytes—and a few of the libraries written on top of it: OkHttp, Retrofit, and a newcomer named Moshi.</p>
-<p>Okio evolved naturally inside of OkHttp before being split out into its own library. It wraps common patterns behind a friendly API for reading, writing, and processing data. We’ll start with some fundamentals of the library and how it can enable you to work very close to raw data with ease.</p>
-<p>After an introduction to Okio, we will look at three libraries written with it: OkHttp, a modern HTTP client; Retrofit, a high-level HTTP wrapper; and Moshi, a brand new library for serialization.</p>
-<p>Not only are these libraries powerful on their own, but when combined their efficiency and performance dramatically increase. We’ll conclude with demonstration of how to use them in your applications to great effect.</p>
-<p>J神的开场白，不做太直白翻译了，大体的意思就是：会着重描述Okio这个处理字节的类库(读、写和处理data)，同时会介绍OkHttp和Retrofit，以及新类库Moshi。OkHttp是一个现代的标准HTTP请求客户端，Retrofit是一个高级别的Http包装(REST客服端)，Moshi为序列化(其实就就是JSON解析)。这些库单独使用就很强大(powerful),当他们结合时将更效率(efficiency)和性能(performance)提升(increase)。我们将展示如何在你的应用中用好他们。</p>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/Image%20qqqqqq5.png" alt=""></p>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/Image%20qqqqqq6.png" alt=""></p>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/Image%20qqqqqq7.png" alt=""></p>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/Image%20qqqqqqq8.png" alt=""></p>
-<h3 id="一-Okio">一.Okio</h3><p>Okio is a new library that complements java.io and java.nio to make it much easier to access, store, and process your data.</p>
-<p><a href="https://github.com/square/okio" title="https://github.com/square/okio" target="_blank" rel="external">https://github.com/square/okio</a></p>
-<p>Okio是一个对原有的java.io和java.nio进行改进的IO库，使IO操作更加高效和方便。  </p>
-<p>1.对数据进行了分块处理，对大数据效率尤为明显;</p>
-<p>2.对数据块使用链表进行管理;</p>
-<p>3.对闲置的块进行管理，通过一个块池（SegmentPool）的管理，避免系统GC和申请byte时的zero-fill。</p>
-<p>4.它对数据的读取写入进行了封装;</p>
-<p>5.超时操作;</p>
-<h2 id="ByteStrings_and_Buffers">ByteStrings and Buffers</h2><p>Okio is built around two types that pack a lot of capability into a straightforward API:</p>
-<ul>
-<li>[<strong>ByteString</strong>][3] is an immutable sequence of bytes. For character data, <code>String</code><br>is fundamental. <code>ByteString</code> is String’s long-lost brother, making it easy to<br>treat binary data as a value. This class is ergonomic: it knows how to encode<br>and decode itself as hex, base64, and UTF-8.</li>
-</ul>
-<p>ByteString是一个固定大小的byte序列（由一个byte数组构成）。String是Java经常使用到的一个基本类型，ByteString对String进行了封装，为byte和String间的转换和String不同值间的转换（UTF-8编解码，Hex编解码，Base64编解码，ASCIll编解码）提供了十分方便的操作。</p>
-<ul>
-<li>[<strong>Buffer</strong>][4] is a mutable sequence of bytes. Like <code>ArrayList</code>, you don’t need<br>to size your buffer in advance. You read and write buffers as a queue: write<br>data to the end and read it from the front. There’s no obligation to manage<br>positions, limits, or capacities.</li>
-</ul>
-<p>Buffer是一个不固定大小的byte序列（由一个节点为Segment的双向循环队列链表构成），它充当Sink、Source、InputStream和OutputStream间的高效缓存区，由于Buffer实现了BufferedSource和BufferedSink这两个接口，所以可以很方便的对其进行IO操作。Buffer在多线程编程里很有用，比如一个负责网络的线程可以通过这种方式和工作线程进行数据交换，但是又不发生数据的复制。</p>
-<h2 id="Sources_and_Sinks">Sources and Sinks</h2><p>Okio的流类型：<br>Okio includes its own stream types called Source and Sink that work like InputStream and OutputStream。</p>
-<ul>
-<li><p>接口[<strong>Sink</strong>]，[<strong>BufferedSink</strong>]<br>Sink和java.io中的OutputStream类似，BufferedSink是一个对Sink进行扩展的接口。使用OutputStream时，在传输不同的数据是需要对OutputStream进行不同的包装，比如用DataOutputStream进行原始数据的IO，用BufferedOutputStream进行带缓存的数据IO，用OutputStreamWriter进行字符编码。对于Sink来说，只需要使用BufferedSink就可以实现以上所有的情况。</p>
-</li>
-<li><p>接口[<strong>Source</strong>]，[<strong>BufferedSource</strong>]<br>Source和java.io中的InputStream类似，BufferedSource是一个对Source进行扩展的接口。使用InputStream时，在传输不同的数据是需要对InputStream进行不同的包装，比如用DataInputStream进行原始数据的IO，用BufferedInputStream进行带缓存的数据IO，用OutputStreamReader进行字符编码。对于Source来说，只需要使用BufferedSource就可以实现以上所有的情况。</p>
-</li>
-</ul>
-<p>Sources and sinks interoperate with InputStream and OutputStream. You can view any Source as an InputStream, and you can view any InputStream as a Source. Similarly for Sink and OutputStream.</p>
-<h2 id="API：">API：</h2><p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443Image2222%201.png" alt=""></p>
-<p>首先来看如何获取Source、Sink和Buffer、ByteString对象</p>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443QQQImage%202.png" alt=""></p>
-<pre><code><span class="comment">//Source和java.io中的InputStream类似</span>
-<span class="keyword">Source</span> <span class="keyword">source</span> = Okio.<span class="keyword">source</span>(InputStream)；
-</code></pre><p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443qqqqImage%205.png" alt=""></p>
-<pre><code><span class="comment">//BufferedSource是一个对Source进行扩展的接口。</span>
-BufferedSource pngSource = Okio.buffer(Okio.<span class="keyword">source</span>(<span class="keyword">in</span>));
-</code></pre><p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443zzzzmage%209.png" alt=""><br><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443aaaaImage%207.png" alt=""><br><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443aaaaImage%206.png" alt=""><br><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443啊啊啊啊Image%208.png" alt=""></p>
-<pre><code><span class="comment">// Each chunk is a length, type, data, and CRC offset.</span>
-<span class="keyword">int</span> <span class="built_in">length</span> = pngSource.readInt();
-String type = pngSource.readUtf8(<span class="number">4</span>);
-pngSource.readFully(chunk, <span class="built_in">length</span>);
-<span class="keyword">int</span> crc = pngSource.readInt();
-</code></pre><p>一般获取Buffer及读取UTF-8字符串文件再获取为inputStream：<br><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443额Image%2010.png" alt=""><br><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443tttttImage%2012.png" alt=""><br><img src="http://7xn9yd.com1.z0.glb.clouddn.com/736443ttttttImage%2011.png" alt=""></p>
-<pre><code>SSLSocketFactory sslSocketFactory = SSLUtil.getSSLSocketFactory<span class="params">(new Buffer<span class="params">()</span>.writeUtf8<span class="params">(CERT)</span>.inputStream<span class="params">()</span>)</span>;
-client.setSslSocketFactory<span class="params">(sslSocketFactory)</span>;
-</code></pre><h2 id="OKIO使用：">OKIO使用：</h2><p>根据PNG文件署名域判断一个图片是否是真实PNG：</p>
-<pre><code><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ByteString PNG_HEADER=ByteString.decodeHex(<span class="string">"89504e470d0a1a0a"</span>);
-
-<span class="keyword">public</span> <span class="keyword">boolean</span> isPng(InputStream in) <span class="keyword">throws</span> IOException {
-  BufferedSource pngSource = Okio.buffer(Okio.<span class="keyword">source</span>(in));
-
-  ByteString header = pngSource.readByteString(PNG_HEADER.<span class="keyword">size</span>());
-  <span class="keyword">if</span> (!header.equals(PNG_HEADER)) {
-    <span class="keyword">return</span> <span class="keyword">false</span>;
-  }<span class="keyword">else</span>{
-    <span class="keyword">return</span> <span class="keyword">true</span>;    
-  }
-
-}
-</code></pre><h3 id="二-Okhttp">二.Okhttp</h3><h3 id="三-Moshi">三.Moshi</h3><h3 id="四-Retrofit">四.Retrofit</h3><p>Retrofit现在分两个版本，一个是2.0前版本，比如1.9-，还有一个就是升级的Retrofit2。Retrofit2内部的核心代码都重新架构过,最主要的是直接支持了更多的json解析框架，API调用虽然有小变化，但整体变化不大。</p>
-<p>所以我现在这里的介绍的就是最新的Retrofit2的内容，因为1.9或1.9-将渐渐成为历史。</p>
-<h4 id="retrofit完成请求">retrofit完成请求</h4><p>1.Application中初始化创建Retrofit实例：</p>
-<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">SnakeService</span> </span>{
-    <span class="class"><span class="keyword">class</span> <span class="title">Factory</span> </span>{
-        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SnakeService <span class="title">create</span><span class="params">()</span> </span>{
-            Retrofit retrofit = <span class="keyword">new</span> Retrofit.Builder()
-                    .baseUrl(<span class="string">"http://www.xxxxx.com/v6/"</span>)                      
-                    .addConverterFactory(MoshiConverterFactory.create())
-                    .build();
-            <span class="keyword">return</span> retrofit.create(SnakeService.class);
-        }
-    }
-}
-
-<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyApplication</span> <span class="keyword">extends</span> <span class="title">Application</span> </span>{
-
-    <span class="keyword">private</span> SnakeService snakeService;
-
-    <span class="annotation">@Override</span>
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>{
-        <span class="keyword">super</span>.onCreate();
-        initService();
-    }
-
-
-    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initService</span><span class="params">()</span> </span>{
-        <span class="keyword">this</span>.snakeService = SnakeService.Factory.create();
-    }
-
-    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> MyApplication <span class="title">get</span><span class="params">(Context context)</span> </span>{
-        <span class="keyword">return</span> (MyApplication) context.getApplicationContext();
-    }
-
-    <span class="function"><span class="keyword">public</span> SnakeService <span class="title">getSnakeService</span><span class="params">()</span> </span>{
-        <span class="keyword">if</span>(snakeService==<span class="keyword">null</span>){
-             snakeService=SnakeService.Factory.create();
-        }
-        <span class="keyword">return</span> snakeService;
-    }
-}
-</code></pre><p>2.定义接口</p>
-<pre><code><span class="variable">@POST</span>(<span class="string">"tehui/getTehuiByJigouId"</span>)
-Call&lt;JsonFather&gt; <span class="function">loadData</span>(<span class="variable">@QueryMap</span> Map&lt;String, String&gt; map);
-
-
-<span class="variable">@POST</span>(<span class="string">"tehui/getTehuiByJigouId"</span>)
-Call&lt;ResponseBody&gt; <span class="function">loadData2</span>(<span class="variable">@QueryMap</span> Map&lt;String, String&gt; map);
-</code></pre><p>3.根据返回的json串创建json-bean对象</p>
-<p>这是我服务器返回的Json:</p>
-<pre><code>{
-    "<span class="attribute">state</span>": <span class="value"><span class="string">"000"</span></span>,
-    "<span class="attribute">t_rs</span>": <span class="value">[
-        {
-            "<span class="attribute">id</span>": <span class="value"><span class="string">"1422"</span></span>,
-            "<span class="attribute">title</span>": <span class="value"><span class="string">"[ 上海万安 ]360艺术美鼻"</span></span>,
-            "<span class="attribute">image</span>": <span class="value"><span class="string">"http://tehui.meilimei.com/static/team/2015/0612/14340889238311.jpg?201510201128"</span></span>,
-            "<span class="attribute">team_price</span>": <span class="value"><span class="string">"500.00"</span></span>,
-            "<span class="attribute">now_number</span>": <span class="value"><span class="string">"1"</span></span>,
-            "<span class="attribute">market_price</span>": <span class="value"><span class="string">"22800.00"</span></span>,
-            "<span class="attribute">delivery</span>": <span class="value"><span class="string">"coupon"</span></span>,
-            "<span class="attribute">deposit</span>": <span class="value"><span class="string">"500.00"</span></span>,
-            "<span class="attribute">mechanism</span>": <span class="value"><span class="string">"上海万安医疗美容医院"</span></span>,
-            "<span class="attribute">flag</span>": <span class="value"><span class="number">1</span>
-        </span>},
-        {
-            "<span class="attribute">id</span>": <span class="value"><span class="string">"1602"</span></span>,
-            "<span class="attribute">title</span>": <span class="value"><span class="string">"[ 上海万安 ]瑞兰玻尿酸注射 不开刀就能美美哒的秘密"</span></span>,
-            "<span class="attribute">image</span>": <span class="value"><span class="string">"http://tehui.meilimei.com/static/team/2015/0624/14351340349342.jpg?201510201128"</span></span>,
-            "<span class="attribute">team_price</span>": <span class="value"><span class="string">"300.00"</span></span>,
-            "<span class="attribute">now_number</span>": <span class="value"><span class="string">"4"</span></span>,
-            "<span class="attribute">market_price</span>": <span class="value"><span class="string">"3800.00"</span></span>,
-            "<span class="attribute">delivery</span>": <span class="value"><span class="string">"coupon"</span></span>,
-            "<span class="attribute">deposit</span>": <span class="value"><span class="string">"300.00"</span></span>,
-            "<span class="attribute">mechanism</span>": <span class="value"><span class="string">"上海万安医疗美容医院"</span></span>,
-            "<span class="attribute">flag</span>": <span class="value"><span class="number">1</span>
-        </span>},
-        {
-            "<span class="attribute">id</span>": <span class="value"><span class="string">"1603"</span></span>,
-            "<span class="attribute">title</span>": <span class="value"><span class="string">"[ 上海万安 ]韩式半永久定妆"</span></span>,
-            "<span class="attribute">image</span>": <span class="value"><span class="string">"http://tehui.meilimei.com/static/team/2015/0624/14351340357063.jpg?201510201128"</span></span>,
-            "<span class="attribute">team_price</span>": <span class="value"><span class="string">"100.00"</span></span>,
-            "<span class="attribute">now_number</span>": <span class="value"><span class="string">"8"</span></span>,
-            "<span class="attribute">market_price</span>": <span class="value"><span class="string">"3800.00"</span></span>,
-            "<span class="attribute">delivery</span>": <span class="value"><span class="string">"coupon"</span></span>,
-            "<span class="attribute">deposit</span>": <span class="value"><span class="string">"100.00"</span></span>,
-            "<span class="attribute">mechanism</span>": <span class="value"><span class="string">"上海万安医疗美容医院"</span></span>,
-            "<span class="attribute">flag</span>": <span class="value"><span class="number">1</span>
-        </span>}
-    ]
-</span>}
-</code></pre><p>注：<a href="http://www.jsonschema2pojo.org/" target="_blank" rel="external">http://www.jsonschema2pojo.org/</a>   使用它将方便的帮助你将json转成pojo代码。</p>
-<p>json-bean:</p>
-<pre><code>public class JsonFather extends BaseInfoBen{
-
-    private String <span class="keyword">state</span>;
-
-    private String notice;
-
-    public String getNotice() {
-        return notice;
-    }
-
-    public void <span class="built_in">set</span>Notice(String notice) {
-        this.notice = notice;
-    }
-
-    private List<span class="variable">&lt;NewHuiListInfo&gt;</span> t_rs = new ArrayList<span class="variable">&lt;NewHuiListInfo&gt;</span>();
-
-
-    public String getState() {
-        return <span class="keyword">state</span>;
-    }
-
-    public List<span class="variable">&lt;NewHuiListInfo&gt;</span> getT_rs() {
-        return t_rs;
-    }
-
-    public void <span class="built_in">set</span>T_rs(List<span class="variable">&lt;NewHuiListInfo&gt;</span> t_rs) {
-        this.t_rs = t_rs;
-    }
-
-    public void <span class="built_in">set</span>State(String <span class="keyword">state</span>) {
-        this.<span class="keyword">state</span> = <span class="keyword">state</span>;
-    }
-
-}
-</code></pre><p>4.异步调用</p>
-<pre><code><span class="keyword">private</span> <span class="keyword">void</span> getData() {
-
-    <span class="keyword">final</span> <span class="keyword">HashMap</span>&lt;<span class="keyword">String</span>, <span class="keyword">String</span>&gt; <span class="built_in">map</span> = <span class="keyword">new</span> <span class="keyword">HashMap</span>&lt;&gt;();
-    <span class="built_in">map</span>.put(<span class="string">"jigou_id"</span>, <span class="string">"372759"</span>);
-    <span class="built_in">map</span>.put(<span class="string">"page"</span>, <span class="string">"1"</span>);
-    <span class="built_in">map</span>.put(<span class="string">"signapp"</span>, MD5);
-
-    Call&lt;JsonFather&gt; listCall = MyApplication.<span class="built_in">get</span>(context).getSnakeService().loadData(Collections.unmodifiableMap(<span class="built_in">map</span>));
-
-    listCall.enqueue(<span class="keyword">new</span> Callback&lt;JsonFather&gt;() {
-
-
-
-        <span class="comment">//main thread</span>
-        @Override
-        <span class="keyword">public</span> <span class="keyword">void</span> onResponse(Response&lt;JsonFather&gt; response, Retrofit retrofit) {
-            JsonFather body = response.body();
-            List&lt;NewHuiListInfo&gt; t_rs = body.getT_rs();
-            <span class="keyword">if</span>(<span class="keyword">null</span>==body){
-                Toast.makeText(context, <span class="string">"null"</span>, Toast.LENGTH_LONG).show();
-            }<span class="keyword">else</span>{
-                tvText.setText(t_rs.<span class="built_in">get</span>(<span class="number">0</span>).getImage());
-            }              
-        }
-
-        <span class="comment">//main thread</span>
-        @Override
-        <span class="keyword">public</span> <span class="keyword">void</span> onFailure(Throwable throwable) {
-            Toast.makeText(context, <span class="string">"onFailure:"</span>+throwable.toString(), Toast.LENGTH_LONG).show();
-        }
-    });
-
-}
-</code></pre><h4 id="核心Tips">核心Tips</h4><p>Tips1.如何添加@GET\@POST请求的参数：</p>
-<pre><code>使用<span class="variable">@QueryMap</span>   或者  <span class="variable">@Query</span>
-</code></pre><p>Tips2.如何定义 Endpoints</p>
-<p>@Path用于url地址上可变的参数量</p>
-<pre><code><span class="variable">@GET</span>(<span class="string">"/users/{username}"</span>)
-Call&lt;User&gt; <span class="function">getUser</span>(<span class="variable">@Path</span>(<span class="string">"username"</span>) String username);
-</code></pre><p>@Query用于一个请求参数   @QueryMap用于封装成map的请求参数组</p>
-<pre><code><span class="variable">@GET</span>(<span class="string">"bestof"</span>)
-Observable&lt;Feed&gt; <span class="function">bestof</span>(<span class="variable">@Query</span>(<span class="string">"tags"</span>) String tags,
-                        <span class="variable">@Query</span>(<span class="string">"user"</span>) String user,
-                        <span class="variable">@Query</span>(<span class="string">"flags"</span>) int flags,
-                        <span class="variable">@Query</span>(<span class="string">"older"</span>) Long older,
-                        <span class="variable">@Query</span>(<span class="string">"score"</span>) int benisScore);
-
-<span class="variable">@GET</span>(<span class="string">"/group/{id}/users"</span>)
-Call&lt;List&lt;User&gt;&gt; <span class="function">groupList</span>(<span class="variable">@Path</span>(<span class="string">"id"</span>) int groupId, <span class="variable">@Query</span>(<span class="string">"sort"</span>) String sort);
-
-<span class="variable">@POST</span>(<span class="string">"tehui/getTehuiByJigouId"</span>)
-Call&lt;JsonFather&gt; <span class="function">loadData</span>(<span class="variable">@QueryMap</span> Map&lt;String, String&gt; map);
-</code></pre><p>调用：</p>
-<pre><code><span class="keyword">final</span> <span class="keyword">HashMap</span>&lt;<span class="keyword">String</span>, <span class="keyword">String</span>&gt; <span class="built_in">map</span> = <span class="keyword">new</span> <span class="keyword">HashMap</span>&lt;&gt;();
-<span class="built_in">map</span>.put(<span class="string">"jigou_id"</span>, <span class="string">"372759"</span>);
-<span class="built_in">map</span>.put(<span class="string">"page"</span>, <span class="string">"1"</span>);
-<span class="built_in">map</span>.put(<span class="string">"signapp"</span>, MD5);
-
-Call&lt;JsonFather&gt; listCall = MyApplication.<span class="built_in">get</span>(context).getSnakeService().loadData(Collections.unmodifiableMap(<span class="built_in">map</span>));
-</code></pre><p>@Headers 请求头信息</p>
-<pre><code><span class="variable">@Headers</span>(<span class="string">"Accept: application/json"</span>)
-<span class="variable">@HEAD</span>(<span class="string">"/recurso/cultura-ocio/evento-zaragoza?rf=html&amp;results_only=false&amp;srsname=wgs84&amp;rows=1000&amp;q=programa%3D%3Dfiestas%20del%20pilar"</span>)
-public void <span class="function">getHeaders</span>(Callback&lt;retrofit.client.Header&gt; callback);
-</code></pre><p>@Body 可以声明一个对象作为请求体发送到服务器</p>
-<pre><code> <span class="variable">@POST</span>(<span class="string">"/users/new"</span>)
-Call&lt;User&gt; <span class="function">createUser</span>(<span class="variable">@Body</span> User user);
-</code></pre><p>User对象将被对应的转换器转换为字符串或者字节流提交到服务器。</p>
-<p>@FormUrlEncoded 注解来发送表单数据。使用 @Field注解和参数来指定每个表单项的Key，value为参数的值。</p>
-<pre><code><span class="variable">@FormUrlEncoded</span>
-<span class="variable">@POST</span>(<span class="string">"/user/edit"</span>)
-User <span class="function">updateUser</span>(<span class="variable">@Field</span>(<span class="string">"first_name"</span>) String first, <span class="variable">@Field</span>(<span class="string">"last_name"</span>) String last);
-</code></pre><p>@Multipart 注解来发送multipart数据(文件上传)。使用 @Part 注解定义要发送的每个文件。</p>
-<pre><code><span class="variable">@Multipart</span>
-<span class="variable">@PUT</span>(<span class="string">"/user/photo"</span>)
-User <span class="function">updateUser</span>(<span class="variable">@Part</span>(<span class="string">"photo"</span>) TypedFile photo, <span class="variable">@Part</span>(<span class="string">"description"</span>) TypedString description);
-</code></pre><p>Tips3.Retrofit为什么不需要你关注json格式？</p>
-<pre><code>因为实体bean对象其实就代表了json的格式
-</code></pre><p>Tips4.如何使用retrofit标识同步和异步：</p>
-<p>2.0版本同步：execute()</p>
-<pre><code><span class="operator"><span class="keyword">Call</span>&lt;Repo&gt; <span class="keyword">call</span> = service.loadRepo();</span>
-Repo repo = <span class="operator"><span class="keyword">call</span>.<span class="keyword">execute</span>();</span>
-</code></pre><p>2.0版本异步：enqueue()</p>
-<pre><code><span class="operator"><span class="keyword">Call</span>&lt;Repo&gt; <span class="keyword">call</span> = service.loadRepo();</span>
-<span class="operator"><span class="keyword">call</span>.<span class="keyword">enqueue</span>(<span class="keyword">new</span> Callback&lt;Repo&gt;() {
-    @Override
-    <span class="keyword">public</span> <span class="built_in">void</span> onResponse(Response&lt;Repo&gt; response) {
-        // <span class="keyword">Get</span> <span class="keyword">result</span> Repo <span class="keyword">from</span> response.<span class="keyword">body</span>()
-    }
-
-    @Override
-    <span class="keyword">public</span> <span class="built_in">void</span> onFailure(Throwable <span class="keyword">t</span>) {
-
-    }
-});</span>
-</code></pre><p>Tips5.我该如何只想返回json串，自己去做解析</p>
-<p>见issiue：</p>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/强强强强Image%204.png" alt=""></p>
-<p>代码：</p>
-<pre><code> @POST<span class="params">(<span class="string">"tehui/getTehuiByJigouId"</span>)</span>
-Call&lt;ResponseBody&gt; loadData2<span class="params">(@QueryMap Map&lt;String, String&gt; map)</span>;
-
-Call&lt;ResponseBody&gt; listCall2 = MyApplication.get<span class="params">(context)</span>.getSnakeService<span class="params">()</span>.loadData2<span class="params">(Collections.unmodifiableMap<span class="params">(map)</span>)</span>;
-
-
-listCall2.enqueue<span class="params">(new Callback&lt;ResponseBody&gt;<span class="params">()</span> {
-        @Override
-        public void onResponse<span class="params">(Response&lt;ResponseBody&gt; response, Retrofit retrofit)</span> {
-
-            //<span class="number">1</span>.先判断是否是<span class="number">200</span>或者<span class="number">201</span>请求成功
-            if<span class="params">(response.isSuccess<span class="params">()</span>)</span>{
-                // request successful <span class="params">(status code <span class="number">200</span>, <span class="number">201</span>)</span>
-
-                //<span class="number">2</span>.处理是否为null response.body<span class="params">()</span>会返回null
-                if<span class="params">(null!=response.body<span class="params">()</span>)</span>{
-                    try {
-                        tvText.setText<span class="params">(response.body<span class="params">()</span>.string<span class="params">()</span>)</span>;
-                    } catch <span class="params">(IOException e)</span> {
-                        e.printStackTrace<span class="params">()</span>;
-                        tvText.setText<span class="params">(<span class="string">"IOException"</span>)</span>;
-                    }
-                }
-            }else{
-
-                //request not successful <span class="params">(like <span class="number">400</span>,<span class="number">401</span>,<span class="number">403</span> etc)</span>
-                //Handle errors
-
-                if<span class="params">(null!=response.errorBody<span class="params">()</span>)</span>{
-                    try {
-                        tvText.setText<span class="params">(response.errorBody<span class="params">()</span>.string<span class="params">()</span>)</span>;
-                    } catch <span class="params">(IOException e)</span> {
-                        e.printStackTrace<span class="params">()</span>;
-                        tvText.setText<span class="params">(<span class="string">"IOException"</span>)</span>;
-                    }
-                }
-
-
-            }
-
-
-
-        }
-
-        @Override
-        public void onFailure<span class="params">(Throwable throwable)</span> {
-
-        }
- })</span>;
-</code></pre><p>注意2.0前的版本如果想返回的是json串使用的是：Response (2.0是ResponseBody)。</p>
-<p>Tips6.如何定义URL是最好的书写习惯：</p>
-<p>建议：</p>
-<ul>
-<li>Base URL: 总是以 /结尾</li>
-<li>@Url: 不要以 / 开头</li>
-</ul>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/rrrImage%205.png" alt=""></p>
-<p>最终拼凑成：<a href="http://www.xxxxxx.com/v6/tehui/getTehuiByJigouId" target="_blank" rel="external">http://www.xxxxxx.com/v6/tehui/getTehuiByJigouId</a></p>
-<p>Tips7.如何定义json解析工具：</p>
-<p><img src="http://7xn9yd.com1.z0.glb.clouddn.com/dddddddImage%206.png" alt=""></p>
-<pre><code>Retrofit retrofit = new Retrofit.Builder<span class="params">()</span>
-               .baseUrl<span class="params">(<span class="string">"http://www.xxxxxx.com/v6/"</span>)</span>  
-               <span class="comment">//指定为moshi解析json                 </span>
-               .addConverterFactory<span class="params">(MoshiConverterFactory.create<span class="params">()</span>)</span>                    
-               .build<span class="params">()</span>;
-       return retrofit.create<span class="params">(SnakeService.class)</span>;
-</code></pre><p>Tips8.如何配合使用RxJava：</p>
-<p>Retrofit团队有已经准备好了的CallAdapter module。其中最著名的module可能是为RxJava准备的CallAdapter，它将作为Observable返回。</p>
-<pre><code><span class="keyword">compile</span> <span class="string">'com.squareup.retrofit:adapter-rxjava:2.0.0-beta1'</span>
-<span class="keyword">compile</span> <span class="string">'io.reactivex:rxandroid:1.0.1'</span>
-</code></pre><p>Sync Gradle并在Retrofit Builder链表中如下调用addCallAdapterFactory：</p>
-<pre><code>Retrofit retrofit = new Retrofit.Builder<span class="params">()</span>
-    .baseUrl<span class="params">(<span class="string">"http://api.nuuneoi.com/base/"</span>)</span>
-    .addConverterFactory<span class="params">(GsonConverterFactory.create<span class="params">()</span>)</span>
-    .addCallAdapterFactory<span class="params">(RxJavaCallAdapterFactory.create<span class="params">()</span>)</span>
-    .build<span class="params">()</span>;
-
-
-
-Observable&lt;DessertItemCollectionDao&gt; observable = service.loadDessertListRx<span class="params">()</span>;
-
-observable.observeOn<span class="params">(AndroidSchedulers.mainThread<span class="params">()</span>)</span>
-    .subscribe<span class="params">(new Subscriber&lt;DessertItemCollectionDao&gt;<span class="params">()</span> {
-        @Override
-        public void onCompleted<span class="params">()</span> {
-            Toast.makeText<span class="params">(getApplicationContext<span class="params">()</span>,
-                    <span class="string">"Completed"</span>,
-                    Toast.LENGTH_SHORT)</span>
-                .show<span class="params">()</span>;
-        }
-
-        @Override
-        public void onError<span class="params">(Throwable e)</span> {
-            Toast.makeText<span class="params">(getApplicationContext<span class="params">()</span>,
-                    e.getMessage<span class="params">()</span>,
-                    Toast.LENGTH_SHORT)</span>
-                .show<span class="params">()</span>;
-        }
-
-        @Override
-        public void onNext<span class="params">(DessertItemCollectionDao dessertItemCollectionDao)</span> {
-            Toast.makeText<span class="params">(getApplicationContext<span class="params">()</span>,
-                    dessertItemCollectionDao.getData<span class="params">()</span>.get<span class="params">(<span class="number">0</span>)</span>.getName<span class="params">()</span>,
-                    Toast.LENGTH_SHORT)</span>
-                .show<span class="params">()</span>;
-        }
-    })</span>;
-</code></pre><p>Tips9.onResponse()方法如何健壮性的处理</p>
-<p>在2.0版本，首先不管 response 是否能被解析。onResponse()总是会被调用。但是在结果不能被解析的情况下，response.body()会返回null。</p>
-<p>其次：onResponse()和onFailure()都是在主线程运行的。</p>
-<pre><code>a.先判断HTTP状态码（HTTP Status Code） 是否为<span class="number">200</span>/<span class="number">201</span>
-b.再判断<span class="keyword">body</span>是否为<span class="literal">null</span>
-c.数组的size是否为<span class="number">0</span>,如果为<span class="number">0</span>要注意避免<span class="literal">null</span>指针异常或更新为无数据界面.
-
-
-listCall.enqueue(<span class="keyword">new</span> Callback&lt;ResponseBody&gt;() {
-        <span class="keyword">@Override</span>
-        <span class="keyword">public</span> <span class="keyword">void</span> onResponse(Response&lt;ResponseBody&gt; response, Retrofit retrofit) {
-
-            <span class="comment">//1.先判断是否是200或者201请求成功</span>
-            <span class="keyword">if</span>(response.isSuccess()){
-                <span class="comment">// request successful (status code 200, 201)</span>
-
-                <span class="comment">//2.处理是否为null response.body()会返回null</span>
-                <span class="keyword">if</span>(<span class="literal">null</span>!=response.<span class="keyword">body</span>()){
-                    <span class="keyword">try</span> {
-                        <span class="comment">//3.size大小</span>
-                        <span class="keyword">if</span>(response.<span class="keyword">body</span>().getArray().size &gt; <span class="number">0</span>){
-                             tvText.setText(response.<span class="keyword">body</span>().<span class="built_in">string</span>());
-                        }
-                    } <span class="keyword">catch</span> (IOException e) {
-                        e.printStackTrace();
-                        tvText.setText(<span class="string">"IOException"</span>);
-                    }
-                }
-            }<span class="keyword">else</span>{
-
-                <span class="comment">//request not successful (like 400,401,403 etc)--Handle errors</span>
-
-                <span class="keyword">if</span>(<span class="literal">null</span>!=response.errorBody()){
-                    <span class="keyword">try</span> {
-                        tvText.setText(response.errorBody().<span class="built_in">string</span>());
-                    } <span class="keyword">catch</span> (IOException e) {
-                        e.printStackTrace();
-                        tvText.setText(<span class="string">"IOException"</span>);
-                    }
-                }
-
-
-            }
-
-
-
-        }
-
-        <span class="keyword">@Override</span>
-        <span class="keyword">public</span> <span class="keyword">void</span> onFailure(Throwable throwable) {
-
-        }
-    });
-</code></pre><p>Tips10.onPreExecute()和onPostExecute的加载loading怎么展示比较好：</p>
-<p>将开始加载放在listCall.enqueue之前调用(伪代码):</p>
-<pre><code>onStartLoading<span class="params">()</span>
-listCall.enqueue<span class="params">(Callback)</span>;
-</code></pre><p>将关闭加载放在的回调函数onResponse和onFailure的最开始处理(伪代码)：</p>
-<pre><code>onStartLoading<span class="literal">()</span>;
-listCall.enqueue(<span class="keyword">new</span> <span class="type">Callback</span><span class="literal">()</span>{
-    onResponse<span class="literal">()</span>{
-        onStopLoading<span class="literal">()</span>;
-    }
-    onFailure<span class="literal">()</span>{
-        onStopLoading<span class="literal">()</span>;
-    }
-});
-</code></pre><p>Tips11.为什么我网络成功，但返回的array数组里什么都没有,是:[]，moshi究竟需要怎样的格式才可以完成自我json转化为pojo对象：</p>
-<pre><code>{
-    "<span class="attribute">state</span>": <span class="value"><span class="string">"000"</span></span>,
-    "<span class="attribute">t_rs</span>": <span class="value">[
-        {
-            "<span class="attribute">id</span>": <span class="value"><span class="string">"1422"</span></span>,
-            "<span class="attribute">title</span>": <span class="value"><span class="string">"[ 上海万安 ]360艺术美鼻"</span></span>,
-            "<span class="attribute">image</span>": <span class="value"><span class="string">"http://tehui.meilimei.com/static/team/2015/0612/14340889238311.jpg?201510200800"</span></span>,
-            "<span class="attribute">team_price</span>": <span class="value"><span class="string">"500.00"</span></span>,
-            "<span class="attribute">now_number</span>": <span class="value"><span class="string">"1"</span></span>,
-            "<span class="attribute">market_price</span>": <span class="value"><span class="string">"22800.00"</span></span>,
-            "<span class="attribute">delivery</span>": <span class="value"><span class="string">"coupon"</span></span>,
-            "<span class="attribute">deposit</span>": <span class="value"><span class="string">"500.00"</span></span>,
-            "<span class="attribute">mechanism</span>": <span class="value"><span class="string">"上海万安医疗美容医院"</span></span>,
-            "<span class="attribute">flag</span>": <span class="value"><span class="number">1</span>
-        </span>},
-        {
-            "<span class="attribute">id</span>": <span class="value"><span class="string">"1602"</span></span>,
-            "<span class="attribute">title</span>": <span class="value"><span class="string">"[ 上海万安 ]瑞兰玻尿酸注射 不开刀就能美美哒的秘密"</span></span>,
-            "<span class="attribute">image</span>": <span class="value"><span class="string">"http://tehui.meilimei.com/static/team/2015/0624/14351340349342.jpg?201510200800"</span></span>,
-            "<span class="attribute">team_price</span>": <span class="value"><span class="string">"300.00"</span></span>,
-            "<span class="attribute">now_number</span>": <span class="value"><span class="string">"4"</span></span>,
-            "<span class="attribute">market_price</span>": <span class="value"><span class="string">"3800.00"</span></span>,
-            "<span class="attribute">delivery</span>": <span class="value"><span class="string">"coupon"</span></span>,
-            "<span class="attribute">deposit</span>": <span class="value"><span class="string">"300.00"</span></span>,
-            "<span class="attribute">mechanism</span>": <span class="value"><span class="string">"上海万安医疗美容医院"</span></span>,
-            "<span class="attribute">flag</span>": <span class="value"><span class="number">1</span>
-        </span>}
-    ]
-</span>}
-</code></pre><p>看这里的json串，数组的key为t_rs，所以</p>
-<pre><code>public <span class="class"><span class="keyword">class</span> <span class="title">JsonFather</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">BaseInfoBen</span> {</span>
-
-    <span class="keyword">private</span> <span class="type">String</span> state;
-
-    <span class="keyword">private</span> <span class="type">String</span> notice;
-
-    <span class="comment">//这里的这个单词必需和json串对应，否则无法解析成功</span>
-    <span class="keyword">private</span> <span class="type">List</span>&lt;<span class="type">NewHuiListInfo</span>&gt; t_rs = <span class="keyword">new</span> <span class="type">ArrayList</span>&lt;&gt;();
-
-}
-</code></pre><p>如果一旦你自定义为比如info：</p>
-<pre><code><span class="keyword">private</span> <span class="built_in">List</span>&lt;NewHuiListInfo&gt; info = <span class="literal">new</span> ArrayList&lt;&gt;();
-</code></pre><p>那你拿回来的info里面就是空数组，可见暂时和gson不同的moshi是根据变量名单词匹配的。gson的解析是根据注解上的名称value来匹配json串的，moshi因为是新框架，暂时不支持注解对应json名，所以它要求你的变量名和json串相同！</p>
-<p>不知J神的moshi解析框架以后是否支持注解…待观察…</p>
-<h3 id="五-当SquareFoundation遇到MVP和hibernate,将擦出怎样的火花">五.当SquareFoundation遇到MVP和hibernate,将擦出怎样的火花</h3><p>该部分我会封装一套基于’Ok’ Libraries ，结合MVP分层结构，同时使用hibernate思想操作封装对象的框架。届时请关注我博客的更新。</p>
-<h3 id="六-结尾语">六.结尾语</h3><p>&emsp;&emsp;1.大神就是大神，一整个核心架构在台座上昭然若现，极度优良的API和接口调用，极富效率的底层架构，都将让我们一窥Square公司的核心开发技巧和能量。这是中国国内狭隘自私不懂开源的BAT这样的公司不能比拟的;</p>
-<p>&emsp;&emsp;2.Square即将上市，最新的消息，估计为60亿美金。10月15日我便在微信朋友圈发布了这条消息：</p>
-<p>News : <a href="http://3g.163.com/ntes/special/0034073A/wechat_article.html?docid=B5UQKU57000915BF&amp;spst=0&amp;spss=newsapp&amp;spsf=wx&amp;spsw=1" title="Square IPO欲融资2.75亿美元" target="_blank" rel="external">Square IPO欲融资2.75亿美元</a></p>
-<p>&emsp;&emsp;并留下了下面的一段话：</p>
-<blockquote>
-<p>分享这条消息是因为这家公司是Android开源界的大神，自从这家公司09年成立，就一直专职在社区为Android提供新的技术和架构，而如今很多技术都成为Android开发前沿。这家公司的创始人杰克多西也是Twitter的创始人，但由于Twitter的权利内斗而被自己公司fired。如今糟糕营收和缓慢用户增长的Twitter不得不重新请回自家创始人。多西8岁开始在自己的第一台IBM电脑上学习编程，是个不折不扣的屌丝程序猿，但好在国外优良的创业传统，给予很多有想法的程序猿改变世界以及自己，国外牛逼的互联网公司的创始人都是程序猿。反观国内程序猿如屌丝般的我们，天天奔波在2点1线，每个月为万把块钱的薪酬奋斗，一套房，一辆车，在国内剥削经济和加班风潮下，早已磨灭斗志和创业意识。</p>
-</blockquote>
-<p>&emsp;&emsp;后来又翻到了一篇2013年年底的新闻：</p>
-<p>News : <a href="http://3g.163.com/ntes/special/0034073A/wechat_article.html?docid=9GKN0NE600964KJ3&amp;spst=0&amp;spss=newsapp&amp;spsf=wx&amp;spsw=1" title="太大方了，杰克·多西返还 10% Square 股票" target="_blank" rel="external">太大方了，杰克·多西返还 10% Square 股票</a></p>
-<p>&emsp;&emsp;不知道在中国有多少公司能有财富共享的思想，真的很难……你能富有，只是因为你有一帮让你富有的员工。你不写一行代码，你不画一张设计图，你不开发一个客户，你不为一次决策失误买单，你凭什么不珍惜员工。马云说要做一家102年的企业，他指的是已经成立了16年的阿里巴巴…中国国内的互联网环境一直很糟糕，过度的垄断、对技术的敷衍和钱绝不都没有效益领域的偏见思想，导致中国只是一个大局域网的环境，与国外的技术良性发展非常不同。现如今，互联网资本寒冬将至，希望可以戳破这一波非理性型泡沫，留下可以发展的良心企业。</p>
-</span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -4173,7 +3946,7 @@ listCall.enqueue(<span class="keyword">new</span> <span class="type">Callback</s
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-count">26</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

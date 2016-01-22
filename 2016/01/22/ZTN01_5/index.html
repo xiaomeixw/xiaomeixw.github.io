@@ -1,0 +1,924 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+    
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.4"/>
+
+
+    <meta name="description" content="重新发现、定义并创造这个世界..." />
+
+
+
+  <meta name="keywords" content="Hexo,next" />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
+
+
+<meta name="description" content="H5与APP交互错疑：
+一般APP与H5的交互分为2个主要的交互组成:
+
+1.APP和H5互相调用并传递数据;
+
+比较实用的场景为:点击广告Banner进入H5界面商品列表，然后点击里面的一个商品，打开的是APP的产品详情界面。这个需求比较知名的比如是京东APP端的“掌上秒杀”：该界面为H5，点击后进入的商品详情为原生的详情界面。
+
+2.浏览器H5调出APP。
+
+比较实用的场景为:浏览器打开H5界">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【杂谈1月】H5与APP交互错疑">
+<meta property="og:url" content="http://yoursite.com/2016/01/22/ZTN01_5/index.html">
+<meta property="og:site_name" content="sabria">
+<meta property="og:description" content="H5与APP交互错疑：
+一般APP与H5的交互分为2个主要的交互组成:
+
+1.APP和H5互相调用并传递数据;
+
+比较实用的场景为:点击广告Banner进入H5界面商品列表，然后点击里面的一个商品，打开的是APP的产品详情界面。这个需求比较知名的比如是京东APP端的“掌上秒杀”：该界面为H5，点击后进入的商品详情为原生的详情界面。
+
+2.浏览器H5调出APP。
+
+比较实用的场景为:浏览器打开H5界">
+<meta property="og:image" content="http://i.imgur.com/PHy2eLx.png">
+<meta property="og:image" content="http://i.imgur.com/8NM6yKq.png">
+<meta property="og:image" content="http://i.imgur.com/hEWp3tU.png">
+<meta property="og:image" content="http://i.imgur.com/MErAb1U.png">
+<meta property="og:updated_time" content="2016-01-22T08:35:50.217Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【杂谈1月】H5与APP交互错疑">
+<meta name="twitter:description" content="H5与APP交互错疑：
+一般APP与H5的交互分为2个主要的交互组成:
+
+1.APP和H5互相调用并传递数据;
+
+比较实用的场景为:点击广告Banner进入H5界面商品列表，然后点击里面的一个商品，打开的是APP的产品详情界面。这个需求比较知名的比如是京东APP端的“掌上秒杀”：该界面为H5，点击后进入的商品详情为原生的详情界面。
+
+2.浏览器H5调出APP。
+
+比较实用的场景为:浏览器打开H5界">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'hide'
+  };
+</script>
+
+    <title> 【杂谈1月】H5与APP交互错疑 // sabria </title>
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+
+
+
+<div class="container one-column page-post-detail">
+    <div class="headband"></div>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">sabria</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+        </div>
+    </header>
+
+    <main id="main" class="main">
+        <div class="main-inner">
+            <div id="content" class="content">
+                
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              【杂谈1月】H5与APP交互错疑
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2016-01-22T16:24:12+08:00" content="2016-01-22">
+            2016-01-22
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>H5与APP交互错疑：</p>
+<p>一般APP与H5的交互分为2个主要的交互组成:</p>
+<ul>
+<li>1.APP和H5互相调用并传递数据;</li>
+</ul>
+<p>比较实用的场景为:点击广告Banner进入H5界面商品列表，然后点击里面的一个商品，打开的是APP的产品详情界面。这个需求比较知名的比如是京东APP端的“掌上秒杀”：该界面为H5，点击后进入的商品详情为原生的详情界面。</p>
+<ul>
+<li>2.浏览器H5调出APP。</li>
+</ul>
+<p>比较实用的场景为:浏览器打开H5界面，该界面在3-5秒后会自动打开你的APP相关的界面。这个需求比较知名的比如：百度贴吧，浏览器中打开的是某一个贴吧的页面，5秒后手机里面的百度贴吧APP的相应原生界面就会被唤起。</p>
+<h2 id="一-H5与APP交互">一.H5与APP交互</h2><p>产品层面需求：</p>
+<p>1.进入APP的H5界面商品列表,点击H5的列表的某一个商品后,进入App的特惠详情界面</p>
+<p>2.H5同事要求我如果跳转成功后,必需告知它跳转成功.</p>
+<hr>
+<p>先贴出H5的最后测试成功的代码:</p>
+<pre><code><span class="doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;<span class="title">html</span> <span class="attribute">lang</span>=<span class="value">"en"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">head</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">charset</span>=<span class="value">"UTF-8"</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">head</span>&gt;</span> 
+<span class="tag">&lt;<span class="title">body</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">center</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">br</span> /&gt;</span><span class="tag">&lt;<span class="title">br</span> /&gt;</span><span class="tag">&lt;<span class="title">br</span> /&gt;</span><span class="tag">&lt;<span class="title">br</span> /&gt;</span><span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"aa"</span>&gt;</span><span class="tag">&lt;<span class="title">button</span> <span class="attribute">onclick</span>=<span class="value">"dian()"</span>&gt;</span>点我点我点我点我<span class="tag">&lt;/<span class="title">button</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span><span class="tag">&lt;<span class="title">br</span> /&gt;</span><span class="tag">&lt;<span class="title">br</span> /&gt;</span><span class="tag">&lt;<span class="title">br</span> /&gt;</span><span class="tag">&lt;<span class="title">br</span> /&gt;</span><span class="tag">&lt;<span class="title">br</span> /&gt;</span><span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"aa"</span>&gt;</span><span class="tag">&lt;<span class="title">button</span> <span class="attribute">onclick</span>=<span class="value">"pay()"</span>&gt;</span>下单<span class="tag">&lt;/<span class="title">button</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">center</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"webview_ios2.php"</span>&gt;</span>1111111<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"result"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
+  <span class="comment">//判断访问终端</span>
+  <span class="keyword">var</span> browser={
+      versions:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>{
+          <span class="keyword">var</span> u = navigator.userAgent, app = navigator.appVersion;
+          <span class="keyword">return</span> {
+              trident: u.indexOf(<span class="string">'Trident'</span>) &gt; -<span class="number">1</span>, <span class="comment">//IE内核</span>
+              presto: u.indexOf(<span class="string">'Presto'</span>) &gt; -<span class="number">1</span>, <span class="comment">//opera内核</span>
+              webKit: u.indexOf(<span class="string">'AppleWebKit'</span>) &gt; -<span class="number">1</span>, <span class="comment">//苹果、谷歌内核</span>
+              gecko: u.indexOf(<span class="string">'Gecko'</span>) &gt; -<span class="number">1</span> &amp;&amp; u.indexOf(<span class="string">'KHTML'</span>) == -<span class="number">1</span>,<span class="comment">//火狐内核</span>
+              mobile: !!u.match(<span class="regexp">/AppleWebKit.*Mobile.*/</span>), <span class="comment">//是否为移动终端</span>
+              ios: !!u.match(<span class="regexp">/\(i[^;]+;( U;)? CPU.+Mac OS X/</span>), <span class="comment">//ios终端</span>
+              android: u.indexOf(<span class="string">'Android'</span>) &gt; -<span class="number">1</span> || u.indexOf(<span class="string">'Linux'</span>) &gt; -<span class="number">1</span>, <span class="comment">//android终端或者uc浏览器</span>
+              iPhone: u.indexOf(<span class="string">'iPhone'</span>) &gt; -<span class="number">1</span> , <span class="comment">//是否为iPhone或者QQHD浏览器</span>
+              iPad: u.indexOf(<span class="string">'iPad'</span>) &gt; -<span class="number">1</span>, <span class="comment">//是否iPad</span>
+              webApp: u.indexOf(<span class="string">'Safari'</span>) == -<span class="number">1</span>, <span class="comment">//是否web应该程序，没有头部与底部</span>
+              weixin: u.indexOf(<span class="string">'MicroMessenger'</span>) &gt; -<span class="number">1</span>, <span class="comment">//是否微信 （2015-01-22新增）</span>
+              qq: u.match(<span class="regexp">/\sQQ/i</span>) == <span class="string">" qq"</span> <span class="comment">//是否QQ</span>
+          };
+      }(),
+      language:(navigator.browserLanguage || navigator.language).toLowerCase()
+  }
+
+  <span class="function"><span class="keyword">function</span> <span class="title">dian</span> (<span class="params"></span>) </span>{
+    <span class="keyword">if</span>(browser.versions.android){
+      <span class="keyword">var</span> data = <span class="string">'{"hui":"710"}'</span>;
+     <span class="comment">//js调用android本地方法</span>
+      <span class="keyword">var</span> result = <span class="built_in">window</span>.AndroidTehuiInfo.hui(data);
+      <span class="comment">//alert(JSON.stringify(result));</span>
+    }
+  }
+
+  <span class="comment">//android调用js的方法</span>
+  <span class="function"><span class="keyword">function</span> <span class="title">interactive</span>(<span class="params">a</span>)</span>{
+      alert(a)  
+        <span class="built_in">document</span>.getElementById(<span class="string">"result"</span>).innerHTML=a;  
+   }  
+  </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+</code></pre><p>解决问题一:点击H5商品列表,进入APP原生商品详情</p>
+<p>这里涉及到的就是:JS调用android原生方法</p>
+<p>我和同事约定:通过传递json串的方案来处理数据:所以表示js调用android原生方法，传递json串数据给我.</p>
+<p>首先H5同事定义一个调用android原生的方法:</p>
+<pre><code>function dian () {
+   <span class="keyword">if</span>(browser.versions.android){
+     <span class="keyword">var</span> data = '{<span class="string">"hui"</span>:<span class="string">"710"</span>}';
+    //js调用本地方法
+     <span class="keyword">var</span> <span class="literal">result</span> = window.<span class="type">AndroidTehuiInfo</span>.hui(data);
+     //alert(<span class="type">JSON</span>.stringify(<span class="literal">result</span>));
+   }
+ }
+</code></pre><p>这点代码的业务逻辑就是:JS调用android原始的类AndroidTehuiInfo它下面的hui()方法，该原生方法的参数是json串(也就是string字符串).这里的json串就告诉我点击H5列表的这个商品的id值，要我展示具体哪一个商品的原生APP详情界面.</p>
+<p>那么对于这段话,android端要如何配合:</p>
+<p>首先:<br>1.要让webview支持js</p>
+<pre><code>mWebView.getSettings<span class="params">()</span>.setJavaScriptEnabled<span class="params">(<span class="literal">true</span>)</span>;  
+</code></pre><p>2.和js中指定的类和方法对应上:</p>
+<pre><code><span class="comment">//Object是JS调用本地的类的对象，name是对象的别名，在JS可以用这个别名+点语法+方法名就可以调用本地的方法。</span>
+web.addJavascriptInterface(<span class="keyword">object</span>,<span class="string">"name"</span>);
+</code></pre><p>那么这个js方法对应这个就是:</p>
+<pre><code><span class="tag">web</span><span class="class">.addJavascriptInterface</span>(<span class="tag">activity</span><span class="class">.androidTehuiInfo</span>,"<span class="tag">AndroidTehuiInfo</span>");
+</code></pre><p>3.然后我们android端要书写一个方法hui(data)对应js，记得方法上标注: @JavascriptInterface</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AndroidTehuiInfo</span> </span>{
+
+    <span class="keyword">private</span> Activity activity;
+
+    <span class="keyword">private</span> WebView web;
+
+    <span class="function"><span class="keyword">public</span> <span class="title">AndroidTehuiInfo</span><span class="params">(Activity activity,WebView web)</span> </span>{
+        <span class="keyword">this</span>.web=web;
+        <span class="keyword">this</span>.activity = activity;
+    }
+
+
+    <span class="annotation">@JavascriptInterface</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">hui</span><span class="params">(String data)</span> </span>{
+        <span class="keyword">try</span> {
+            <span class="comment">//这里就是解析js传给我的json串，我解析它，然后知道了特惠商品的id值是多少?</span>
+            JSONObject json = <span class="keyword">new</span> JSONObject(data);
+            String id = json.getString(<span class="string">"hui"</span>);
+            Intent intent = <span class="keyword">new</span> Intent(activity, HuiProdcutDetailActivity.class);
+            intent.putExtra(<span class="string">"hui"</span>, id);
+            activity.startActivity(intent);
+        } <span class="keyword">catch</span> (Exception e) {
+            e.printStackTrace();
+            sendFailInfoToJs();
+        }
+    }
+
+}
+</code></pre><p>自此:JS调用Android端原生方法就完成.</p>
+<p>解决问题二: 跳转成功后告知H5同事,我android跳转成功了.</p>
+<p>这里实际上涉及到的就是:Android调用JS的方法。</p>
+<p>首先H5同事书写方法:</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">interactive</span><span class="params">(a)</span>{</span>
+    alert<span class="params">(a)</span>  
+      document.getElementById<span class="params">(<span class="string">"result"</span>)</span>.innerHTML=a;  
+ }  
+</code></pre><p>这里的方法命名interactive(参数)是我们彼此约定的,因为待会我android端必需要用到,否则怎么知道究竟调用哪个方法.</p>
+<p>android端要如何配合:</p>
+<p>1.在跳转成功的地方返回成功的json串给JS:</p>
+<p>json：{“result”:”true”}</p>
+<pre><code><span class="keyword">private</span> <span class="keyword">void</span> sendOkInfoToJs() {
+    <span class="keyword">final</span> <span class="keyword">JSONObject</span> json = <span class="keyword">new</span> <span class="keyword">JSONObject</span>();
+    <span class="keyword">try</span> {
+        json.put(<span class="string">"result"</span>, <span class="string">"true"</span>);            
+        web.loadUrl(<span class="string">"javascript:interactive('"</span> + json.toString() + <span class="string">"')"</span>);         
+    } <span class="keyword">catch</span> (JSONException e) {
+        e.printStackTrace();
+    }
+
+}
+</code></pre><p>2.loadUrl加载本地js的方法interactive(var),传递过去的参数就是我的json串.</p>
+<pre><code><span class="tag">web</span><span class="class">.loadUrl</span>("<span class="rule"><span class="attribute">javascript</span>:<span class="value"><span class="function">interactive</span>(<span class="string">'" + json.toString() + "'</span>)<span class="string">");     </span></span></span>
+</code></pre><p>然后收到json串的H5同事就去做他自己的业务逻辑.</p>
+<p>但是在有些机型上你会发觉Logcat报错:</p>
+<blockquote>
+<p>java.lang.Throwable: A WebView method was called on thread ‘JavaBridge’. All WebView methods must be called on the same thread. (Expected Looper Looper (main, tid 1) {42da1250} called on Looper (JavaBridge, tid 51131) {42e13150}, FYI main Looper is Looper (main, tid 1) {42da1250})</p>
+</blockquote>
+<p>原因:在js调用后的Java回调线程并不是同一线程。</p>
+<p>解决方案:将</p>
+<pre><code><span class="tag">web</span><span class="class">.loadUrl</span>("<span class="rule"><span class="attribute">javascript</span>:<span class="value"><span class="function">interactive</span>(<span class="string">'" + json.toString() + "'</span>)<span class="string">"); </span></span></span>
+</code></pre><p>post到同一个线程中去执行:</p>
+<pre><code>web.post(<span class="keyword">new</span> Runnable() {
+            <span class="annotation">@Override</span>
+            <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
+                web.loadUrl(<span class="string">"javascript:interactive('"</span> + json.toString() + <span class="string">"')"</span>);
+            }
+        });
+</code></pre><p>所以AndroidTehuiInfo类完整代码如下：</p>
+<pre><code><span class="keyword">package</span> com.work.beauty.js;
+
+<span class="keyword">import</span> android.app.Activity;
+<span class="keyword">import</span> android.content.Intent;
+<span class="keyword">import</span> android.webkit.JavascriptInterface;
+<span class="keyword">import</span> android.webkit.WebView;
+
+<span class="keyword">import</span> com.work.beauty.HuiProdcutDetailActivity;
+
+<span class="keyword">import</span> org.json.JSONException;
+<span class="keyword">import</span> org.json.JSONObject;
+
+<span class="comment">/**
+ * Created by xiongwei,An Android project Engineer.
+ * Date:2015-12-22  12:04
+ * Base on Meilimei.com (PHP Service)
+ * Describe:
+ * Version:1.0
+ * Open source
+ */</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AndroidTehuiInfo</span> </span>{
+
+    <span class="keyword">private</span> Activity activity;
+
+    <span class="keyword">private</span> WebView web;
+
+    <span class="function"><span class="keyword">public</span> <span class="title">AndroidTehuiInfo</span><span class="params">(Activity activity, WebView web)</span> </span>{
+        <span class="keyword">this</span>.web = web;
+        <span class="keyword">this</span>.activity = activity;
+    }
+
+
+    <span class="annotation">@JavascriptInterface</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">hui</span><span class="params">(String data)</span> </span>{
+        <span class="keyword">try</span> {
+            JSONObject json = <span class="keyword">new</span> JSONObject(data);
+            String id = json.getString(<span class="string">"hui"</span>);
+            Intent intent = <span class="keyword">new</span> Intent(activity, HuiProdcutDetailActivity.class);
+            intent.putExtra(<span class="string">"hui"</span>, id);
+            activity.startActivity(intent);
+            <span class="comment">//Android告知JS:告知浏览器现在正常打开了</span>
+            sendOkInfoToJs();
+        } <span class="keyword">catch</span> (Exception e) {
+            e.printStackTrace();
+            sendFailInfoToJs();
+        }
+    }
+
+
+    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">sendOkInfoToJs</span><span class="params">()</span> </span>{
+        <span class="keyword">final</span> JSONObject json = <span class="keyword">new</span> JSONObject();
+        <span class="keyword">try</span> {
+            json.put(<span class="string">"result"</span>, <span class="string">"true"</span>);
+            web.post(<span class="keyword">new</span> Runnable() {
+                <span class="annotation">@Override</span>
+                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
+                    web.loadUrl(<span class="string">"javascript:interactive('"</span> + json.toString() + <span class="string">"')"</span>);
+                }
+            });
+
+        } <span class="keyword">catch</span> (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">sendFailInfoToJs</span><span class="params">()</span> </span>{
+        JSONObject json = <span class="keyword">new</span> JSONObject();
+        <span class="keyword">try</span> {
+            json.put(<span class="string">"result"</span>, <span class="string">"false"</span>);
+            web.post(<span class="keyword">new</span> Runnable() {
+                <span class="annotation">@Override</span>
+                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
+                    <span class="comment">//java.lang.Throwable: e.A WebView method was called on thread 'JavaBridge'. All WebView methods must be called on the same thread. (Expected Looper Looper (main, tid 1) {42da1250} called on Looper (JavaBridge, tid 51131) {42e13150}, FYI main Looper is Looper (main, tid 1) {42da1250})</span>
+                    web.loadUrl(<span class="string">"javascript:interactive('"</span> + json.toString() + <span class="string">"')"</span>);
+                }
+            });
+
+        } <span class="keyword">catch</span> (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+}
+</code></pre><h2 id="二-一个诡异的显示问题">二.一个诡异的显示问题</h2><p>问题:在APP上展示H5的双12活动后，点击其中的一个项目的“拼一单“后,进入的H5详情界面无法正常显示内容，为一片空白。</p>
+<p>经过APP端跟踪代码发现Logcat显示信息如下:</p>
+<pre><code><span class="list">[<span class="keyword">INFO:CONSOLE</span><span class="list">(<span class="keyword">635</span>)</span>] <span class="string">"Uncaught TypeError: Cannot read property 'dianji' of null"</span>, source: http://m.meilimei.com/zt/20151212/ <span class="list">(<span class="keyword">635</span>)</span></span>
+</code></pre><p>定位到项目的H5界面为：</p>
+<p><img src="http://i.imgur.com/PHy2eLx.png" alt=""></p>
+<p>通过字面意思解读为”dianji”是null,没有被赋值.</p>
+<p>而后继续通过关键词”chromium”在Logcat中发现：</p>
+<pre><code><span class="number">12</span>-<span class="number">03</span> <span class="number">10</span>:<span class="number">59</span>:<span class="number">03.031</span>  <span class="number">29477</span>-<span class="number">29477</span>/com.work.beauty Iromium﹕ [INFO:CONSOLE(<span class="number">635</span>)] <span class="string">"Uncaught TypeError: Cannot read property 'dianji' of null"</span>, source: http:<span class="comment">//m.meilimei.com/zt/20151212/ (635)</span>
+<span class="number">12</span>-<span class="number">03</span> <span class="number">10</span>:<span class="number">59</span>:<span class="number">28.671</span>  <span class="number">29477</span>-<span class="number">29477</span>/com.work.beauty Iromium﹕ [INFO:CONSOLE(<span class="number">635</span>)] <span class="string">"Uncaught TypeError: Cannot read property 'dianji' of null"</span>, source: http:<span class="comment">//m.meilimei.com/zt/20151212/ (635)</span>
+<span class="number">12</span>-<span class="number">03</span> <span class="number">10</span>:<span class="number">59</span>:<span class="number">30.561</span>  <span class="number">29477</span>-<span class="number">29477</span>/com.work.beauty Iromium﹕ [INFO:CONSOLE(<span class="number">10</span>)] <span class="string">"The key "</span>minimal-ui<span class="string">" is not recognized and ignored."</span>, source: http:<span class="comment">//m.meilimei.com/wx/#!/store/tehui/4425 (10)</span>
+<span class="number">12</span>-<span class="number">03</span> <span class="number">10</span>:<span class="number">59</span>:<span class="number">31.101</span>  <span class="number">29477</span>-<span class="number">29477</span>/com.work.beauty Iromium﹕ [INFO:CONSOLE(<span class="number">90</span>)] <span class="string">"Uncaught TypeError: Cannot call method 'getItem' of null"</span>, source: http:<span class="comment">//m.meilimei.com/wx/skin/js/app.js (90)</span>
+</code></pre><p>追踪：<a href="http://m.meilimei.com/wx/skin/js/app.js的getItem()方法,也是null,导致APP内部的webview无法获取值" target="_blank" rel="external">http://m.meilimei.com/wx/skin/js/app.js的getItem()方法,也是null,导致APP内部的webview无法获取值</a>.</p>
+<p><img src="http://i.imgur.com/8NM6yKq.png" alt=""></p>
+<p>发现问题后向H5同事反馈，同事表示该字段”dianji”和getItem()为读取的Local storage中的,初始化赋值是在其中.</p>
+<p>经过Chrome浏览器调试发现：</p>
+<p>view-source:<a href="http://m.meilimei.com/zt/20151212/" target="_blank" rel="external">http://m.meilimei.com/zt/20151212/</a>  F12后发现Local storage</p>
+<p><img src="http://i.imgur.com/hEWp3tU.png" alt=""></p>
+<p>然后继续跟踪 <a href="http://m.meilimei.com/wx/skin/js/app.js" target="_blank" rel="external">http://m.meilimei.com/wx/skin/js/app.js</a>  发觉所有的初始化Local storage都在其中赋值:</p>
+<p><img src="http://i.imgur.com/MErAb1U.png" alt=""></p>
+<p>问题已经发觉，如何解决：<br>解决方案非常简单，问题既然是在于app内部的Webview无法读取Local Storage,那么读取该值就可以了：</p>
+<pre><code>....
+getLocalStroge<span class="params">(activity,web)</span>;
+web.loadUrl<span class="params">(url)</span>
+...
+
+private static void getLocalStroge<span class="params">(Activity activity, WebView mWebView)</span>{
+    mWebView.getSettings<span class="params">()</span>.setDomStorageEnabled<span class="params">(<span class="literal">true</span>)</span>;
+    mWebView.getSettings<span class="params">()</span>.setAppCacheMaxSize<span class="params">(<span class="number">1024</span>*<span class="number">1024</span>*<span class="number">8</span>)</span>;
+    String appCachePath = activity.getApplicationContext<span class="params">()</span>.getCacheDir<span class="params">()</span>.getAbsolutePath<span class="params">()</span>;
+    mWebView.getSettings<span class="params">()</span>.setAppCachePath<span class="params">(appCachePath)</span>;
+    mWebView.getSettings<span class="params">()</span>.setAllowFileAccess<span class="params">(<span class="literal">true</span>)</span>;
+    mWebView.getSettings<span class="params">()</span>.setAppCacheEnabled<span class="params">(<span class="literal">true</span>)</span>;
+}
+</code></pre><h2 id="三-浏览器打开APP">三.浏览器打开APP</h2><p>需求:在android浏览器上，打开含有美丽神器的H5页面，就要跳转到相应的APP原生界面。</p>
+<p>解决方案:</p>
+<p>android端需要与H5端共同约定一个intent-filter的scheme</p>
+<pre><code><span class="tag">&lt;<span class="title">activity</span>
+        <span class="attribute">android:name</span>=<span class="value">"com.work.beauty.NewShowLRActivity"</span>
+        <span class="attribute">android:label</span>=<span class="value">"@string/app_name"</span>
+        <span class="attribute">android:theme</span>=<span class="value">"@style/AppSplashTran"</span>
+        <span class="attribute">android:exported</span>=<span class="value">"true"</span>
+        <span class="attribute">android:alwaysRetainTaskState</span>=<span class="value">"true"</span>
+        <span class="attribute">android:screenOrientation</span>=<span class="value">"portrait"</span> &gt;</span>
+        <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.action.MAIN"</span> /&gt;</span>
+
+            <span class="tag">&lt;<span class="title">category</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.category.LAUNCHER"</span> /&gt;</span>
+        <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span>
+
+        <span class="comment">&lt;!-- for web call --&gt;</span>
+        <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">data</span> <span class="attribute">android:scheme</span>=<span class="value">"meilishenqi"</span>/&gt;</span>
+
+            <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.action.VIEW"</span> /&gt;</span>
+            <span class="tag">&lt;<span class="title">category</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.category.DEFAULT"</span> /&gt;</span>
+            <span class="tag">&lt;<span class="title">category</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.category.BROWSABLE"</span> /&gt;</span>
+        <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">activity</span>&gt;</span>
+</code></pre><p>我们约定的scheme为meilishenqi.</p>
+<p>H5同仁的界面约定格式操作如下：</p>
+<pre><code>&lt;a href=<span class="string">"<span class="subst">[scheme]</span>://<span class="subst">[host]</span>/<span class="subst">[path]</span>?<span class="subst">[query]</span>"</span>&gt;启动应用程序&lt;/a&gt; 
+</code></pre><p>此处的scheme需要与APP指定的android:scheme=”meilishenqi”相同.</p>
+<p>参数解释:</p>
+<ul>
+<li><p>scheme：判别启动的App。 </p>
+</li>
+<li><p>host：hose地址</p>
+</li>
+<li><p>path：传值时必须的key     </p>
+</li>
+<li><p>query：获取值的Key和Value  </p>
+</li>
+</ul>
+<p>关于这块由于我在去年和H5工程师测试的时候大约等待10秒后才能调起APP，存在比较长时间的延迟。后来由于需求变更，继续测试的计划耽搁，等待以后完成测试后补充完成该功能描述。</p>
+<p>我会在测试完成后补充完解决方案….</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/13/ZTN01_4/" rel="next">【杂谈1月】Android注解范式编程Part2</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+            </div>
+
+            
+
+            
+              <div class="comments" id="comments">
+                
+              </div>
+            
+        </div>
+
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/avatar.jpg" alt="熊伟xiongwei" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">熊伟xiongwei</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">重新发现、定义并创造这个世界...</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xiaomeixw" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.sabria.net/" target="_blank">anotherblog</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/1561605537" target="_blank">weibo</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-H5与APP交互"><span class="nav-number">1.</span> <span class="nav-text">一.H5与APP交互</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-一个诡异的显示问题"><span class="nav-number">2.</span> <span class="nav-text">二.一个诡异的显示问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三-浏览器打开APP"><span class="nav-number">3.</span> <span class="nav-text">三.浏览器打开APP</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">熊伟xiongwei</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+        </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+</div>
+
+<script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.4"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.4"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.4" id="motion.global"></script>
+
+
+
+  <script type="text/javascript" src="/js/search-toggle.js"></script>
+
+
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.4" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (CONFIG.sidebar === 'always') {
+            displaySidebar();
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+<!-- lazyload -->
+<script type="text/javascript" src="/js/lazyload.js"></script>
+<script type="text/javascript">
+    jQuery(function () {
+        jQuery("#posts img").lazyload({
+            placeholder: "/images/loading.gif",
+            effect: "fadeIn"
+        });
+    });
+</script>
+</body>
+</html>

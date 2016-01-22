@@ -61,7 +61,7 @@
 <meta property="og:image" content="http://i.imgur.com/5ZTOlQR.png">
 <meta property="og:image" content="http://i.imgur.com/sXFa1PU.png">
 <meta property="og:image" content="http://i.imgur.com/Kleyttb.png">
-<meta property="og:updated_time" content="2016-01-13T13:08:22.399Z">
+<meta property="og:updated_time" content="2016-01-13T13:30:58.488Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【杂谈1月】Android注解范式编程Part2">
 <meta name="twitter:description" content="Android注解范式编程Part2
@@ -200,7 +200,7 @@
       
         <span itemprop="articleBody"><p>Android注解范式编程Part2</p>
 <p>如果你做过JavaEE开发,你应该知道一个概念，叫:DI(依赖注入),依赖注入是Spring的核心思想,它将对象的创建交给Spring来进行管理,在初始化整个Java-web时,初始化在Spring的配置文件中的一批对象,当代码中需要对象时,只要直接从Spring中获取,而不需要自己去new.同时ClassA中如果需要的是ClassB对象,spring配置文件中也是有相应的对象ref引用的。</p>
-<p>如果单纯说Spring概念的话，因为很多Android同仁也没有做过JavaEE的开发，所以最终决定还是在<br>Part2中专门抽一小节给Spring一点概念简述.</p>
+<p>如果单纯说Spring概念的话，因为很多Android同仁也没有做过JavaEE的开发，所以最终决定还是在Part2中专门抽一小节给Spring一点概念简述.</p>
 <h2 id="一-Spring简述">一.Spring简述</h2><p>Spring是Interface21公司开源的轻量级的JavaEE开发框架。它主要是控制Web三层架构的Service层的操作,它的核心是控制反转（IoC）和面向切面（AOP）。</p>
 <p>控制反转（IoC）：应用本身不负责依赖对象的创建及维护。也就是应用本身不new对象。由Spring等IOC容器来处理对象的创建与维护。这个含义在某种程度上也就是DI(依赖注入)。具体的差异我会专门有文章讨论,这里不做过多描述。</p>
 <p>面向切面编程（AOP）：通过预编译方式和运行期动态代理实现程序功能的统一维护的一种技术。AOP思想：在程序员编写代码时，随时动态的插入、删除这些系统服务性代码(如事务)。它的本质：动态代理。(spring使用的不是JDK的动态代理，而是使用个cglib第三方动态代理。)</p>
@@ -230,7 +230,7 @@
 &lt;bean id=<span class="string">"personService"</span> class =<span class="string">"sabria.demo.annotationdemo.service.impl.PersonServiceBean"</span>&gt;
     &lt;property name=<span class="string">"personDao"</span> <span class="keyword">ref</span>=<span class="string">"personDao"</span>&gt;&lt;/property&gt;
 &lt;/bean&gt;
-</code></pre><p>我们看到Spring.xml文件在配置personService时,指定了一个ref引用”personDao”，然后它指向”sabria.demo.annotationdemo.dao.impl.PersonDaoBean”,这样就完成通过属性+set方法的方案来完成引用对象的注入。</p>
+</code></pre><p>我们看到Spring.xml文件在配置personService时,指定了一个ref引用”personDao”，然后它指向”sabria.demo.annotationdemo.dao.impl.PersonDao”,这样就完成通过属性+set方法的方案来完成引用对象的注入。</p>
 <p>我们看到在Spring中极度简化了对象的创建以及“对象中对其他对象”的引用。而这种思想在Android中也大行其道,在Android端有3个非常成熟的方案在践行DI：Dagger、RoboGuice和ButterKnife.在这里我们不会去谈论这些成熟方案的范例使用或者是源代码解读,在Part2中我们要回归这些library的本质去探究“运行时注解和编译时注解”，而这才是这些DI框架的核心元素。</p>
 <p>现在让我们来讨论我们今天Part部分需要探究的主题,我们在使用类似butterknife这样的DI框架时时尝试简化findViewById操作：</p>
 <pre><code><span class="at_rule">@<span class="keyword">Bind(R.id.user)</span> EditText username</span>;
@@ -1033,7 +1033,7 @@ android {
 <p>app的包名: sabria.noinject</p>
 <p>no-inject-api的包名： com.sabria.noinject</p>
 <p>no-inject-process的包名: com.sabria.noinject.process</p>
-<p>三个包的包名完全不同，也就表示这三个包中的类是完全不能互相访问的，解决方案有两种：</p>
+<p>三个包的包名完全不同，也就表示这三个包中的类是完全不能互相访问defalut修饰类的，解决方案有两种：</p>
 <p>1.将三个包的包名修改为相同；</p>
 <p>2.javaWrite在write class名时给个PUBLIC的修饰:</p>
 <pre><code>writer.<span class="keyword">begin</span><span class="variable">Type</span>(new<span class="variable">SourceName</span>, <span class="string">"class"</span>);
@@ -1044,7 +1044,7 @@ android {
 }
 </code></pre><p>BUG解决.</p>
 <hr>
-<p>至此注解范式编程的Part2章节攥写完成,如果你对part3很有兴趣，希望你可以好好自己在代码层面上去操作今天part2的”编译时注解的部分代码”,你会发觉这是一个很有趣的过程。《注解范式编程Part3部分-解构大型注解框架<a href="https://github.com/JoanZapata/android-asyncservice" target="_blank" rel="external">android-asyncservice</a>》敬请期待。</p>
+<p>至此注解范式编程的Part2章节攥写完成,如果你对part3很有兴趣，希望你可以好好自己在代码层面上去操作今天part2的”编译时注解的部分代码”,你会发觉这是一个很有趣的过程。《注解范式编程Part3部分-解构大型注解框架<a href="https://github.com/JoanZapata/android-asyncservice" target="_blank" rel="external">android-asyncservice</a>》waiting…..</p>
 </span>
       
     </div>
@@ -1055,6 +1055,8 @@ android {
       
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/22/ZTN01_5/" rel="prev">【杂谈1月】H5与APP交互错疑</a>
             
           </div>
 
@@ -1123,7 +1125,7 @@ android {
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-count">26</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
